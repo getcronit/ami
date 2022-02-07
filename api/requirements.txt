@@ -1,0 +1,12 @@
+fastapi==0.73
+pydantic[email]
+uvicorn~=0.17
+fastapi_jwt_auth
+databases
+databases[postgresql]
+sqlalchemy
+psycopg2
+asyncpg
+passlib[bcrypt]
+aiohttp
+requests

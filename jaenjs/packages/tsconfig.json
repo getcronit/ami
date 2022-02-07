@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "composite": true
+  },
+  "files": [],
+  "references": [{"path": "jaen"}, {"path": "snek-finder"}]
+}

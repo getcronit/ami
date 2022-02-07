@@ -1,0 +1,52 @@
+---
+title: 'Getting started'
+description: Learn how to get started with Rocket Docs.
+---
+
+> Jaen is ready for Gatsby v4. A starter is coming soon.
+
+The best way to start is by using our starter:
+
+```bash
+N.A
+```
+
+But, if you prefer, you can install and configure manually.
+
+#### Using Yarn:
+
+```bash
+yarn add @jaenjs/jaen
+```
+
+#### Using NPM:
+
+```bash
+npm i @jaenjs/jaen
+```
+
+## Plugin Options
+
+| Key           | Default | Required | Description                                                              |
+| ------------- | ------- | -------- | ------------------------------------------------------------------------ |
+| jaenProjectId | -       | Yes      | The project id related to your user account used for publishing the site |
+
+<br />
+
+> Note: The project id is required for publishing the site, so it can be left blank if you don't want to publish the site.
+> To get your project id, you can contact us at <a href="mailto:contact@snek.at">contact@snek.at</a>
+
+## Example usage
+
+```js title=gatsby-config.js
+module.exports = {
+  plugins: [
+    {
+      resolve: '@jaenjs/jaen',
+      options: {
+        jaenProjectId: 2
+      }
+    }
+  ]
+}
+```

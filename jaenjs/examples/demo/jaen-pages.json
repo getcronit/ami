@@ -1,0 +1,37 @@
+{
+  "pages": {
+    "SitePage /": {
+      "context": {
+        "createdAt": "2021-11-28T19:34:16.427Z",
+        "fileUrl": "https://osg.snek.at/storage/BQACAgQAAxkDAAO2YaPk7lglEYntfTKo5_SCNelWRzUAAv8QAAJ7wiBRs8WswptKT7siBA"
+      },
+      "migrations": [
+        {
+          "fileUrl": "https://osg.snek.at/storage/BQACAgQAAxkDAANoYZqXG2kWlz1a5tKwxcso81HBKGAAAmELAAL6WdhQDo3zaRx4J8ciBA",
+          "createdAt": "2021-11-21T18:59:39.264Z"
+        },
+        {
+          "fileUrl": "https://osg.snek.at/storage/BQACAgQAAxkDAAOuYaPZuKRExggMKG1D_zcu0aoVM04AAuwQAAJ7wiBRO3VbVR8bkqUiBA",
+          "createdAt": "2021-11-28T19:34:16.427Z"
+        }
+      ]
+    }
+  },
+  "site": {},
+  "snekFinder": {
+    "context": {
+      "createdAt": "2021-11-28T19:34:16.427Z",
+      "fileUrl": "https://osg.snek.at/storage/BQACAgQAAxkDAAO1YaPk7suujBK9KlnRmluTN3CEKwwAAv4QAAJ7wiBRUzVSh6iNN-UiBA"
+    },
+    "migrations": [
+      {
+        "createdAt": "2021-11-21T18:59:39.264Z",
+        "fileUrl": "https://osg.snek.at/storage/BQACAgQAAxkDAANlYZqV28a7097qmMjvd00iFx7M5tgAAl4LAAL6WdhQsW753yRCkaQiBA"
+      },
+      {
+        "createdAt": "2021-11-28T19:34:16.427Z",
+        "fileUrl": "https://osg.snek.at/storage/BQACAgQAAxkDAAOtYaPZni4ECgcPOK8GGnHcpy1GekkAAusQAAJ7wiBRVT21Z68vstYiBA"
+      }
+    ]
+  }
+}

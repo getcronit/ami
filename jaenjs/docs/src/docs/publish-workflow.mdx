@@ -1,0 +1,85 @@
+---
+title: 'Publish workflow'
+description: The workflow for publishing your site.
+---
+
+```
+# SPDX-FileCopyrightText: Copyright © 2021 snek.at
+# SPDX-License-Identifier: EUPL-1.2
+#
+# Use of this source code is governed by an EUPL-1.2 license that can be found
+# in the LICENSE file at https://snek.at/license
+
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions#name
+name: Jaen Publish
+
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions#on
+on:
+  repository_dispatch:
+    types: [UPDATE_JAEN_DATA]
+
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobs
+jobs:
+  # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_id
+  jaen-publish:
+    # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    runs-on: ubuntu-latest
+
+    env:
+      JAEN_MIGRATION_URL: ${{github.event.client_payload.jaendata_url}}
+
+    # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idsteps
+    steps:
+      # https://help.github.com/en/articles/virtual-environments-for-github-actions#default-environment-variables
+      # https://github.com/actions/checkout
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
+        with:
+          path: "."
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsid
+      - name: Configure GitHub authentication 🔧
+
+        # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsrun
+        run: |
+          # Git: set identity
+          git config --global user.name "snekmin"
+          git config --global user.email "noreply.snek.at@gmail.com"
+          # Git: set remote
+          # https://developer.github.com/apps/building-github-apps/authenticating-with-github-apps/#http-based-git-access-by-an-installation
+          git remote set-url origin "https://x-access-token:${{secrets.GITHUB_TOKEN}}@github.com/${GITHUB_REPOSITORY}.git"
+      # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsid
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+          cache: "yarn"
+          cache-dependency-path: "jaenjs/yarn.lock"
+
+      - name: Prepare jaen
+        working-directory: 'jaenjs'
+        run: |
+          yarn install
+          yarn build
+
+      - name:
+          Deploy jaen-data to Github Pages 🚀
+        working-directory: ${{github.event.client_payload.cwd}}
+        run: |
+          echo ${{github.event.client_payload.cwd}}
+          echo $(pwd)
+
+          npx jaen build
+
+          # Git: add, commit, and push changes
+          git add .
+          git commit -m "jaen(jaen-data): update data" || echo "Nothing to commit, working tree clean."
+          GIT_TRACE=1 git push -f --verbose origin main
+
+          # Deploy
+          yarn deploy
+
+```

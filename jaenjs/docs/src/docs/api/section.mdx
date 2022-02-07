@@ -1,0 +1,28 @@
+---
+title: Section
+description: Define section and connect it to Jaen
+---
+
+Sections are used to group and organize content. A section can be placed in a page or a section,
+through the use of the `Field.Section` field.
+The context of a section is independent of the context of the page it is placed in, so field names can be
+reused across pages and sections.
+
+See the [Section Field](/api/field#section) field for more information on how to use sections.
+
+```tsx
+import { connectSection } from '@jaenjs/jaen';
+
+const CardSection = connectSection(() => (
+  <div class="card">
+    <img src="img_avatar.png" alt="Avatar" style="width:100%">
+    <div class="container">
+      <h4><b>John Doe</b></h4>
+      <p>Architect & Engineer</p>
+    </div>
+  </div>
+), {
+  displayName: 'Card',
+  id: 'CardSection',
+});
+```

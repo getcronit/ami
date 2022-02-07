@@ -1,0 +1,69 @@
+---
+title: Page & Template
+description: Define a page and connect it to Jaen.
+---
+
+Jaen makes it easy to connect your pages and templates to your site.
+
+Difference between page and template:
+
+- A page is defined in the `pages` directory, a template is defined in the `templates` directory.
+- A page is locked, so it cannot be deleted, renamed or moved.
+- A template can have multiple child templates, but a page cannot.
+
+By connnecting a page or a template, you make it available to the site, so [fields](./field) can be added to it.
+
+## Connect a page
+
+You can use `connectPage` to connect a page to Jean.
+
+```tsx title=src/pages/SamplePage.tsx
+import {connectPage} from '@jaenjs/jaen'
+
+const Page = connectPage(
+  () => (
+    <div>
+      <h1>Hello World</h1>
+      <p>This is a placeholder/p>
+    </div>
+  ),
+  {
+    id: 'SamplePage'
+    displayName: 'Sample Page',
+  }
+)
+
+export const query = graphql`
+  query($jaenPageId: String!) {
+    ...JaenPageQuery
+  }
+`
+```
+
+## Connect a template
+
+You can use `connectTemplate` to connect a page to Jean.
+
+```tsx title=src/templates/SampleTemplate.tsx
+import {connectTemplate} from '@jaenjs/jaen'
+
+const Page = connectTemplate(
+  () => (
+    <div>
+      <h1>Hello World</h1>
+      <p>This is a placeholder</p>
+    </div>
+  ),
+  {
+    id: 'SampleTemplate'
+    displayName: 'Sample Page',
+    children: ["DummyTemplate"]
+  }
+)
+
+export const query = graphql`
+  query($jaenPageId: String!) {
+    ...JaenPageQuery
+  }
+`
+```

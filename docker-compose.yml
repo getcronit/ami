@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  jaen:
+    image: snek-at/ami-jaen:latest
+    build:
+      context: ./jaen
+      dockerfile: Dockerfile
+    volumes:
+      - ./jaen/:/jaen/
+    command: bash -c "while !</dev/tcp/jaen_db/5432; do sleep 1; done; uvicorn jaen.app:app --reload --workers 1 --host 0.0.0.0 --port 8000"
+    ports:
+      - 8000:8000
+    depends_on:
+      - jaen_db
+    restart: on-failure # workaround for dependency issue to jaen_db
+  jaen_db:
+    image: postgres:14-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=jaen_db
+      - POSTGRES_PASSWORD=jaen_db
+      - POSTGRES_DB=jaen_db
+
+volumes:
+  postgres_data:

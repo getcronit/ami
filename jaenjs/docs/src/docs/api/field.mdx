@@ -1,0 +1,209 @@
+---
+title: Field
+description: Bring content editing to your website
+---
+
+Fields are a powerful way to extend your site with content editing capabilities. Fields are implemented as [React components](https://reactjs.org/), so they can be used on any page in the site.
+
+## Fields
+
+Jaen provides a set of fields for you to use in your site. These fields should cope with most of the common use cases, but if you need something more specific, you can always [create your own](#field-api) field.
+
+### Text
+
+The most basic field is a text field. It is a simple text input that can be used to enter text.
+
+```tsx
+import {connectPage, Field} from '@jaenjs/jaen'
+
+const Page = connectPage(
+  () => <Field.Text name="field1" label="Field 1" initValue="Test" />,
+  {
+    displayName: 'Sample Page',
+    id: 'SamplePage'
+  }
+)
+```
+
+### Image
+
+The image field allows you to display images. It is more than just a simple image url - it can also be used to upload images, set a caption and a credit.
+
+```tsx
+import {connectPage, Field} from '@jaenjs/jaen'
+
+const Page = connectPage(
+  () => (
+    <Field.Image
+      name="image"
+      defaultValue={
+        <StaticImage
+          src="https://avatars.githubusercontent.com/u/52858351?v=4"
+          alt="foo"
+        />
+      }
+      style={{}}
+      imgStyle={{}}
+      className="image"
+      imgClassName="image"
+      width={200}
+      height={200}
+      layout="fixed"
+      onError={() => {}}
+      onLoad={() => {}}
+      onStartLoad={() => {}}
+    />
+  ),
+  {
+    displayName: 'Sample Page',
+    id: 'SamplePage'
+  }
+)
+```
+
+### Choice
+
+This field allows you to select one of a set of options.
+
+```tsx
+import {connectPage, Field} from '@jaenjs/jaen'
+
+const Page = connectPage(
+  () => (
+    <Field.Choice
+      name="choice"
+      options={['option-1', 'option-2', 'option-3']}
+      defaultValue="option-1"
+      render={(selectedOption, options) => (
+        <div>
+          <h1>{selectedOption}</h1>
+          <ul>
+            {options.map(option => (
+              <li key={option}>{option}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      renderPopover={(selectedOption, options, select) => (
+        <div>
+          <h1>{selectedOption}</h1>
+          <ul>
+            {options.map(option => (
+              <li key={option} onClick={() => select(option)}>
+                {option}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    />
+  ),
+  {
+    displayName: 'Sample Page',
+    id: 'SamplePage'
+  }
+)
+```
+
+### Section
+
+The section field manages [sections](./section) in your site. It allows to add, remove and reorder sections.
+
+```tsx
+import {connectPage, Field} from '@jaenjs/jaen'
+import {CardSection} from './card-section'
+
+const Page = connectPage(
+  () => (
+    <Field.Section name="field1" label="Field 1" sections={[CardSection]} />
+  ),
+  {
+    displayName: 'Sample Page',
+    id: 'SamplePage'
+  }
+)
+```
+
+### Index
+
+The index field allows you to access child pages of a page. It is useful for displaying a list of child pages.
+By default, the index field will use the page in the current context as the parent page. This can be changed by passing the
+`jaenPageId` prop.
+
+It is also possible to use other fields in the index. For example, you can use the `Field.Text` field to add a text field to a specific child page. To sync a text field within the index with a text field in the child page, you can must choose the same name for both fields. The index field will then display the value of the child page's text field and the child page's text field will be updated when the index field is updated.
+
+```tsx
+import {connectPage, Field} from '@jaenjs/jaen'
+
+const Page = connectPage(
+  () => (
+    <Field.Index
+      jaenPageId="JaenPage 0b6c2902-d43f-40ad-8f1f-a88b3c930d0f"
+      filter={page => page.slug.startsWith('foo')}
+      sort={(a, b) => a.slug.length - b.slug.length}
+      renderPage={page => (
+        <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
+          <Heading size="xs">{page.id}</Heading>
+          <Heading as="h2" size="xs">
+            {page.slug}
+          </Heading>
+          <Heading as="h3" size="xs">
+            {page.jaenPageMetadata?.title}
+          </Heading>
+          <Field.Text
+            name="rich-text-field-1"
+            defaultValue="<p>richtext2<p>"
+            rtf
+          />
+        </Box>
+      )}
+    />
+  ),
+  {
+    displayName: 'Sample Page',
+    id: 'SamplePage'
+  }
+)
+
+export const query = graphql`
+  query($jaenPageId: String!) {
+    ...JaenPageQuery
+    allJaenPage {
+      nodes {
+        ...JaenPageData
+        children {
+          ...JaenPageData
+        }
+      }
+    }
+  }
+`
+```
+
+## Styling
+
+Most of the fields can be styled using the `style` or `className` property.
+
+## Field API
+
+If you need something more specific, you can create your own field. With the Field API, you can create fields that are not available in the Jaen library.
+A custom field is a React component that implements the [Field API](#field-api), so it can be used in the same way as the Jaen fields.
+
+The following example shows how to create a custom field, based on our internal implementation of the [Text](#text) field.
+
+```tsx
+import {connectField} from '@jaenjs/jaen'
+
+const TextField = connectField<string, string, {rtf?: boolean}>(
+  ({jaenField, rtf = false}) => (
+    <Editor
+      defaultValue={jaenField.staticValue || jaenField.defaultValue}
+      value={jaenField.value}
+      onBlurValue={data => jaenField.onUpdateValue(data)}
+      editing={jaenField.isEditing}
+      disableToolbar={!rtf}
+    />
+  ),
+  {fieldType: 'IMA:TextField'}
+)
+```

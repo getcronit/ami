@@ -1,0 +1,75 @@
+{
+  "name": "root",
+  "private": true,
+  "license": "EUPL-1.2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaenjs/jaen.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jaenjs/jaen/issues"
+  },
+  "homepage": "https://github.com/jaenjs/jaen#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "@babel/preset-typescript": "^7.15.0",
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "babel-loader": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^7.0.1",
+    "lerna": "^4.0.0",
+    "lint-staged": "^11.1.2",
+    "nodemon": "^2.0.12",
+    "prettier": "2.2.1",
+    "semantic-release": "^17.4.4",
+    "semantic-release-monorepo": "^7.0.5",
+    "typescript": "^4.5.4",
+    "typescript-tslint-plugin": "^1.0.1"
+  },
+  "scripts": {
+    "build:all": "tsc -b",
+    "build:all:ci": "tsc -b --verbose",
+    "build:all:cleanly": "yarn clean && yarn && yarn build:all",
+    "build": "cross-env NODE_ENV=production npm run build:packages && npm run build:packages:types",
+    "build:clean": "npm run build:packages:types -- --clean",
+    "build:packages": "lerna exec --parallel --scope '@jaenjs/*' --ignore @jaenjs/jaen -- babel --root-mode upward src --out-dir dist --extensions .ts,.tsx --copy-files --ignore '**/*.stories.tsx'",
+    "build:packages:types": "lerna exec --scope '@jaenjs/*' --ignore @jaenjs/jaen -- tsc --declaration --emitDeclarationOnly",
+    "build:packages:ci": "npm run build:packages -- --verbose",
+    "build:packages:watch": "npm run build:packages -- --watch",
+    "pack": "lerna run pack --stream",
+    "dist": "lerna run dist --stream",
+    "dist:all": "lerna run dist:all --scope '@jaenjs/*' --stream",
+    "clean": "lerna clean --yes && npm run build:clean && rimraf node_modules",
+    "prettify": "prettier --write '**/*.{ts,tsx,js,json}' '!**/{dist,lib.git,package.json,build}/**'",
+    "storybook": "yarn workspace @jaenjs/jaen storybook",
+    "develop": "yarn workspace demo develop"
+  },
+  "lint-staged": {
+    "*.tsx,*.ts,*.js,!*js.snap": [
+      "prettier --write"
+    ],
+    "*.json,!package.json": [
+      "prettier --write"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "workspaces": {
+    "nohoist": [
+      "gatsby"
+    ],
+    "packages": [
+      "examples/*",
+      "packages/*"
+    ]
+  }
+}

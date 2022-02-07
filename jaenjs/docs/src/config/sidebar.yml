@@ -1,0 +1,25 @@
+# Sidebar navigation
+
+- label: 'Introduction'
+  link: '/'
+- label: 'Getting started'
+  link: '/getting-started'
+- label: API
+  items:
+    - label: 'Page'
+      link: '/api/page'
+    - label: 'Section'
+      link: '/api/section'
+    - label: 'Field'
+      link: '/api/field'
+    - label: 'Notification'
+      link: '/api/notification'
+- label: 'Publish Workflow'
+  link: '/publish-workflow'
+
+- label: More
+  items:
+    - label: FAQ
+      link: /faq
+    - label: 'Github'
+      link: https://github.com/jaenjs/jaen

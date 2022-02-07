@@ -1,0 +1,13 @@
+{
+  "cSpell.words": ["chakra"],
+  "editor.rulers": [80, 120],
+  "[git-commit]": {
+    "editor.rulers": [72, 80]
+  },
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true,
+    "source.sortMembers": true
+  }
+}

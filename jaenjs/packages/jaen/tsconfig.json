@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "@jaen/*": ["src/*"],
+      "@jaen-admin/*": ["src/internal-plugins/admin/*"],
+      "@jaen-pages/*": ["src/internal-plugins/pages/*"],
+      "@jaen-notify/*": ["src/internal-plugins/notify/*"]
+    }
+  },
+  "include": ["**/*"],
+  "typeRoots": ["./@types", "../../node_modules"],
+  "references": [{"path": "../snek-finder"}]
+}

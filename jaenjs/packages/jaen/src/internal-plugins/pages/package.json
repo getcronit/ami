@@ -1,0 +1,11 @@
+{
+  "name": "pages",
+  "version": "1.0.0",
+  "description": "Internal plugin to add pages to the application",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

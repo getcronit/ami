@@ -1,0 +1,204 @@
+import {
+  store,
+  useAppDispatch,
+  useAppSelector,
+  withRedux
+} from '@jaen-pages/internal/redux'
+import {internalActions} from '@jaen-pages/internal/redux/slices'
+import {generateOriginPath} from '@jaen-pages/internal/services/path'
+import {
+  useJaenPageTree,
+  useJaenTemplates
+} from '@jaen-pages/internal/services/site'
+import {navigate} from 'gatsby'
+import * as React from 'react'
+import PagesTab from '../components/tabs/Pages'
+import {ContentValues} from '../components/tabs/Pages/PageContent'
+import {CreateValues} from '../components/tabs/Pages/PageCreator'
+
+export const PagesContainer = withRedux(() => {
+  const dispatch = useAppDispatch()
+  const pageTree = useJaenPageTree()
+  const jaenTemplates = useJaenTemplates()
+
+  const latestAddedPageId = useAppSelector(
+    state => state.internal.pages.lastAddedNodeId
+  )
+
+  let [shouldUpdateDpathsFor, setShouldUpdateDpathsFor] = React.useState<{
+    pageId: string
+    create: boolean
+  } | null>(null)
+
+  React.useEffect(() => {
+    if (shouldUpdateDpathsFor) {
+      const {pageId, create} = shouldUpdateDpathsFor
+
+      dispatch(
+        internalActions.updateDynamicPaths({
+          jaenPageTree: pageTree,
+          pageId,
+          create
+        })
+      )
+
+      setShouldUpdateDpathsFor(null)
+    }
+  }, [pageTree])
+
+  React.useEffect(() => {
+    if (latestAddedPageId) {
+      dispatch(
+        internalActions.updateDynamicPaths({
+          jaenPageTree: pageTree,
+          pageId: latestAddedPageId,
+          create: true
+        })
+      )
+    }
+  }, [latestAddedPageId])
+
+  const handlePageGet = React.useCallback(
+    id => {
+      let jaenPage = pageTree.find(p => p.id === id)
+
+      // TODO: Remove workaround
+      if (!jaenPage) {
+        jaenPage = pageTree.find(p => p.id === latestAddedPageId)
+      }
+
+      if (!jaenPage) {
+        return null
+      }
+
+      return jaenPage
+    },
+    [pageTree]
+  )
+
+  const handlePageCreate = React.useCallback(
+    (parentId: string | null, values: CreateValues) =>
+      dispatch(
+        internalActions.page_updateOrCreate({
+          parent: parentId ? {id: parentId} : null,
+          slug: values.slug,
+          jaenPageMetadata: {
+            title: values.title
+          },
+          template: values.template.name
+        })
+      ),
+    []
+  )
+
+  const handlePageDelete = React.useCallback((id: string) => {
+    // shouldUpdateDpathsFor = {pageId: id, create: false}
+    setShouldUpdateDpathsFor({pageId: id, create: false})
+
+    dispatch(internalActions.page_markForDeletion(id))
+  }, [])
+
+  const handlePageMove = React.useCallback(
+    (id: string, oldParentId: string | null, newParentId: string | null) => {
+      setShouldUpdateDpathsFor({pageId: id, create: true})
+      dispatch(
+        internalActions.page_updateOrCreate({
+          id,
+          parent: newParentId ? {id: newParentId} : null,
+          fromId: oldParentId || undefined
+        })
+      )
+    },
+    []
+  )
+
+  const handlePageUpdate = React.useCallback(
+    (id: string, values: ContentValues) => {
+      //setShouldUpdateDpathsFor({pageId: id, create: true})
+      dispatch(
+        internalActions.page_updateOrCreate({
+          id,
+          slug: values.slug,
+          jaenPageMetadata: {
+            title: values.title,
+            description: values.description,
+            image: values.image
+          },
+          excludedFromIndex: values.excludedFromIndex
+        })
+      )
+    },
+    []
+  )
+
+  const handlePageNavigate = React.useCallback(
+    (id: string) => {
+      // Check if the page is a dynamic or static page.
+      // Navigate to /_/:path if dynamic, else to /:path
+      let node = pageTree.find(p => p.id === id)
+
+      if (!node) {
+        node = pageTree.find(p => p.id === latestAddedPageId)!
+      }
+
+      let path = generateOriginPath(pageTree, node)
+
+      // if (path === '/') {
+      //   path += node.slug
+      // } else {
+      //   path += '/' + node.slug
+      // }
+
+      const dynamicPaths = store.getState()?.internal.routing.dynamicPaths
+
+      if (path) {
+        if (dynamicPaths && path in dynamicPaths) {
+          path = `/_#${path}`
+        }
+
+        navigate(path)
+      }
+    },
+    [pageTree]
+  )
+
+  const treeItems = React.useMemo(
+    () =>
+      pageTree.reduce(
+        (a, v) => ({
+          ...a,
+          [v.id]: {
+            id: v.id,
+            children: v.children.map(child => child.id),
+            data: {
+              title: v.jaenPageMetadata.title,
+              slug: v.slug,
+              template: v.template,
+              hasChanges: false,
+              deleted: v.deleted
+            },
+            parent: v.parent?.id || null
+          }
+        }),
+        {}
+      ),
+    [pageTree]
+  )
+
+  return (
+    <PagesTab
+      items={treeItems}
+      templates={jaenTemplates || []}
+      creatorFallbackTemplates={[]}
+      getPage={handlePageGet}
+      onItemCreate={handlePageCreate}
+      onItemDelete={handlePageDelete}
+      onItemMove={handlePageMove}
+      onPageUpdate={handlePageUpdate}
+      onItemSelect={id => null}
+      onItemDoubleClick={handlePageNavigate}
+    />
+  )
+})
+
+export default PagesContainer

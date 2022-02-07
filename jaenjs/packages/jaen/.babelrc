@@ -1,0 +1,17 @@
+{
+  "presets": ["@babel/preset-typescript", "@babel/preset-flow"],
+  "plugins": [
+    [
+      "babel-plugin-module-resolver",
+      {
+        "alias": {
+          "@jaen": "./src",
+          "@jaen-admin": "./src/internal-plugins/admin",
+          "@jaen-pages": "./src/internal-plugins/pages",
+          "@jaen-notify": "./src/internal-plugins/notify"
+        }
+      }
+    ]
+  ],
+  "compact": true
+}
