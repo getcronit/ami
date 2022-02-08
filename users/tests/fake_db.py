@@ -20,7 +20,7 @@ class Test(unittest.TestCase):
             },
             {
                 'id': 2,
-                'username': 'baranbartu',
+                'username': 'ami',
                 'email': 'baran@baran.com',
                 'full_name': 'Baran Bartu Demirci',
                 'user_type': 'baran',

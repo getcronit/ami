@@ -3,27 +3,29 @@ from typing import List
 from fastapi import FastAPI, Header
 from tortoise.contrib.fastapi import register_tortoise
 
-from models import Order_Pydantic, OrderIn_Pydantic, Orders
+from models import Project_Pydantic, ProjetIn_Pydantic, Projects
 
 
 app = FastAPI()
 
 
-@app.get('/api/orders', response_model=List[Order_Pydantic])
+@app.get('/api/projects', response_model=List[Project_Pydantic])
 async def get_orders(request_user_id: str = Header(None)):
-    return await Order_Pydantic.from_queryset(
-        Orders.filter(created_by=request_user_id)
+    return await Project_Pydantic.from_queryset(
+        Projects.filter(created_by=request_user_id)
     )
 
 
-@app.post('/api/orders', response_model=Order_Pydantic)
-async def create_user(order: OrderIn_Pydantic,
+@app.post('/api/projects', response_model=Project_Pydantic)
+async def create_user(order: ProjectIn_Pydantic,
                       request_user_id: str = Header(None)):
     data = order.dict()
     data.update({'created_by': request_user_id})
 
-    order_obj = await Orders.create(**data)
-    return await Order_Pydantic.from_tortoise_orm(order_obj)
+    project_obj = await Projects.create(**data)
+    return await Project_Pydantic.from_tortoise_orm(project_obj)
+
+@app.delete('/api/projects/{id}')
 
 
 register_tortoise(

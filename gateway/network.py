@@ -21,7 +21,7 @@ async def make_request(
         service result coming / non-blocking http request (coroutine)
         e.g:   {
                     "id": 2,
-                    "username": "baranbartu",
+                    "username": "ami",
                     "email": "baran@baran.com",
                     "full_name": "Baran Bartu Demirci",
                     "user_type": "baran",

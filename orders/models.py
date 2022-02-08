@@ -1,20 +1,20 @@
 from pydantic import BaseModel
 
 from tortoise import fields, models
-from tortoise.contrib.pydantic import pydantic_model_creator
+from pydantic import pydantic_model_creator
 
 
-class Orders(models.Model):
+class Projects(models.Model):
     id = fields.IntField(pk=True)
-    address = fields.TextField()
-    item = fields.TextField()
+    github_access_token = fields.TextField()
+    github_remote = fields.TextField()
     created_by = fields.IntField()
     created_at = fields.DatetimeField(auto_now_add=True)
 
 
-Order_Pydantic = pydantic_model_creator(Orders, name='Order')
+Project_Pydantic = pydantic_model_creator(Projects, name='Project')
 
 
-class OrderIn_Pydantic(BaseModel):
-    address: str
-    item: str
+class ProjectIn_Pydantic(BaseModel):
+    github_access_token: str
+    github_remote: str

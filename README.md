@@ -66,7 +66,7 @@
 - Nginx or similar tool can be added in front of all services to leverage more benefits
 
 ## Overall Diagram
-![ScreenShot](https://raw.github.com/baranbartu/microservices-with-fastapi/master/diagram.png)
+![ScreenShot](https://raw.github.com/ami/microservices-with-fastapi/master/diagram.png)
 
 ## Documentation Page
-![ScreenShot](https://raw.github.com/baranbartu/microservices-with-fastapi/master/docs.png)
+![ScreenShot](https://raw.github.com/ami/microservices-with-fastapi/master/docs.png)
