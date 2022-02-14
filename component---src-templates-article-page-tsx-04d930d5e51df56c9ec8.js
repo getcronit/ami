@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdemo=self.webpackChunkdemo||[]).push([[835],{5207:function(e,l,a){a.r(l);var s=a(98322),n=a(62100),t=(a(2784),a(92761));l.default=(0,n.connectTemplate)((function(){return(0,t.jsxs)(t.Fragment,{children:[(0,t.jsx)(s.Heading,{size:"xl",as:"h1",children:"This is a Article"}),(0,t.jsx)(n.Field.Text,{name:"test",defaultValue:"<p>Hello World</p>"})]})}),{displayName:"Articles Page",children:["BlogPage"]})}}]);
+//# sourceMappingURL=component---src-templates-article-page-tsx-04d930d5e51df56c9ec8.js.map

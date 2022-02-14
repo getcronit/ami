@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdemo=self.webpackChunkdemo||[]).push([[772],{50091:function(e,n,t){t.r(n);var u=t(83567),r=t(92761),c=(0,u.Xt)((function(e){return(0,r.jsx)(r.Fragment,{children:"nothing"})}));n.default=c}}]);
+//# sourceMappingURL=component---packages-jaen-src-ui-admin-page-tsx-5b40062507a44897dbf8.js.map
