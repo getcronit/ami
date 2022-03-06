@@ -21,6 +21,7 @@ GatsbyNode.createSchemaCustomization = ({actions}) => {
     type JaenNotification implements Node {
       id: ID!
       jaenFields: JSON
+      active: Boolean
     }
     `)
 }
