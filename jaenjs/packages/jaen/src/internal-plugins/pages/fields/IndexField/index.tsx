@@ -1,4 +1,5 @@
-import {useAppSelector, withRedux} from '../../internal/redux'
+import React from 'react'
+import {store, useAppSelector, withRedux} from '../../internal/redux'
 import {
   JaenPageProvider,
   useJaenPageContext
@@ -38,12 +39,23 @@ export const IndexField = withRedux((props: IndexFieldProps) => {
     }
   }
 
-  let dynamicChildren = useAppSelector(
+  let dynamicChildrenIds = useAppSelector(
     state => state.internal.pages.nodes[id]?.children
   )
 
+  const dynamicChildren = React.useMemo(() => {
+    if (dynamicChildrenIds) {
+      const dynamicJaenPages = store.getState().internal.pages.nodes
+      return dynamicChildrenIds.map(({id}) => ({
+        id,
+        ...dynamicJaenPages[id]
+      })) as IJaenPage[]
+    }
+
+    return []
+  }, [dynamicChildrenIds])
+
   staticChildren = staticChildren || []
-  dynamicChildren = dynamicChildren || []
 
   // merge children with staticChildren by id
   let children = [...staticChildren, ...dynamicChildren]
