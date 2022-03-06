@@ -188,8 +188,8 @@ export const PagesContainer = withRedux(() => {
   return (
     <PagesTab
       items={treeItems}
-      templates={jaenTemplates || []}
-      creatorFallbackTemplates={[]}
+      templates={jaenTemplates}
+      creatorFallbackTemplates={jaenTemplates}
       getPage={handlePageGet}
       onItemCreate={handlePageCreate}
       onItemDelete={handlePageDelete}

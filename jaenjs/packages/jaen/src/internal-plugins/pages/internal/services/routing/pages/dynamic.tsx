@@ -61,13 +61,6 @@ const Dynamic = (props: RouteComponentProps & Partial<PageProps>) => {
     ? templates.find(t => t.name === templateName)
     : null
 
-  if (template === undefined) {
-    // Templates are loaded, but the template is not found
-    throw new Error(
-      `Could not find template ${templateName} for dynamic page ${pageId}.`
-    )
-  }
-
   const {value: Component} = usePromiseEffect(async () => {
     if (template) {
       // TODO: Remove this hack to ignore incorrect template names

@@ -116,10 +116,9 @@ export const useJaenTemplates = () => {
     load()
   }, [])
 
-  const templatesArray = React.useMemo(
-    () => (templates ? Object.values(templates) : null),
-    [templates]
-  )
+  const templatesArray = React.useMemo(() => Object.values(templates || {}), [
+    templates
+  ])
 
   return templatesArray
 }
@@ -161,7 +160,7 @@ const mergeStaticWithStatePages = (
     .map(({id}) => {
       const p1 = staticPages.find(e => e.id === id)
       const p2 = statePages.find(e => e.id === id)
-      
+
       const merged = deepmerge(p1 || {}, p2 || {}, {
         arrayMerge: (destinationArray, sourceArray) => {
           // concat arrays of objects without duplicates by id

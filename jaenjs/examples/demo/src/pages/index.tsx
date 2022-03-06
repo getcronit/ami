@@ -18,12 +18,11 @@ const IndexPage: React.FC = () => {
 }
 
 export default connectPage(IndexPage, {
-  displayName: 'IndexPage',
-  children: []
+  displayName: 'IndexPage'
 })
 
 export const query = graphql`
-  query ($jaenPageId: String!) {
+  query($jaenPageId: String!) {
     ...JaenPageQuery
   }
 `

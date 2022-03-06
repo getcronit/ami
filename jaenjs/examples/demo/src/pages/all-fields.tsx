@@ -155,8 +155,7 @@ const AllFieldsPage: React.FC = () => {
 }
 
 export default connectPage(AllFieldsPage, {
-  displayName: 'All Fields',
-  children: ['BlogPage', 'ArticlePage']
+  displayName: 'All Fields'
 })
 
 export const query = graphql`

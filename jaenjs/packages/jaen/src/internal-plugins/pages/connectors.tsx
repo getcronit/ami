@@ -19,7 +19,6 @@ export const connectPage = <P extends IJaenPageProps>(
   Component: React.ComponentType<P>,
   options: {
     displayName: string
-    children: Array<string>
   }
 ) => {
   const MyComp: IJaenConnection<P, typeof options> = props => {
@@ -177,7 +176,7 @@ export const connectField = <IValue, IDefaultValue = IValue, IProps = {}>(
     const dispatch = useAppDispatch()
 
     const {jaenPage} = useJaenPageContext()
-    
+
     if (!jaenPage.id) {
       throw new Error(
         'JaenPage id is undefined! connectField must be used within a JaenPage'
