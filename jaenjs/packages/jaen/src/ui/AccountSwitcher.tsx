@@ -8,8 +8,8 @@ import {
   Text,
   useColorModeValue
 } from '@chakra-ui/react'
-import {useAppDispatch, useAppSelector} from '@jaen/redux'
-import {logout} from '@jaen/redux/slices/auth'
+import {store, useAppDispatch, useAppSelector} from '@jaen/redux'
+import {demoLogout, logout} from '@jaen/redux/slices/auth'
 import {Link, navigate} from 'gatsby'
 import * as React from 'react'
 import {AccountSwitcherButton} from './components/AccountSwitcherButton'
@@ -18,7 +18,13 @@ export const AccountSwitcher = () => {
   const dispatch = useAppDispatch()
 
   const handleSignOut = () => {
-    dispatch(logout())
+    const isDemo = store.getState().auth.user?.isDemo
+
+    if (isDemo) {
+      dispatch(demoLogout({}))
+    } else {
+      dispatch(logout())
+    }
   }
   const handleHelpClick = React.useCallback(() => {
     if (typeof window !== 'undefined') {

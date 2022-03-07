@@ -32,7 +32,21 @@ export const fetchMe = createAsyncThunk('auth/fetchMe', async (_, thunkAPI) => {
 const authSlice = createSlice({
   name: 'auth',
   initialState: authInitialState,
-  reducers: {},
+  reducers: {
+    demoLogin: (state, action) => {
+      state.isAuthenticated = true
+      state.user = {
+        isDemo: true,
+        email: 'snekman@snek.at',
+        full_name: 'Snekman',
+        image_url: 'https://bit.ly/broken-link'
+      }
+    },
+    demoLogout: (state, action) => {
+      state.isAuthenticated = false
+      state.user = null
+    }
+  },
   extraReducers: builder => {
     builder.addCase(login.fulfilled, (state, action) => {
       state.isAuthenticated = true
@@ -47,5 +61,5 @@ const authSlice = createSlice({
   }
 })
 
-export const {} = authSlice.actions
+export const {demoLogin, demoLogout} = authSlice.actions
 export default authSlice.reducer

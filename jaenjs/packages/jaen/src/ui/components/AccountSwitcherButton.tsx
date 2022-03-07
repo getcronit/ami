@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Flex,
   FlexProps,
@@ -35,14 +36,13 @@ export const AccountSwitcherButton: React.FC<AccountSwitcherButtonProps> = props
       _active={{bg: 'gray.600'}}
       _focus={{shadow: 'outline'}}>
       <HStack flex="1" spacing="3">
-        <Img
-          w="4"
-          h="4"
+        <Avatar
+          boxSize={5}
           rounded="md"
           objectFit="cover"
           src={props.imageSrc}
-          alt=""
         />
+
         <Box textAlign="start">
           <Box isTruncated fontWeight="semibold">
             {props.name}

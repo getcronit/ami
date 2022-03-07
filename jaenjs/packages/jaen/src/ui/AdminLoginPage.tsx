@@ -1,7 +1,7 @@
 import AdminLogin from './components/AdminLogin'
 import {RouteComponentProps} from '@reach/router'
 import {useAppDispatch} from '@jaen/redux'
-import {login} from '@jaen/redux/slices/auth'
+import {login, demoLogin} from '@jaen/redux/slices/auth'
 import {navigate} from 'gatsby'
 
 export const AdminLoginPage = (props: RouteComponentProps) => {
@@ -14,6 +14,10 @@ export const AdminLoginPage = (props: RouteComponentProps) => {
         password
       })
     )
+  }
+
+  const handleLiveDemo = () => {
+    dispatch(demoLogin({}))
   }
 
   const handleHomeClick = () => {
@@ -29,7 +33,7 @@ export const AdminLoginPage = (props: RouteComponentProps) => {
   return (
     <AdminLogin
       onLogin={handleLogin}
-      onLiveDemo={() => {}}
+      onLiveDemo={handleLiveDemo}
       onHomeClick={handleHomeClick}
       onDocsClick={handleDocsClick}
     />

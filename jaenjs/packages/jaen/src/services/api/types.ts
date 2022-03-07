@@ -1,4 +1,5 @@
 export interface IUser {
+  isDemo?: boolean
   email: string
   full_name: string
   image_url: string
