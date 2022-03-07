@@ -65,7 +65,7 @@ const pagesSlice = createSlice({
           ...(jaenPageMetadata && {jaenPageMetadata}),
           ...(parent !== undefined && {parent}),
           ...(children && {children}),
-          ...(excludedFromIndex && {excludedFromIndex})
+          ...(excludedFromIndex !== undefined && {excludedFromIndex})
         }
 
         state.nodes[id] = {
