@@ -51,8 +51,11 @@ export default connectNotification(CookieModal, {
   displayName: 'CookieModal',
   description:
     'This is a modal that appears when a user visits a page for the first time. You should not disable this modal.',
-  position: 'modal-center',
-  positionProps: {
+  modalProps: {
+    isCentered: true,
+    size: 'lg'
+  },
+  modalContentProps: {
     borderRadius: '2xl',
     mx: '4'
   },

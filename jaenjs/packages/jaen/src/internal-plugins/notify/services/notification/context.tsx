@@ -3,6 +3,7 @@ import {
   ModalContent,
   ModalContentProps,
   ModalOverlay,
+  ModalProps,
   useDisclosure
 } from '@chakra-ui/react'
 import {IJaenConnection, RequireAtLeastOne} from '@jaen/types'
@@ -12,13 +13,11 @@ import {useAppDispatch, useAppSelector, withRedux} from '../../redux'
 import {internalActions} from '../../redux/slices'
 import {INotification} from '../../types'
 
-type PositionProps = ModalContentProps & {size?: string; isCentered?: boolean}
-
 export type NotificationOptions = {
   displayName: string
   description: string
-  position?: 'modal' | 'modal-center'
-  positionProps?: PositionProps
+  modalProps?: Omit<ModalProps, 'isOpen' | 'onClose' | 'children'>
+  modalContentProps?: ModalContentProps
   conditions: RequireAtLeastOne<{
     entireSite: boolean
     templates: string[]
@@ -64,8 +63,8 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   id,
   notification,
   children,
-  position,
-  positionProps,
+  modalProps,
+  modalContentProps,
   triggers,
   customTrigger,
   advanced,
@@ -82,28 +81,6 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     onCloseProp?.()
     onClose()
   }, [onCloseProp, onClose])
-
-  const defaultPositonProps: PositionProps = {
-    m: 0
-  }
-
-  switch (position) {
-    case 'modal':
-      defaultPositonProps.size = 'lg'
-      break
-    case 'modal-center':
-      defaultPositonProps.size = 'lg'
-      defaultPositonProps.isCentered = true
-      break
-
-    default:
-      break
-  }
-
-  const {size, isCentered, ...positionPropsWithDefaults} = {
-    ...defaultPositonProps,
-    ...positionProps
-  }
 
   React.useEffect(() => {
     customTrigger &&
@@ -158,13 +135,9 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
 
   return (
     <NotificationContext.Provider value={{id, notification}}>
-      <Modal
-        isOpen={isOpen}
-        onClose={handleClose}
-        size={size}
-        isCentered={isCentered}>
+      <Modal isOpen={isOpen} onClose={handleClose} {...modalProps}>
         <ModalOverlay />
-        <ModalContent {...positionPropsWithDefaults}>{children}</ModalContent>
+        <ModalContent {...modalContentProps}>{children}</ModalContent>
       </Modal>
     </NotificationContext.Provider>
   )
