@@ -69,7 +69,7 @@ export const loadNotificationsComponent = (
 ) => {
   const notifications: Array<{
     id: string
-    notification: INotification
+    notification?: INotification
     Component: INotificationConnection
   }> = []
 
@@ -80,13 +80,11 @@ export const loadNotificationsComponent = (
         node => node.id === relativePath
       )
 
-      if (notification) {
-        notifications.push({
-          id: relativePath,
-          notification,
-          Component: Notification
-        })
-      }
+      notifications.push({
+        id: relativePath,
+        notification,
+        Component: Notification
+      })
     }
   }
 
@@ -127,27 +125,25 @@ export const loadNotificationsForPage = (
 
   const allNotificationElement: Array<JSX.Element> = []
 
-  for (const {Component, notification} of notifications) {
-    const isActive = store.getState().internal.notifications.nodes?.[
-      notification.id
-    ]?.active
+  for (const {Component, id, notification} of notifications) {
+    const isActive = store.getState().internal.notifications.nodes?.[id]?.active
 
     // TODO: Check if notification is active statically
 
-    if (isActive === false || notification.active === false) {
+    if (isActive === false || notification?.active === false) {
       break
     }
 
     const pushNotification = () => {
       allNotificationElement.push(
-        <Component id={notification.id} notification={notification} />
+        <Component id={id} notification={notification} />
       )
     }
 
     const {advanced, conditions, customCondition} = Component.options
 
     //> Advanced
-    const notificationAdvanced = stateAdvanced[notification.id]
+    const notificationAdvanced = stateAdvanced[id]
     if (advanced && notificationAdvanced) {
       if (advanced.showAfterXPageViews) {
         if (notificationAdvanced.pageViews >= advanced.showAfterXPageViews) {
