@@ -58,9 +58,9 @@ export const NotifyTab: React.FC = withRedux(() => {
     description: item.Component.options.description,
     logo: SunIcon,
     active:
-      (notifications[item.id]?.active !== undefined
+      notifications[item.id]?.active !== undefined
         ? notifications[item.id]?.active
-        : item.notification?.active) || false
+        : item.isActive
   }))
 
   return (

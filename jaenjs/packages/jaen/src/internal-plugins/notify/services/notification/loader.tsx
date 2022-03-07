@@ -69,6 +69,7 @@ export const loadNotificationsComponent = (
 ) => {
   const notifications: Array<{
     id: string
+    isActive: boolean
     notification?: INotification
     Component: INotificationConnection
   }> = []
@@ -82,6 +83,7 @@ export const loadNotificationsComponent = (
 
       notifications.push({
         id: relativePath,
+        isActive: !!notification?.active,
         notification,
         Component: Notification
       })
@@ -125,12 +127,13 @@ export const loadNotificationsForPage = (
 
   const allNotificationElement: Array<JSX.Element> = []
 
-  for (const {Component, id, notification} of notifications) {
-    const isActive = store.getState().internal.notifications.nodes?.[id]?.active
+  for (const {Component, id, isActive, notification} of notifications) {
+    const isDynamicActive = store.getState().internal.notifications.nodes?.[id]
+      ?.active
 
     // TODO: Check if notification is active statically
 
-    if (isActive === false || notification?.active === false) {
+    if (isDynamicActive === false || isActive === false) {
       break
     }
 
