@@ -166,8 +166,8 @@ export const loadNotificationsForPage = (
 
       if (condition) {
         pushNotification()
-        break
       }
+      break
     }
 
     if (conditions) {
