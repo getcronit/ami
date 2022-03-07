@@ -132,7 +132,7 @@ export const loadNotificationsForPage = (
       .notifications.nodes?.[id]?.active
 
     if (isDynamicActive === false) {
-      break
+      continue
     }
 
     if (isDynamicActive === undefined) {
@@ -156,14 +156,14 @@ export const loadNotificationsForPage = (
         if (notificationAdvanced.pageViews >= advanced.showAfterXPageViews) {
           pushNotification()
         }
-        break
+        continue
       }
 
       if (advanced.showUntilXPageViews) {
         if (notificationAdvanced.pageViews <= advanced.showUntilXPageViews) {
           pushNotification()
         }
-        break
+        continue
       }
     }
 
@@ -174,7 +174,7 @@ export const loadNotificationsForPage = (
       if (condition) {
         pushNotification()
       }
-      break
+      continue
     }
 
     if (conditions) {
@@ -182,7 +182,7 @@ export const loadNotificationsForPage = (
       //> Entire site
       if (entireSite) {
         pushNotification()
-        break
+        continue
       }
 
       //> Templates
@@ -191,7 +191,7 @@ export const loadNotificationsForPage = (
 
         if (staticTemplate && templates.includes(staticTemplate)) {
           pushNotification()
-          break
+          continue
         }
       }
 
@@ -202,7 +202,7 @@ export const loadNotificationsForPage = (
         for (const urlPattern of urlPatterns) {
           if (staticUrl.match(urlPattern)) {
             pushNotification()
-            break
+            continue
           }
         }
       }
