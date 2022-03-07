@@ -128,13 +128,17 @@ export const loadNotificationsForPage = (
   const allNotificationElement: Array<JSX.Element> = []
 
   for (const {Component, id, isActive, notification} of notifications) {
-    const isDynamicActive = store.getState().internal.notifications.nodes?.[id]
-      ?.active
+    const isDynamicActive: boolean | undefined = store.getState().internal
+      .notifications.nodes?.[id]?.active
 
-    // TODO: Check if notification is active statically
-
-    if (isDynamicActive === false || isActive === false) {
+    if (isDynamicActive === false) {
       break
+    }
+
+    if (isDynamicActive === undefined) {
+      if (isActive === false) {
+        continue
+      }
     }
 
     const pushNotification = () => {
