@@ -36,6 +36,7 @@ const SectionAddPopover: React.FC<Props> = ({
     <Popover trigger="hover" placement="top-start">
       <PopoverTrigger>
         <Box
+          w="100%"
           transition={'box-shadow 0.3s ease-in-out'}
           _hover={{boxShadow: '0 0 0 2.5px #4fd1c5'}}>
           {children}
