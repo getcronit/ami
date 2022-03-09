@@ -1,3 +1,3 @@
-import {default as TextField} from './TextField'
+import {default as Text} from './TextField'
 
-export const Field = {TextField}
+export const Field = {Text}
