@@ -2,13 +2,45 @@ import {Box} from '@chakra-ui/react'
 import styled from '@emotion/styled'
 import loadable from '@loadable/component'
 import * as React from 'react'
-import './style.css'
 
 const EditorWrapper = styled(Box)`
   width: 100%;
+  height: 100%;
+  min-height: 20px;
+
+  .ck.ck-editor__editable_inline[dir='ltr'] {
+    text-align: inherit;
+  }
+
+  .ck.ck-editor__editable_inline[dir='rtl'] {
+    text-align: inherit;
+  }
 
   .ck-content > * {
     all: revert;
+  }
+
+  .ck-focused {
+    border: none !important;
+    box-shadow: 0 0 0 2.5px #4fd1c5 !important;
+  }
+
+  .ck-blurred:hover {
+    box-shadow: 0 0 0 2.5px #4fd1c5 !important;
+    transition: box-shadow 0.3s ease-in-out;
+  }
+
+  .ck-editor__editable_inline {
+    padding: 0 !important;
+    border: none !important;
+    overflow: unset !important;
+  }
+  .ck.ck-editor__editable_inline > *:first-child {
+    margin-top: 0 !important;
+  }
+
+  .ck.ck-editor__editable_inline > *:last-child {
+    margin-bottom: 0 !important;
   }
 `
 
@@ -115,27 +147,27 @@ const Editor: React.FC<EditorProps> = props => {
 
   const editorElement =
     props.editing && isFocused && editor ? (
-        <LoadableCKEditor
-          fallback={raw}
-          //@ts-ignore
-          editor={editor?.default}
-          config={editorConfig}
-          data={value}
-          //@ts-ignore
-          onBlur={(_, editor) => {
-            const data = editor.getData()
+      <LoadableCKEditor
+        fallback={raw}
+        //@ts-ignore
+        editor={editor?.default}
+        config={editorConfig}
+        data={value}
+        //@ts-ignore
+        onBlur={(_, editor) => {
+          const data = editor.getData()
 
-            if (data !== value) {
-              setValue(data)
-              props.onBlurValue(data)
-            }
-          }}
-          onLoad={(editor: any) => {
-            editor.writer.addClass('revert-css')
-          }}
-        />
-      ) : (
-        <>{raw}</>
+          if (data !== value) {
+            setValue(data)
+            props.onBlurValue(data)
+          }
+        }}
+        onLoad={(editor: any) => {
+          editor.writer.addClass('revert-css')
+        }}
+      />
+    ) : (
+      <>{raw}</>
     )
 
   if (props.editing) {
@@ -145,8 +177,8 @@ const Editor: React.FC<EditorProps> = props => {
         onMouseLeave={handleMouseLeave}
         onBlur={handleBlur}>
         {editorElement}
-    </EditorWrapper>
-  )
+      </EditorWrapper>
+    )
   }
 
   return <EditorWrapper>{editorElement}</EditorWrapper>
