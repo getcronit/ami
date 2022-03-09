@@ -49,6 +49,8 @@ const cleanValue = (defaultValue: string, value?: string) => {
  * TODO: Renders twice all the time. :(
  */
 const Editor: React.FC<EditorProps> = props => {
+  const [isFocused, setIsFocused] = React.useState(false)
+
   const [value, setValue] = React.useState(() =>
     cleanValue(props.defaultValue, props.value)
   )
@@ -91,9 +93,28 @@ const Editor: React.FC<EditorProps> = props => {
     load()
   })
 
-  return (
-    <EditorWrapper>
-      {props.editing && editor ? (
+  let hoverTimeout: NodeJS.Timeout
+
+  const handleMouseOver = () => {
+    if (isFocused) {
+      return
+    }
+
+    hoverTimeout = setTimeout(() => {
+      setIsFocused(true)
+    }, 100)
+  }
+
+  const handleMouseLeave = () => {
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout)
+    }
+  }
+
+  const handleBlur = () => setIsFocused(false)
+
+  const editorElement =
+    props.editing && isFocused && editor ? (
         <LoadableCKEditor
           fallback={raw}
           //@ts-ignore
@@ -115,9 +136,20 @@ const Editor: React.FC<EditorProps> = props => {
         />
       ) : (
         <>{raw}</>
-      )}
+    )
+
+  if (props.editing) {
+    return (
+      <EditorWrapper
+        onMouseOver={handleMouseOver}
+        onMouseLeave={handleMouseLeave}
+        onBlur={handleBlur}>
+        {editorElement}
     </EditorWrapper>
   )
+  }
+
+  return <EditorWrapper>{editorElement}</EditorWrapper>
 }
 
 export default Editor
