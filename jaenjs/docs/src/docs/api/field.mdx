@@ -180,6 +180,59 @@ export const query = graphql`
 `
 ```
 
+#### useJaenPageIndex hook
+
+You can also use the `useJaenPageIndex` hook to access the children of a page.
+
+```tsx
+import {useJaenPageIndex} from '@jaenjs/jaen'
+
+
+const Page = () => {
+  const index = useJaenPageIndex()
+  return (
+    <Box>
+      {index.children.map(child => (
+        <Box key={child.id}>{child.id}</Box>
+      ))}
+    </Box>
+  )
+}
+
+...
+```
+
+> Note: The children are plain data objects, thus you cannot use other fields inside the index.
+> To use other fields, you need to use the `withJaenPage` wrapper that will provide the correct
+> context for each child page.
+
+```tsx highlight={10}
+import {useJaenPageIndex, Field} from '@jaenjs/jaen'
+
+
+const Page = () => {
+  const index = useJaenPageIndex()
+
+  return (
+   <Box>
+      {index.children.map(child =>
+        index.withJaenPage(
+          child.id,
+          <Box key={child.id}>
+            <Field.Text
+              name="rich-text-field-1"
+              defaultValue="<p>richtext2<p>"
+              rtf
+            />
+          </Box>
+        )
+      )}
+    </Box>
+  )
+}
+...
+```
+
 ## Styling
 
 Most of the fields can be styled using the `style` or `className` property.

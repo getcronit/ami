@@ -1,9 +1,6 @@
 import React from 'react'
-import {store, useAppSelector, withRedux} from '../../internal/redux'
-import {
-  JaenPageProvider,
-  useJaenPageContext
-} from '../../internal/services/page'
+import {withRedux} from '../../internal/redux'
+import {useJaenPageIndex} from '../../internal/services/page'
 import {IJaenPage} from '../../types'
 
 export interface IndexFieldProps {
@@ -23,68 +20,11 @@ export interface IndexFieldProps {
   sort?: (a: Partial<IJaenPage>, b: Partial<IJaenPage>) => number
 }
 
-export const IndexField = withRedux((props: IndexFieldProps) => {
-  let {jaenPage, jaenPages} = useJaenPageContext()
-
-  let id = jaenPage.id
-  let staticChildren = jaenPage.children
-
-  if (props.jaenPageId && props.jaenPageId !== id) {
-    id = props.jaenPageId
-
-    if (jaenPages) {
-      staticChildren = jaenPages.find(page => page.id === id)?.children
-    } else {
-      console.warn('There are no jaenPages in the context')
-    }
+export const IndexField = withRedux(
+  ({renderPage, ...rest}: IndexFieldProps) => {
+    const {children, withJaenPage} = useJaenPageIndex(rest)
+    return <>{children.map(page => withJaenPage(page.id, renderPage(page)))}</>
   }
-
-  let dynamicChildrenIds = useAppSelector(
-    state => state.internal.pages.nodes[id]?.children
-  )
-
-  const dynamicChildren = React.useMemo(() => {
-    if (dynamicChildrenIds) {
-      const dynamicJaenPages = store.getState().internal.pages.nodes
-      return dynamicChildrenIds.map(({id}) => ({
-        id,
-        ...dynamicJaenPages[id]
-      })) as IJaenPage[]
-    }
-
-    return []
-  }, [dynamicChildrenIds])
-
-  staticChildren = staticChildren || []
-
-  // merge children with staticChildren by id
-  let children = [...staticChildren, ...dynamicChildren]
-
-  const {renderPage, filter, sort} = props
-
-  children = children.filter(c => !c.excludedFromIndex)
-
-  if (filter) {
-    children = children.filter(filter)
-  }
-
-  if (sort) {
-    children = children.sort(sort)
-  }
-
-  return (
-    <>
-      {children.map(child => {
-        const jaenPage = staticChildren?.find(c => c.id === child.id)
-
-        return (
-          <JaenPageProvider jaenPage={{...jaenPage, id: child.id}}>
-            {renderPage(child)}
-          </JaenPageProvider>
-        )
-      })}
-    </>
-  )
-})
+)
 
 export default IndexField

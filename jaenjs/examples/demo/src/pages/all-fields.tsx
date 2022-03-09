@@ -1,5 +1,10 @@
 import {Box, Divider, Heading, StackDivider, VStack} from '@chakra-ui/react'
-import {connectPage, connectSection, Field} from '@jaenjs/jaen'
+import {
+  connectPage,
+  connectSection,
+  Field,
+  useJaenPageIndex
+} from '@jaenjs/jaen'
 import {graphql} from 'gatsby'
 import * as React from 'react'
 import {Footer, Hero, Navbar} from '../components'
@@ -46,6 +51,10 @@ const CardSection = connectSection(
 // markup
 const AllFieldsPage: React.FC = () => {
   //const {toggleHideUI, hideUI} = useJaenCoreContext()
+
+  const index = useJaenPageIndex({
+    jaenPageId: 'JaenPage 0b6c2902-d43f-40ad-8f1f-a88b3c930d0f'
+  })
 
   return (
     <>
@@ -148,6 +157,32 @@ const AllFieldsPage: React.FC = () => {
               </Box>
             )}
           />
+          <Heading>Index hook</Heading>
+
+          {index.children.map(page => {
+            return index.withJaenPage(
+              page.id,
+              <Box
+                maxW="sm"
+                borderWidth="1px"
+                borderRadius="lg"
+                overflow="hidden">
+                1<Heading size="xs">{page.id}</Heading>2
+                <Heading as="h2" size="xs">
+                  {page.slug}
+                </Heading>
+                3
+                <Heading as="h3" size="xs">
+                  {page.jaenPageMetadata?.title}
+                </Heading>
+                <Field.Text
+                  name="rich-text-field-1"
+                  defaultValue="<p>richtext2<p>"
+                  rtf
+                />
+              </Box>
+            )
+          })}
         </Box>
       </VStack>
     </>
