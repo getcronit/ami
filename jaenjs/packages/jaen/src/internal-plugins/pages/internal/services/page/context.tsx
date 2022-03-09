@@ -117,7 +117,12 @@ export interface UsePageIndexProps {
   sort?: (a: Partial<IJaenPage>, b: Partial<IJaenPage>) => number
 }
 
-export const useJaenPageIndex = (props?: UsePageIndexProps) => {
+export const useJaenPageIndex = (
+  props?: UsePageIndexProps
+): {
+  children: Array<{id: string} & Partial<IJaenPage>>
+  withJaenPage: (childId: string, children: React.ReactNode) => React.ReactNode
+} => {
   let {jaenPage, jaenPages} = useJaenPageContext()
 
   let id = jaenPage.id
