@@ -187,7 +187,7 @@ const SectionField = ({
   )
 
   const renderedSections = () => {
-    const rendered = []
+    const rendered: Array<JSX.Element> = []
 
     let ptrHead = chapter.ptrHead
 
