@@ -17,10 +17,9 @@ The most basic field is a text field. It is a simple text input that can be used
 import {connectPage, Field} from '@jaenjs/jaen'
 
 const Page = connectPage(
-  () => <Field.Text name="field1" label="Field 1" initValue="Test" />,
+  () => <Field.Text name="field1" defaultValue="Test" />,
   {
-    displayName: 'Sample Page',
-    id: 'SamplePage'
+    displayName: 'Sample Page'
   }
 )
 ```
@@ -115,7 +114,11 @@ import {CardSection} from './card-section'
 
 const Page = connectPage(
   () => (
-    <Field.Section name="field1" label="Field 1" sections={[CardSection]} />
+    <Field.Section
+      name="field1"
+      displayName="Field 1"
+      sections={[CardSection]}
+    />
   ),
   {
     displayName: 'Sample Page',
