@@ -11,7 +11,7 @@ const CookieModal = () => {
       py={{base: '12', md: '16'}}
       spacing={{base: '6', md: '10'}}>
       <Stack spacing="3" textAlign="center">
-        <NotifyField.TextField
+        <NotifyField.Text
           name="email"
           style={{
             fontSize: 'lg',
