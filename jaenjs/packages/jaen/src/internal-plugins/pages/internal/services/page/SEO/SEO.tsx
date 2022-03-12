@@ -1,5 +1,5 @@
-import {IJaenPage} from '@jaen/internal-plugins/pages/types'
-import {useSite} from '@jaen/services/site'
+import {IJaenPage} from '../../../../types'
+import {useSite} from '../../../../../../services/site'
 import React from 'react'
 import {Helmet} from 'react-helmet'
 import {withRedux} from '../../../redux'

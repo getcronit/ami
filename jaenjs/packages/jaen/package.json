@@ -10,10 +10,11 @@
     "test": "jest"
   },
   "bin": {
-    "jaen": "./src/bin/run"
+    "jaen": "./dist/bin/run.js"
   },
   "include": [
-    "src"
+    "src",
+    "dist"
   ],
   "publishConfig": {
     "access": "public"

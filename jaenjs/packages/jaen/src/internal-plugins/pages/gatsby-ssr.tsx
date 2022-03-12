@@ -1,4 +1,4 @@
-import {SiteProvider} from '@jaen-pages/internal/services/site'
+import {SiteProvider} from './internal/services/site'
 import type {GatsbySSR} from 'gatsby'
 
 export const wrapRootElement: GatsbySSR['wrapRootElement'] = ({element}) => {

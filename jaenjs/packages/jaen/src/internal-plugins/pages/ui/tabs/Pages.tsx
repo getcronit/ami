@@ -3,13 +3,10 @@ import {
   useAppDispatch,
   useAppSelector,
   withRedux
-} from '@jaen-pages/internal/redux'
-import {internalActions} from '@jaen-pages/internal/redux/slices'
-import {generateOriginPath} from '@jaen-pages/internal/services/path'
-import {
-  useJaenPageTree,
-  useJaenTemplates
-} from '@jaen-pages/internal/services/site'
+} from '../../internal/redux'
+import {internalActions} from '../../internal/redux/slices'
+import {generateOriginPath} from '../../internal/services/path'
+import {useJaenPageTree, useJaenTemplates} from '../../internal/services/site'
 import {navigate} from 'gatsby'
 import * as React from 'react'
 import PagesTab from '../components/tabs/Pages'

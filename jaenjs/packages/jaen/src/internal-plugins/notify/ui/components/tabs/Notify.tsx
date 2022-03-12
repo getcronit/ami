@@ -3,9 +3,9 @@ import {
   useAppDispatch,
   useAppSelector,
   withRedux
-} from '@jaen/internal-plugins/notify/redux'
-import {internalActions} from '@jaen/internal-plugins/notify/redux/slices'
-import {useNotifications} from '@jaen/internal-plugins/notify/services/notification/loader'
+} from '../../../../notify/redux'
+import {internalActions} from '../../../../notify/redux/slices'
+import {useNotifications} from '../../../../notify/services/notification/loader'
 import React from 'react'
 import NotifyTableCard from '../NotifyTableCard'
 

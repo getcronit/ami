@@ -16,7 +16,7 @@ export interface LoginFormProps extends HTMLChakraProps<'form'> {
 
 export const LoginForm = (props: LoginFormProps) => (
   <chakra.form
-    onSubmit={e => {
+    onSubmit={(e: any) => {
       e.preventDefault()
       const email = e.target.email.value
       const password = e.target.password.value

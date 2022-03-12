@@ -17,11 +17,12 @@ export const Example: Story<ComponentProps> = Template.bind({})
 Example.args = {
   data: [
     {
+      id: '1',
       name: 'Vacation',
       description:
         'This is a notification about vacation. When active, it will be displayed on all pages for the first time a user visits.',
       logo: SunIcon,
-      status: 'active'
+      active: true
     }
   ]
 }

@@ -15,7 +15,7 @@ import {
   Select,
   useDisclosure
 } from '@chakra-ui/react'
-import {ISectionConnection} from '@jaen-pages/connectors'
+import {ISectionConnection} from '../../../../../connectors'
 import * as React from 'react'
 
 export type Props = {

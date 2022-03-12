@@ -1,5 +1,5 @@
-import {useAppSelector, withRedux} from '@jaen/redux'
-import {ISite} from '@jaen/types'
+import {useAppSelector, withRedux} from '../../redux'
+import {ISite} from '../../types'
 import {graphql, useStaticQuery} from 'gatsby'
 
 import deepmerge from 'deepmerge'

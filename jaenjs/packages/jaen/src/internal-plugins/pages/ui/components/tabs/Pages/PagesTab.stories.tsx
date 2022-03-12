@@ -1,4 +1,4 @@
-import {withSnekFinder} from '@jaen/withSnekFinder'
+import {withSnekFinder} from '../../../../../../withSnekFinder'
 import {ComponentMeta, Story} from '@storybook/react'
 import React from 'react'
 

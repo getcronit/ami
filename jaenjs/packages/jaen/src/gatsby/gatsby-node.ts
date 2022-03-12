@@ -1,5 +1,5 @@
 import {getJaenDataForPlugin} from '../services/migration/get-jaen-data-for-plugin'
-import {IJaenConfig} from '@jaen/types'
+import {IJaenConfig} from '../types'
 import {GatsbyNode as GatsbyNodeType} from 'gatsby'
 import {IJaenDataInternal} from '../services/jaen-data/internal'
 

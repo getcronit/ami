@@ -1,6 +1,6 @@
 // pages
 // snekfinder root url
-import {store} from '@jaen-pages/internal/redux'
+import {store} from '../redux'
 import {IJaenPage} from '../../types'
 
 type DataType = {

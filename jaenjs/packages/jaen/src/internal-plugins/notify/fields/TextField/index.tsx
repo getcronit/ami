@@ -1,5 +1,5 @@
 import {Box, BoxProps} from '@chakra-ui/react'
-import Editor from '@jaen/shared/Editor'
+import Editor from '../../../../shared/Editor'
 import {connectField} from '../connectField'
 
 const TextField = connectField<string, string, {rtf?: boolean} & BoxProps>(

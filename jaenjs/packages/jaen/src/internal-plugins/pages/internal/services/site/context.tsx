@@ -1,4 +1,4 @@
-import {withRedux} from '@jaen-pages/internal/redux'
+import {withRedux} from '../../redux'
 import React from 'react'
 import {ITemplateConnection} from '../../../connectors'
 import {useDynamicRedirect} from '../routing/hooks'

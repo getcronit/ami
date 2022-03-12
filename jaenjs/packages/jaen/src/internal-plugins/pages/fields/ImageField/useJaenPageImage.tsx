@@ -1,4 +1,4 @@
-import {useJaenPageContext} from '@jaen-pages/internal/services/page'
+import {useJaenPageContext} from '../../internal/services/page'
 import {getImage, IGatsbyImageData} from 'gatsby-plugin-image'
 
 export function useJaenPageImage(options: {

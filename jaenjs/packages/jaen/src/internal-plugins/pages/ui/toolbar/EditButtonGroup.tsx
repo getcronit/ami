@@ -5,12 +5,8 @@ import {
   IconButton,
   useDisclosure
 } from '@chakra-ui/react'
-import {
-  useAppDispatch,
-  useAppSelector,
-  withRedux
-} from '@jaen-pages/internal/redux'
-import {internalActions} from '@jaen-pages/internal/redux/slices'
+import {useAppDispatch, useAppSelector, withRedux} from '../../internal/redux'
+import {internalActions} from '../../internal/redux/slices'
 import {FiTrash} from '@react-icons/all-files/fi/FiTrash'
 import DiscardAlert from '../components/DiscardAlert'
 

@@ -1,5 +1,5 @@
 import {Box, useDisclosure} from '@chakra-ui/react'
-import {withSnekFinder} from '@jaen/withSnekFinder'
+import {withSnekFinder} from '../../../../withSnekFinder'
 import {useSnekFinder} from '@jaenjs/snek-finder'
 import {getSrc} from 'gatsby-plugin-image'
 import React from 'react'

@@ -8,7 +8,6 @@ import {
   Text,
   Button
 } from '@chakra-ui/react'
-import {FilesContainer} from '@jaen/internal-plugins/pages/ui/tabs/Files'
 import * as React from 'react'
 import {
   BiBuoy,

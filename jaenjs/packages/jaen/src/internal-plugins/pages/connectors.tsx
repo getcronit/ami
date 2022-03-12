@@ -1,4 +1,4 @@
-import {IJaenConnection} from '@jaen/types'
+import {IJaenConnection} from '../../types'
 import {useAppDispatch, useAppSelector, withRedux} from './internal/redux'
 import {internalActions} from './internal/redux/slices'
 import {JaenPageProvider, useJaenPageContext} from './internal/services/page'

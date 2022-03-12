@@ -1,19 +1,12 @@
 import {Box, Skeleton} from '@chakra-ui/react'
-import {
-  useAppDispatch,
-  useAppSelector,
-  withRedux
-} from '@jaen-pages/internal/redux'
-import {internalActions} from '@jaen-pages/internal/redux/slices'
-import {
-  IJaenSection,
-  IJaenSectionWithId
-} from '@jaen-pages/internal/redux/types'
-import {useJaenPageContext} from '@jaen-pages/internal/services/page'
+import {useAppDispatch, useAppSelector, withRedux} from '../../internal/redux'
+import {internalActions} from '../../internal/redux/slices'
+import {IJaenSection, IJaenSectionWithId} from '../../internal/redux/types'
+import {useJaenPageContext} from '../../internal/services/page'
 import {
   JaenSectionProvider,
   useJaenSectionContext
-} from '@jaen-pages/internal/services/section'
+} from '../../internal/services/section'
 import deepmerge from 'deepmerge'
 import * as React from 'react'
 import {ISectionConnection} from '../../index'

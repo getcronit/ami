@@ -1,7 +1,7 @@
-import {useAppDispatch, withRedux} from '@jaen/redux'
-import {updateSiteMetadata} from '@jaen/redux/slices/site'
-import {useSite} from '@jaen/services/site'
-import {ISite} from '@jaen/types'
+import {useAppDispatch, withRedux} from '../redux'
+import {updateSiteMetadata} from '../redux/slices/site'
+import {useSite} from '../services/site'
+import {ISite} from '../types'
 import SettingsTab from './components/Settings'
 
 export const SettingsContainer = withRedux(() => {

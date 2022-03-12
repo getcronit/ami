@@ -1,13 +1,4 @@
-#!/usr/bin/env -S node -r "ts-node/register"
-
-import tsConfig from '../../tsconfig.json'
-import {register} from 'tsconfig-paths'
-import path from 'path'
-
-register({
-  baseUrl: path.resolve(__dirname, '../../'),
-  paths: tsConfig.compilerOptions.paths
-})
+#!/usr/bin/node
 
 import {Command} from 'commander'
 const program = new Command()

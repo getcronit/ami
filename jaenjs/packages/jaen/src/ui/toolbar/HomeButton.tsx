@@ -1,5 +1,5 @@
 import {Button} from '@chakra-ui/react'
-import {useSite} from '@jaen/services/site'
+import {useSite} from '../../services/site'
 import {FiHome} from '@react-icons/all-files/fi/FiHome'
 import {Link} from 'gatsby'
 

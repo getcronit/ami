@@ -1,8 +1,8 @@
-import {IAuth} from '@jaen/types'
+import {IAuth} from '../../types'
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 
-import * as snekApi from '@jaen/services/api'
-import {IAuthLoginPayload} from '@jaen/services/api/types'
+import * as snekApi from '../../services/api'
+import {IAuthLoginPayload} from '../../services/api/types'
 
 export const authInitialState: IAuth = {
   isAuthenticated: false,

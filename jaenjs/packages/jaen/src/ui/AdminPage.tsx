@@ -1,4 +1,4 @@
-import {useAppSelector, withRedux} from '@jaen/redux'
+import {useAppSelector, withRedux} from '../redux'
 import {
   createHistory,
   HistorySource,
@@ -24,21 +24,21 @@ import {BiNotification} from '@react-icons/all-files/bi/BiNotification'
 import {AdminLoginPage} from './AdminLoginPage'
 
 const PagesTab = loadable(
-  () => import('@jaen/internal-plugins/pages/ui/tabs/Pages'),
+  () => import('../internal-plugins/pages/ui/tabs/Pages'),
   {
     fallback: <div>Loading...</div>
   }
 )
 
 const FilesTab = loadable(
-  () => import('@jaen/internal-plugins/pages/ui/tabs/Files'),
+  () => import('../internal-plugins/pages/ui/tabs/Files'),
   {
     fallback: <div>Loading...</div>
   }
 )
 
 const NotifyTab = loadable(
-  () => import('@jaen/internal-plugins/notify/ui/components/tabs/Notify'),
+  () => import('../internal-plugins/notify/ui/components/tabs/Notify'),
   {
     fallback: <div>Loading...</div>
   }

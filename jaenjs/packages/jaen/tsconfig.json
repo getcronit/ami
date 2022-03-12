@@ -3,18 +3,19 @@
   "compilerOptions": {
     "rootDir": ".",
     "baseUrl": ".",
-    "paths": {
-      "@jaen/*": ["src/*"],
-      "@jaen-admin/*": ["src/internal-plugins/admin/*"],
-      "@jaen-pages/*": ["src/internal-plugins/pages/*"],
-      "@jaen-notify/*": ["src/internal-plugins/notify/*"]
-    }
+    "outDir": "dist",
+    "paths": {}
   },
   "ts-node": {
     "transpiler": "ts-node/transpilers/swc",
     "transpileOnly": true,
-    "require": ["tsconfig-paths/register"]
+    "require": ["tsconfig-paths/register"],
+    "compilerOptions": {
+      "module": "commonjs",
+      "resolveJsonModule": true
+    }
   },
+
   "include": ["**/*", "./tsconfig.json"],
   "typeRoots": ["./@types", "../../node_modules"],
   "references": [{"path": "../snek-finder"}]

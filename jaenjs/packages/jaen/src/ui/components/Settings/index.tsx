@@ -26,7 +26,7 @@ import {FieldGroup} from './FieldGroup'
 import {LanguageSelect} from './LanguageSelect'
 
 import {Controller, useForm} from 'react-hook-form'
-import {ISite} from '@jaen/types'
+import {ISite} from '../../../types'
 import {useSnekFinder} from '@jaenjs/snek-finder'
 
 type FormDataType = ISite

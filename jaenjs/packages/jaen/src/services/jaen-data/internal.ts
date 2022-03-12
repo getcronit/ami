@@ -1,4 +1,4 @@
-import {ISite} from '@jaen/types'
+import {ISite} from '../../types'
 import fs from 'fs'
 import {IRemoteFileMigration} from '../migration/types'
 

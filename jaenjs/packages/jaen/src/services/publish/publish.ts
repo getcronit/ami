@@ -1,7 +1,7 @@
 // pages
 // snekfinder root url
-import {store} from '@jaen/redux'
-import {Backend} from '@jaen/withSnekFinder'
+import {store} from '../../redux'
+import {Backend} from '../../withSnekFinder'
 import {useSnekFinderContext} from '@jaenjs/snek-finder'
 import {DeepPartial} from 'redux'
 import {ISite} from '../../types'

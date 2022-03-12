@@ -1,5 +1,4 @@
-import {JaenPageProvider} from '@jaen-pages/internal/services/page'
-import {withSnekFinder} from '@jaen/withSnekFinder'
+import {withSnekFinder} from '../withSnekFinder'
 import {ComponentMeta, Story} from '@storybook/react'
 import React from 'react'
 import {AdminPageShell as Component} from './components/AdminPageShell'
@@ -9,16 +8,7 @@ import {FaPager} from '@react-icons/all-files/fa/FaPager'
 import {BsFiles} from '@react-icons/all-files/bs/BsFiles'
 import {BiNotification} from '@react-icons/all-files/bi/BiNotification'
 
-import {AdminToolbar} from './components/AdminToolbar'
-
-import {
-  EditButtonGroup,
-  PublishButton,
-  HomeButton
-} from '@jaen/ui/toolbar'
-import {FilesContainer} from '@jaen/internal-plugins/pages/ui/tabs/Files'
-import {Box} from '@chakra-ui/react'
-import {AccountSwitcher} from './AccountSwitcher'
+import {FilesContainer} from '../internal-plugins/pages/ui/tabs/Files'
 import AdminToolbarContainer from './AdminToolbar'
 
 export default {

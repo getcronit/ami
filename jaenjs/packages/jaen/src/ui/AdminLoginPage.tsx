@@ -1,7 +1,7 @@
 import AdminLogin from './components/AdminLogin'
 import {RouteComponentProps} from '@reach/router'
-import {useAppDispatch} from '@jaen/redux'
-import {login, demoLogin} from '@jaen/redux/slices/auth'
+import {useAppDispatch} from '../redux'
+import {login, demoLogin} from '../redux/slices/auth'
 import {navigate} from 'gatsby'
 
 export const AdminLoginPage = (props: RouteComponentProps) => {

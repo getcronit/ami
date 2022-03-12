@@ -8,8 +8,8 @@ import {
   Text,
   useColorModeValue
 } from '@chakra-ui/react'
-import {store, useAppDispatch, useAppSelector} from '@jaen/redux'
-import {demoLogout, logout} from '@jaen/redux/slices/auth'
+import {store, useAppDispatch, useAppSelector} from '../redux'
+import {demoLogout, logout} from '../redux/slices/auth'
 import {Link, navigate} from 'gatsby'
 import * as React from 'react'
 import {AccountSwitcherButton} from './components/AccountSwitcherButton'

@@ -1,5 +1,5 @@
 import {useModalContext} from '@chakra-ui/react'
-import {IJaenPageProps} from '@jaen/internal-plugins/pages/types'
+import {IJaenPageProps} from '../../../../internal-plugins/pages/types'
 import {graphql, PageProps, useStaticQuery} from 'gatsby'
 import * as React from 'react'
 import {store, useAppDispatch, useAppSelector, withRedux} from '../../redux'

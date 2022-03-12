@@ -1,6 +1,6 @@
 import {Box} from '@chakra-ui/react'
-import {PersistorWrapper} from '@jaen/redux'
-import AdminToolbarContainer from '@jaen/ui/AdminToolbar'
+import {PersistorWrapper} from './src/redux'
+import AdminToolbarContainer from './src/ui/AdminToolbar'
 import {GatsbyBrowser} from 'gatsby'
 
 export * from './src/gatsby/wrapper'

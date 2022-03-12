@@ -8,11 +8,11 @@ import {ListItem} from './components/Dashboard/List/ListItem'
 
 import UndrawThoughts from './components/Dashboard/assets/undraw_thoughts_re_3ysu.svg'
 import {FaRocket} from 'react-icons/fa'
-import {usePagesChanges} from '@jaen/internal-plugins/pages/internal/services/hooks'
-import {useNotificationChanges} from '@jaen/internal-plugins/notify/services/hooks'
-import {useCoreChanges} from '@jaen/services/hooks'
+import {usePagesChanges} from '../internal-plugins/pages/internal/services/hooks'
+import {useNotificationChanges} from '../internal-plugins/notify/services/hooks'
+import {useCoreChanges} from '../services/hooks'
 import {IRemoteFileMigration} from '..'
-import {useAppSelector} from '@jaen/redux'
+import {useAppSelector} from '../redux'
 
 export const DashboardTab = () => {
   const {

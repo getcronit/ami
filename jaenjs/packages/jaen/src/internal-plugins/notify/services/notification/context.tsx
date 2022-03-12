@@ -6,7 +6,7 @@ import {
   ModalProps,
   useDisclosure
 } from '@chakra-ui/react'
-import {IJaenConnection, RequireAtLeastOne} from '@jaen/types'
+import {IJaenConnection, RequireAtLeastOne} from '../../../../types'
 import {PageProps} from 'gatsby'
 import * as React from 'react'
 import {useAppDispatch, useAppSelector, withRedux} from '../../redux'

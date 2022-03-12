@@ -1,5 +1,5 @@
 import {Box, Wrap, WrapItem} from '@chakra-ui/react'
-import {JaenPageProvider} from '@jaen-pages/internal/services/page'
+import {JaenPageProvider} from '../../internal/services/page'
 import {ComponentMeta, Story} from '@storybook/react'
 import React from 'react'
 import Component from '.'

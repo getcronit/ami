@@ -3,8 +3,7 @@ import {actions, initialState, reducers} from '../internal'
 
 const state: IJaenState = {
   status: {
-    isEditing: false,
-    changes: {}
+    isEditing: false
   },
   pages: {
     nodes: {

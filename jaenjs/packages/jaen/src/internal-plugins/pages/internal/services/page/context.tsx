@@ -1,4 +1,4 @@
-import {IJaenPage} from '@jaen/internal-plugins/pages/types'
+import {IJaenPage} from '../../../../pages/types'
 import {graphql} from 'gatsby'
 import React from 'react'
 import {store} from '../../redux'

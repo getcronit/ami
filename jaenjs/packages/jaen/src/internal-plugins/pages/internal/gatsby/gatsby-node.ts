@@ -23,10 +23,6 @@ GatsbyNode.onCreateWebpackConfig = ({
       })
     ],
     resolve: {
-      alias: {
-        '@jaen-pages': path.resolve(__dirname, '../../'),
-        '@jaen': path.resolve(__dirname, '../../../../')
-      },
       fallback: {
         fs: false
       }
@@ -96,9 +92,9 @@ GatsbyNode.sourceNodes = async ({
   const hashes = []
 
   for (const [id, page] of Object.entries(pages)) {
-    const jaenPage = (await (
+    const jaenPage = ((await (
       await fetch(page.context.fileUrl)
-    ).json()) as unknown as IJaenPage
+    ).json()) as unknown) as IJaenPage
 
     await processPage({
       page: jaenPage,
@@ -201,9 +197,8 @@ GatsbyNode.createPages = async ({actions, graphql, reporter}) => {
         return
       }
 
-      const component = allTemplate.nodes.find(
-        e => e.name === template
-      )?.absolutePath
+      const component = allTemplate.nodes.find(e => e.name === template)
+        ?.absolutePath
 
       if (!component) {
         reporter.panicOnBuild(

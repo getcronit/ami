@@ -1,7 +1,7 @@
 import {Button, useDisclosure} from '@chakra-ui/react'
-import {useAppDispatch, withRedux} from '@jaen/redux'
-import {setPublishing} from '@jaen/redux/slices/status'
-import {publishRunner} from '@jaen/services/publish'
+import {useAppDispatch, withRedux} from '../../redux'
+import {setPublishing} from '../../redux/slices/status'
+import {publishRunner} from '../../services/publish'
 import PublishAlert from '../../internal-plugins/pages/ui/components/PublishAlert'
 
 export const PublishButton = withRedux(() => {

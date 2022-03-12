@@ -1,4 +1,4 @@
-import {RootState, useAppDeepEqualSelector} from '@jaen-pages/internal/redux'
+import {RootState, useAppDeepEqualSelector} from '../../redux'
 import deepmerge from 'deepmerge'
 import {graphql, useStaticQuery} from 'gatsby'
 import * as React from 'react'
