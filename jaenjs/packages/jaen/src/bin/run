@@ -1,18 +1,18 @@
-#!/usr/bin/env -S npx ts-node
+#!/usr/bin/env -S node -r "ts-node/register"
 
-const tsConfig = require('../../tsconfig.json')
-const tsConfigPaths = require('tsconfig-paths')
-const path = require('path')
+import tsConfig from '../../tsconfig.json'
+import {register} from 'tsconfig-paths'
+import path from 'path'
 
-tsConfigPaths.register({
+register({
   baseUrl: path.resolve(__dirname, '../../'),
   paths: tsConfig.compilerOptions.paths
 })
 
-const {Command} = require('commander')
+import {Command} from 'commander'
 const program = new Command()
 
-const {runMigration} = require('../services/migration/run-migration')
+import {runMigration} from '../services/migration/run-migration'
 
 program.version('3.0.0')
 

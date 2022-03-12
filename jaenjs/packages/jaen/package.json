@@ -42,6 +42,7 @@
     "react-test-renderer": "^17.0.2",
     "storybook-addon-gatsby": "^0.0.3",
     "ts-jest": "^27.1.0",
+    "ts-node": "^10.7.0",
     "tsconfig-paths": "^3.12.0",
     "uuid": "^8.3.2"
   },
@@ -58,6 +59,7 @@
     "@react-icons/all-files": "4.0.0",
     "@reduxjs/toolkit": "^1.6.2",
     "@rtk-query/codegen-openapi": "^1.0.0-alpha.1",
+    "@swc-node/register": "^1.4.2",
     "@types/loadable__component": "^5.13.4",
     "babel-preset-react": "^6.24.1",
     "esm": "^3.2.25",

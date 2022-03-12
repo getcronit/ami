@@ -10,7 +10,12 @@
       "@jaen-notify/*": ["src/internal-plugins/notify/*"]
     }
   },
-  "include": ["**/*"],
+  "ts-node": {
+    "transpiler": "ts-node/transpilers/swc",
+    "transpileOnly": true,
+    "require": ["tsconfig-paths/register"]
+  },
+  "include": ["**/*", "./tsconfig.json"],
   "typeRoots": ["./@types", "../../node_modules"],
   "references": [{"path": "../snek-finder"}]
 }
