@@ -41,7 +41,7 @@ export const TreeConverter = (items: Items): TreeData => {
       const isExpanded = !nth(parentIter, 3)
 
       if (item.parent) {
-        if (tree.items[item.parent].data.deleted) {
+        if (items[item.parent].data.deleted) {
           item.data.deleted = true
         }
       }
