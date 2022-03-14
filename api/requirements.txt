@@ -10,3 +10,4 @@ asyncpg
 passlib[bcrypt]
 aiohttp
 requests
+sendgrid

@@ -1,29 +1,38 @@
 version: "3.8"
 
 services:
-  jaen:
-    image: snek-at/ami-jaen:latest
+  api:
+    image: snek-at/ami-api:latest
     build:
-      context: ./jaen
+      context: ./api
       dockerfile: Dockerfile
     volumes:
-      - ./jaen/:/jaen/
-    command: bash -c "while !</dev/tcp/jaen_db/5432; do sleep 1; done; uvicorn jaen.app:app --reload --workers 1 --host 0.0.0.0 --port 8000"
+      - ./api/:/api/
+    command: bash -c "while !</dev/tcp/api_db/5432; do sleep 1; done; uvicorn api.app:app --reload --workers 1 --host 0.0.0.0 --port 8000"
     ports:
       - 8000:8000
     depends_on:
-      - jaen_db
-    restart: on-failure # workaround for dependency issue to jaen_db
-  jaen_db:
+      - api_db
+    restart: on-failure # workaround for dependency issue to api_db
+    environment:
+      - DB_USER=api_db
+      - DB_PASSWORD=api_db
+      - DB_HOST=api_db
+      - DB_PORT=5432
+      - DB_NAME=api_db
+      - ACCEPTED_TO_EMAILS=${ACCEPTED_TO_EMAILS}
+      - SENDGRID_FROM_EMAIL=${SENDGRID_FROM_EMAIL}
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+  api_db:
     image: postgres:14-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_USER=jaen_db
-      - POSTGRES_PASSWORD=jaen_db
-      - POSTGRES_DB=jaen_db
+      - POSTGRES_USER=api_db
+      - POSTGRES_PASSWORD=api_db
+      - POSTGRES_DB=api_db
 
 volumes:
   postgres_data:

@@ -10,6 +10,7 @@ from .database import engine, Base
 
 from .auth import router as auth_router
 from .users import router as users_router
+from .mail import router as mail_router
 from .projects import router as projects_router
 
 
@@ -31,6 +32,7 @@ app.openapi = custom_openapi(app)
 
 app.include_router(auth_router.router, tags=["auth"])
 app.include_router(users_router.router, tags=["users"])
+app.include_router(mail_router.router, tags=["mail"])
 app.include_router(projects_router.router, tags=["projects"])
 
 
