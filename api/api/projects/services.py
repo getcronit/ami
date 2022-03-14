@@ -13,9 +13,7 @@ async def trigger_github_event(
     headers["Accept"] = "application/vnd.github.everest-preview+json"
     headers["Content-Type"] = "application/x-www-form-urlencoded"
     headers["Authorization"] = f"token {project_github_access_token}"
-    
-    print(headers)
-    
+        
     async with aiohttp.ClientSession(headers=headers) as session:
         data = json.dumps(
             {

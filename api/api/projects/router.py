@@ -96,8 +96,6 @@ async def publish_project(
             status_code=403, detail="You are not authorized to perform this action"
         )
         
-    print(f"project: {project}")
-
     return await trigger_github_event(
         project_github_remote=project["github_remote"],
         project_github_cwd=project["github_cwd"],

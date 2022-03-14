@@ -32,7 +32,6 @@ class ProjectDAL:
         q = await self.db_session.execute(
             select(Project).where(Project.id == project_id)
         )
-        print("q", q)
         return jsonable_encoder(q.scalars().first())
 
     async def get_all_projects(self) -> List[Project]:

@@ -5,7 +5,6 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 
 import os
-print(os.environ)
 
 DB_USER = os.getenv("DB_USER", "api_db") 
 DB_PASSWORD = os.getenv("DB_PASSWORD", "api_db") 

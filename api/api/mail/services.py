@@ -2,20 +2,15 @@ import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
-print(os.environ)
-
 def _get_accepted_to_emails_from_env():
     email_str = os.getenv('ACCEPTED_TO_EMAILS', '')
-    print(email_str)
     emails = [email.strip() for email in email_str.split(',')]
-    print(emails)
     
     return emails
 
 
 def send_mail(to_email: str,reply_to_email:str, subject:str, content:str):
     
-    print(to_email)
     if to_email not in _get_accepted_to_emails_from_env():
         raise Exception(f'{to_email} is not an accepted email')
     
