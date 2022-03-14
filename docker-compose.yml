@@ -39,11 +39,11 @@ services:
     image: dockette/adminer:pgsql
     restart: always
     depends_on:
-      - jaen_db
+        - api_db
     environment:
-      ADMINER_DEFAULT_SERVER: jaen_db
-      ADMINER_DEFAULT_DB_HOST: jaen_db
-      ADMINER_DEFAULT_DB_NAME: jaen_db
+      ADMINER_DEFAULT_SERVER: api_db
+      ADMINER_DEFAULT_DB_HOST: api_db
+      ADMINER_DEFAULT_DB_NAME: api_db
       ADMINER_DESIGN: nette
       ADMINER_PLUGINS: tables-filter tinymce
     ports:
