@@ -17,8 +17,11 @@ import {
   useSelector,
   useStore
 } from 'react-redux'
-import {clearState, loadState, persistKey, saveState} from './persist-state'
 import internal, {initialState} from './slices/internal'
+import PersistState from '../../../../redux/persist-state'
+
+const persistKey = 'jaenjs-pages-state'
+const {loadState, persistState} = PersistState<RootState>(persistKey)
 
 const combinedReducer = combineReducers({
   internal
@@ -47,9 +50,7 @@ export const store = configureStore({
   preloadedState: persistedState
 })
 
-store.subscribe(() => {
-  saveState(store.getState() as RootState)
-})
+const {resetState} = persistState(store)
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof combinedReducer>
@@ -94,7 +95,7 @@ export const PersistorWrapper: React.FC = ({children}) => {
 
   if (storageBuildTime !== buildTime) {
     if (storageBuildTime) {
-      clearState()
+      resetState()
     }
 
     localStorage.setItem(btKey, buildTime)

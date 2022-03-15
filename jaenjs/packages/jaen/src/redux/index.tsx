@@ -18,11 +18,15 @@ import {
   useSelector,
   useStore
 } from 'react-redux'
-import {clearState, loadState, persistKey, saveState} from './persist-state'
+import PersistState from './persist-state'
 
 import auth, {authInitialState} from './slices/auth'
 import site, {siteInitialState} from './slices/site'
 import status, {statusInitialState} from './slices/status'
+
+const persistKey = 'jaenjs-state'
+
+const {loadState, persistState} = PersistState<RootState>(persistKey)
 
 const combinedReducer = combineReducers({
   auth,
@@ -55,9 +59,7 @@ export const store = configureStore({
   preloadedState: persistedState
 })
 
-store.subscribe(() => {
-  saveState(store.getState() as RootState)
-})
+const {resetState} = persistState(store)
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof combinedReducer>
@@ -102,7 +104,7 @@ export const PersistorWrapper: React.FC = ({children}) => {
 
   if (storageBuildTime !== buildTime) {
     if (storageBuildTime) {
-      clearState()
+      resetState()
       Backend.resetIndex()
     }
 
