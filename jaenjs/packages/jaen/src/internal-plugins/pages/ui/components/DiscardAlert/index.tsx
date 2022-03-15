@@ -10,6 +10,7 @@ import {
   useToast
 } from '@chakra-ui/react'
 import * as React from 'react'
+import {useChanges} from '../../../../../services/hooks'
 
 export interface PublishAlertProps {
   onConfirm: () => Promise<boolean>
@@ -25,6 +26,8 @@ export const DiscardAlert = ({
   const cancelRef = React.useRef<any>()
 
   const [isLoading, setIsLoading] = React.useState(false)
+
+  const {totalChanges} = useChanges()
 
   const toast = useToast()
 
@@ -69,8 +72,8 @@ export const DiscardAlert = ({
         <AlertDialogHeader>Discard chances?</AlertDialogHeader>
         <AlertDialogCloseButton />
         <AlertDialogBody>
-          Are you sure you want to discard all of your changes? <i>44</i>{' '}
-          changes will be deleted.
+          Are you sure you want to discard all of your changes?{' '}
+          <i>{totalChanges}</i> changes will be deleted.
         </AlertDialogBody>
         <AlertDialogFooter>
           <Button ref={cancelRef} onClick={onClose}>
