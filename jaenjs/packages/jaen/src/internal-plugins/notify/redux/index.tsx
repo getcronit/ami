@@ -51,7 +51,7 @@ export const store = configureStore({
   preloadedState: persistedState
 })
 
-const {resetState} = persistState(store)
+const {resetStateOnNewBuild} = persistState(store)
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof combinedReducer>
@@ -79,7 +79,6 @@ export const withRedux = <P extends object>(
  * `gatsby-ssr.js` because it would have unwanted side effects.
  */
 export const PersistorWrapper: React.FC = ({children}) => {
-  const btKey = `${persistKey}:buildTime`
   const data = useStaticQuery<{
     siteBuildMetadata: {buildTime: string}
   }>(graphql`
@@ -90,17 +89,7 @@ export const PersistorWrapper: React.FC = ({children}) => {
     }
   `)
 
-  const buildTime = data.siteBuildMetadata.buildTime
-
-  const storageBuildTime = localStorage.getItem(btKey)
-
-  if (storageBuildTime !== buildTime) {
-    if (storageBuildTime) {
-      resetState()
-    }
-
-    localStorage.setItem(btKey, buildTime)
-  }
+  resetStateOnNewBuild(data.siteBuildMetadata.buildTime)
 
   return <>{children}</>
 }
