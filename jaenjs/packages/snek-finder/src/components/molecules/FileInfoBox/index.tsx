@@ -49,7 +49,7 @@ const FileInfoBox: React.FC<FileInfoBoxProps> = props => {
   return (
     <Box borderWidth="1px" w={'xs'} h="100%">
       <Box m={2} borderWidth="1px" borderRadius="lg">
-        <Center bg="red" h="200">
+        <Center h="200">
           {props.previewImageSrc && (
             <Image
               src={props.previewImageSrc}
