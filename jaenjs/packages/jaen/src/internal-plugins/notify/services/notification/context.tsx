@@ -1,4 +1,5 @@
 import {
+  As,
   Modal,
   ModalContent,
   ModalContentProps,
@@ -34,6 +35,7 @@ export type NotificationOptions = {
     showAfterXPageViews: number
     showUntilXPageViews: number
   }>
+  logo?: As<any>
   customCondition?: (props: PageProps) => boolean
   customTrigger?: () => Promise<boolean>
 }

@@ -1,5 +1,6 @@
 import {Box, Link, Stack, Text, useColorModeValue} from '@chakra-ui/react'
 import {connectNotification, NotifyField, useModalContext} from '@jaenjs/jaen'
+import {FaCookieBite} from 'react-icons/fa'
 import {SubscribeForm} from '../components/SubscribeForm'
 
 const CookieModal = () => {
@@ -70,5 +71,6 @@ export default connectNotification(CookieModal, {
   },
   advanced: {
     showUntilXPageViews: 5
-  }
+  },
+  logo: FaCookieBite
 })

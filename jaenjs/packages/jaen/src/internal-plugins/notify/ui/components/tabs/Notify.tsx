@@ -1,4 +1,3 @@
-import {SunIcon} from '@chakra-ui/icons'
 import {
   useAppDispatch,
   useAppSelector,
@@ -8,6 +7,7 @@ import {internalActions} from '../../../../notify/redux/slices'
 import {useNotifications} from '../../../../notify/services/notification/loader'
 import React from 'react'
 import NotifyTableCard from '../NotifyTableCard'
+import {BiNotification} from 'react-icons/bi'
 
 export const NotifyTab: React.FC = withRedux(() => {
   const dispatch = useAppDispatch()
@@ -56,7 +56,7 @@ export const NotifyTab: React.FC = withRedux(() => {
     id: item.id,
     name: item.Component.options.displayName,
     description: item.Component.options.description,
-    logo: SunIcon,
+    logo: item.Component.options.logo || BiNotification,
     active:
       notifications[item.id]?.active !== undefined
         ? notifications[item.id]?.active
