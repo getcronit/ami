@@ -8,9 +8,7 @@ import {ListItem} from './components/Dashboard/List/ListItem'
 
 import UndrawThoughts from './components/Dashboard/assets/undraw_thoughts_re_3ysu.svg'
 import {FaRocket} from 'react-icons/fa'
-import {usePagesChanges} from '../internal-plugins/pages/internal/services/hooks'
-import {useNotificationChanges} from '../internal-plugins/notify/services/hooks'
-import {useCoreChanges} from '../services/hooks'
+import {useChanges} from '../services/hooks'
 import {IRemoteFileMigration} from '..'
 import {useAppSelector} from '../redux'
 
@@ -46,16 +44,12 @@ export const DashboardTab = () => {
     }
   `)
 
-  const coreChanges = useCoreChanges()
-  const pagesChanges = usePagesChanges()
-  const notifyChanges = useNotificationChanges()
-
-  const changes = coreChanges + pagesChanges + notifyChanges
+  const {totalChanges} = useChanges()
 
   const data = [
     {label: 'Total pages', value: allJaenPage.totalCount},
     {label: 'Total notifications', value: allJaenNotification.totalCount},
-    {label: 'Unpublished changes', value: changes}
+    {label: 'Unpublished changes', value: totalChanges}
   ]
 
   const isPublishing = useAppSelector(state => state.status.isPublishing)
