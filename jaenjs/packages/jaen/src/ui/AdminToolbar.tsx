@@ -1,7 +1,6 @@
 import {Box, ChakraProvider, useBreakpoint} from '@chakra-ui/react'
 import {HomeButton, PublishButton} from '../ui/toolbar'
 import {useAppSelector, withRedux} from '../redux'
-import theme from '../theme/theme'
 import {navigate} from 'gatsby'
 import {AccountSwitcher} from './AccountSwitcher'
 import {AdminToolbar} from './components/AdminToolbar'
@@ -49,11 +48,7 @@ const AdminToolbarContainer = withRedux<IAdminToolbarProps>(
       )
     }
 
-    return (
-      <ChakraProvider theme={theme} resetCSS={false}>
-        {element}
-      </ChakraProvider>
-    )
+    return <ChakraProvider resetCSS={false}>{element}</ChakraProvider>
   }
 )
 
