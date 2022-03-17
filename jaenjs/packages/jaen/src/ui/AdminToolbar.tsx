@@ -1,4 +1,4 @@
-import {Box, ChakraProvider} from '@chakra-ui/react'
+import {Box, ChakraProvider, useBreakpoint} from '@chakra-ui/react'
 import {HomeButton, PublishButton} from '../ui/toolbar'
 import {useAppSelector, withRedux} from '../redux'
 import theme from '../theme/theme'
@@ -7,6 +7,7 @@ import {AccountSwitcher} from './AccountSwitcher'
 import {AdminToolbar} from './components/AdminToolbar'
 import JaenActivationButton from './components/JaenActivationButton'
 import {EditButtonGroup} from '../internal-plugins/pages/ui/toolbar'
+import isMobile from 'is-mobile'
 
 export interface IAdminToolbarProps {
   sticky?: boolean
@@ -16,9 +17,17 @@ const AdminToolbarContainer = withRedux<IAdminToolbarProps>(
   ({sticky = false}) => {
     const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated)
 
-    let element = (
-      <JaenActivationButton onClick={() => navigate('/jaen/admin')} />
-    )
+    const handleJaenActivation = () => {
+      if (isMobile()) {
+        if (typeof window !== 'undefined') {
+          window.scrollTo({top: 0, behavior: 'smooth'})
+        }
+      } else {
+        navigate('/jaen/admin/')
+      }
+    }
+
+    let element = <JaenActivationButton onClick={handleJaenActivation} />
 
     if (isAuthenticated) {
       const logoText = 'Jaen Admin'
