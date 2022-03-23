@@ -12,6 +12,12 @@ import * as React from 'react'
 import {ISectionConnection} from '../../index'
 import {SectionAddPopover, SectionManagePopover} from './components/popovers'
 
+type SectionPropsCallback = (args: {
+  count: number
+  totalSections: number
+  section: IJaenSectionWithId
+}) => {[key: string]: any}
+
 export interface SectionFieldProps {
   name: string // chapterName
   displayName: string
@@ -19,7 +25,7 @@ export interface SectionFieldProps {
   as?: React.ComponentType<React.HTMLAttributes<HTMLElement>>
   sectionAs?: React.ComponentType<React.HTMLAttributes<HTMLElement>>
   props?: {[key: string]: any}
-  sectionProps?: {[key: string]: any}
+  sectionProps?: {[key: string]: any} | SectionPropsCallback
   className?: string
   style?: React.CSSProperties
   sectionClassName?: string
@@ -209,27 +215,41 @@ const SectionField = ({
       if (sectionsDict[section.name]) {
         const {Component, options} = sectionsDict[section.name]
 
+        const sectionId = ptrHead
+
         const trigger = (
           <JaenSectionProvider
             key={ptrHead}
             chapterName={name}
-            sectionId={ptrHead}>
+            sectionId={sectionId}>
             <Component />
           </JaenSectionProvider>
         )
 
         const SectionWrapper = rest.sectionAs || Box
 
+        const sectionProps =
+          typeof rest.sectionProps === 'function'
+            ? rest.sectionProps({
+                count: rendered.length + 1,
+                totalSections: Object.keys(chapter.sections).length,
+                section: {
+                  ...section,
+                  id: sectionId
+                }
+              })
+            : rest.sectionProps
+
         if (isEditing) {
           rendered.push(
             <SectionWrapper
-              {...rest.sectionProps}
+              {...sectionProps}
               className={rest.sectionClassName}
               style={rest.sectionStyle}>
               <SectionManagePopover
-                key={ptrHead}
+                key={sectionId}
                 sections={sectionsOptions}
-                id={ptrHead}
+                id={sectionId}
                 ptrPrev={section.ptrPrev}
                 ptrNext={section.ptrNext}
                 header={options.displayName}
@@ -259,7 +279,7 @@ const SectionField = ({
         } else {
           rendered.push(
             <SectionWrapper
-              {...rest.sectionProps}
+              {...sectionProps}
               className={rest.sectionClassName}
               style={rest.sectionStyle}>
               {trigger}
