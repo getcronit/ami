@@ -129,6 +129,11 @@ const AllFieldsPage: React.FC = () => {
             name="field1"
             displayName="Field 1"
             sections={[CardSection]}
+            sectionProps={props => {
+              return {
+                color: props.count % 2 === 0 ? 'red' : 'blue'
+              }
+            }}
           />
         </Box>
         <Box>
@@ -194,7 +199,7 @@ export default connectPage(AllFieldsPage, {
 })
 
 export const query = graphql`
-  query($jaenPageId: String!) {
+  query ($jaenPageId: String!) {
     ...JaenPageQuery
     allJaenPage {
       nodes {
