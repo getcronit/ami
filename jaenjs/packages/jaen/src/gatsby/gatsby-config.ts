@@ -27,6 +27,13 @@ GatsbyConfig.plugins = [
     }
   },
   {
+    resolve: '@chakra-ui/gatsby-plugin',
+    options: {
+      resetCSS: true,
+      isUsingColorMode: true
+    }
+  },
+  {
     resolve: `gatsby-plugin-sharp`,
     options: {
       defaults: {
