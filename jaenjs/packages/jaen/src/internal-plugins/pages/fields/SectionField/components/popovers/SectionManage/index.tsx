@@ -85,6 +85,8 @@ const SectionManagePopover = React.memo<Props>(
           <Box
             transition={'box-shadow 0.3s ease-in-out'}
             boxShadow={isOpen ? '0 0 0 2.5px #4fd1c5' : 'none'}
+            h="100%"
+            w="100%"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onFocus={onOpen}
