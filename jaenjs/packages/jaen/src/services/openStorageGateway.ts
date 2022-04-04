@@ -28,24 +28,50 @@ export const upload = async (payload: object | Blob | File) => {
 /**
  * Upload function for NodeJS
  */
-export const nodejsSafeJsonUpload = async (payload: string) => {
+/**
+ * Upload function for NodeJS
+ */
+export const nodejsSafeJsonUpload = async (
+  payload: string
+): Promise<string> => {
   const FormData = require('form-data')
-  const fetch = require('node-fetch')
-
-  const formData = new FormData()
-
-  formData.append('file', payload, {
-    knownLength: payload.length,
-    filename: 'jaen-index.json',
-    contentType: 'application/json'
+  const form = new FormData({
+    maxDataSize: 20971520
   })
 
-  const resp = await fetch(URL, {
-    body: formData,
-    method: 'POST'
+  form.append('file', payload, {
+    filename: 'jaen-index.json'
   })
 
-  const json = await resp.json()
+  // Here we create and await our promise:
+  return new Promise((resolve, reject) => {
+    form.submit(
+      URL,
+      (
+        err: any,
+        res: {
+          setEncoding: (arg0: string) => void
+          on: (
+            arg0: string,
+            arg1: {(chunk: any): void; (err: any): void}
+          ) => void
+        }
+      ) => {
+        if (err) {
+          reject(err)
+        }
 
-  return `${URL}/${json.file_id}`
+        res.setEncoding('utf8')
+        res.on('data', chunk => {
+          const json = JSON.parse(chunk)
+
+          resolve(`${URL}/${json.file_id}`)
+        })
+
+        res.on('error', err => {
+          reject(err)
+        })
+      }
+    )
+  })
 }
