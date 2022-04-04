@@ -106,6 +106,14 @@ const SectionField = ({
 
   const chapter = deepmerge(staticChapter || {}, dynamicChapter || {})
 
+  const totalSections = React.useMemo(
+    () =>
+      Object.keys(chapter.sections || {})
+        .map(key => chapter.sections[key])
+        .filter(section => !section.deleted).length,
+    [chapter.sections]
+  )
+
   const handleSectionAdd = React.useCallback(
     (
       sectionName: string,
@@ -232,7 +240,7 @@ const SectionField = ({
           typeof rest.sectionProps === 'function'
             ? rest.sectionProps({
                 count: rendered.length + 1,
-                totalSections: Object.keys(chapter.sections).length,
+                totalSections: totalSections,
                 section: {
                   ...section,
                   id: sectionId
