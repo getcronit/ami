@@ -1,6 +1,7 @@
 import {IJaenConnection} from '../../types'
 import {useAppDispatch, useAppSelector, withRedux} from './internal/redux'
 import {internalActions} from './internal/redux/slices'
+import {useField} from './internal/services/field/hooks'
 import {JaenPageProvider, useJaenPageContext} from './internal/services/page'
 import SEO from './internal/services/page/SEO'
 import {
@@ -175,51 +176,13 @@ export const connectField = <IValue, IDefaultValue = IValue, IProps = {}>(
   withRedux(props => {
     const dispatch = useAppDispatch()
 
-    const {jaenPage} = useJaenPageContext()
-
-    if (!jaenPage.id) {
-      throw new Error(
-        'JaenPage id is undefined! connectField must be used within a JaenPage'
-      )
-    }
-
-    const sectionContext = useJaenSectionContext()
-
-    function getPageField<T>(
-      page: IJaenPage | Partial<IJaenPage> | null
-    ): T | undefined {
-      if (page) {
-        let fields
-
-        if (!sectionContext) {
-          fields = page.jaenFields
-        } else {
-          const {chapterName, sectionId} = sectionContext
-
-          fields = page.chapters?.[chapterName]?.sections[sectionId]?.jaenFields
-        }
-
-        return fields?.[options.fieldType]?.[props.name] as T
-      }
-    }
-
-    const value = useAppSelector<IValue | undefined>(state => {
-      const page = state.internal.pages.nodes[jaenPage.id]
-
-      if (page) {
-        return getPageField(page)
-      }
-    })
-
-    const staticValue = getPageField<IValue>(jaenPage)
-
-    const isEditing = useAppSelector(state => state.internal.status.isEditing)
+    const field = useField<IValue>(props.name, options.fieldType)
 
     const handleUpdateValue = (value: IValue) => {
       dispatch(
         internalActions.field_write({
-          pageId: jaenPage.id,
-          section: sectionContext,
+          pageId: field.jaenPageId,
+          section: field.sectionContext,
           fieldType: options.fieldType,
           fieldName: props.name,
           value
@@ -232,9 +195,9 @@ export const connectField = <IValue, IDefaultValue = IValue, IProps = {}>(
         jaenField={{
           name: props.name,
           defaultValue: props.defaultValue,
-          staticValue: staticValue,
-          value: value,
-          isEditing: isEditing,
+          staticValue: field.staticValue,
+          value: field.value,
+          isEditing: field.isEditing,
           onUpdateValue: handleUpdateValue,
           style: props.style,
           className: props.className
@@ -243,4 +206,5 @@ export const connectField = <IValue, IDefaultValue = IValue, IProps = {}>(
       />
     )
   })
+
 export type IFieldConnection = ReturnType<typeof connectField>

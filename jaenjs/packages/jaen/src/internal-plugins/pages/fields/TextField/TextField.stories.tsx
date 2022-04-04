@@ -3,6 +3,7 @@ import {ComponentMeta, Story} from '@storybook/react'
 import React from 'react'
 import Component from '.'
 import {EditButtonGroup} from '../../ui/toolbar'
+import {useField} from '../../internal/services/field'
 
 export default {
   title: 'fields/TextField',
@@ -55,4 +56,16 @@ RichText.args = {
   name: 'rich-text-field-1',
   defaultValue: '<p>richtext2<p>',
   rtf: true
+}
+
+export const Hidden: Story<ComponentProps> = Template.bind({})
+Hidden.args = {
+  name: 'hidden-text-field',
+  defaultValue: 'defaultValue',
+  hiddenField: true
+}
+
+export const LiveValue: Story<ComponentProps> = () => {
+  const field = useField('hidden-text-field', 'IMA:TextField')
+  return <>{JSON.stringify(field)}</>
 }
