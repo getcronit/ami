@@ -8,7 +8,6 @@ import {
 } from './JaenImage'
 import {useJaenPageImage} from './useJaenPageImage'
 import loadable from '@loadable/component'
-const InteractiveImage = loadable(() => import('./InteractiveImage'))
 
 export interface ImageFieldData extends JaenImageData {
   imageId?: string
@@ -70,8 +69,9 @@ const ImageField = connectField<
       })
     }
 
-    const image = (
+    return (
       <JaenImage
+        isEditing={jaenField.isEditing}
         image={{
           title: value.title || 'A Jaen Image',
           alt: value.alt || 'A Jaen Image',
@@ -86,25 +86,9 @@ const ImageField = connectField<
         imgClassName={imgClassName}
         imgStyle={imgStyle}
         defaultStaticImageElement={jaenField.defaultValue}
+        onUpdateValue={handleUpdateValue}
       />
     )
-
-    if (jaenField.isEditing) {
-      return (
-        <InteractiveImage
-          handleUpdateValue={handleUpdateValue}
-          data={{
-            gatsbyImage,
-            internalImageUrl: value.internalImageUrl,
-            alt: value.alt,
-            title: value.title
-          }}>
-          {image}
-        </InteractiveImage>
-      )
-    }
-
-    return image
   },
   {
     fieldType: 'IMA:ImageField'

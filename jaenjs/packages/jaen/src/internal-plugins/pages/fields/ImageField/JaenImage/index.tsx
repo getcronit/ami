@@ -1,4 +1,5 @@
-import {Image, Skeleton} from '@chakra-ui/react'
+import {Box, Image, Skeleton} from '@chakra-ui/react'
+import loadable from '@loadable/component'
 import {
   GatsbyImage,
   IGatsbyImageData,
@@ -7,6 +8,8 @@ import {
 } from 'gatsby-plugin-image'
 import * as React from 'react'
 import {CSSProperties} from 'react'
+
+const InteractiveImage = loadable(() => import('../InteractiveImage'))
 
 export type {Layout}
 
@@ -28,6 +31,7 @@ export interface JaenImageData {
 }
 
 export interface JaenImageProps {
+  isEditing: boolean
   className?: string
   style?: CSSProperties
   imgClassName?: string
@@ -45,6 +49,7 @@ export interface JaenImageProps {
    * @example `https://via.placeholder.com/300x200`
    */
   defaultStaticImageElement: StaticImageElementType | null
+  onUpdateValue: (value: Partial<JaenImageData>) => void
 }
 
 export const JaenImage = (props: JaenImageProps) => {
@@ -86,19 +91,18 @@ export const JaenImage = (props: JaenImageProps) => {
   if (!isSSR) {
     const isLoaded = Boolean(props.image.internalImageUrl)
 
-    imageElement = (
-      <Skeleton
-        isLoaded={isLoaded}
-        height={imgElementProps.height}
-        width={imgElementProps.width}
-        className={props.className}>
-        <Image
-          {...wrapperElementProps}
-          {...imgElementProps}
-          src={props.image.internalImageUrl!}
-          fallback={<></>}
-        />
-      </Skeleton>
+    const img = (
+      <Image
+        {...imgElementProps}
+        src={props.image.internalImageUrl!}
+        fallback={<></>}
+      />
+    )
+
+    imageElement = isLoaded ? (
+      img
+    ) : (
+      <Skeleton isLoaded={isLoaded}>{img}</Skeleton>
     )
   } else {
     const {
@@ -107,13 +111,7 @@ export const JaenImage = (props: JaenImageProps) => {
     } = props
 
     if (gatsbyImage && internalImageUrl !== null) {
-      imageElement = (
-        <GatsbyImage
-          {...wrapperElementProps}
-          {...imgElementProps}
-          image={gatsbyImage}
-        />
-      )
+      imageElement = <GatsbyImage {...imgElementProps} image={gatsbyImage} />
     } else if (defaultStaticImageElement) {
       imageElement = defaultStaticImageElement
     } else {
@@ -123,5 +121,27 @@ export const JaenImage = (props: JaenImageProps) => {
     }
   }
 
-  return <>{imageElement}</>
+  if (props.isEditing) {
+    return (
+      <InteractiveImage
+        handleUpdateValue={props.onUpdateValue}
+        data={{
+          gatsbyImage: props.image.gatsbyImage,
+          internalImageUrl: props.image.internalImageUrl,
+          alt: props.image.alt,
+          title: props.image.title
+        }}
+        image={imageElement}
+        position="relative"
+        display="block"
+        {...wrapperElementProps}
+      />
+    )
+  }
+
+  return (
+    <Box position="relative" display="block" {...wrapperElementProps}>
+      {imageElement}
+    </Box>
+  )
 }

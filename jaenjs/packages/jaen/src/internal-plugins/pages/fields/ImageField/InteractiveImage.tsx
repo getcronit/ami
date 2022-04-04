@@ -1,4 +1,4 @@
-import {Box, useDisclosure} from '@chakra-ui/react'
+import {Box, BoxProps, useDisclosure} from '@chakra-ui/react'
 import {withSnekFinder} from '../../../../withSnekFinder'
 import {useSnekFinder} from '@jaenjs/snek-finder'
 import {getSrc} from 'gatsby-plugin-image'
@@ -6,13 +6,14 @@ import React from 'react'
 import {ImageFieldData} from '.'
 import UpdateModal from './components/UpdateModal'
 
-export interface IInteractiveImageProps {
+export interface IInteractiveImageProps extends BoxProps {
   data: {
     gatsbyImage: ImageFieldData['gatsbyImage']
     internalImageUrl?: string | null
     alt?: string
     title?: string
   }
+  image: JSX.Element
   handleUpdateValue: (data: {
     internalImageUrl?: string | null
     alt?: string
@@ -20,8 +21,8 @@ export interface IInteractiveImageProps {
   }) => void
 }
 
-export const InteractiveImage: React.FC<IInteractiveImageProps> = withSnekFinder(
-  ({data, handleUpdateValue, children}) => {
+export const InteractiveImage: React.FC<IInteractiveImageProps> =
+  withSnekFinder(({data, handleUpdateValue, image, ...rest}) => {
     const updateDisclosure = useDisclosure()
 
     const finder = useSnekFinder({
@@ -76,10 +77,14 @@ export const InteractiveImage: React.FC<IInteractiveImageProps> = withSnekFinder
           onDelete={() => handleUpdateValue({internalImageUrl: null})}
         />
 
-        <Box onClick={handleBoxClick}>{<>{children}</>}</Box>
+        <Box
+          {...rest}
+          onClick={handleBoxClick}
+          cursor={updateable ? 'pointer' : 'default'}>
+          {image}
+        </Box>
       </>
     )
-  }
-)
+  })
 
 export default InteractiveImage
