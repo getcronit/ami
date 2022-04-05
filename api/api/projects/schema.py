@@ -17,9 +17,9 @@ class ProjectOut(ProjectBase):
     id: int
 
 
+class ProjectCreateOut(ProjectOut):
+    publish_token: str
+
+
 class ProjectInDB(ProjectIn):
     user_ids: List[int]
-
-
-class PublishProjectIn(BaseModel):
-    migraiton_url: str

@@ -3,6 +3,8 @@ from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, ARRAY
 
 from api.database import Base
 
+import uuid
+
 
 class Project(Base):
     __tablename__ = "projects"
@@ -15,3 +17,4 @@ class Project(Base):
     user_ids = Column(
         ARRAY(Integer), nullable=True
     )  # array because users will end up in a own microservice
+    publish_token = Column(String, default=lambda: str(uuid.uuid4().hex), unique=True)

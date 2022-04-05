@@ -74,7 +74,8 @@ async function baseFetch(
     }
 
     if (refreshResponse.status === 200) {
-      const refreshResponseJson = (await refreshResponse.json()) as IAuthRefreshResponse
+      const refreshResponseJson =
+        (await refreshResponse.json()) as IAuthRefreshResponse
 
       KeyManager.setAccessToken(refreshResponseJson.access_token)
 
@@ -152,18 +153,9 @@ export async function getMe() {
 }
 
 export async function publishProject(projectId: number, migrationUrl: string) {
-  const response = await baseFetch(`/projects/${projectId}/publish`, {
-    method: 'POST',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    },
-    body: JSON.stringify({
-      migraiton_url: migrationUrl
-    })
-  })
+  const response = await baseFetch(
+    `/projects/${projectId}/publish?migration_url=${migrationUrl}`
+  )
 
   if (response.status !== 200) {
     const error = await response.json()
