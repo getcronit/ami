@@ -15,7 +15,11 @@ class ProjectDAL:
 
     async def create_project(self, data: ProjectIn) -> Project:
         new_project = Project(
-            name=data.name, github_remote=data.github_remote, github_cwd=data.github_cwd, github_access_token=data.github_access_token, user_ids=data.user_ids
+            name=data.name,
+            github_remote=data.github_remote,
+            github_cwd=data.github_cwd,
+            github_access_token=data.github_access_token,
+            user_ids=data.user_ids,
         )
         self.db_session.add(new_project)
         await self.db_session.flush()

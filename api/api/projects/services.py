@@ -5,7 +5,10 @@ import json
 
 
 async def trigger_github_event(
-    project_github_remote: str, project_github_cwd: str, project_github_access_token: str, migration_url: str
+    project_github_remote: str,
+    project_github_cwd: str,
+    project_github_access_token: str,
+    migration_url: str,
 ):
     url = f"https://api.github.com/repos/{project_github_remote}/dispatches"
 
@@ -13,12 +16,15 @@ async def trigger_github_event(
     headers["Accept"] = "application/vnd.github.everest-preview+json"
     headers["Content-Type"] = "application/x-www-form-urlencoded"
     headers["Authorization"] = f"token {project_github_access_token}"
-        
+
     async with aiohttp.ClientSession(headers=headers) as session:
         data = json.dumps(
             {
                 "event_type": "UPDATE_JAEN_DATA",
-                "client_payload": {"jaendata_url": migration_url, "cwd": project_github_cwd},
+                "client_payload": {
+                    "jaendata_url": migration_url,
+                    "cwd": project_github_cwd,
+                },
             }
         ).encode("utf-8")
 

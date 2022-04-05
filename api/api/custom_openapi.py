@@ -4,6 +4,7 @@ import re
 import inspect
 from fastapi.routing import APIRoute
 
+
 def custom_openapi(app: FastAPI) -> FastAPI:
     def get_openapi_schema():
         if app.openapi_schema:
@@ -21,7 +22,7 @@ def custom_openapi(app: FastAPI) -> FastAPI:
                 "type": "apiKey",
                 "in": "header",
                 "name": "Authorization",
-                "description": "Enter: **'Bearer &lt;JWT&gt;'**, where JWT is the access token"
+                "description": "Enter: **'Bearer &lt;JWT&gt;'**, where JWT is the access token",
             }
         }
 
@@ -30,20 +31,18 @@ def custom_openapi(app: FastAPI) -> FastAPI:
 
         for route in api_router:
             path = getattr(route, "path")
-            endpoint = getattr(route,"endpoint")
+            endpoint = getattr(route, "endpoint")
             methods = [method.lower() for method in getattr(route, "methods")]
 
             for method in methods:
                 # access_token
                 if (
-                    re.search("jwt_required", inspect.getsource(endpoint)) or
-                    re.search("fresh_jwt_required", inspect.getsource(endpoint)) or
-                    re.search("jwt_optional", inspect.getsource(endpoint))
+                    re.search("jwt_required", inspect.getsource(endpoint))
+                    or re.search("fresh_jwt_required", inspect.getsource(endpoint))
+                    or re.search("jwt_optional", inspect.getsource(endpoint))
                 ):
                     openapi_schema["paths"][path][method]["security"] = [
-                        {
-                            "Bearer Auth": []
-                        }
+                        {"Bearer Auth": []}
                     ]
 
         app.openapi_schema = openapi_schema

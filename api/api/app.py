@@ -16,9 +16,7 @@ from .projects import router as projects_router
 
 app = FastAPI()
 
-origins = [
-    "*"
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -40,7 +38,7 @@ app.include_router(projects_router.router, tags=["projects"])
 async def startup():
     # create db tables
     async with engine.begin() as conn:
-        #await conn.run_sync(Base.metadata.drop_all)
+        # await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
 
 
