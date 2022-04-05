@@ -34,21 +34,18 @@ services:
       - POSTGRES_PASSWORD=api_db
       - POSTGRES_DB=api_db
 
-
-  adminer:
-    image: dockette/adminer:pgsql
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
     restart: always
-    depends_on:
-        - api_db
     environment:
-      ADMINER_DEFAULT_SERVER: api_db
-      ADMINER_DEFAULT_DB_HOST: api_db
-      ADMINER_DEFAULT_DB_NAME: api_db
-      ADMINER_DESIGN: nette
-      ADMINER_PLUGINS: tables-filter tinymce
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+      PGADMIN_CONFIG_SESSION_COOKIE_SAMESITE: "None"
+      PGADMIN_CONFIG_SESSION_COOKIE_SECURE: "True"
+      PGADMIN_CONFIG_WTF_CSRF_ENABLED: "False"
     ports:
-      - 9000:80
-
+      - "5050:80"
 
 volumes:
   postgres_data:
