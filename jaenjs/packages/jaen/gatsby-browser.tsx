@@ -1,9 +1,7 @@
-import {Box} from '@chakra-ui/react'
 import {PersistorWrapper} from './src/redux'
 import AdminToolbarContainer from './src/ui/AdminToolbar'
 import {GatsbyBrowser} from 'gatsby'
-
-export * from './src/gatsby/wrapper'
+import {SnekFinder} from './src/withSnekFinder'
 
 export const wrapPageElement: GatsbyBrowser['wrapPageElement'] = ({
   element
@@ -11,7 +9,11 @@ export const wrapPageElement: GatsbyBrowser['wrapPageElement'] = ({
   const pathname = window.location.pathname
 
   if (pathname.startsWith('/jaen/admin')) {
-    return <PersistorWrapper>{element}</PersistorWrapper>
+    return (
+      <PersistorWrapper>
+        <SnekFinder>{element}</SnekFinder>
+      </PersistorWrapper>
+    )
   }
 
   return (

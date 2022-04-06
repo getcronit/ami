@@ -12,6 +12,16 @@ export interface IAdminToolbarProps {
   sticky?: boolean
 }
 
+const logoText = 'Jaen Admin'
+const toolbarItems = {
+  left: [<HomeButton />, <EditButtonGroup />, <PublishButton />],
+  right: [
+    <Box w="48">
+      <AccountSwitcher />
+    </Box>
+  ]
+}
+
 const AdminToolbarContainer = withRedux<IAdminToolbarProps>(
   ({sticky = false}) => {
     const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated)
@@ -26,29 +36,19 @@ const AdminToolbarContainer = withRedux<IAdminToolbarProps>(
       }
     }
 
-    let element = <JaenActivationButton onClick={handleJaenActivation} />
-
-    if (isAuthenticated) {
-      const logoText = 'Jaen Admin'
-      const toolbarItems = {
-        left: [<HomeButton />, <EditButtonGroup />, <PublishButton />],
-        right: [
-          <Box w="48">
-            <AccountSwitcher />
-          </Box>
-        ]
-      }
-
-      element = (
-        <AdminToolbar
-          logoText={logoText}
-          toolbarItems={toolbarItems}
-          sticky={sticky}
-        />
-      )
-    }
-
-    return <ChakraProvider resetCSS={false}>{element}</ChakraProvider>
+    return (
+      <>
+        {isAuthenticated ? (
+          <AdminToolbar
+            logoText={logoText}
+            toolbarItems={toolbarItems}
+            sticky={sticky}
+          />
+        ) : (
+          <JaenActivationButton onClick={handleJaenActivation} />
+        )}
+      </>
+    )
   }
 )
 

@@ -9,33 +9,39 @@ const SnekFinderProvider = loadable(() => import('@jaenjs/snek-finder'), {
 export const Backend = new OSGBackend('snek-finder-osg-backend-root')
 
 export const SnekFinder: React.FC = ({children}) => {
-  const {jaenInternal} = useStaticQuery<{
-    jaenInternal: {
-      finderUrl: string | null
-    }
-  }>(graphql`
-    query JaenInternal {
-      jaenInternal {
-        finderUrl
+  let finderUrl
+
+  try {
+    const data = useStaticQuery<{
+      jaenInternal: {
+        finderUrl: string | null
       }
-    }
-  `)
+    }>(graphql`
+      query JaenInternal {
+        jaenInternal {
+          finderUrl
+        }
+      }
+    `)
+
+    finderUrl = data.jaenInternal.finderUrl
+  } catch {
+    finderUrl = null
+  }
 
   return (
-    <SnekFinderProvider
-      backend={Backend}
-      initDataLink={jaenInternal.finderUrl || undefined}>
+    <SnekFinderProvider backend={Backend} initDataLink={finderUrl || undefined}>
       {children}
     </SnekFinderProvider>
   )
 }
 
-export const withSnekFinder = <P extends object>(
-  Component: React.ComponentType<P>
-): React.FC<P> => props => {
-  return (
-    <SnekFinder>
-      <Component {...props} />
-    </SnekFinder>
-  )
-}
+export const withSnekFinder =
+  <P extends object>(Component: React.ComponentType<P>): React.FC<P> =>
+  props => {
+    return (
+      <SnekFinder>
+        <Component {...props} />
+      </SnekFinder>
+    )
+  }

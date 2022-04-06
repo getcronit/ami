@@ -40,11 +40,6 @@ Basic.args = {
         path: '/',
         icon: <BsHouse />,
         label: 'Dashboard'
-      },
-      {
-        path: '/',
-        icon: <BsHouse />,
-        label: 'Dashboard2'
       }
     ],
     grouped: {

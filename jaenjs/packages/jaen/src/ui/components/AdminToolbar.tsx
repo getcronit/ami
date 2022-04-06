@@ -1,4 +1,4 @@
-import {Flex, Text, Spacer, Box} from '@chakra-ui/react'
+import {Flex, Text, Spacer, Box, Button} from '@chakra-ui/react'
 import {Link} from 'gatsby'
 import {JaenLogo} from './icons'
 
@@ -10,6 +10,15 @@ export interface AdminToolbarProps {
     right: Array<JSX.Element>
   }
 }
+
+const FUCK = () => (
+  <Box w="full" h="54px" bg="black" fontFamily={'cursive'}>
+    test <Button>button</Button>
+    <Box boxSize={'24'} bg="red">
+      dasd
+    </Box>
+  </Box>
+)
 
 export const AdminToolbar = ({
   logoText,

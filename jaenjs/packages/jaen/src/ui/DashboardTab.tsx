@@ -12,37 +12,49 @@ import {useChanges} from '../services/hooks'
 import {IRemoteFileMigration} from '..'
 import {useAppSelector} from '../redux'
 
+const useStats = () => {
+  try {
+    return useStaticQuery<{
+      allJaenNotification: {
+        totalCount: number
+      }
+      allJaenPage: {
+        totalCount: number
+      }
+      jaenInternal: {
+        migrationHistory: Array<IRemoteFileMigration>
+      }
+    }>(graphql`
+      query DashboardTab {
+        allJaenNotification {
+          totalCount
+        }
+        allJaenPage {
+          totalCount
+        }
+        jaenInternal {
+          migrationHistory {
+            fileUrl
+            createdAt
+          }
+        }
+      }
+    `)
+  } catch (e) {
+    return {
+      allJaenNotification: {totalCount: Infinity},
+      allJaenPage: {totalCount: Infinity},
+      jaenInternal: {migrationHistory: []}
+    }
+  }
+}
+
 export const DashboardTab = () => {
   const {
     allJaenNotification,
     allJaenPage,
     jaenInternal: {migrationHistory}
-  } = useStaticQuery<{
-    allJaenNotification: {
-      totalCount: number
-    }
-    allJaenPage: {
-      totalCount: number
-    }
-    jaenInternal: {
-      migrationHistory: Array<IRemoteFileMigration>
-    }
-  }>(graphql`
-    query DashboardTab {
-      allJaenNotification {
-        totalCount
-      }
-      allJaenPage {
-        totalCount
-      }
-      jaenInternal {
-        migrationHistory {
-          fileUrl
-          createdAt
-        }
-      }
-    }
-  `)
+  } = useStats()
 
   const {totalChanges} = useChanges()
 

@@ -37,6 +37,10 @@ export default <RootState extends {}>(persistKey: string) => {
     }
 
     const resetStateOnNewBuild = (latestBuildTime: string, cb?: () => void) => {
+      if (typeof window === 'undefined') {
+        return
+      }
+
       const buildTimeKey = `${persistKey}:buildTime`
       const storageBuildTime = localStorage.getItem(buildTimeKey)
 
