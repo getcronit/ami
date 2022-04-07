@@ -77,49 +77,39 @@ export const DashboardTab = () => {
                 <StatNumber>{value}</StatNumber>
               </Stat>
             ))}
+            <Box>
+              <List spacing="12" overflowY="scroll" h={'xs'}>
+                {isPublishing && (
+                  <ListItem
+                    title="In progress"
+                    subTitle={`Your website will be live in a few minutes.`}
+                    circleColor={useColorModeValue('orange.500', 'orange.300')}
+                    icon={<Icon as={FaRocket} boxSize="6" />}
+                  />
+                )}
+
+                {migrationHistory
+                  .sort((a, b) =>
+                    new Date(a.createdAt) > new Date(b.createdAt) ? -1 : 1
+                  )
+                  .map((m, i) => (
+                    <ListItem
+                      key={i}
+                      title="Published site"
+                      subTitle={`Published on ${new Date(
+                        m.createdAt
+                      ).toLocaleString()}`}
+                      circleColor={useColorModeValue('teal.500', 'teal.300')}
+                      icon={<Icon as={FaRocket} boxSize="6" />}
+                      isLastItem={i === migrationHistory.length - 1}
+                    />
+                  ))}
+              </List>
+            </Box>
+            <UndrawThoughts />
           </SimpleGrid>
         </Box>
       </Box>
-      <Flex>
-        <Box
-          px="6"
-          py="5"
-          bg={useColorModeValue('gray.50', 'gray.800')}
-          flex="1">
-          <UndrawThoughts />
-        </Box>
-        <Box as="section" bg={useColorModeValue('gray.50', 'gray.800')} p="10">
-          <Box maxW="md" p={10}>
-            <List spacing="12" overflowY="scroll" h={'xs'}>
-              {isPublishing && (
-                <ListItem
-                  title="In progress"
-                  subTitle={`Your website will be live in a few minutes.`}
-                  circleColor={useColorModeValue('orange.500', 'orange.300')}
-                  icon={<Icon as={FaRocket} boxSize="6" />}
-                />
-              )}
-
-              {migrationHistory
-                .sort((a, b) =>
-                  new Date(a.createdAt) > new Date(b.createdAt) ? -1 : 1
-                )
-                .map((m, i) => (
-                  <ListItem
-                    key={i}
-                    title="Published site"
-                    subTitle={`Published on ${new Date(
-                      m.createdAt
-                    ).toLocaleString()}`}
-                    circleColor={useColorModeValue('teal.500', 'teal.300')}
-                    icon={<Icon as={FaRocket} boxSize="6" />}
-                    isLastItem={i === migrationHistory.length - 1}
-                  />
-                ))}
-            </List>
-          </Box>
-        </Box>
-      </Flex>
     </>
   )
 }
