@@ -3,6 +3,7 @@ import {useAppDispatch, withRedux} from '../../redux'
 import {setPublishing} from '../../redux/slices/status'
 import {publishRunner} from '../../services/publish'
 import PublishAlert from '../../internal-plugins/pages/ui/components/PublishAlert'
+import {FaRocket} from 'react-icons/fa'
 
 export const PublishButton = withRedux(() => {
   const dispatch = useAppDispatch()
@@ -25,8 +26,13 @@ export const PublishButton = withRedux(() => {
         onClose={onClose}
         onConfirm={handlePublish}
       />
-      <Button onClick={onOpen} size="xs" variant={'darkghost'}>
-        Publish
+      <Button
+        onClick={onOpen}
+        variant={'outline'}
+        size="sm"
+        fontWeight="normal"
+        leftIcon={<FaRocket color="teal" />}>
+        Publish to production
       </Button>
     </>
   )

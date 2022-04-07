@@ -1,1 +1,2 @@
-export {EditButtonGroup} from './EditButtonGroup'
+export {DiscardButton} from './DiscardButton'
+export {EditButton} from './EditButton'

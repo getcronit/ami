@@ -1,20 +1,59 @@
-import {Box, ChakraProvider, useBreakpoint} from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  ChakraProvider,
+  Divider,
+  useBreakpoint
+} from '@chakra-ui/react'
 import {HomeButton, PublishButton} from '../ui/toolbar'
 import {useAppSelector, withRedux} from '../redux'
 import {navigate} from 'gatsby'
 import {AccountSwitcher} from './AccountSwitcher'
 import {AdminToolbar} from './components/AdminToolbar'
 import JaenActivationButton from './components/JaenActivationButton'
-import {EditButtonGroup} from '../internal-plugins/pages/ui/toolbar'
+import {DiscardButton, EditButton} from '../internal-plugins/pages/ui/toolbar'
 import isMobile from 'is-mobile'
+import {useChanges} from '../services/hooks'
 
 export interface IAdminToolbarProps {
   sticky?: boolean
 }
 
+const ToolbarChangesElement = () => {
+  const {totalChanges} = useChanges()
+
+  if (totalChanges === 0) {
+    return null
+  }
+
+  return (
+    <>
+      <Box>
+        <Divider orientation="vertical" color="red" />
+      </Box>
+      <Button
+        variant={'ghost'}
+        size="sm"
+        fontWeight="normal"
+        pointerEvents={'none'}>
+        {totalChanges} {totalChanges === 1 ? 'change' : 'changes'}
+      </Button>
+      <Box>
+        <Divider orientation="vertical" color="red" />
+      </Box>
+    </>
+  )
+}
+
 const logoText = 'Jaen Admin'
 const toolbarItems = {
-  left: [<HomeButton />, <EditButtonGroup />, <PublishButton />],
+  left: [
+    <HomeButton />,
+    <EditButton />,
+    <ToolbarChangesElement />,
+    <DiscardButton />,
+    <PublishButton />
+  ],
   right: [
     <Box w="48">
       <AccountSwitcher />

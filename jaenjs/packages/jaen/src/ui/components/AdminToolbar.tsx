@@ -1,5 +1,7 @@
-import {Flex, Text, Spacer, Box, Button} from '@chakra-ui/react'
+import {DeleteIcon, EditIcon} from '@chakra-ui/icons'
+import {Flex, Text, Spacer, Box, Button, Badge, Divider} from '@chakra-ui/react'
 import {Link} from 'gatsby'
+import {FaRocket} from 'react-icons/fa'
 import {JaenLogo} from './icons'
 
 export interface AdminToolbarProps {
@@ -43,7 +45,7 @@ export const AdminToolbar = ({
           </Text>
         </Flex>
       </Link>
-      <Flex gap={5} bg="gray.700" borderRadius="lg" p="1">
+      <Flex gap={3} bg="white" borderRadius="lg" p="1" color="black">
         {toolbarItems.left}
       </Flex>
       <Spacer />
