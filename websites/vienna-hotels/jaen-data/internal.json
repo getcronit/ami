@@ -2,7 +2,7 @@
   "site": {
     "siteMetadata": {
       "title": "Vienna Hotels",
-      "siteUrl": "https://citypension.at",
+      "siteUrl": "https://www.viennahotels.at",
       "image": "https://osg.snek.at/storage/BQACAgQAAxkDAAILxmJLfj5DLQFy_PoB3IyW6teBoYTNAAJBCwAC9bBYUmbmaGYI-Z_dIwQ",
       "organization": {
         "name": "",
@@ -18,6 +18,10 @@
     {
       "createdAt": "2022-04-04T23:28:45.496Z",
       "fileUrl": "https://osg.snek.at/storage/BQACAgQAAxkDAAILyWJLfxJ95lzLzfR0ug4Iau8WgiFVAAJECwAC9bBYUmMWcZvvMLS-IwQ"
+    },
+    {
+      "createdAt": "2022-04-11T20:29:04.065Z",
+      "fileUrl": "https://osg.snek.at/storage/BQACAgQAAxkDAAIPk2JUjx2GXbyT5_y-hePKK--wPOQxAAKGDgACdyWoUioU7EWoJHw0IwQ"
     }
   ],
   "finderUrl": "https://osg.snek.at/storage/BQACAgQAAxkDAAILyGJLfxFqG75An4_jY0ziKqOdLkeKAAJDCwAC9bBYUp3EH1VixKbbIwQ"
