@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: Copyright © 2021 snek.at
+# SPDX-License-Identifier: EUPL-1.2
+#
+# Use of this source code is governed by an EUPL-1.2 license that can be found
+# in the LICENSE file at https://snek.at/license
+
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions#name
+name: Publish
+
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions#on
+on: push
+
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobs
+jobs:
+  jaen-deploy:
+    uses: ./.github/workflows/jaen-deploy.yaml
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecrets
+    secrets:
+      SCALE_SERP_APIKEY: ${{ secrets.SCALE_SERP_APIKEY }}
+      PLACE_ID: ${{ secrets.PLACE_ID }}
+      SHOPIFY_SHOP_PASSWORD: ${{ secrets.SHOPIFY_SHOP_PASSWORD }}
+      SHOP: ${{ secrets.SHOP }}
+      SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+      GATSBY_MAPBOX_ACCESS_TOKEN: ${{ secrets.GATSBY_MAPBOX_ACCESS_TOKEN }}

@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: Copyright © 2021 snek.at
+# SPDX-License-Identifier: EUPL-1.2
+#
+# Use of this source code is governed by an EUPL-1.2 license that can be found
+# in the LICENSE file at https://snek.at/license
+
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions#name
+name: Publish
+
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions#on
+on:
+  # https://help.github.com/en/articles/workflow-syntax-for-github-actions
+  repository_dispatch:
+    types: [UPDATE_JAEN_DATA]
+
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobs
+jobs:
+  jaen-publish:
+    uses: ./.github/workflows/jaen-publish.yaml
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idwith
+    with:
+      JAEN_MIGRATION_URL: ${{github.event.client_payload.jaendata_url}}
+      WORKING_DIRECTORY: ${{github.event.client_payload.cwd}}
+
+  jaen-deploy:
+    needs: jaen-publish
+    uses: ./.github/workflows/jaen-deploy.yaml
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecrets
+    secrets:
+      #SCALE_SERP_API_KEY: ${{ secrets.SCALE_SERP_APIKEY }}
+      #SCALE_SERP_PLACE_ID: ${{ secrets.PLACE_ID }}
+      #SHOPIFY_SHOP: ${{ secrets.SHOP }}
+      #SHOPIFY_SHOP_PASSWORD: ${{ secrets.SHOPIFY_SHOP_PASSWORD }}
+      #SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+      #GATSBY_MAPBOX_ACCESS_TOKEN: ${{ secrets.GATSBY_MAPBOX_ACCESS_TOKEN }}
