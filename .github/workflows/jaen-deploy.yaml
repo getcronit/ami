@@ -37,7 +37,7 @@ on:
         # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecretssecret_idrequired
         required: false
 
-
+        
 # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobs
 jobs:
   # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_id
@@ -53,7 +53,7 @@ jobs:
         # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepswith
         with:
           # Relative path under $GITHUB_WORKSPACE to place the repository
-          path: '.'
+          path: "."
 
       # https://dev.to/mpocock1/how-to-cache-nodemodules-in-github-actions-with-yarn-24eh
       - name: Yarn Cache Directory Path
@@ -77,7 +77,7 @@ jobs:
         uses: actions/cache@v3
         # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepswith
         with:
-          path: '**/node_modules'
+          path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       # https://github.com/marketplace/actions/cache
