@@ -17,7 +17,8 @@ GatsbyConfig.plugins = [
     resolve: `gatsby-source-filesystem`,
     options: {
       name: `notifications`,
-      path: sourceNotifications
+      path: sourceNotifications,
+      ignore: [`**/.gitkeep`] // ignore .gitkeep files
     }
   }
 ]

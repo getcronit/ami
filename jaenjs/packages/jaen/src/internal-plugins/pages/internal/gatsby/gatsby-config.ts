@@ -17,7 +17,8 @@ GatsbyConfig.plugins = [
     resolve: `gatsby-source-filesystem`,
     options: {
       name: `templates`,
-      path: sourceTemplates
+      path: sourceTemplates,
+      ignore: [`**/.gitkeep`] // ignore .gitkeep files
     }
   }
 ]
