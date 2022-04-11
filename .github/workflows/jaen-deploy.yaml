@@ -37,13 +37,17 @@ on:
         # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecretssecret_idrequired
         required: false
 
-        
 # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobs
 jobs:
   # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_id
   jaen-deploy:
     # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idruns-on
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#
+        working-directory: ${{ github.event.client_payload.cwd} }}
 
     # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idsteps
     steps:
@@ -115,8 +119,6 @@ jobs:
 
       # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsid
       - name: Build and Deploy 🚀
-        # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#
-        working-directory: ${{github.event.client_payload.cwd}}
         # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsenv
         env:
           SCALE_SERP_APIKEY: ${{ secrets.SCALE_SERP_API_KEY }}
