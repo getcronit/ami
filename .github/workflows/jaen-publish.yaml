@@ -29,7 +29,7 @@ jobs:
   # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_id
   jaen-publish:
     # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idruns-on
-    runs-on: ubuntu-latesst
+    runs-on: ubuntu-latest
     defaults:
       run:
         # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#
