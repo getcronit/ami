@@ -4,7 +4,7 @@ import {ComponentMeta, Story} from '@storybook/react'
 import React from 'react'
 import Component from '.'
 import {Field} from '..'
-import {EditButtonGroup} from '../../ui/toolbar'
+import {EditButton} from '../../ui/toolbar'
 
 const JaenPage = {
   id: `JaenPage jaen-page-2`,
@@ -59,7 +59,7 @@ export default {
           jaenFiles: []
         }}
         jaenPages={[JaenPage]}>
-        <EditButtonGroup />
+        <EditButton />
         <Story />
       </JaenPageProvider>
     )

@@ -2,7 +2,7 @@ import {JaenPageProvider} from '../../internal/services/page'
 import {ComponentMeta, Story} from '@storybook/react'
 import React from 'react'
 import Component from '.'
-import {EditButtonGroup} from '../../ui/toolbar'
+import {EditButton} from '../../ui/toolbar'
 import {useField} from '../../internal/services/field'
 
 export default {
@@ -33,7 +33,7 @@ export default {
           template: 'BlogPage',
           jaenFiles: []
         }}>
-        <EditButtonGroup />
+        <EditButton />
         <Story />
       </JaenPageProvider>
     )
