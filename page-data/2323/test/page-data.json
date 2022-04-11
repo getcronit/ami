@@ -1,5 +1,0 @@
-{
-    "componentChunkName": "component---src-templates-article-page-tsx",
-    "path": "/2323/test",
-    "result": {"data":{"jaenPage":{"id":"JaenPage 19d1806c-78f1-455c-992b-c71f77522a6d","jaenFields":null,"jaenPageMetadata":{"title":"test","isBlogPost":null,"image":null,"description":null,"datePublished":null,"canonical":null},"jaenFiles":[],"chapters":null}},"pageContext":{"jaenPageId":"JaenPage 19d1806c-78f1-455c-992b-c71f77522a6d"}},
-    "staticQueryHashes": ["1283923735","2410693115","2561576124","2798305431","4225539895","55007266"]}

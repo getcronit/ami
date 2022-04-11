@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkdemo=self.webpackChunkdemo||[]).push([[877],{98831:function(e,l,t){t.r(l);var a=t(62100),n=(t(2784),t(92761));l.default=(0,a.connectTemplate)((function(){return(0,n.jsx)(a.Field.Text,{name:"test",defaultValue:"<p>Hello World</p>"})}),{displayName:"Blog Page",children:["BlogPage","ArticlePage"],isRootTemplate:!0})}}]);
-//# sourceMappingURL=component---src-templates-blog-page-tsx-c86645a8a706085f990f.js.map

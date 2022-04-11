@@ -1,6 +1,6 @@
 {
-    "componentChunkName": "component---packages-jaen-src-internal-plugins-pages-internal-services-routing-pages-tsx",
+    "componentChunkName": "component---node-modules-jaenjs-jaen-src-internal-plugins-pages-internal-services-routing-pages-tsx",
     "path": "/_",
     "result": {"pageContext":{}},
-    "staticQueryHashes": ["1283923735","2410693115","2561576124","2798305431","4225539895","55007266"],
+    "staticQueryHashes": ["1283923735","2561576124","2798305431","2854131132","4225539895","55007266","568109149"],
     "matchPath": "/_/*"}
