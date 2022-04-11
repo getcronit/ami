@@ -1,8 +1,13 @@
-import {Stack, StackProps, useColorModeValue} from '@chakra-ui/react'
+import {Box, Stack, StackProps, Text, useColorModeValue} from '@chakra-ui/react'
 import * as React from 'react'
+import {StatLabel} from '../Stats/StatLabel'
 import {ListItemProps} from './ListItem'
 
-export const List = (props: StackProps) => {
+interface ListProps extends StackProps {
+  label?: string
+}
+
+export const List = (props: ListProps) => {
   const {children, ...stackProps} = props
   const items = React.useMemo(
     () =>
@@ -16,15 +21,25 @@ export const List = (props: StackProps) => {
     [children]
   )
   return (
-    <Stack
-      as="ul"
+    <Box
+      bg={useColorModeValue('white', 'gray.700')}
       px={{base: 4, sm: 6}}
       py="5"
-      bg={useColorModeValue('white', 'gray.700')}
       shadow="base"
-      rounded="lg"
-      {...stackProps}>
-      {items}
-    </Stack>
+      rounded="lg">
+      {props.label && (
+        <Text
+          fontSize={'sm'}
+          fontWeight="medium"
+          isTruncated
+          color={useColorModeValue('gray.500', 'gray.400')}
+          pb="1">
+          {props.label}
+        </Text>
+      )}
+      <Stack as="ul" {...stackProps}>
+        {items}
+      </Stack>
+    </Box>
   )
 }

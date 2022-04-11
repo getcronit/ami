@@ -1,4 +1,11 @@
-import {Box, Flex, Icon, SimpleGrid, useColorModeValue} from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  Icon,
+  SimpleGrid,
+  Text,
+  useColorModeValue
+} from '@chakra-ui/react'
 import {graphql, useStaticQuery} from 'gatsby'
 import {Stat} from './components/Dashboard/Stats/Stat'
 import {StatLabel} from './components/Dashboard/Stats/StatLabel'
@@ -78,7 +85,11 @@ export const DashboardTab = () => {
               </Stat>
             ))}
             <Box>
-              <List spacing="12" overflowY="scroll" h={'xs'}>
+              <List
+                spacing="12"
+                overflowY="scroll"
+                h={'xs'}
+                label="Previouse releases">
                 {isPublishing && (
                   <ListItem
                     title="In progress"
