@@ -23,7 +23,7 @@
     "@chakra-ui/react": "^1.8.6",
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
-    "@jaenjs/jaen": "3.0.0-beta.25",
+    "@jaenjs/jaen": "3.0.0-beta.26",
     "framer-motion": "^6.2.8",
     "gatsby": "^4.10.0",
     "gatsby-plugin-emotion": "^7.10.0",
