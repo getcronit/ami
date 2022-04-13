@@ -58,6 +58,10 @@ jobs:
         with:
           # Relative path under $GITHUB_WORKSPACE to place the repository
           path: "."
+          # The branch, tag or SHA to checkout. When checking out the repository that
+          # triggered a workflow, this defaults to the reference or SHA for that event.
+          # Otherwise, uses the default branch.
+          ref: "main"
 
       # https://dev.to/mpocock1/how-to-cache-nodemodules-in-github-actions-with-yarn-24eh
       - name: Yarn Cache Directory Path
