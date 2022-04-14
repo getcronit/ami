@@ -1,11 +1,19 @@
 import {DeleteIcon, EditIcon} from '@chakra-ui/icons'
-import {Flex, Text, Spacer, Box, Button, Badge, Divider} from '@chakra-ui/react'
+import {
+  Flex,
+  Text,
+  Spacer,
+  Box,
+  Button,
+  Badge,
+  Divider,
+  Portal
+} from '@chakra-ui/react'
 import {Link} from 'gatsby'
 import {FaRocket} from 'react-icons/fa'
 import {JaenLogo} from './icons'
 
 export interface AdminToolbarProps {
-  sticky?: boolean
   logoText: string
   toolbarItems: {
     left: Array<JSX.Element>
@@ -13,21 +21,8 @@ export interface AdminToolbarProps {
   }
 }
 
-const FUCK = () => (
-  <Box w="full" h="54px" bg="black" fontFamily={'cursive'}>
-    test <Button>button</Button>
-    <Box boxSize={'24'} bg="red">
-      dasd
-    </Box>
-  </Box>
-)
-
-export const AdminToolbar = ({
-  logoText,
-  toolbarItems,
-  sticky = false
-}: AdminToolbarProps) => {
-  const toolbar = (
+export const AdminToolbar = ({logoText, toolbarItems}: AdminToolbarProps) => {
+  return (
     <Flex
       zIndex={'banner'}
       w="full"
@@ -51,13 +46,5 @@ export const AdminToolbar = ({
       <Spacer />
       <Flex gap={5}>{toolbarItems.right}</Flex>
     </Flex>
-  )
-
-  return sticky ? (
-    <Box pos="sticky" top="0" zIndex={'banner'}>
-      {toolbar}
-    </Box>
-  ) : (
-    toolbar
   )
 }

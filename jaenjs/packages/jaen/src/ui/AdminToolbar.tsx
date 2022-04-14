@@ -17,10 +17,6 @@ import isMobile from 'is-mobile'
 import {useChanges} from '../services/hooks'
 import React from 'react'
 
-export interface IAdminToolbarProps {
-  sticky?: boolean
-}
-
 const ToolbarChangesElement = () => {
   const {totalChanges} = useChanges()
 
@@ -63,34 +59,28 @@ const toolbarItems = {
   ]
 }
 
-const AdminToolbarContainer = withRedux<IAdminToolbarProps>(
-  ({sticky = false}) => {
-    const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated)
+const AdminToolbarContainer = withRedux(() => {
+  const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated)
 
-    const handleJaenActivation = () => {
-      if (isMobile()) {
-        if (typeof window !== 'undefined') {
-          window.scrollTo({top: 0, behavior: 'smooth'})
-        }
-      } else {
-        navigate('/jaen/admin/')
+  const handleJaenActivation = () => {
+    if (isMobile()) {
+      if (typeof window !== 'undefined') {
+        window.scrollTo({top: 0, behavior: 'smooth'})
       }
+    } else {
+      navigate('/jaen/admin/')
     }
-
-    return (
-      <Portal>
-        {isAuthenticated ? (
-          <AdminToolbar
-            logoText={logoText}
-            toolbarItems={toolbarItems}
-            sticky={sticky}
-          />
-        ) : (
-          <JaenActivationButton onClick={handleJaenActivation} />
-        )}
-      </Portal>
-    )
   }
-)
+
+  return (
+    <>
+      {isAuthenticated ? (
+        <AdminToolbar logoText={logoText} toolbarItems={toolbarItems} />
+      ) : (
+        <JaenActivationButton onClick={handleJaenActivation} />
+      )}
+    </>
+  )
+})
 
 export default AdminToolbarContainer
