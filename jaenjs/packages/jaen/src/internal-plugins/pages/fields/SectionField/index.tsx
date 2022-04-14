@@ -199,7 +199,7 @@ const SectionField = ({
     let ptrHead = chapter.ptrHead
 
     if (isEditing) {
-      if (!ptrHead || Object.keys(chapter.sections).length === 0) {
+      if (!ptrHead || totalSections === 0) {
         return (
           <SectionAddPopover
             disabled={false}
