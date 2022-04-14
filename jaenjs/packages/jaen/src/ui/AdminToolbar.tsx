@@ -3,10 +3,11 @@ import {
   Button,
   ChakraProvider,
   Divider,
-  useBreakpoint
+  useBreakpoint,
+  Portal
 } from '@chakra-ui/react'
 import {HomeButton, PublishButton} from '../ui/toolbar'
-import {useAppSelector, withRedux} from '../redux'
+import {store, useAppSelector, withRedux} from '../redux'
 import {navigate} from 'gatsby'
 import {AccountSwitcher} from './AccountSwitcher'
 import {AdminToolbar} from './components/AdminToolbar'
@@ -14,6 +15,7 @@ import JaenActivationButton from './components/JaenActivationButton'
 import {DiscardButton, EditButton} from '../internal-plugins/pages/ui/toolbar'
 import isMobile from 'is-mobile'
 import {useChanges} from '../services/hooks'
+import React from 'react'
 
 export interface IAdminToolbarProps {
   sticky?: boolean
@@ -76,7 +78,7 @@ const AdminToolbarContainer = withRedux<IAdminToolbarProps>(
     }
 
     return (
-      <>
+      <Portal>
         {isAuthenticated ? (
           <AdminToolbar
             logoText={logoText}
@@ -86,7 +88,7 @@ const AdminToolbarContainer = withRedux<IAdminToolbarProps>(
         ) : (
           <JaenActivationButton onClick={handleJaenActivation} />
         )}
-      </>
+      </Portal>
     )
   }
 )
