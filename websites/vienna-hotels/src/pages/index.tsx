@@ -310,38 +310,43 @@ const HotelItem = connectSection(
 );
 
 const HotelItems = () => {
-  const isMobile = useBreakpointValue({ base: true, md: false });
-
-  if (isMobile) {
-    return (
+  return (
+    <>
       <Field.Section
-        name="hotels"
+        name="hotelfield"
         displayName="Hotels"
         as={VStack}
+        props={{
+          display: {
+            base: "flex",
+            md: "none",
+          },
+        }}
         sections={[HotelItem]}
       />
-    );
-  }
-
-  return (
-    <Field.Section
-      name="hotels"
-      displayName="Hotels"
-      as={Flex}
-      props={{
-        mt: -20,
-      }}
-      sectionProps={(props) => ({
-        m: 2,
-        mt:
-          props.count === 1 || props.count === props.totalSections
-            ? undefined
-            : 16,
-        w: `${100 / props.totalSections}%`,
-        objectFit: "cover",
-      })}
-      sections={[HotelItem]}
-    />
+      <Field.Section
+        name="hotelfield"
+        displayName="Hotels"
+        as={Flex}
+        props={{
+          mt: -20,
+          display: {
+            base: "none",
+            md: "flex",
+          },
+        }}
+        sectionProps={(props) => ({
+          m: 2,
+          mt:
+            props.count === 1 || props.count === props.totalSections
+              ? undefined
+              : 16,
+          w: `${100 / props.totalSections}%`,
+          objectFit: "cover",
+        })}
+        sections={[HotelItem]}
+      />
+    </>
   );
 };
 
@@ -396,10 +401,9 @@ export default connectPage(
 
           <Stack direction={"row"} spacing={6}></Stack>
         </Container>
-
         <HotelItems />
-        <StaticImage src="../images/skyline.jpeg" alt="Skyline of Vienna" />
 
+        <StaticImage src="../images/skyline.jpeg" alt="Skyline of Vienna" />
         <Box>
           <Modal
             isOpen={impressumDisclosure.isOpen}
