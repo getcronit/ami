@@ -395,7 +395,7 @@ export default connectPage(
             <VStack spacing={0}>
               <Field.Text name="text2" defaultValue="Hotels in Vienna" />
 
-              <CircleIcon width={"40%"} height={"auto"} color="#958247" />
+              <CircleIcon width={"20%"} height={"auto"} color="#958247" />
             </VStack>
           </Heading>
 
