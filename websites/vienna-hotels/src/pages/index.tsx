@@ -304,8 +304,8 @@ const HotelItem = connectSection(
     );
   },
   {
-    name: "hotel2",
-    displayName: "Hotel 2",
+    name: "HotelCard",
+    displayName: "Hotel Card",
   }
 );
 
