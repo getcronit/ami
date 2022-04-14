@@ -38,9 +38,9 @@ import { graphql, Link as GatsbyLink } from "gatsby";
 import * as React from "react";
 
 const CircleIcon = (props: any) => (
-  <Icon viewBox="0 0 1280.000000 640.000000" {...props}>
+  <Icon viewBox="0 0 1280.000000 500.000000" {...props}>
     <g
-      transform="translate(0.000000,640.000000) scale(0.100000,-0.100000)"
+      transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)"
       fill="#958247"
       stroke="none"
     >
@@ -395,7 +395,7 @@ export default connectPage(
             <VStack spacing={0}>
               <Field.Text name="text2" defaultValue="Hotels in Vienna" />
 
-              <CircleIcon width={"20%"} height={"auto"} color="#958247" />
+              <CircleIcon width={"40%"} height={"auto"} color="#958247" />
             </VStack>
           </Heading>
 
