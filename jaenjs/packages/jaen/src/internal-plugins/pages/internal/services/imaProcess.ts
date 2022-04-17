@@ -79,12 +79,15 @@ export const processIMAtoNodes = async ({
 
             value.imageId = fileNode.id
 
-            page.jaenFiles = [
-              {
-                // @ts-ignore
-                file___NODE: fileNodeId
-              }
-            ]
+            if (!page.jaenFiles) {
+              page.jaenFiles = []
+            }
+
+            // @ts-ignore
+            page.jaenFiles.push({
+              // @ts-ignore
+              file___NODE: fileNodeId
+            })
           }
         } catch (error) {
           console.error(`${name} is not a valid IMA field`)
