@@ -373,13 +373,18 @@ export default connectPage(
             size="xs"
             textTransform="uppercase"
             fontWeight={"thin"}
+            textAlign={"center"}
           >
             <Field.Text name="text1" defaultValue="Hotels" />
           </Heading>
           <Heading
             w="full"
             as="h1"
-            size="4xl"
+            fontSize={{
+              base: "2xl",
+              md: "3xl",
+              lg: "6xl",
+            }}
             textAlign={"center"}
             mt={10}
             color="#958247"
@@ -391,6 +396,7 @@ export default connectPage(
             size="xs"
             textTransform="uppercase"
             fontWeight={"thin"}
+            textAlign={"center"}
           >
             <VStack spacing={0}>
               <Field.Text name="text2" defaultValue="Hotels in Vienna" />
