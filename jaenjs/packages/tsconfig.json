@@ -6,6 +6,7 @@
   "references": [
     {"path": "jaen"},
     {"path": "snek-finder"},
-    {"path": "storybook-addon-chakra-ui"}
+    {"path": "storybook-addon-chakra-ui"},
+    {"path": "uikit"}
   ]
 }
