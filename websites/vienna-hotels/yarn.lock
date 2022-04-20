@@ -2349,10 +2349,10 @@
   resolved "https://registry.yarnpkg.com/@iarna/toml/-/toml-2.2.5.tgz#b32366c89b43c6f8cefbdefac778b9c828e3ba8c"
   integrity sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==
 
-"@jaenjs/jaen@^3.0.0-beta.30":
-  version "3.0.0-beta.30"
-  resolved "https://registry.yarnpkg.com/@jaenjs/jaen/-/jaen-3.0.0-beta.30.tgz#ca3ec140c53b5bdd305564913d7dc31ebb7348bd"
-  integrity sha512-XSKeQcjusFsvK70pAl1tjgfme56Iw5EXl1wfj6Tgae0rKtAoHqiTfKum+2kVn3Ynkmxp6RTsVV8QdPbvmcsFpA==
+"@jaenjs/jaen@^3.0.0-beta.31":
+  version "3.0.0-beta.31"
+  resolved "https://registry.yarnpkg.com/@jaenjs/jaen/-/jaen-3.0.0-beta.31.tgz#57edaa1529b36103f1358c617a9b9ff475145410"
+  integrity sha512-bSUzfLAk+02X7O47J7ISVNJgsHLtgPvi+KI3klfpAvIyfirWLPBhJaP+a0e0bSI2zyb2JZm9+OnKBzODStASkw==
   dependencies:
     "@atlaskit/tree" "^8.4.0"
     "@chakra-ui/gatsby-plugin" "^2.0.2"
