@@ -149,7 +149,7 @@ GatsbyNode.createPages = async ({actions, graphql, reporter}) => {
 
   const result = await graphql<QueryData>(`
     query {
-      allTemplate: allFile(filter: {sourceInstanceName: {eq: "templates"}}) {
+      allTemplate: allFile(filter: {sourceInstanceName: {eq: "jaen-templates"}}) {
         nodes {
           name
           absolutePath

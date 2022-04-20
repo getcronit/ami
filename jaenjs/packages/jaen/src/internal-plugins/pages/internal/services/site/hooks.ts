@@ -24,7 +24,7 @@ export const useStaticData = () => {
     staticData = useStaticQuery<QueryData>(graphql`
       query {
         jaenTemplates: allFile(
-          filter: {sourceInstanceName: {eq: "templates"}}
+          filter: {sourceInstanceName: {eq: "jaen-templates"}}
         ) {
           nodes {
             name

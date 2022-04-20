@@ -26,7 +26,7 @@ const useStaticData = () => {
     staticData = useStaticQuery<QueryData>(graphql`
       query {
         jaenNotifications: allFile(
-          filter: {sourceInstanceName: {eq: "notifications"}}
+          filter: {sourceInstanceName: {eq: "jaen-notifications"}}
         ) {
           nodes {
             name

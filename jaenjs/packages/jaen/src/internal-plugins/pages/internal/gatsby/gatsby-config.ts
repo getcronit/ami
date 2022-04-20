@@ -4,11 +4,11 @@ import path from 'path'
 
 const GatsbyConfig: GatsbyConfigType = {}
 
-export const sourceTemplates = path.resolve('./src/templates')
+export const sourceTemplates = path.resolve('./src/jaen-templates')
 
 if (!fs.existsSync(sourceTemplates)) {
   throw new Error(
-    'Seems like you havent created a `.src/templates` directory yet. '
+    'Seems like you havent created a `.src/jaen-templates` directory yet. '
   )
 }
 
@@ -16,7 +16,7 @@ GatsbyConfig.plugins = [
   {
     resolve: `gatsby-source-filesystem`,
     options: {
-      name: `templates`,
+      name: `jaen-templates`,
       path: sourceTemplates,
       ignore: [`**/.gitkeep`] // ignore .gitkeep files
     }
