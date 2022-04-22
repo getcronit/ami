@@ -1,0 +1,9 @@
+{
+  "name": "@snek-at/gatsby-plugin-scaleserp",
+  "version": "1.0.0-beta.1",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "dependencies": {
+    "gatsby": "^4.12.1"
+  }
+}
