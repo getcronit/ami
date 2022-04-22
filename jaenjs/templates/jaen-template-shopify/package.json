@@ -1,0 +1,54 @@
+{
+  "name": "jaen-template-shopify",
+  "version": "1.0.0",
+  "private": true,
+  "description": "jaen-template-shopify",
+  "author": "Nico Schett",
+  "keywords": [
+    "gatsby"
+  ],
+  "scripts": {
+    "develop": "gatsby develop",
+    "start": "gatsby develop",
+    "build": "gatsby build",
+    "build:incremental": "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --log-pages",
+    "deploy": "gatsby build && cp CNAME public/ && gh-pages -d public",
+    "deploy:incremental": "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build && cp CNAME public/ && gh-pages -d public",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean",
+    "typecheck": "tsc --noEmit",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^1.8.8",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@jaenjs/jaen": "^3.0.0-beta.31",
+    "@snek-at/gatsby-plugin-scaleserp": "../../packages/gatsby-plugin-scaleserp/",
+    "@snek-at/gatsby-theme-shopify": "../../packages/gatsby-theme-shopify/",
+    "@snek-at/react-lottie": "^1.0.0-beta.3",
+    "framer-motion": "^4.1.17",
+    "gatsby": "^4.12.1",
+    "gatsby-plugin-image": "^2.12.1",
+    "react": "^17",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@chakra-ui/gatsby-plugin": "^2.0.4",
+    "@snek-at/storybook-addon-chakra-ui": "1.0.0-beta.3",
+    "@storybook/addon-actions": "^6.4.22",
+    "@storybook/addon-essentials": "^6.4.22",
+    "@storybook/addon-interactions": "^6.4.22",
+    "@storybook/addon-links": "^6.4.22",
+    "@storybook/react": "^6.4.22",
+    "@types/node": "^17.0.23",
+    "@types/react": "^17.0.44",
+    "@types/react-dom": "^17.0.15",
+    "babel-loader": "^8.2.4",
+    "gatsby-plugin-emotion": "^7.12.1",
+    "gatsby-plugin-sitemap": "^5.12.1",
+    "typescript": "^4.6.3"
+  }
+}

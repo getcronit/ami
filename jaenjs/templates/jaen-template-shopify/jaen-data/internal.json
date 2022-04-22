@@ -1,0 +1,17 @@
+{
+  "site": {
+    "siteMetadata": {
+      "title": "Jaen Template Shopify",
+      "siteUrl": "https://www.snek.at",
+      "organization": {
+        "name": "",
+        "url": ""
+      },
+      "description": "This is a template for a Shopify store.",
+      "author": {
+        "name": "Nico Schett"
+      }
+    }
+  },
+  "migrationHistory": []
+}
