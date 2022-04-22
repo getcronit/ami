@@ -1,11 +1,12 @@
 {
   "name": "@snek-at/storybook-addon-chakra-ui",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "main": "dist/preset.js",
   "license": "EUPL-1.2",
   "files": [
     "dist",
-    "preset.js"
+    "preset.js",
+    "register.js"
   ],
   "dependencies": {
     "@chakra-ui/react": "^1.6.6",
