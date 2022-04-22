@@ -1,0 +1,14 @@
+{
+  "name": "@snek-at/gatsby-theme-shopify",
+  "version": "1.0.0-beta.1",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "dependencies": {
+    "gatsby": "^4.12.1",
+    "gatsby-plugin-image": "^2.12.1",
+    "gatsby-source-shopify": "^7.1.1",
+    "query-string": "^7.1.1",
+    "urql": "^2.2.0"
+  }
+}
