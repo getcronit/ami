@@ -4,6 +4,8 @@
   },
   "files": [],
   "references": [
+    {"path": "gatsby-plugin-scaleserp"},
+    {"path": "gatsby-theme-shopify"},
     {"path": "jaen"},
     {"path": "snek-finder"},
     {"path": "storybook-addon-chakra-ui"},
