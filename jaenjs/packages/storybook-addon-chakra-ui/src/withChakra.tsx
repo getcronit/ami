@@ -32,9 +32,10 @@ export const withChakraColorMode = makeDecorator({
   parameterName: 'chakraColorMode',
   wrapper: (storyFn, context, {}) => {
     const isGlobalDarkmode = toBoolean(context.globals.isDarkmode)
+    const chakraParameters = context.parameters.chakra
 
     return (
-      <ChakraProvider resetCSS theme={theme}>
+      <ChakraProvider resetCSS theme={theme} {...chakraParameters}>
         <ChakraColorModeWrapper isGlobalDarkmode={isGlobalDarkmode}>
           {<>{storyFn(context)}</>}
         </ChakraColorModeWrapper>
