@@ -1,3 +1,7 @@
 export {ProductPage} from './ProductPage'
 export {ProductsPage} from './ProductsPage'
 export {CollectionPage} from './CollectionPage'
+export {WishlistPage} from './WishlistPage'
+export {ContactPage} from './ContactPage'
+export {ImprintPage} from './ImprintPage'
+export {PrivacyPage} from './PrivacyPage'

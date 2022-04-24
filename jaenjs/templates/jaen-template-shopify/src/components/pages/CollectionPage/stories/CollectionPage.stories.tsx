@@ -19,5 +19,6 @@ export const Simple = Template.bind({})
 Simple.args = {
   shopifyCollection: data.shopifyCollection,
   subCollections: data.subCollections,
-  relatedProducts: data.relatedProducts
+  relatedProducts: data.relatedProducts,
+  path: data.path
 }

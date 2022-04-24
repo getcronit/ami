@@ -14,23 +14,76 @@ const ProductsPageTemplate = (
 ) => {
   const {implicitTags, tags, maxPrice, minPrice} = props.pageContext
 
+  const [filters, setFilters] = React.useState<{
+    tags?: string[]
+    maxPrice?: number
+    minPrice?: number
+  }>({
+    tags: []
+  })
+
+  const [sortKey, setSortKey] = React.useState<string | undefined>(undefined)
+  const [reverse, setReverse] = React.useState<boolean | undefined>(undefined)
+
   const search = useProductSearch({
+    sortKey,
+    reverse,
     filters: {
       mainTag: implicitTags.length > 0 ? implicitTags[0] : undefined,
-      tags: tags,
-      maxPrice,
-      minPrice
+      tags: filters.tags,
+      maxPrice: filters.maxPrice,
+      minPrice: filters.minPrice
     }
   })
 
-  console.log(`search`, search)
+  const updateFilters = (newFilters: typeof filters) => {
+    setFilters({
+      ...filters,
+      ...newFilters
+    })
+
+    search.resetCursor()
+  }
+
+  const onSortChange = (sort: string) => {
+    let sortOption
+
+    switch (sort) {
+      case 'Alphabetisch':
+        sortOption = 'TITLE'
+        setReverse(false)
+        break
+      case 'Preis aufsteigend':
+        sortOption = 'PRICE'
+        setReverse(false)
+        break
+      case 'Preis absteigend':
+        sortOption = 'PRICE'
+        setReverse(true)
+        break
+      default:
+        sortOption = 'TITLE'
+        setReverse(false)
+    }
+
+    setSortKey(sortOption)
+    search.resetCursor()
+  }
 
   return (
-    <Layout>
+    <Layout path={props.path}>
       <ProductsPage
-        products={search.products.nodes}
+        path={props.path}
+        products={search.products}
         implicitTags={implicitTags}
         tags={tags}
+        isFetching={search.isFetching}
+        fetchNextPage={search.fetchNextPage}
+        updateFilter={updateFilters}
+        minPrice={minPrice}
+        maxPrice={maxPrice}
+        sortOptions={['Alphabetisch', 'Preis aufsteigend', 'Preis absteigend']}
+        onSortChange={onSortChange}
       />
     </Layout>
   )

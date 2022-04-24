@@ -1,1 +1,1 @@
-export {FooterContainer as Footer} from './FooterContainer'
+export {Footer} from './Footer'

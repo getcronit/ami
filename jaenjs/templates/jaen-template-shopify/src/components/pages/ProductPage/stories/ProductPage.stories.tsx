@@ -18,5 +18,6 @@ const Template: ComponentStory<typeof ProductPage> = args => (
 export const Simple = Template.bind({})
 Simple.args = {
   shopifyProduct: data.shopifyProduct,
-  relatedProducts: data.relatedProducts
+  relatedProducts: data.relatedProducts,
+  path: `/products/${data.shopifyProduct.handle}`
 }

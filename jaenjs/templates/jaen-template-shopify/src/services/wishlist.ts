@@ -6,10 +6,11 @@ export interface WishlistProduct {
   handle: string
   title: string
   price: string
-  reducedPrice: string
+  compareAtPrice: string | null
   categoriesString: string
+  tagsString: string
   image: {
-    alt: string
+    altText: string | null
     gatsbyImageData: IGatsbyImageData
   }
   quantity: number

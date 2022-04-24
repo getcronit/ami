@@ -635,7 +635,7 @@ export default {
         id: 'd7d7d7a0-842d-5503-905a-8e5f35e877bd',
         sku: '',
         compareAtPrice: 500,
-        price: 1000000
+        price: 10000
       }
     ],
     hasOnlyDefaultVariant: true,

@@ -1366,7 +1366,7 @@
   dependencies:
     "@chakra-ui/utils" "1.10.4"
 
-"@chakra-ui/icons@^1.0.14":
+"@chakra-ui/icons@^1.0.14", "@chakra-ui/icons@^1.1.7":
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/@chakra-ui/icons/-/icons-1.1.7.tgz#f8c0c44a969c8654b90026b7d375b550c4bfbc49"
   integrity sha512-YIHxey/B4M2PyFASlHXtAWFyW+tsAtGAChOJ8dsM2kpu1MbVUqm/6nMI1KIFd7Te5IWuNYA75rAHBdLI0Yu61A==
@@ -3668,6 +3668,11 @@
   resolved "https://registry.yarnpkg.com/@react-icons/all-files/-/all-files-4.0.0.tgz#b5a21122717c4fc772cfc8dfc749fe32744abf70"
   integrity sha512-Ka6ZE7tck7i7v2sagEeNMfby30zzQVuiZqiEwf6vcJxdJWpM6T496w8bXYv/6svKy47vfzBCbgv1rE37empRrw==
 
+"@react-icons/all-files@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@react-icons/all-files/-/all-files-4.1.0.tgz#477284873a0821928224b6fc84c62d2534d6650b"
+  integrity sha512-hxBI2UOuVaI3O/BhQfhtb4kcGn9ft12RWAFVMUeNjqqhLsHvFtzIkFaptBJpFDANTKoDfdVoHTKZDlwKCACbMQ==
+
 "@react-pdf-viewer/attachment@2.11.0":
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/@react-pdf-viewer/attachment/-/attachment-2.11.0.tgz#90926b0efe8ef9e6376473dc826ec2216bf90c1f"
@@ -3895,10 +3900,8 @@
   dependencies:
     lottie-web "^5.7.12"
 
-"@snek-at/storybook-addon-chakra-ui@1.0.0-beta.3":
-  version "1.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@snek-at/storybook-addon-chakra-ui/-/storybook-addon-chakra-ui-1.0.0-beta.3.tgz#e93269c73d26585e5bf1b0c59702e5d77453329f"
-  integrity sha512-d4662mYTAQw2Tm9m8x1tBfIySxkVUvJdW3GQnJhrUZwgoqxGrpJlnj5Q7y99NkuzDgCF2rL8t1tvo9KXPgX6FQ==
+"@snek-at/storybook-addon-chakra-ui@../../packages/storybook-addon-chakra-ui/":
+  version "1.0.0-beta.5"
   dependencies:
     "@chakra-ui/react" "^1.6.6"
     "@emotion/react" "^11"
@@ -3906,6 +3909,15 @@
     "@storybook/addons" "^6.3.7"
     framer-motion "^4"
     react "^17.0.2"
+
+"@snek-at/uikit@../../packages/uikit/":
+  version "1.0.0-beta.3"
+  dependencies:
+    "@chakra-ui/react" "^1.8.8"
+    "@emotion/react" "^11"
+    "@emotion/styled" "^11"
+    "@react-icons/all-files" "^4.1.0"
+    framer-motion "^4.1.17"
 
 "@storybook/addon-actions@6.4.22", "@storybook/addon-actions@^6.4.22":
   version "6.4.22"
@@ -15618,7 +15630,7 @@ react-helmet@^6.1.0:
     react-fast-compare "^3.1.1"
     react-side-effect "^2.1.0"
 
-react-hook-form@^7.22.5:
+react-hook-form@^7.22.5, react-hook-form@^7.30.0:
   version "7.30.0"
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.30.0.tgz#c9e2fd54d3627e43bd94bf38ef549df2e80c1371"
   integrity sha512-DzjiM6o2vtDGNMB9I4yCqW8J21P314SboNG1O0obROkbg7KVS0I7bMtwSdKyapnCPjHgnxc3L7E5PEdISeEUcQ==
@@ -15658,6 +15670,11 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-magnetic-di@^2.2.8:
+  version "2.2.8"
+  resolved "https://registry.yarnpkg.com/react-magnetic-di/-/react-magnetic-di-2.2.8.tgz#effa61e70cf0e208d198ae5dcf7ba1055ea335a4"
+  integrity sha512-4MksIO9Cu2oLSdQ5wK/hYlJmwt7Gwo8blIVMAGHiTCOitPkD7JX4vfl5QOeTamfDJ47PVi0g8g0UgdY4y1/E/Q==
 
 react-merge-refs@^1.1.0:
   version "1.1.0"

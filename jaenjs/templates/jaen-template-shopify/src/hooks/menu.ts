@@ -28,7 +28,7 @@ export const useFlatMenu = () => {
     const structure = getCollectionStructure(collection.title)
 
     return {
-      title: structure.name,
+      name: structure.name || 'No name',
       productsCount: collection.productsCount,
       path: structure.path
     }

@@ -6,7 +6,7 @@ import {
   ColllectionPageContext
 } from '@snek-at/gatsby-theme-shopify'
 import {CollectionPage} from '../components/pages'
-import { Layout } from '../components/Layout'
+import {Layout} from '../components/Layout'
 
 const CollectionPageTemplate = (
   props: PageProps<CollectionPageData, ColllectionPageContext>
@@ -14,8 +14,9 @@ const CollectionPageTemplate = (
   const {shopifyCollection, subCollections, relatedProducts} = props.data
 
   return (
-    <Layout>
+    <Layout path={props.path}>
       <CollectionPage
+        path={props.path}
         shopifyCollection={shopifyCollection}
         subCollections={subCollections}
         relatedProducts={relatedProducts}
@@ -34,14 +35,23 @@ export const query = graphql`
       title
       handle
       productsCount
+      image {
+        gatsbyImageData
+        altText
+      }
     }
     subCollections: allShopifyCollection(
       filter: {id: {in: $subCollectionIds}}
+      sort: {fields: productsCount, order: DESC}
     ) {
       nodes {
         title
         handle
         productsCount
+        image {
+          gatsbyImageData
+          altText
+        }
       }
     }
     relatedProducts: allShopifyProduct(filter: {id: {in: $relatedProductIds}}) {

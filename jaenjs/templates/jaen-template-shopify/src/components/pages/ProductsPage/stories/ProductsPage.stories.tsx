@@ -19,5 +19,9 @@ export const Simple = Template.bind({})
 Simple.args = {
   products: data.products,
   implicitTags: data.implicitTags,
-  tags: data.tags
+  tags: data.tags,
+  path: '/products',
+  minPrice: data.minPrice,
+  maxPrice: data.maxPrice,
+  sortOptions: data.sortOptions,
 }

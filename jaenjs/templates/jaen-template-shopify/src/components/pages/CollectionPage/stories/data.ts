@@ -4,24 +4,120 @@ export default {
   shopifyCollection: {
     title: 'A:Waffen',
     handle: 'a-waffen',
-    productsCount: 7
+    productsCount: 7,
+    image: {
+      gatsbyImageData: {
+        images: {
+          sources: [
+            {
+              srcSet:
+                'https://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-5-900x900-transformed_225x225_crop_center.png.webp?v=1648418205 225w,\nhttps://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-5-900x900-transformed_450x450_crop_center.png.webp?v=1648418205 450w,\nhttps://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-5-900x900-transformed_900x900_crop_center.png.webp?v=1648418205 900w',
+              sizes: '(min-width: 900px) 900px, 100vw',
+              type: 'image/webp'
+            }
+          ],
+          fallback: {
+            src: 'https://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-5-900x900-transformed_900x900_crop_center.png?v=1648418205',
+            srcSet:
+              'https://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-5-900x900-transformed_225x225_crop_center.png?v=1648418205 225w,\nhttps://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-5-900x900-transformed_450x450_crop_center.png?v=1648418205 450w,\nhttps://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-5-900x900-transformed_900x900_crop_center.png?v=1648418205 900w',
+            sizes: '(min-width: 900px) 900px, 100vw'
+          }
+        },
+        layout: 'constrained',
+        width: 900,
+        height: 900
+      },
+      altText: null
+    }
   },
   subCollections: {
     nodes: [
       {
         title: 'AB:Waffen:Repetiergewehre',
         handle: 'ab-waffen-repetiergewehre',
-        productsCount: 2
+        productsCount: 2,
+        image: {
+          gatsbyImageData: {
+            images: {
+              sources: [
+                {
+                  srcSet:
+                    'https://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-3-900x900-8w2MU_5UF-transformed_5d7fc074-b0a9-448b-be47-f6672348313c_225x225_crop_center.png.webp?v=1650454215 225w,\nhttps://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-3-900x900-8w2MU_5UF-transformed_5d7fc074-b0a9-448b-be47-f6672348313c_450x450_crop_center.png.webp?v=1650454215 450w,\nhttps://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-3-900x900-8w2MU_5UF-transformed_5d7fc074-b0a9-448b-be47-f6672348313c_900x900_crop_center.png.webp?v=1650454215 900w',
+                  sizes: '(min-width: 900px) 900px, 100vw',
+                  type: 'image/webp'
+                }
+              ],
+              fallback: {
+                src: 'https://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-3-900x900-8w2MU_5UF-transformed_5d7fc074-b0a9-448b-be47-f6672348313c_900x900_crop_center.png?v=1650454215',
+                srcSet:
+                  'https://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-3-900x900-8w2MU_5UF-transformed_5d7fc074-b0a9-448b-be47-f6672348313c_225x225_crop_center.png?v=1650454215 225w,\nhttps://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-3-900x900-8w2MU_5UF-transformed_5d7fc074-b0a9-448b-be47-f6672348313c_450x450_crop_center.png?v=1650454215 450w,\nhttps://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-3-900x900-8w2MU_5UF-transformed_5d7fc074-b0a9-448b-be47-f6672348313c_900x900_crop_center.png?v=1650454215 900w',
+                sizes: '(min-width: 900px) 900px, 100vw'
+              }
+            },
+            layout: 'constrained',
+            width: 900,
+            height: 900
+          },
+          altText: null
+        }
       },
       {
         title: 'AB:Waffen:Pistolen',
         handle: 'ab-waffen-pistolen',
-        productsCount: 0
+        productsCount: 0,
+        image: {
+          gatsbyImageData: {
+            images: {
+              sources: [
+                {
+                  srcSet:
+                    'https://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-48-900x900-transformed_225x225_crop_center.png.webp?v=1650453333 225w,\nhttps://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-48-900x900-transformed_450x450_crop_center.png.webp?v=1650453333 450w,\nhttps://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-48-900x900-transformed_900x900_crop_center.png.webp?v=1650453333 900w',
+                  sizes: '(min-width: 900px) 900px, 100vw',
+                  type: 'image/webp'
+                }
+              ],
+              fallback: {
+                src: 'https://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-48-900x900-transformed_900x900_crop_center.png?v=1650453333',
+                srcSet:
+                  'https://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-48-900x900-transformed_225x225_crop_center.png?v=1650453333 225w,\nhttps://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-48-900x900-transformed_450x450_crop_center.png?v=1650453333 450w,\nhttps://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-48-900x900-transformed_900x900_crop_center.png?v=1650453333 900w',
+                sizes: '(min-width: 900px) 900px, 100vw'
+              }
+            },
+            layout: 'constrained',
+            width: 900,
+            height: 900
+          },
+          altText: null
+        }
       },
       {
         title: 'AB:Waffen:Schrotflinten',
         handle: 'ab-waffen-schrotflinten',
-        productsCount: 0
+        productsCount: 0,
+        image: {
+          gatsbyImageData: {
+            images: {
+              sources: [
+                {
+                  srcSet:
+                    'https://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-900x900-transformed_225x225_crop_center.png.webp?v=1648418264 225w,\nhttps://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-900x900-transformed_450x450_crop_center.png.webp?v=1648418264 450w,\nhttps://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-900x900-transformed_900x900_crop_center.png.webp?v=1648418264 900w',
+                  sizes: '(min-width: 900px) 900px, 100vw',
+                  type: 'image/webp'
+                }
+              ],
+              fallback: {
+                src: 'https://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-900x900-transformed_900x900_crop_center.png?v=1648418264',
+                srcSet:
+                  'https://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-900x900-transformed_225x225_crop_center.png?v=1648418264 225w,\nhttps://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-900x900-transformed_450x450_crop_center.png?v=1648418264 450w,\nhttps://cdn.shopify.com/s/files/1/0634/2135/0141/collections/links-900x900-transformed_900x900_crop_center.png?v=1648418264 900w',
+                sizes: '(min-width: 900px) 900px, 100vw'
+              }
+            },
+            layout: 'constrained',
+            width: 900,
+            height: 900
+          },
+          altText: null
+        }
       }
     ]
   },
@@ -782,5 +878,6 @@ export default {
         }
       }
     ]
-  }
+  },
+  path: '/waffen/pistolen/'
 } as CollectionPageProps
