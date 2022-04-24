@@ -3879,13 +3879,17 @@
     escape-string-regexp "^2.0.0"
     lodash.deburr "^4.1.0"
 
-"@snek-at/gatsby-plugin-scaleserp@../../packages/gatsby-plugin-scaleserp/":
-  version "1.0.0-beta.1"
+"@snek-at/gatsby-plugin-scaleserp@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@snek-at/gatsby-plugin-scaleserp/-/gatsby-plugin-scaleserp-1.0.0.tgz#d0c81182830bb69dad9d0bdc8f6c98688ad4be9c"
+  integrity sha512-g9yxl4phlFXK7XyC6kE14Mbt8bhQfCWb5e334WRY9SXgEI1fKOX1MD+AwSgcMxxqJMxd5xd2BvyaUxAAwqGulQ==
   dependencies:
     gatsby "^4.12.1"
 
-"@snek-at/gatsby-theme-shopify@../../packages/gatsby-theme-shopify/":
-  version "1.0.0-beta.1"
+"@snek-at/gatsby-theme-shopify@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@snek-at/gatsby-theme-shopify/-/gatsby-theme-shopify-1.0.0.tgz#37ac07976389958fe43c04ba9c2fda9f975ba48d"
+  integrity sha512-PuYfPQA0fMnB/GOn2AamR2G870Wc/zoM2rCVs4LYRtWwoM7B+H22HdtSRZJjQ0zuzDjNQCAjtkIV3bRp8r2KXg==
   dependencies:
     gatsby "^4.12.1"
     gatsby-plugin-image "^2.12.1"
@@ -3900,8 +3904,10 @@
   dependencies:
     lottie-web "^5.7.12"
 
-"@snek-at/storybook-addon-chakra-ui@../../packages/storybook-addon-chakra-ui/":
-  version "1.0.0-beta.5"
+"@snek-at/storybook-addon-chakra-ui@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@snek-at/storybook-addon-chakra-ui/-/storybook-addon-chakra-ui-1.0.0.tgz#0052e99fad9dc18463daad4576ddeed574e2194d"
+  integrity sha512-PGmBk5wSeEaC2HcvE+hRSnxK4UIzU27xTX8UdzDS1h0WlTL6pv/sADSHXuowc3bZdHNkMhev5x/CBubZKbm4YQ==
   dependencies:
     "@chakra-ui/react" "^1.6.6"
     "@emotion/react" "^11"
@@ -3910,8 +3916,10 @@
     framer-motion "^4"
     react "^17.0.2"
 
-"@snek-at/uikit@../../packages/uikit/":
-  version "1.0.0-beta.3"
+"@snek-at/uikit@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@snek-at/uikit/-/uikit-1.0.0.tgz#e751ec68520c536166af676364d8a283f0f3690b"
+  integrity sha512-1MDd2ftOO/gLb6niKOCL3v9SJcszFOLAqmvBquS3Aw5uf+Wm8hdL1GeAxKQ179e58Z22o4SiungLkIYe+ZqxHQ==
   dependencies:
     "@chakra-ui/react" "^1.8.8"
     "@emotion/react" "^11"
