@@ -12,7 +12,11 @@ export const useFlatMenu = () => {
       navbarCollections: allShopifyCollection(
         filter: {
           metafields: {
-            elemMatch: {key: {eq: "add_to_menu"}, value: {eq: "true"}}
+            elemMatch: {
+              key: {eq: "add"}
+              namespace: {eq: "menu"}
+              value: {eq: "true"}
+            }
           }
         }
       ) {
