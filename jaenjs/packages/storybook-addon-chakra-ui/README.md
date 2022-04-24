@@ -5,6 +5,14 @@ Use Chakra UI in your Storybook stories.
 Wraps each of your stories with [`ChakraProvider`][chakraprovider] which can be
 configured using Storybook parameters.
 
+## Demo
+
+
+
+https://user-images.githubusercontent.com/52858351/164954327-5e395475-f9e5-4569-83e7-fcf3394d9567.mov
+
+
+
 ## Installation
 
 ### yarn
