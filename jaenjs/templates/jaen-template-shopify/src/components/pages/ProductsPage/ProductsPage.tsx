@@ -24,9 +24,9 @@ import {
   ShopifyProduct
 } from '@snek-at/gatsby-theme-shopify'
 import React from 'react'
-import {BreadcrumbsBanner} from '../../BreadcrumbsBanner'
+import {BreadcrumbsBanner} from '../../molecules/BreadcrumbsBanner'
 import {ContainerLayout} from '../../ContainerLayout'
-import {ProductGrid} from '../../ProductGrid'
+import {ProductGrid} from '../../molecules/ProductGrid'
 import {Filter} from './Filter'
 
 export interface ProductsPageProps extends ProductsPageData {

@@ -8,10 +8,10 @@ import {
   SimpleGrid,
   Center
 } from '@chakra-ui/react'
-import {GoogleMaps} from '../../GoogleMaps'
+import {GoogleMaps} from '../../molecules/GoogleMaps'
 import {FaAddressBook, FaEnvelopeSquare, FaPhoneSquare} from 'react-icons/fa'
-import {BreadcrumbsBanner} from '../../BreadcrumbsBanner'
-import {ContactForm} from '../../ContactForm'
+import {BreadcrumbsBanner} from '../../molecules/BreadcrumbsBanner'
+import {ContactForm} from '../../molecules/ContactForm'
 
 export interface ContactPageProps {
   path: string

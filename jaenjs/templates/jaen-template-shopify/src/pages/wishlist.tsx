@@ -4,7 +4,7 @@ import {graphql, navigate, PageProps} from 'gatsby'
 import {useWishlist} from '../services/wishlist'
 import {WishlistPage as WishlistPageComponent} from '../components/pages'
 import {connectPage} from '@jaenjs/jaen'
-import ContactModal from '../components/ContactModal/ContactModal'
+import {ContactModal} from '../components/organisms/ContactModal'
 import {Layout} from '../components/Layout'
 
 const WishlistPage = ({path}: PageProps) => {

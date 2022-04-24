@@ -9,7 +9,6 @@ import {
 } from '@snek-at/gatsby-theme-shopify'
 import {ProductPage} from '../components/pages'
 import {Layout} from '../components/Layout'
-import {BreadcrumbsBanner} from '../components/BreadcrumbsBanner'
 import {useWishlist} from '../services/wishlist'
 
 const ProductPageTemplate = (

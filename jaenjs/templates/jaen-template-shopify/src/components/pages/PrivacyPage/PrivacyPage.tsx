@@ -3,7 +3,7 @@ import React from 'react'
 import {CheckCircleIcon, NotAllowedIcon} from '@chakra-ui/icons'
 import {useCookieState} from '../../../services/cookiemodal'
 import {ContainerLayout} from '../../ContainerLayout'
-import {BreadcrumbsBanner} from '../../BreadcrumbsBanner'
+import {BreadcrumbsBanner} from '../../molecules/BreadcrumbsBanner'
 
 export const PrivacyPage = (props: {path: string}) => {
   const cookieSettings = useCookieState()

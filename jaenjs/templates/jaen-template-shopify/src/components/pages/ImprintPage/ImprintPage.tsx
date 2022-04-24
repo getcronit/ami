@@ -2,8 +2,8 @@ import React from 'react'
 import {Heading} from '@chakra-ui/react'
 
 import {ContainerLayout} from '../../ContainerLayout'
-import {BreadcrumbsBanner} from '../../BreadcrumbsBanner'
-import {GoogleMaps} from '../../GoogleMaps'
+import {BreadcrumbsBanner} from '../../molecules/BreadcrumbsBanner'
+import {GoogleMaps} from '../../molecules/GoogleMaps'
 
 export interface ImprintContactProps {
   heading: React.ReactNode

@@ -26,8 +26,8 @@ import React from 'react'
 import {Link as GatsbyLink} from 'gatsby'
 import {WishlistProduct} from '../../../services/wishlist'
 import {ContainerLayout} from '../../ContainerLayout'
-import {ProductRow} from '../../ProductRow'
-import {BreadcrumbsBanner} from '../../BreadcrumbsBanner'
+import {ProductRow} from '../../molecules/ProductRow'
+import {BreadcrumbsBanner} from '../../molecules/BreadcrumbsBanner'
 
 const ContinueShoppingText = () => (
   <HStack

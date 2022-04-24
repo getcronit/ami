@@ -26,13 +26,13 @@ import {FaHeart} from '@react-icons/all-files/fa/FaHeart'
 import {FaShare} from '@react-icons/all-files/fa/FaShare'
 import {MdMessage} from '@react-icons/all-files/md/MdMessage'
 
-import {BreadcrumbsBanner} from '../../BreadcrumbsBanner'
-import ContactModal from '../../ContactModal/ContactModal'
+import {BreadcrumbsBanner} from '../../molecules/BreadcrumbsBanner'
+import ContactModal from '../../organisms/ContactModal/ContactModal'
 
 import {replaceHexColorsInHTML} from '../../utils'
 
 import {ContainerLayout} from '../../ContainerLayout'
-import {ProductSlider} from '../../ProductSlider'
+import {ProductSlider} from '../../molecules/ProductSlider'
 
 export interface ProductPageProps extends ProductPageData {
   path: string
