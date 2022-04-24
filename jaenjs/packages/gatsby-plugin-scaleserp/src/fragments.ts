@@ -9,4 +9,5 @@ export const googleReviewData = graphql`
     sourceLink
     sourceImage
     source
+  }
 `
