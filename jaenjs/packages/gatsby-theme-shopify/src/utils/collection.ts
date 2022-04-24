@@ -1,9 +1,13 @@
 import {slugify} from './slugify'
 
-export const getCollectionStructure = (collectionTitle: string) => {
+export const getCollectionStructure = (
+  collectionTitle: string,
+  parentCollentionTitle?: string
+) => {
   const parts = collectionTitle.split(':')
 
-  let type, structName, name, path
+  let type, structName, name
+  let path = '#'
 
   if (parts.length > 1) {
     type = parts[0]
@@ -12,7 +16,17 @@ export const getCollectionStructure = (collectionTitle: string) => {
 
     structName = parts.join(':')
     name = parts.slice(-1)[0]
-    path = parts.map(slugify).join('/')
+    path = `/collections/${parts.map(slugify).join('/')}`
+
+    if (parentCollentionTitle) {
+      const {structName: parentStructName} = getCollectionStructure(
+        parentCollentionTitle
+      )
+
+      if (parentStructName && !structName.startsWith(parentStructName)) {
+        name = parts[0]
+      }
+    }
   }
 
   return {
@@ -33,33 +47,32 @@ export const isCollectionSubCollection = (
   collectionTitle: string,
   subCollectionTitle: string
 ) => {
-  const {type, structName} = getCollectionStructure(collectionTitle)
+  const {structName} = getCollectionStructure(collectionTitle)
 
-  const {type: subType, structName: subStructName} =
-    getCollectionStructure(subCollectionTitle)
+  const {structName: subStructName} = getCollectionStructure(subCollectionTitle)
 
-  if (type!.length + 1 === subType!.length) {
-    // matches cases like:
-    // - A:Waffen and AB:Waffen:Eisen
-    // - AB:Waffen:Eisen and ABC:Waffen:Eisen:Langschwert
-    // - ABC:Waffen:Eisen:Langschwert and ABCD:Waffen:Eisen:Langschwert:Alt
-    //
-    // cases like B:Repetiergewehre and AB:Waffen:Repetiergewehre are not checked
-    const include = subStructName!.startsWith(structName!)
-
-    if (include) {
-      return true
-    }
-
-    // check if the unmatched former case applies if not already included
-    const {structName: crossSubStructName} = getCollectionStructure(
-      subStructName!
-    )
-
-    return crossSubStructName === structName
+  if (subStructName === structName) {
+    return false
   }
 
-  return false
+  // matches cases like:
+  // - A:Waffen and AB:Waffen:Eisen
+  // - AB:Waffen:Eisen and ABC:Waffen:Eisen:Langschwert
+  // - ABC:Waffen:Eisen:Langschwert and ABCD:Waffen:Eisen:Langschwert:Alt
+  //
+  // cases like B:Repetiergewehre and AB:Waffen:Repetiergewehre are not checked
+  const include = subStructName!.startsWith(structName!)
+
+  if (include) {
+    return true
+  }
+
+  // check if the unmatched former case applies if not already included
+  const {structName: crossSubStructName} = getCollectionStructure(
+    subStructName!
+  )
+
+  return crossSubStructName === structName
 }
 
 export const filterCollectionRelevantTags = (

@@ -18,7 +18,7 @@ interface UseProductSearchArgs {
 }
 
 interface UseProductSearchResult {
-  products: NodeArray<ShopifyProduct>
+  products: ShopifyProduct[]
   isFetching: boolean
   hasNextPage: boolean
   fetchNextPage: () => void
@@ -44,6 +44,10 @@ export const useProductSearch = ({
     after: null
   })
 
+  const [products, setProducts] = React.useState<
+    UseProductSearchResult['products']
+  >([])
+
   const {searchTerm, tags, minPrice, maxPrice} = filters
 
   // Relevance is non-deterministic if there is no query, so we default to "title" instead
@@ -62,6 +66,18 @@ export const useProductSearch = ({
     },
     pause: false
   })
+
+  React.useEffect(() => {
+    // reset products if conditions change
+    setProducts([])
+  }, [JSON.stringify(filters), sortKey, reverse])
+
+  React.useEffect(() => {
+    const {nodes} = transformProductSearchResultData(result?.data)
+
+    // merge new products with existing products (there are no duplicates, so this should be safe)
+    setProducts(products.concat(nodes))
+  }, [result.data?.products])
 
   React.useEffect(() => {
     const qs = queryString.stringify({
@@ -108,7 +124,6 @@ export const useProductSearch = ({
     }
   }
 
-  const products = transformProductSearchResultData(result?.data)
   const isFetching = result?.fetching
   const hasNextPage = result?.data?.products?.pageInfo?.hasNextPage ?? false
 

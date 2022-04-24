@@ -41,6 +41,7 @@ export const createPages: GatsbyNode['createPages'] = async function (
           handle
           updatedAt
           collections {
+            title
             products {
               id
             }

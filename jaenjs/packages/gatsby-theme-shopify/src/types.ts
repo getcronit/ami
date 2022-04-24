@@ -15,6 +15,7 @@ export interface ShopifyPageGeneratorQueryData {
       handle: string
       updatedAt: string
       collections: Array<{
+        title: string
         products: Array<{
           id: string
         }>
@@ -50,8 +51,8 @@ export interface ProductPageContext extends ExcludeJaenPage {
 }
 
 export interface ProductsPageContext extends ExcludeJaenPage {
-  maxPrice: number
-  minPrice: number
+  maxPrice: number | null
+  minPrice: number | null
   implicitTags: Array<string>
   tags: Array<string>
   collectionId?: string
@@ -84,14 +85,14 @@ export interface ShopifyProduct {
     id: string
     image: {
       gatsbyImageData: IGatsbyImageData
-      altText: string
+      altText: string | null
     }
   }>
   featuredMedia: {
     id: string
     image: {
       gatsbyImageData: IGatsbyImageData
-      altText: string
+      altText: string | null
     }
   }
 }
@@ -100,6 +101,10 @@ export interface ShopifyCollection {
   title: string
   handle: string
   productsCount: number
+  image: {
+    gatsbyImageData: IGatsbyImageData
+    altText: string | null
+  }
 }
 
 export interface ProductPageData {

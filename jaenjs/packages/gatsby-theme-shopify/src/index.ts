@@ -1,6 +1,6 @@
 export {collectionTitleToPath, getCollectionStructure} from './utils/collection'
 
-export {getFormattedProductPrices} from './utils/products'
+export {getFormattedProductPrices, getProductTags} from './utils/products'
 
 export {useProductSearch, SearchProvider} from './storefront'
 

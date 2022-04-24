@@ -40,13 +40,7 @@ const processCollections = async (
     })
 
     if (isValid) {
-      const collectionProductsPagePath = `/collections/${path}/products`
-
-      console.log(JSON.stringify(collection.products))
-
-      console.log(
-        collection.products.map(p => Math.max(...p.variants.map(v => v.price)))
-      )
+      const collectionProductsPagePath = `${path}/products`
 
       const maxPrice = Math.max(
         ...collection.products.map(product =>

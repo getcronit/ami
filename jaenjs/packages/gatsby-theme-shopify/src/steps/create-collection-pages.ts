@@ -38,7 +38,7 @@ export const createCollectionPages = async ({
     if (isValid) {
       const {path} = getCollectionStructure(collection.title)
 
-      const collectionPagePath = `/collections/${path}`
+      const collectionPagePath = path
 
       const subCollections = allShopifyCollection.nodes.filter(subCollection =>
         isCollectionSubCollection(collection.title, subCollection.title)
