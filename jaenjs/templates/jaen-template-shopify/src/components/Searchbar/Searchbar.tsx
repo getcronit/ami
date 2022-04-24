@@ -155,7 +155,6 @@ export const Searchbar = (props: SearchbarProps) => {
           <ModalBody px="2">
             {props.searchResultProducts.length > 0 && (
               <>
-                {Math.random()}
                 <Divider />
                 <VStack m="4" align="left">
                   {props.searchResultProducts.map((product, index) => {
