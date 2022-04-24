@@ -1,8 +1,8 @@
 import React from 'react'
 import {Link} from '@chakra-ui/react'
 import {Link as GatsbyLink} from 'gatsby'
-import {Footer} from './Footer'
-import {Header} from './Header'
+import {Footer} from './organisms/Footer'
+import {Header} from './organisms/Header'
 
 interface LayoutProps {
   path: string
