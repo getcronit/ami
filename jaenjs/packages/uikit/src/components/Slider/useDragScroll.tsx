@@ -4,16 +4,18 @@ export interface UseDragScrollProps {
   sliderRef: React.RefObject<HTMLDivElement>
   reliants: Array<any>
   momentumVelocity?: number
+  captureHorizontalScroll?: boolean
 }
 
 const useDragScroll = ({
   sliderRef,
   reliants = [],
-  momentumVelocity = 0.9
+  momentumVelocity = 0.9,
+  captureHorizontalScroll = false
 }: UseDragScrollProps) => {
   const [hasSwiped, setHasSwiped] = useState(false)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
-  const [canScrollRight, setCanScrollRight] = useState(true)
+  const [canScrollRight, setCanScrollRight] = useState(false)
 
   const checkScroll = useCallback(() => {
     const slider = sliderRef.current
@@ -37,6 +39,8 @@ const useDragScroll = ({
     if (!slider) {
       return
     }
+
+    checkScroll()
 
     let isDown = false
     let startX: number = 0
@@ -79,13 +83,15 @@ const useDragScroll = ({
       }
     })
 
-    slider.addEventListener('wheel', e => {
-      e.preventDefault()
-      const delta = e.deltaY
+    if (captureHorizontalScroll) {
+      slider.addEventListener('wheel', e => {
+        e.preventDefault()
+        const delta = e.deltaY
 
-      slider.scrollLeft += delta
-      checkScroll()
-    })
+        slider.scrollLeft += delta
+        checkScroll()
+      })
+    }
 
     // Momentum
     let velX = 0

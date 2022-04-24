@@ -63,6 +63,14 @@ export const ManyElements: Story<SliderProps> = args => {
   return <Slider {...args}>{elements}</Slider>
 }
 
+export const LessElements: Story<SliderProps> = args => {
+  const elements = new Array(1)
+    .fill(0)
+    .map((_, i) => <Box bg="tomato" boxSize="xl"></Box>)
+
+  return <Slider {...args}>{elements}</Slider>
+}
+
 export const ProductCardExample: Story<SliderProps> = args => {
   const IMAGE =
     'https://images.unsplash.com/photo-1518051870910-a46e30d9db16?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80'
@@ -130,4 +138,16 @@ export const ProductCardExample: Story<SliderProps> = args => {
   ))
 
   return <Slider {...args}>{elements}</Slider>
+}
+
+export const AutoSizeElements: Story<SliderProps> = args => {
+  return (
+    <Slider {...args} h={500} bg="red" m={0} elementProps={{}}>
+      <Image src={'https://picsum.photos/id/1/1000/1000'} />
+      <Image src={'https://picsum.photos/id/1/1000/1000'} />
+      <Image src={'https://picsum.photos/id/1/1000/1000'} />
+      <Image src={'https://picsum.photos/id/1/1000/1000'} />
+      <Image src={'https://picsum.photos/id/1/1000/1000'} />
+    </Slider>
+  )
 }

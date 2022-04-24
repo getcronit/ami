@@ -6,7 +6,9 @@ import {
   IconButton,
   IconButtonProps,
   useColorModeValue,
-  Icon
+  Icon,
+  HStack,
+  StackProps
 } from '@chakra-ui/react'
 import {FaChevronLeft} from '@react-icons/all-files/fa/FaChevronLeft'
 import {FaChevronRight} from '@react-icons/all-files/fa/FaChevronRight'
@@ -22,11 +24,11 @@ const NavigateButton = (props: {
     <IconButton
       aria-label={`Slide to ${props.direction}`}
       position="absolute"
+      zIndex={999999999}
       display={{base: 'none', lg: 'block'}}
       boxSize="16"
       top="50%"
       transform="translateY(-50%)"
-      zIndex={1}
       cursor="pointer"
       _hover={{boxShadow: '0px 0px 10px rgba(0,0,0,0.1)'}}
       className="button"
@@ -46,44 +48,42 @@ const NavigateButton = (props: {
   )
 }
 
-export interface SliderProps extends BoxProps {
+export interface SliderProps extends StackProps {
   children: React.ReactNode
   elementProps?: BoxProps
   disableControls?: boolean
+  captureHorizontalScroll?: boolean
 }
 
 export const Slider: React.FC<SliderProps> = ({
   children,
   elementProps,
   disableControls,
+  captureHorizontalScroll,
   ...containerProps
 }) => {
   const ref = React.useRef(null)
 
   const {scroll, canScrollLeft, canScrollRight} = useDragScroll({
     sliderRef: ref,
-    reliants: []
+    reliants: [],
+    captureHorizontalScroll
   })
 
   const styledChildren = React.Children.map(children, (child, index) => {
     return (
-      <Box
-        key={index}
-        boxSize={'fit-content'}
-        m="4"
-        {...elementProps}
-        flexShrink={0}>
+      <Box key={index} boxSize={'fit-content'} {...elementProps} flexShrink={0}>
         {child}
       </Box>
     )
   })
 
   return (
-    <Box {...containerProps}>
+    <Box>
       <Flex pos="relative">
-        <Flex ref={ref} overflowX="scroll">
+        <HStack ref={ref} overflowX="scroll" {...containerProps}>
           {styledChildren}
-        </Flex>
+        </HStack>
         {!disableControls && (
           <>
             {canScrollLeft && (
