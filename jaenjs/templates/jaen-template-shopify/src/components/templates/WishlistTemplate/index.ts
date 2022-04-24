@@ -1,0 +1,1 @@
+export {WishlistTemplate} from './WishlistTemplate'

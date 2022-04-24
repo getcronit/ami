@@ -7,7 +7,7 @@ import {
 import {PageProps} from 'gatsby'
 import React from 'react'
 import {Layout} from '../components/Layout'
-import {ProductsPage} from '../components/pages'
+import {ProductsTemplate} from '../components/templates'
 
 const ProductsPageTemplate = (
   props: PageProps<ProductsPageData, ProductsPageContext>
@@ -72,7 +72,7 @@ const ProductsPageTemplate = (
 
   return (
     <Layout path={props.path}>
-      <ProductsPage
+      <ProductsTemplate
         path={props.path}
         products={search.products}
         implicitTags={implicitTags}

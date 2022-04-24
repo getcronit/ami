@@ -3,7 +3,7 @@ import React from 'react'
 import {ComponentStory, ComponentMeta} from '@storybook/react'
 
 import {ProductRow} from '../ProductRow'
-import * as ProductPageStories from '../../../pages/ProductPage/stories/ProductPage.stories'
+import * as ProductPageStories from '../../../templates/ProductTemplate/stories/ProductTemplate.stories'
 import {getProductTags} from '@snek-at/gatsby-theme-shopify'
 
 export default {

@@ -1,0 +1,1 @@
+export {ImprintTemplate} from './ImprintTemplate'

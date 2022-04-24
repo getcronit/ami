@@ -1,0 +1,1 @@
+export {PrivacyTemplate} from './PrivacyTemplate'

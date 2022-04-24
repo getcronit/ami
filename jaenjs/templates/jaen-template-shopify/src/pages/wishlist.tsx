@@ -2,7 +2,7 @@ import React from 'react'
 import {useDisclosure} from '@chakra-ui/hooks'
 import {graphql, navigate, PageProps} from 'gatsby'
 import {useWishlist} from '../services/wishlist'
-import {WishlistPage as WishlistPageComponent} from '../components/pages'
+import {WishlistTemplate} from '../components/templates'
 import {connectPage} from '@jaenjs/jaen'
 import {ContactModal} from '../components/organisms/ContactModal'
 import {Layout} from '../components/Layout'
@@ -17,7 +17,7 @@ const WishlistPage = ({path}: PageProps) => {
 
   return (
     <Layout path={path}>
-      <WishlistPageComponent
+      <WishlistTemplate
         path={path}
         items={wishlist}
         onRemove={removeFromWishlist}
@@ -40,7 +40,7 @@ export default connectPage(WishlistPage, {
 })
 
 export const query = graphql`
-  query ($jaenPageId: String!) {
+  query($jaenPageId: String!) {
     ...JaenPageQuery
   }
 `

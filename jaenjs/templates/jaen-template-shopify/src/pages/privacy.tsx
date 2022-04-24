@@ -1,7 +1,7 @@
 import React from 'react'
 import {graphql, PageProps} from 'gatsby'
 
-import {PrivacyPage as PrivacyPageComponent} from '../components/pages'
+import {PrivacyTemplate} from '../components/templates'
 import {Layout} from '../components/Layout'
 import {connectPage} from '@jaenjs/jaen'
 
@@ -9,7 +9,7 @@ const ImprintPage = connectPage(
   ({path}: PageProps) => {
     return (
       <Layout path={path}>
-        <PrivacyPageComponent path={path} />
+        <PrivacyTemplate path={path} />
       </Layout>
     )
   },
@@ -19,7 +19,7 @@ const ImprintPage = connectPage(
 )
 
 export const query = graphql`
-  query ($jaenPageId: String!) {
+  query($jaenPageId: String!) {
     ...JaenPageQuery
   }
 `

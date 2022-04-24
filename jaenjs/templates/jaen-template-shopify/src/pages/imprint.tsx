@@ -1,7 +1,7 @@
 import React from 'react'
 import {graphql, navigate, PageProps} from 'gatsby'
 
-import {ImprintPage as ImprintPageComponent} from '../components/pages'
+import {ImprintTemplate} from '../components/templates'
 import {Layout} from '../components/Layout'
 import {connectPage, Field} from '@jaenjs/jaen'
 
@@ -9,7 +9,7 @@ const ImprintPage = connectPage(
   ({path}: PageProps) => {
     return (
       <Layout path={path}>
-        <ImprintPageComponent
+        <ImprintTemplate
           path="/Impressum"
           content={
             <Field.Text
@@ -129,7 +129,7 @@ const ImprintPage = connectPage(
 )
 
 export const query = graphql`
-  query ($jaenPageId: String!) {
+  query($jaenPageId: String!) {
     ...JaenPageQuery
   }
 `

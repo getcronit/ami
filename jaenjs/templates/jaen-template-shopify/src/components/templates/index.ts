@@ -1,0 +1,7 @@
+export {ProductTemplate} from './ProductTemplate'
+export {ProductsTemplate} from './ProductsTemplate'
+export {CollectionTemplate} from './CollectionTemplate'
+export {WishlistTemplate} from './WishlistTemplate'
+export {ContactTemplate} from './ContactTemplate'
+export {ImprintTemplate} from './ImprintTemplate'
+export {PrivacyTemplate} from './PrivacyTemplate'

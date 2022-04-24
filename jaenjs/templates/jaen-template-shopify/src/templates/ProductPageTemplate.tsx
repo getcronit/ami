@@ -7,7 +7,7 @@ import {
   getFormattedProductPrices,
   getProductTags
 } from '@snek-at/gatsby-theme-shopify'
-import {ProductPage} from '../components/pages'
+import {ProductTemplate} from '../components/templates'
 import {Layout} from '../components/Layout'
 import {useWishlist} from '../services/wishlist'
 
@@ -24,8 +24,10 @@ const ProductPageTemplate = (
 
   const handleWishlistAdd = (id: string) => {
     if (!isOnWishList) {
-      const {priceFormatted, compareAtPriceFormatted} =
-        getFormattedProductPrices(shopifyProduct)
+      const {
+        priceFormatted,
+        compareAtPriceFormatted
+      } = getFormattedProductPrices(shopifyProduct)
 
       const tags = getProductTags(shopifyProduct)
 
@@ -47,7 +49,7 @@ const ProductPageTemplate = (
 
   return (
     <Layout path={props.path}>
-      <ProductPage
+      <ProductTemplate
         path={props.path}
         shopifyProduct={props.data.shopifyProduct}
         relatedProducts={props.data.relatedProducts}
@@ -59,7 +61,7 @@ const ProductPageTemplate = (
 }
 
 export const query = graphql`
-  query ($productId: String!, $relatedProductIds: [String!]!) {
+  query($productId: String!, $relatedProductIds: [String!]!) {
     relatedProducts: allShopifyProduct(filter: {id: {in: $relatedProductIds}}) {
       nodes {
         ...shopifyProductData

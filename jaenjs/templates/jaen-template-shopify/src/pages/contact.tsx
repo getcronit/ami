@@ -1,14 +1,14 @@
 import React from 'react'
 import {graphql, PageProps} from 'gatsby'
 import {connectPage, Field} from '@jaenjs/jaen'
-import {ContactPage as ContactPageComponent} from '../components/pages'
+import {ContactTemplate} from '../components/templates'
 import {Layout} from '../components/Layout'
 
 const ImprintPage = connectPage(
   (props: PageProps) => {
     return (
       <Layout path={props.path}>
-        <ContactPageComponent
+        <ContactTemplate
           path={props.path}
           email={
             <Field.Text name="email" defaultValue={'info@agt-guntrade.at'} />
@@ -30,7 +30,7 @@ const ImprintPage = connectPage(
 )
 
 export const query = graphql`
-  query ($jaenPageId: String!) {
+  query($jaenPageId: String!) {
     ...JaenPageQuery
   }
 `

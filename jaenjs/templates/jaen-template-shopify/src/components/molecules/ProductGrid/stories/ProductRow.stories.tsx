@@ -4,7 +4,7 @@ import {ComponentStory, ComponentMeta} from '@storybook/react'
 
 import {ProductGrid} from '../ProductGrid'
 
-import * as ProductsPageStories from '../../../pages/ProductsPage/stories/ProductsPage.stories'
+import * as ProductsPageStories from '../../../templates/ProductsTemplate/stories/ProductsPage.stories'
 
 export default {
   title: 'ProductGrid',

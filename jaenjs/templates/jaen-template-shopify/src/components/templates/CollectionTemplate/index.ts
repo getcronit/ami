@@ -1,0 +1,1 @@
+export {CollectionTemplate} from './CollectionTemplate'

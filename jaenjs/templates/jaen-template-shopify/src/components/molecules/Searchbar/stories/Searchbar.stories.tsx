@@ -3,7 +3,7 @@ import React from 'react'
 import {ComponentStory, ComponentMeta} from '@storybook/react'
 
 import {Searchbar} from '../Searchbar'
-import * as ProductsPageStories from '../../../pages/ProductsPage/stories/ProductsPage.stories'
+import * as ProductsPageStories from '../../../templates/ProductsTemplate/stories/ProductsPage.stories'
 
 export default {
   title: 'Searchbar',

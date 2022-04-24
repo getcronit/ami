@@ -5,7 +5,7 @@ import {
   CollectionPageData,
   ColllectionPageContext
 } from '@snek-at/gatsby-theme-shopify'
-import {CollectionPage} from '../components/pages'
+import {CollectionTemplate} from '../components/templates'
 import {Layout} from '../components/Layout'
 
 const CollectionPageTemplate = (
@@ -15,7 +15,7 @@ const CollectionPageTemplate = (
 
   return (
     <Layout path={props.path}>
-      <CollectionPage
+      <CollectionTemplate
         path={props.path}
         shopifyCollection={shopifyCollection}
         subCollections={subCollections}
@@ -26,7 +26,7 @@ const CollectionPageTemplate = (
 }
 
 export const query = graphql`
-  query (
+  query(
     $collectionId: String!
     $subCollectionIds: [String!]!
     $relatedProductIds: [String!]!

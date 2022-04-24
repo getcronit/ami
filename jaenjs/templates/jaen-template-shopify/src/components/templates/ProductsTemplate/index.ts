@@ -1,0 +1,1 @@
+export {ProductsTemplate} from './ProductsTemplate'

@@ -3,7 +3,7 @@ import React from 'react'
 import {ComponentStory, ComponentMeta} from '@storybook/react'
 
 import {ProductCard} from '../ProductCard'
-import * as ProductPageStories from '../../../pages/ProductPage/stories/ProductPage.stories'
+import * as ProductPageStories from '../../../templates/ProductTemplate/stories/ProductTemplate.stories'
 
 export default {
   title: 'ProductCard',
