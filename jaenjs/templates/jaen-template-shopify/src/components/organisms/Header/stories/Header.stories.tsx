@@ -6,7 +6,7 @@ import {Header} from '../Header'
 import * as SearchbarStories from '../../../molecules/Searchbar/stories/Searchbar.stories'
 
 export default {
-  title: 'Header',
+  title: 'Components/Organisms/Header',
   component: Header
 } as ComponentMeta<typeof Header>
 

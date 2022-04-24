@@ -5,7 +5,7 @@ import {ComponentStory, ComponentMeta} from '@storybook/react'
 import {ImprintTemplate} from '../ImprintTemplate'
 
 export default {
-  title: 'ImprintTemplate',
+  title: 'Components/Templates/ImprintTemplate',
   component: ImprintTemplate
 } as ComponentMeta<typeof ImprintTemplate>
 

@@ -5,7 +5,7 @@ import {ComponentStory, ComponentMeta} from '@storybook/react'
 import {ContactTemplate} from '../ContactTemplate'
 
 export default {
-  title: 'ContactTemplate',
+  title: 'Components/Templates/ContactTemplate',
   component: ContactTemplate
 } as ComponentMeta<typeof ContactTemplate>
 

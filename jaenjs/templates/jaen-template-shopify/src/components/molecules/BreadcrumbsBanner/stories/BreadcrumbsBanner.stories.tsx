@@ -5,7 +5,7 @@ import {ComponentStory, ComponentMeta} from '@storybook/react'
 import {BreadcrumbsBanner} from '../BreadcrumbsBanner'
 
 export default {
-  title: 'BreadcrumbsBanner',
+  title: 'Components/Molecules/BreadcrumbsBanner',
   component: BreadcrumbsBanner
 } as ComponentMeta<typeof BreadcrumbsBanner>
 

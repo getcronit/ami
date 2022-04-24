@@ -5,7 +5,7 @@ import {ComponentStory, ComponentMeta} from '@storybook/react'
 import {PrivacyTemplate} from '../PrivacyTemplate'
 
 export default {
-  title: 'PrivacyTemplate',
+  title: 'Components/Templates/PrivacyTemplate',
   component: PrivacyTemplate
 } as ComponentMeta<typeof PrivacyTemplate>
 

@@ -7,7 +7,7 @@ import {ProductsTemplate} from '../ProductsTemplate'
 import data from './data'
 
 export default {
-  title: 'ProductsTemplate',
+  title: 'Components/Templates/ProductsTemplate',
   component: ProductsTemplate
 } as ComponentMeta<typeof ProductsTemplate>
 

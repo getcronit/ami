@@ -7,7 +7,7 @@ import {ProductGrid} from '../ProductGrid'
 import * as ProductsPageStories from '../../../templates/ProductsTemplate/stories/ProductsPage.stories'
 
 export default {
-  title: 'ProductGrid',
+  title: 'Components/Molecules/ProductGrid',
   component: ProductGrid
 } as ComponentMeta<typeof ProductGrid>
 

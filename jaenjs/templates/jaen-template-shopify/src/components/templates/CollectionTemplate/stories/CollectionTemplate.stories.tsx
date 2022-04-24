@@ -7,7 +7,7 @@ import {CollectionTemplate} from '../CollectionTemplate'
 import data from './data'
 
 export default {
-  title: 'CollectionTemplate',
+  title: 'Components/Templates/CollectionTemplate',
   component: CollectionTemplate
 } as ComponentMeta<typeof CollectionTemplate>
 

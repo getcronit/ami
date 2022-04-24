@@ -6,7 +6,7 @@ import {ProductSlider} from '../ProductSlider'
 import * as ProductsPageStories from '../../../templates/ProductsTemplate/stories/ProductsPage.stories'
 
 export default {
-  title: 'ProductSlider',
+  title: 'Components/Molecules/ProductSlider',
   component: ProductSlider
 } as ComponentMeta<typeof ProductSlider>
 

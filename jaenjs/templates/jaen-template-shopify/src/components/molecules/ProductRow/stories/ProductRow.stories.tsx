@@ -7,7 +7,7 @@ import * as ProductPageStories from '../../../templates/ProductTemplate/stories/
 import {getProductTags} from '@snek-at/gatsby-theme-shopify'
 
 export default {
-  title: 'ProductRow',
+  title: 'Components/Molecules/ProductRow',
   component: ProductRow
 } as ComponentMeta<typeof ProductRow>
 

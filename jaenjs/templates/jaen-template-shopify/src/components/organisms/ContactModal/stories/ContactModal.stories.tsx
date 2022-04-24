@@ -5,7 +5,7 @@ import {ComponentStory, ComponentMeta} from '@storybook/react'
 import {ContactModal} from '../ContactModal'
 
 export default {
-  title: 'ContactModal',
+  title: 'Components/Organisms/ContactModal',
   component: ContactModal
 } as ComponentMeta<typeof ContactModal>
 

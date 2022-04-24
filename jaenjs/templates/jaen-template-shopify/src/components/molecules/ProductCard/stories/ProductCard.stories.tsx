@@ -6,7 +6,7 @@ import {ProductCard} from '../ProductCard'
 import * as ProductPageStories from '../../../templates/ProductTemplate/stories/ProductTemplate.stories'
 
 export default {
-  title: 'ProductCard',
+  title: 'Components/Molecules/ProductCard',
   component: ProductCard,
   decorators: [
     storyFn => (

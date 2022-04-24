@@ -5,7 +5,7 @@ import {ComponentStory, ComponentMeta} from '@storybook/react'
 import {WishlistTemplate} from '../WishlistTemplate'
 
 export default {
-  title: 'WishlistTemplate',
+  title: 'Components/Templates/WishlistTemplate',
   component: WishlistTemplate
 } as ComponentMeta<typeof WishlistTemplate>
 

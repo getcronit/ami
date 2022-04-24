@@ -7,7 +7,7 @@ import {ProductPage} from '../ProductTemplate'
 import data from './data'
 
 export default {
-  title: 'ProductPage',
+  title: 'Components/Templates/ProductPage',
   component: ProductPage
 } as ComponentMeta<typeof ProductPage>
 
