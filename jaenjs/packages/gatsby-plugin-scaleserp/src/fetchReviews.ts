@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {Review} from './types'
+import {ScaleserpReview} from './types'
 
 const request = async (params: {
   api_key: string
@@ -53,10 +53,10 @@ export const fetchReviews = async (creds: {
     pagination: {
       next_page_token: string
     }
-    place_reviews_results: Review[]
+    place_reviews_results: ScaleserpReview[]
   } = await (await request(params)).data
 
-  const reviewsSlice2: Review[] = await (
+  const reviewsSlice2: ScaleserpReview[] = await (
     await request({
       ...params,
       next_page_token

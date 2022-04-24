@@ -1,6 +1,6 @@
 import type {GatsbyNode} from 'gatsby'
 import {fetchReviews} from './fetchReviews'
-import {Review} from './types'
+import {ScaleserpReview} from './types'
 
 const GOOGLE_REVIEW_NODE_TYPE = 'GoogleReview'
 
@@ -68,7 +68,7 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async (
   obj.lastChecked = Date.now()
   await cache.set(cacheKey, obj)
 
-  const reviews: Review[] = obj.data || []
+  const reviews: ScaleserpReview[] = obj.data || []
 
   reviews.forEach(review => {
     if (review.rating >= 3) {
