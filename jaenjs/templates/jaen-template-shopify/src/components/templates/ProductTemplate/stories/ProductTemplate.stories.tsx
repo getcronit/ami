@@ -2,17 +2,17 @@ import React from 'react'
 
 import {ComponentStory, ComponentMeta} from '@storybook/react'
 
-import {ProductPage} from '../ProductTemplate'
+import {ProductTemplate} from '../ProductTemplate'
 
 import data from './data'
 
 export default {
-  title: 'Components/Templates/ProductPage',
-  component: ProductPage
-} as ComponentMeta<typeof ProductPage>
+  title: 'Components/Templates/ProductTemplate',
+  component: ProductTemplate
+} as ComponentMeta<typeof ProductTemplate>
 
-const Template: ComponentStory<typeof ProductPage> = args => (
-  <ProductPage {...args} />
+const Template: ComponentStory<typeof ProductTemplate> = args => (
+  <ProductTemplate {...args} />
 )
 
 export const Simple = Template.bind({})
