@@ -11,7 +11,7 @@ interface IndexPageData {
   weaponSpotlight: {
     nodes: ShopifyProduct[]
   }
-  categorySpotlight: {
+  categoryShowcase: {
     nodes: {
       title: string
       products: ShopifyProduct[]
@@ -57,14 +57,14 @@ export const query = graphql`
         ...shopifyProductData
       }
     }
-    categorySpotlight: allShopifyProduct(
+    categoryShowcase: allShopifyProduct(
       filter: {
         collections: {
           elemMatch: {
             metafields: {
               elemMatch: {
                 key: {eq: "show"}
-                namespace: {eq: "spotlight"}
+                namespace: {eq: "showcase"}
                 value: {eq: "true"}
               }
             }
