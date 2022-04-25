@@ -1,14 +1,93 @@
-import {PageProps} from 'gatsby'
+import {GoogleReview} from '@snek-at/gatsby-plugin-scaleserp'
+import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
+import {graphql, PageProps} from 'gatsby'
 import * as React from 'react'
 import {Layout} from '../components/Layout'
 
+interface IndexPageData {
+  googleReviews: {
+    nodes: GoogleReview[]
+  }
+  weaponSpotlight: {
+    nodes: ShopifyProduct[]
+  }
+  categorySpotlight: {
+    nodes: {
+      title: string
+      products: ShopifyProduct[]
+      collections: Array<{
+        title: string
+      }>
+    }
+  }
+  featuredProducts: {
+    nodes: ShopifyProduct[]
+  }
+}
+
 // markup
-const IndexPage = (props: PageProps) => {
+const IndexPage = (props: PageProps<IndexPageData>) => {
   return (
     <Layout path={props.path}>
+      {JSON.stringify(props.data)}
       <h1>Your shop homepage</h1>
     </Layout>
   )
 }
+
+export const query = graphql`
+  query($featuredProductIds: [String!]!) {
+    googleReviews: allGoogleReview {
+      nodes {
+        ...googleReviewData
+      }
+    }
+    weaponSpotlight: allShopifyProduct(
+      filter: {
+        metafields: {
+          elemMatch: {
+            key: {eq: "show"}
+            namespace: {eq: "spotlight"}
+            value: {eq: "true"}
+          }
+        }
+      }
+    ) {
+      nodes {
+        ...shopifyProductData
+      }
+    }
+    categorySpotlight: allShopifyProduct(
+      filter: {
+        collections: {
+          elemMatch: {
+            metafields: {
+              elemMatch: {
+                key: {eq: "show"}
+                namespace: {eq: "spotlight"}
+                value: {eq: "true"}
+              }
+            }
+          }
+        }
+      }
+      sort: {fields: createdAt}
+    ) {
+      nodes {
+        ...shopifyProductData
+        collections {
+          title
+        }
+      }
+    }
+    featuredProducts: allShopifyProduct(
+      filter: {id: {in: $featuredProductIds}}
+    ) {
+      nodes {
+        ...shopifyProductData
+      }
+    }
+  }
+`
 
 export default IndexPage
