@@ -388,7 +388,7 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.1.0", "@babel/parser@^7.12.11", "@babel/parser@^7.12.7", "@babel/parser@^7.14.7", "@babel/parser@^7.15.5", "@babel/parser@^7.16.7", "@babel/parser@^7.17.9":
+"@babel/parser@^7.0.0", "@babel/parser@^7.1.0", "@babel/parser@^7.12.11", "@babel/parser@^7.12.7", "@babel/parser@^7.14.7", "@babel/parser@^7.15.5", "@babel/parser@^7.16.7", "@babel/parser@^7.17.9":
   version "7.17.9"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.17.9.tgz#9c94189a6062f0291418ca021077983058e171ef"
   integrity sha512-vqUSBLP8dQHFPdPi9bc5GK9vRkYHJ49fsZdtoJ8EQ8ibpwk5rPKfvNIwChB0KVXcIjcepEBBd2VHC5r9Gy8ueg==
@@ -5573,7 +5573,7 @@
     webpack-hot-middleware "^2.25.1"
     webpack-virtual-modules "^0.2.2"
 
-"@storybook/builder-webpack5@^6.4.12":
+"@storybook/builder-webpack5@^6.4.12", "@storybook/builder-webpack5@^6.4.22":
   version "6.4.22"
   resolved "https://registry.yarnpkg.com/@storybook/builder-webpack5/-/builder-webpack5-6.4.22.tgz#cd10b3b307f4a6f9c474d3b72ba5555055395681"
   integrity sha512-vvQ0HgkIIVz+cmaCXIRor0UFZbGZqh4aV0ISSof60BjdW5ld+R+XCr/bdTU6Zg8b2fL9CXh7/LE6fImnIMpRIA==
@@ -5959,7 +5959,7 @@
     webpack-dev-middleware "^3.7.3"
     webpack-virtual-modules "^0.2.2"
 
-"@storybook/manager-webpack5@^6.4.12":
+"@storybook/manager-webpack5@^6.4.12", "@storybook/manager-webpack5@^6.4.22":
   version "6.4.22"
   resolved "https://registry.yarnpkg.com/@storybook/manager-webpack5/-/manager-webpack5-6.4.22.tgz#14b6c564692324e25084f699d599cd202659fe21"
   integrity sha512-BMkOMselT4jOn7EQGt748FurM5ewtDfZtOQPCVK8MZX+HYE2AgjNOzm562TYODIxk12Fkhgj3EIz7GGMe1U3RA==
@@ -6783,7 +6783,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-dom@^17.0.2", "@types/react-dom@^17.0.9":
+"@types/react-dom@^17.0.9":
   version "17.0.15"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.15.tgz#f2c8efde11521a4b7991e076cb9c70ba3bb0d156"
   integrity sha512-Tr9VU9DvNoHDWlmecmcsE5ZZiUkYx+nKBzum4Oxe1K0yJVyBlfbq7H3eXjxXqJczBKqPGq3EgfTru4MgKb9+Yw==
@@ -6836,7 +6836,7 @@
   dependencies:
     "@types/react" "^17"
 
-"@types/react@*", "@types/react@^17", "@types/react@^17.0.0", "@types/react@^17.0.15", "@types/react@^17.0.2", "@types/react@^17.0.38":
+"@types/react@*", "@types/react@^17", "@types/react@^17.0.0", "@types/react@^17.0.15", "@types/react@^17.0.38":
   version "17.0.44"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.44.tgz#c3714bd34dd551ab20b8015d9d0dbec812a51ec7"
   integrity sha512-Ye0nlw09GeMp2Suh8qoOv0odfgCoowfM/9MG6WeRD60Gq9wS90bdkdRtYbRkNhXOpG4H+YXGvj4wOWhAC0LJ1g==
@@ -8102,6 +8102,17 @@ babel-plugin-extract-import-names@1.6.22:
   integrity sha512-yJ9BsJaISua7d8zNT7oRG1ZLBJCIdZ4PZqmH8qa9N5AK01ifk3fnkc98AXhtzE7UkfCsEumvoQWgoYLhOnJ7jQ==
   dependencies:
     "@babel/helper-plugin-utils" "7.10.4"
+
+babel-plugin-inline-react-svg@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-inline-react-svg/-/babel-plugin-inline-react-svg-2.0.1.tgz#68c9c119d643a8f2d7bf939b942534d89ae3ade9"
+  integrity sha512-aD4gy2G3gNVDaw97LtoixzWbaOcSEnOb4KJPe8kZedSeqxY3v71KsBs8DGmButGZtEloCRhRRuU2TpW1hIPXig==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0"
+    "@babel/parser" "^7.0.0"
+    lodash.isplainobject "^4.0.6"
+    resolve "^1.20.0"
+    svgo "^2.0.3"
 
 babel-plugin-istanbul@^6.0.0, babel-plugin-istanbul@^6.1.1:
   version "6.1.1"
@@ -22122,7 +22133,7 @@ svgo@1.3.2:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-svgo@^2.7.0:
+svgo@^2.0.3, svgo@^2.7.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/svgo/-/svgo-2.8.0.tgz#4ff80cce6710dc2795f0c7c74101e6764cfccd24"
   integrity sha512-+N/Q9kV1+F+UeWYoSiULYo4xYSDQlTgb+ayMobAXPwMnLvop7oxKMo9OzIrX5x3eS4L4f2UHhc9axXwY8DpChg==
