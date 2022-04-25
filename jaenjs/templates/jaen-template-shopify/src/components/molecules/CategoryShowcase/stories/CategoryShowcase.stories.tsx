@@ -11,8 +11,9 @@ export default {
       <div
         style={{
           position: 'relative',
-          overflow: 'hidden',
+          marginTop: '200px',
           width: '100%',
+
           height: '500px'
         }}>
         {storyFn()}
@@ -28,17 +29,16 @@ const Template: ComponentStory<typeof CategoryShowcase> = args => (
 export const Default = Template.bind({})
 Default.args = {
   tabs: {
-    New: {
-      title: 'New',
-      items: data.products,
-    },
     Handfeuerwaffen: {
-      title: 'Handfeuerwaffen',
-      items: data.products,
+      name: 'Handfeuerwaffen',
+      path: '/handfeuerwaffen',
+      items: data.products
     },
     Flinten: {
-      title: 'Flinten',
-      items: data.products,
+      name: 'Flinten',
+      path: '/flinten',
+      items: data.products
     }
-  }
+  },
+  latestProducts: data.products.slice(0, 3)
 }

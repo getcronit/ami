@@ -20,30 +20,36 @@ export interface CategoryProduct extends ShopifyProduct {
 }
 
 export interface HeroSectionProps {
+  latestProducts: ShopifyProduct[]
   categoryProducts: CategoryProduct[]
   showcaseProducts: ShopifyProduct[]
   noScroll?: boolean
 }
 
-export interface Categories{
+export interface Categories {
   name: string
   path: string
   items: CategoryProduct[]
 }
 
-export interface Tabs { 
+export interface Tabs {
   [name: string]: Categories
 }
 
-export const HeroSection = ({categoryProducts, showcaseProducts, noScroll}: HeroSectionProps) => {
-  const tabs : Tabs = {}
+export const HeroSection = ({
+  latestProducts,
+  categoryProducts,
+  showcaseProducts,
+  noScroll
+}: HeroSectionProps) => {
+  const tabs: Tabs = {}
 
   categoryProducts.forEach(node => {
-    node.collections.forEach((c) => {
+    node.collections.forEach(c => {
       const {name, path} = getCollectionStructure(c.title)
 
-      if (!tabs[c.title]){
-        tabs[c.title] = {items: [], name: (name || c.title), path: path}
+      if (!tabs[c.title]) {
+        tabs[c.title] = {items: [], name: name || c.title, path: path}
       }
       tabs[c.title].items.push(node)
     })
@@ -58,10 +64,10 @@ export const HeroSection = ({categoryProducts, showcaseProducts, noScroll}: Hero
         backgroundColor="#210002"
         position="relative"
         overflow="hidden">
-        <ParallaxHero noScroll={noScroll}/>
+        <ParallaxHero noScroll={noScroll} />
         <Container maxW="8xl" py="6">
           <WeaponShowcase weapons={showcaseProducts} />
-          <CategoryShowcase tabs={tabs} />
+          <CategoryShowcase tabs={tabs} latestProducts={latestProducts} />
           <Flex
             mt="8"
             direction={{base: 'column-reverse', lg: 'row'}}

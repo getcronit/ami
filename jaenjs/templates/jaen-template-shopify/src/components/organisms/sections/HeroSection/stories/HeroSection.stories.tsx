@@ -29,5 +29,6 @@ export const Default = Template.bind({})
 Default.args = {
   categoryProducts: data.categoryShowcase.nodes,
   showcaseProducts: data.weaponSpotlight.nodes,
+  latestProducts: data.latestProducts.nodes,
   noScroll: false
 }

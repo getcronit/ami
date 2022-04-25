@@ -18,6 +18,9 @@ interface IndexPageData {
       }>
     }
   }
+  latestProducts: {
+    nodes: ShopifyProduct[]
+  }
   featuredProducts: {
     nodes: ShopifyProduct[]
   }
@@ -76,6 +79,14 @@ export const query = graphql`
         collections {
           title
         }
+      }
+    }
+    latestProducts: allShopifyProduct(
+      sort: {fields: createdAt, order: DESC}
+      limit: 6
+    ) {
+      nodes {
+        ...shopifyProductData
       }
     }
     featuredProducts: allShopifyProduct(
