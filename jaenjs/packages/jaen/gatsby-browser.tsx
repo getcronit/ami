@@ -1,8 +1,14 @@
-import {PersistorWrapper} from './src/redux'
 import AdminToolbarContainer from './src/ui/AdminToolbar'
 import {GatsbyBrowser} from 'gatsby'
 import {SnekFinder} from './src/withSnekFinder'
 import {Flex, Box} from '@chakra-ui/react'
+import {IncomingBuildCheckerProvider} from './src/services/IncomingBuildChecker'
+
+export const wrapRootElement: GatsbyBrowser['wrapRootElement'] = ({
+  element
+}) => {
+  return <IncomingBuildCheckerProvider>{element}</IncomingBuildCheckerProvider>
+}
 
 export const wrapPageElement: GatsbyBrowser['wrapPageElement'] = ({
   element
@@ -10,21 +16,15 @@ export const wrapPageElement: GatsbyBrowser['wrapPageElement'] = ({
   const pathname = window.location.pathname
 
   if (pathname.startsWith('/jaen/admin')) {
-    return (
-      <PersistorWrapper>
-        <SnekFinder>{element}</SnekFinder>
-      </PersistorWrapper>
-    )
+    return <SnekFinder>{element}</SnekFinder>
   }
 
   return (
-    <PersistorWrapper>
-      <Flex direction={'column'}>
-        <Box pos="sticky" top="0" zIndex={'banner'}>
-          <AdminToolbarContainer />
-        </Box>
-        <Box>{element}</Box>
-      </Flex>
-    </PersistorWrapper>
+    <Flex direction={'column'}>
+      <Box pos="sticky" top="0" zIndex={'banner'}>
+        <AdminToolbarContainer />
+      </Box>
+      <Box>{element}</Box>
+    </Flex>
   )
 }

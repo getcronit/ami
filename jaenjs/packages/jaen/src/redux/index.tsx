@@ -8,9 +8,7 @@
  * in the LICENSE file at https://snek.at/license
  */
 import {useDeepEqualSelector} from '../utils/hooks/useDeepEqualSelector'
-import {Backend} from '../withSnekFinder'
 import {combineReducers, configureStore} from '@reduxjs/toolkit'
-import {graphql, useStaticQuery} from 'gatsby'
 import {
   Provider,
   TypedUseSelectorHook,
@@ -24,7 +22,7 @@ import auth, {authInitialState} from './slices/auth'
 import site, {siteInitialState} from './slices/site'
 import status, {statusInitialState} from './slices/status'
 
-const persistKey = 'jaenjs-state'
+export const persistKey = 'jaenjs-state'
 
 const {loadState, persistState} = PersistState<RootState>(persistKey)
 
@@ -59,7 +57,7 @@ export const store = configureStore({
   preloadedState: persistedState
 })
 
-const {resetStateOnNewBuild} = persistState(store)
+export const {resetState} = persistState(store)
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof combinedReducer>
@@ -79,27 +77,4 @@ export const withRedux = <P extends object>(
       <Component {...props} />
     </Provider>
   )
-}
-
-/**
- * Persist state to localStorage
- * Notice that this can only be used in the browser, so we can't use it in
- * `gatsby-ssr.js` because it would have unwanted side effects.
- */
-export const PersistorWrapper: React.FC = ({children}) => {
-  const data = useStaticQuery<{
-    siteBuildMetadata: {buildTime: string}
-  }>(graphql`
-    query CoreBuildMetadata {
-      siteBuildMetadata {
-        buildTime
-      }
-    }
-  `)
-
-  resetStateOnNewBuild(data.siteBuildMetadata.buildTime, () =>
-    Backend.resetIndex()
-  )
-
-  return <>{children}</>
 }

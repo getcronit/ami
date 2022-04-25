@@ -6,6 +6,7 @@ const SnekFinderProvider = loadable(() => import('@jaenjs/snek-finder'), {
   resolveComponent: components => components.SnekFinderProvider
 })
 
+
 export const Backend = new OSGBackend('snek-finder-osg-backend-root')
 
 export const SnekFinder: React.FC = ({children}) => {

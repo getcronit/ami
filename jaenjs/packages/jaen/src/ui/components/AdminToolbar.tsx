@@ -1,16 +1,5 @@
-import {DeleteIcon, EditIcon} from '@chakra-ui/icons'
-import {
-  Flex,
-  Text,
-  Spacer,
-  Box,
-  Button,
-  Badge,
-  Divider,
-  Portal
-} from '@chakra-ui/react'
-import {Link} from 'gatsby'
-import {FaRocket} from 'react-icons/fa'
+import {Flex, Text, Spacer, Link} from '@chakra-ui/react'
+import {Link as GatsbyLink} from 'gatsby'
 import {JaenLogo} from './icons'
 
 export interface AdminToolbarProps {
@@ -32,7 +21,7 @@ export const AdminToolbar = ({logoText, toolbarItems}: AdminToolbarProps) => {
       py={{base: 2}}
       px={{base: 4}}
       align={'center'}>
-      <Link to="/jaen/admin">
+      <Link as={GatsbyLink} to="/jaen/admin">
         <Flex w="48" justifyContent="center" alignItems="center">
           <JaenLogo w="32px" h="32px" me="10px" color="white" />
           <Text fontSize="sm" mt="3px">

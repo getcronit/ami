@@ -9,7 +9,6 @@
  */
 import {useDeepEqualSelector} from '../../../../utils/hooks/useDeepEqualSelector'
 import {combineReducers, configureStore} from '@reduxjs/toolkit'
-import {graphql, useStaticQuery} from 'gatsby'
 import {
   Provider,
   TypedUseSelectorHook,
@@ -20,7 +19,7 @@ import {
 import internal, {initialState} from './slices/internal'
 import PersistState from '../../../../redux/persist-state'
 
-const persistKey = 'jaenjs-pages-state'
+export const persistKey = 'jaenjs-pages-state'
 const {loadState, persistState} = PersistState<RootState>(persistKey)
 
 const combinedReducer = combineReducers({
@@ -50,7 +49,7 @@ export const store = configureStore({
   preloadedState: persistedState
 })
 
-const {resetStateOnNewBuild} = persistState(store)
+export const {resetState} = persistState(store)
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof combinedReducer>
@@ -59,36 +58,16 @@ export type AppDispatch = typeof store.dispatch
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
-export const useAppDeepEqualSelector = useDeepEqualSelector as TypedUseSelectorHook<RootState>
+export const useAppDeepEqualSelector =
+  useDeepEqualSelector as TypedUseSelectorHook<RootState>
 export const useAppState = () => useStore().getState() as RootState
 
-export const withRedux = <P extends object>(
-  Component: React.ComponentType<P>
-): React.FC<P> => props => {
-  return (
-    <Provider store={store}>
-      <Component {...props} />
-    </Provider>
-  )
-}
-
-/**
- * Persist state to localStorage
- * Notice that this can only be used in the browser, so we can't use it in
- * `gatsby-ssr.js` because it would have unwanted side effects.
- */
-export const PersistorWrapper: React.FC = ({children}) => {
-  const data = useStaticQuery<{
-    siteBuildMetadata: {buildTime: string}
-  }>(graphql`
-    query PagesBuildMetadata {
-      siteBuildMetadata {
-        buildTime
-      }
-    }
-  `)
-
-  resetStateOnNewBuild(data.siteBuildMetadata.buildTime)
-
-  return <>{children}</>
-}
+export const withRedux =
+  <P extends object>(Component: React.ComponentType<P>): React.FC<P> =>
+  props => {
+    return (
+      <Provider store={store}>
+        <Component {...props} />
+      </Provider>
+    )
+  }

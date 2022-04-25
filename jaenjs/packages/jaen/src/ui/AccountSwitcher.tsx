@@ -6,16 +6,22 @@ import {
   MenuList,
   MenuOptionGroup,
   Text,
-  useColorModeValue
+  Circle,
+  useColorModeValue,
+  HStack,
+  Box
 } from '@chakra-ui/react'
 import {store, useAppDispatch, useAppSelector} from '../redux'
 import {demoLogout, logout} from '../redux/slices/auth'
 import {Link, navigate} from 'gatsby'
 import * as React from 'react'
 import {AccountSwitcherButton} from './components/AccountSwitcherButton'
+import {useIncomingBuildChecker} from '../services/IncomingBuildChecker'
 
 export const AccountSwitcher = () => {
   const dispatch = useAppDispatch()
+
+  const incomingBuild = useIncomingBuildChecker()
 
   const handleSignOut = () => {
     const isDemo = store.getState().auth.user?.isDemo
@@ -39,9 +45,16 @@ export const AccountSwitcher = () => {
   const imageSrc =
     user?.image_url || 'https://avatars.githubusercontent.com/u/52858351?v=4'
 
+  const notificationIcon = <Circle size="2" bg="orange.300" />
+
   return (
     <Menu>
-      <AccountSwitcherButton name={fullName} imageSrc={imageSrc} />
+      <AccountSwitcherButton
+        name={fullName}
+        imageSrc={imageSrc}
+        iconRight={incomingBuild.isIncomingBuild && notificationIcon}
+      />
+
       <MenuList
         fontSize={'sm'}
         shadow="md"
@@ -60,6 +73,15 @@ export const AccountSwitcher = () => {
           onClick={() => navigate('/jaen/admin#/settings')}>
           Settings
         </MenuItem>
+
+        {(incomingBuild.isIncomingBuild || incomingBuild.isDisabled) && (
+          <MenuItem rounded="md" onClick={incomingBuild.onOpenAlert}>
+            <HStack>
+              {notificationIcon}
+              <Box>Update to latest version</Box>
+            </HStack>
+          </MenuItem>
+        )}
         <MenuDivider />
         <MenuItem rounded="md" onClick={handleHelpClick}>
           Help

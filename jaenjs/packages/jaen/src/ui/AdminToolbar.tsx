@@ -4,7 +4,8 @@ import {
   ChakraProvider,
   Divider,
   useBreakpoint,
-  Portal
+  Portal,
+  Circle
 } from '@chakra-ui/react'
 import {HomeButton, PublishButton} from '../ui/toolbar'
 import {store, useAppSelector, withRedux} from '../redux'
@@ -16,6 +17,8 @@ import {DiscardButton, EditButton} from '../internal-plugins/pages/ui/toolbar'
 import isMobile from 'is-mobile'
 import {useChanges} from '../services/hooks'
 import React from 'react'
+import {useIncomingBuildChecker} from '../services/IncomingBuildChecker'
+import {IncomingBuildBanner} from './components/IncomingBuildBanner'
 
 const ToolbarChangesElement = () => {
   const {totalChanges} = useChanges()
@@ -61,6 +64,7 @@ const toolbarItems = {
 
 const AdminToolbarContainer = withRedux(() => {
   const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated)
+  const {isIncomingBuild, onOpenAlert} = useIncomingBuildChecker()
 
   const handleJaenActivation = () => {
     if (isMobile()) {
@@ -74,6 +78,7 @@ const AdminToolbarContainer = withRedux(() => {
 
   return (
     <>
+      {isIncomingBuild && <IncomingBuildBanner onUpdateClick={onOpenAlert} />}
       {isAuthenticated ? (
         <AdminToolbar logoText={logoText} toolbarItems={toolbarItems} />
       ) : (
