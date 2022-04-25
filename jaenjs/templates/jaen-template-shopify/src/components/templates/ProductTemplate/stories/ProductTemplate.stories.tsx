@@ -15,8 +15,8 @@ const Template: ComponentStory<typeof ProductTemplate> = args => (
   <ProductTemplate {...args} />
 )
 
-export const Simple = Template.bind({})
-Simple.args = {
+export const Default = Template.bind({})
+Default.args = {
   shopifyProduct: data.shopifyProduct,
   relatedProducts: data.relatedProducts,
   path: `/products/${data.shopifyProduct.handle}`

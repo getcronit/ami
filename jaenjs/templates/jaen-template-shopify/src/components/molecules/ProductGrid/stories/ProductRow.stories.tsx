@@ -1,10 +1,9 @@
 import React from 'react'
-
 import {ComponentStory, ComponentMeta} from '@storybook/react'
-
 import {ProductGrid} from '../ProductGrid'
 
-import * as ProductsPageStories from '../../../templates/ProductsTemplate/stories/ProductsPage.stories'
+import data from './data'
+
 
 export default {
   title: 'Components/Molecules/ProductGrid',
@@ -15,8 +14,8 @@ const Template: ComponentStory<typeof ProductGrid> = args => (
   <ProductGrid {...args} />
 )
 
-export const Simple = Template.bind({})
-Simple.args = {
+export const Default = Template.bind({})
+Default.args = {
   heading: 'Related Products',
-  products: ProductsPageStories.Simple.args?.products ?? []
+  products: data.products
 }

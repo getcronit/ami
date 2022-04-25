@@ -3,7 +3,7 @@ import {Box, Heading} from '@chakra-ui/react'
 import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
 import {Slider} from '@snek-at/uikit'
 
-import {BulletIcon} from '../../../assets/icons'
+import {BulletIcon} from '../../../common/assets/icons'
 import {ProductCard} from '../ProductCard'
 
 export interface ProductSliderProps {

@@ -42,7 +42,7 @@ const CookieModal = () => {
 
     creator = createLottie({
       container,
-      animationData: require(`../assets/lotties/cookie.json`),
+      animationData: require(`../common/assets/lotties/cookie.json`),
       loop: true,
       autoplay: true
     })

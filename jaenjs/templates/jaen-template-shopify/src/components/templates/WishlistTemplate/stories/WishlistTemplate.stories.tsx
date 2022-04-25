@@ -13,8 +13,8 @@ const Template: ComponentStory<typeof WishlistTemplate> = args => (
   <WishlistTemplate {...args} />
 )
 
-export const Simple = Template.bind({})
-Simple.args = {
+export const Default = Template.bind({})
+Default.args = {
   items: [
     {
       id: '854cb18f-1179-5ad2-90d5-8c0467b0ff47',

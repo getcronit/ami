@@ -23,7 +23,7 @@ import {BreadcrumbsBanner} from '../../molecules/BreadcrumbsBanner'
 import {ProductCard} from '../../molecules/ProductCard'
 import {ProductSlider} from '../../molecules/ProductSlider'
 import {ContainerLayout} from '../../ContainerLayout'
-import {gridPadBoxes} from '../../utils'
+import {gridPadBoxes} from '../../../common/utils'
 
 const getCollectionName = (title: string) =>
   getCollectionStructure(title).name || 'No collection title'

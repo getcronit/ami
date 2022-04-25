@@ -29,7 +29,7 @@ import {MdMessage} from '@react-icons/all-files/md/MdMessage'
 import {BreadcrumbsBanner} from '../../molecules/BreadcrumbsBanner'
 import ContactModal from '../../organisms/ContactModal/ContactModal'
 
-import {replaceHexColorsInHTML} from '../../utils'
+import {replaceHexColorsInHTML} from '../../../common/utils'
 
 import {ContainerLayout} from '../../ContainerLayout'
 import {ProductSlider} from '../../molecules/ProductSlider'

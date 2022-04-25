@@ -13,8 +13,8 @@ const Template: ComponentStory<typeof BreadcrumbsBanner> = args => (
   <BreadcrumbsBanner {...args} />
 )
 
-export const Simple = Template.bind({})
-Simple.args = {
+export const Default = Template.bind({})
+Default.args = {
   title: 'Arex Zero Alpha',
   path: '/waffen/pistolen/arex-zero-alpha'
 }

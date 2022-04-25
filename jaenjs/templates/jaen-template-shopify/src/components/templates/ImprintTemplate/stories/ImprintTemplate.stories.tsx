@@ -13,8 +13,8 @@ const Template: ComponentStory<typeof ImprintTemplate> = args => (
   <ImprintTemplate {...args} />
 )
 
-export const Simple = Template.bind({})
-Simple.args = {
+export const Default = Template.bind({})
+Default.args = {
   path: '/imprint',
   content: `
   <div>

@@ -1,0 +1,1 @@
+export {ParallaxBackground} from './ParallaxHero'

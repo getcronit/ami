@@ -13,7 +13,7 @@ const Template: ComponentStory<typeof ContactForm> = args => (
   <ContactForm {...args} />
 )
 
-export const Simple = Template.bind({})
-Simple.args = {
+export const Default = Template.bind({})
+Default.args = {
   requestOptions: ['Option 1', 'Option 2', 'Option 3']
 }

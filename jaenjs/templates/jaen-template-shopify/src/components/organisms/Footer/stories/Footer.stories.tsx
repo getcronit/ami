@@ -11,8 +11,8 @@ export default {
 
 const Template: ComponentStory<typeof Footer> = args => <Footer {...args} />
 
-export const Simple = Template.bind({})
-Simple.args = {
+export const Default = Template.bind({})
+Default.args = {
   col1h: 'AGT',
   col1: ['Startseite', 'Shop', 'Unsere Vertretungen', 'Kontakt'],
   col2h: 'Rechtliches',

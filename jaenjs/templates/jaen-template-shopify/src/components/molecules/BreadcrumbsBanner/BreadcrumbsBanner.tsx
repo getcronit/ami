@@ -12,8 +12,9 @@ import {
   Text
 } from '@chakra-ui/react'
 import {StaticImage} from 'gatsby-plugin-image'
-import {GCImage} from '../../GCImage'
 import {Link as GatsbyLink} from 'gatsby'
+
+import {GCImage} from '../../../common/GCImage'
 
 export interface BannerLayoutProps {
   title: string

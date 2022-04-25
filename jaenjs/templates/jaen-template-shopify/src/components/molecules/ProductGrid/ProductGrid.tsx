@@ -2,9 +2,9 @@ import React from 'react'
 import {Box, Heading, SimpleGrid, SimpleGridProps} from '@chakra-ui/react'
 import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
 
-import {BulletIcon} from '../../../assets/icons'
+import {BulletIcon} from '../../../common/assets/icons'
 import {ProductCard} from '../ProductCard'
-import {gridPadBoxes} from '../../utils'
+import {gridPadBoxes} from '../../../common/utils'
 
 export interface ProductGridProps extends SimpleGridProps {
   heading?: string

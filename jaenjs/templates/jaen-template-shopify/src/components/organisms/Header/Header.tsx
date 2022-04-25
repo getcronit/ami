@@ -19,7 +19,7 @@ import {CloseIcon, HamburgerIcon, ChevronDownIcon} from '@chakra-ui/icons'
 import {FaHeart} from '@react-icons/all-files/fa/FaHeart'
 import {Link as GatsbyLink} from 'gatsby'
 import React from 'react'
-import Logo from '../../../assets/Logo'
+import Logo from '../../../common/assets/Logo'
 
 import * as styles from './styles'
 import {Searchbar, SearchbarProps} from '../../molecules/Searchbar'

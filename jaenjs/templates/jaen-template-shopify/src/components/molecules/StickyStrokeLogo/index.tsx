@@ -1,0 +1,1 @@
+export {StickyStrokeLogo} from './StickyStrokeLogo'

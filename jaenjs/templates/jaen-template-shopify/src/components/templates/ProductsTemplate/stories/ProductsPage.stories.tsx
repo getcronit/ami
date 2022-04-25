@@ -15,8 +15,8 @@ const Template: ComponentStory<typeof ProductsTemplate> = args => (
   <ProductsTemplate {...args} />
 )
 
-export const Simple = Template.bind({})
-Simple.args = {
+export const Default = Template.bind({})
+Default.args = {
   products: data.products,
   implicitTags: data.implicitTags,
   tags: data.tags,

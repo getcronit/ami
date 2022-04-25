@@ -13,7 +13,7 @@ const Template: ComponentStory<typeof PrivacyTemplate> = args => (
   <PrivacyTemplate {...args} />
 )
 
-export const Simple = Template.bind({})
-Simple.args = {
+export const Default = Template.bind({})
+Default.args = {
   path: '/privacy'
 }

@@ -15,8 +15,8 @@ const Template: ComponentStory<typeof CollectionTemplate> = args => (
   <CollectionTemplate {...args} />
 )
 
-export const Simple = Template.bind({})
-Simple.args = {
+export const Default = Template.bind({})
+Default.args = {
   shopifyCollection: data.shopifyCollection,
   subCollections: data.subCollections,
   relatedProducts: data.relatedProducts,

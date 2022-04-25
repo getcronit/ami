@@ -46,4 +46,3 @@ export const GoogleMaps = ({src, ...props}: GoogleMapsProps) => {
   )
 }
 
-export default GoogleMaps

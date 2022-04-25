@@ -26,8 +26,8 @@ const Template: ComponentStory<typeof ProductCard> = args => (
   <ProductCard {...args} />
 )
 
-export const Simple = Template.bind({})
-Simple.args = {
+export const Default = Template.bind({})
+Default.args = {
   product: ProductPageStories.Simple.args?.shopifyProduct
 }
 

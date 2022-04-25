@@ -13,8 +13,8 @@ const Template: ComponentStory<typeof ContactTemplate> = args => (
   <ContactTemplate {...args} />
 )
 
-export const Simple = Template.bind({})
-Simple.args = {
+export const Default = Template.bind({})
+Default.args = {
   path: '/contact',
   phone: '+49 1234567890',
   email: 'email@test.com',

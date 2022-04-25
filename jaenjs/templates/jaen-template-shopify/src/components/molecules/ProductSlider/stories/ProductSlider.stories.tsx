@@ -14,8 +14,8 @@ const Template: ComponentStory<typeof ProductSlider> = args => (
   <ProductSlider {...args} />
 )
 
-export const Simple = Template.bind({})
-Simple.args = {
+export const Default = Template.bind({})
+Default.args = {
   heading: 'Related Products',
   products: ProductsPageStories.Simple.args?.products ?? []
 }

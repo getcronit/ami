@@ -24,7 +24,7 @@ import {FiGithub} from '@react-icons/all-files/fi/FiGithub'
 import {FiFacebook} from '@react-icons/all-files/fi/FiFacebook'
 import {ReactNode} from 'react'
 import React from 'react'
-import Logo from '../../../assets/Logo'
+import Logo from '../../../common/assets/Logo'
 
 export interface FooterProps {
   col1h: React.ReactNode

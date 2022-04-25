@@ -1,10 +1,8 @@
 import React from 'react'
-
 import {ComponentStory, ComponentMeta} from '@storybook/react'
-
-import {ProductRow} from '../ProductRow'
-import * as ProductPageStories from '../../../templates/ProductTemplate/stories/ProductTemplate.stories'
 import {getProductTags} from '@snek-at/gatsby-theme-shopify'
+import {ProductRow} from '../ProductRow'
+import data from './data'
 
 export default {
   title: 'Components/Molecules/ProductRow',
@@ -15,12 +13,12 @@ const Template: ComponentStory<typeof ProductRow> = args => (
   <ProductRow {...args} />
 )
 
-const shopifyProduct = ProductPageStories.Simple.args?.shopifyProduct!
+const shopifyProduct = data.shopifyProduct
 
 const tags = getProductTags(shopifyProduct)
 
-export const Simple = Template.bind({})
-Simple.args = {
+export const Default = Template.bind({})
+Default.args = {
   title: shopifyProduct.title,
   featuredMedia: shopifyProduct.featuredMedia.image,
   categoryString: tags.categoryString,

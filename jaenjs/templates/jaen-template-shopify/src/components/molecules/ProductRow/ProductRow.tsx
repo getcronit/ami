@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {Flex, useColorModeValue, Text, Box, Heading} from '@chakra-ui/react'
-import {getProductTags, ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
+import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
 import {GatsbyImage} from 'gatsby-plugin-image'
 
 export const ProductRow = (props: {

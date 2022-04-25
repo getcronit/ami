@@ -18,7 +18,7 @@ import {
   ShopifyProduct
 } from '@snek-at/gatsby-theme-shopify'
 import {GatsbyImage, IGatsbyImageData} from 'gatsby-plugin-image'
-import {calculateTextColorForBackgroundColor, uuidv1} from '../../utils'
+import {calculateTextColorForBackgroundColor, uuidv1} from '../../../common/utils'
 
 import * as styles from './styles'
 

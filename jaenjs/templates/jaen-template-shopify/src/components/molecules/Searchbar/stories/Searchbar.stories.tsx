@@ -14,7 +14,7 @@ const Template: ComponentStory<typeof Searchbar> = args => (
   <Searchbar {...args} />
 )
 
-export const Simple = Template.bind({})
-Simple.args = {
+export const Default = Template.bind({})
+Default.args = {
   searchResultProducts: ProductsPageStories.Simple.args?.products
 }
