@@ -14,6 +14,7 @@ import {FaTh} from '@react-icons/all-files/fa/FaTh'
 import {FaThList} from '@react-icons/all-files/fa/FaThList'
 import {DndProvider} from 'react-dnd'
 import {HTML5Backend} from 'react-dnd-html5-backend'
+import {FileRejection} from 'react-dropzone'
 
 import UploadButton from '../../atoms/UploadButton'
 import DnDBcrmbItem from './DnDBcrmbItem'
@@ -26,7 +27,7 @@ export type ToolbarProos = {
   breadcrumbs: {index: string; text: string}[]
   onBreadcrumbClick: (index: string) => void
   onBreadcrumbDnDMove: (dragIndex: number, dropIndex: string) => void
-  onUpload: (acceptedFiles: File[]) => void
+  onUpload: (acceptedFiles: File[], rejectedFiles: FileRejection[]) => void
   onNewFolder: () => void
 }
 

@@ -10,10 +10,10 @@
 import {IconButton, useColorMode} from '@chakra-ui/react'
 import {FaFileUpload} from '@react-icons/all-files/fa/FaFileUpload'
 import React from 'react'
-import {useDropzone} from 'react-dropzone'
+import {FileRejection, useDropzone} from 'react-dropzone'
 
 export type UploadButtonProps = {
-  onUpload(acceptedFiles: File[]): void
+  onUpload(acceptedFiles: File[], rejectedFiles: FileRejection[]): void
   accept?: string | string[]
 }
 
@@ -21,7 +21,8 @@ const UploadButton: React.FC<UploadButtonProps> = ({onUpload, accept}) => {
   const {getRootProps, getInputProps} = useDropzone({
     onDrop: onUpload,
     noDrag: true,
-    accept
+    accept,
+    maxSize: 5000000
   })
 
   return (

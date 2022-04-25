@@ -21,7 +21,7 @@ import {FaFilePdf} from '@react-icons/all-files/fa/FaFilePdf'
 import {FaFolder} from '@react-icons/all-files/fa/FaFolder'
 import update from 'immutability-helper'
 import {MouseEvent, useEffect, useState} from 'react'
-import {useDropzone} from 'react-dropzone'
+import {useDropzone, FileRejection} from 'react-dropzone'
 import {MimeTypes} from '../../../common/mimeTypes'
 import {fileToBase64} from '../../../common/toBase64'
 import {isValidHttpUrl} from '../../../common/url'
@@ -165,7 +165,26 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
     handleMove(dragUUID, dropUUID)
   }
 
-  const handleUpload = async (acceptedFiles: File[]) => {
+  const handleUpload = async (
+    acceptedFiles: File[],
+    fileRejections: FileRejection[]
+  ) => {
+    toast.closeAll()
+
+    if (fileRejections.length > 0) {
+      for (const fileRejection of fileRejections) {
+        toast({
+          title: `Uploading ${fileRejection.file.name} rejected`,
+          description: fileRejection.errors
+            .map(error => error.message)
+            .join(', '),
+          status: 'error',
+          isClosable: true,
+          position: 'bottom-right'
+        })
+      }
+    }
+
     const todayDate = new Date().toDateString()
 
     let newData: FinderData | undefined
@@ -177,6 +196,17 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
       const kb = size / 1024
       const mb = kb / 1024
       const sizeString = mb > 1 ? `${mb.toFixed(2)} MB` : `${kb.toFixed(2)} KB`
+
+      // check if file is bigger than 2mb if so toast a warning
+      if (mb > 1.5) {
+        toast({
+          title: `${name} is a heavy file`,
+          description: `Uploading a file bigger than 2mb might result in performence issues, please consider uploading a smaller file`,
+          status: 'warning',
+          isClosable: true,
+          position: 'bottom-right'
+        })
+      }
 
       // convert file to datauri string
       const fileDataUrl = (await fileToBase64(file)) as string
@@ -209,16 +239,16 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
 
     newData && setData(newData)
 
-    toast.closeAll()
-
-    toast({
-      title: `Uploaded ${acceptedFiles.length} file${
-        draggedFiles.length > 1 ? 's' : ''
-      }`,
-      status: 'success',
-      isClosable: true,
-      position: 'bottom-right'
-    })
+    if (acceptedFiles.length > 0) {
+      toast({
+        title: `Uploaded ${acceptedFiles.length} file${
+          draggedFiles.length > 1 ? 's' : ''
+        }`,
+        status: 'success',
+        isClosable: true,
+        position: 'bottom-right'
+      })
+    }
   }
 
   const handleFileInfoBoxUpdate = (details: FileDetails) => {
@@ -448,7 +478,8 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
     isDragAccept,
     draggedFiles
   } = useDropzone({
-    onDrop: handleUpload
+    onDrop: handleUpload,
+    maxSize: 5000000
   })
 
   useEffect(() => {
