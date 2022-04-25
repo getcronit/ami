@@ -12,9 +12,7 @@ interface IndexPageData {
     nodes: ShopifyProduct[]
   }
   categoryShowcase: {
-    nodes: {
-      title: string
-      products: ShopifyProduct[]
+    nodes: ShopifyProduct & {
       collections: Array<{
         title: string
       }>
