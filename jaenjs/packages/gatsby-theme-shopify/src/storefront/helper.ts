@@ -159,7 +159,8 @@ export const transformProductSearchResultData = (
               }),
               altText: edge.node.featuredImage.altText || edge.node.title
             }
-          }
+          },
+          metaFields: []
         }
       }) || []
   }

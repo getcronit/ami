@@ -35,5 +35,10 @@ export const shopifyProductData = graphql`
         }
       }
     }
+    metafields {
+      key
+      value
+      namespace
+    }
   }
 `

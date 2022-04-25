@@ -95,6 +95,11 @@ export interface ShopifyProduct {
       altText: string | null
     }
   }
+  metaFields: Array<{
+    key: string
+    value: string
+    namespace: string
+  }>
 }
 
 export interface ShopifyCollection {
