@@ -6,7 +6,7 @@ import {ParallaxBackground} from './ParallaxHero'
 import { relative } from 'path'
 
 export default {
-  title: 'Components/Molecules/ParallaxBackground',
+  title: 'Components/Molecules/ParallaxBackground2',
   component: ParallaxBackground,
   decorators: [
     storyFn => (

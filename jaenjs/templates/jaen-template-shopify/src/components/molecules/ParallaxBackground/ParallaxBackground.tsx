@@ -11,11 +11,19 @@ export interface ParallaxBackgroundProps {
   noScroll?: boolean
 }
 
-export const ParallaxBackground = ({strokeColor, backgroundColor, noScroll}: ParallaxBackgroundProps) => {
+export const ParallaxBackground = ({
+  strokeColor,
+  backgroundColor,
+  noScroll
+}: ParallaxBackgroundProps) => {
   const {ref} = useScrollSync()
 
   return (
-    <Box className="parallax" css={style.Section(strokeColor, backgroundColor, noScroll)} ref={ref} backgroundColor={backgroundColor} >
+    <Box
+      className="parallax"
+      css={style.Section(strokeColor, backgroundColor, noScroll)}
+      ref={ref}
+      backgroundColor={backgroundColor}>
       <Box className="parallax__layer parallax__layer__0" pl="10%" pt="10%">
         <Logo className="background-logo" />
       </Box>
