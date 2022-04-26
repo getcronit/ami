@@ -5,7 +5,7 @@ import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
 import {BulletShowcase} from '../../../molecules/BulletShowcase'
 import {CategoryShowcase} from '../../../molecules/CategoryShowcase'
 import {AccessorieShowcase} from '../../../molecules/AccessorieShowcase'
-import {WeaponShowcase} from '../../../molecules/WeaponShowcase'
+import {ProductSpotlight} from '../../../molecules/ProductSpotlight'
 import {ParallaxHero} from '../../../molecules/ParallaxHero'
 
 import {
@@ -66,7 +66,7 @@ export const HeroSection = ({
         overflow="hidden">
         <ParallaxHero noScroll={noScroll} />
         <Container maxW="8xl" py="6">
-          <WeaponShowcase weapons={showcaseProducts} />
+          <ProductSpotlight products={showcaseProducts} />
           <CategoryShowcase tabs={tabs} latestProducts={latestProducts} />
           <Flex
             mt="8"

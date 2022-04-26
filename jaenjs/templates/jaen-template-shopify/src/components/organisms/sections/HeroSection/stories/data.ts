@@ -280,7 +280,7 @@ export default {
             namespace: 'spotlight'
           },
           {
-            key: 'product_description',
+            key: 'description',
             value:
               'er AC Alfa Selbstladekarabiner Modell: LLC (Limex Luger Carbine) in 9x19mm wurde soeben als Kategorie B W',
             namespace: 'spotlight'
@@ -1095,7 +1095,7 @@ export default {
             namespace: 'spotlight'
           },
           {
-            key: 'product_description',
+            key: 'description',
             value:
               'er AC Alfa Selbstladekarabiner Modell: LLC (Limex Luger Carbine) in 9x19mm wurde soeben als Kategorie B W',
             namespace: 'spotlight'
@@ -1769,7 +1769,7 @@ export default {
             namespace: 'spotlight'
           },
           {
-            key: 'product_description',
+            key: 'description',
             value:
               'er AC Alfa Selbstladekarabiner Modell: LLC (Limex Luger Carbine) in 9x19mm wurde soeben als Kategorie B W',
             namespace: 'spotlight'

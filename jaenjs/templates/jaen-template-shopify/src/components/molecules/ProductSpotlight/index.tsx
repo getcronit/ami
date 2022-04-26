@@ -1,0 +1,1 @@
+export {ProductSpotlight} from './ProductSpotlight'

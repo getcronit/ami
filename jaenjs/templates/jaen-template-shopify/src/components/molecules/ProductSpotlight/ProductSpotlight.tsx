@@ -20,24 +20,24 @@ import {
 import {flipImage} from './style'
 
 
-export interface WeaponShowcaseProps {
-  weapons: Array<ShopifyProduct>
+export interface ProductshowcaseProps {
+  products: ShopifyProduct[]
 }
 
-const DescriptionBox = motion<FlexProps>(VStack)
+const DescriptionBox = motion<FlexProps>(Flex)
 const WeaponBox = motion<BoxProps>(Box)
 
-export const WeaponShowcase = ({weapons}: WeaponShowcaseProps) => {
-  const [current, setCurrent] = React.useState(weapons[0])
+export const ProductSpotlight = ({products}: ProductshowcaseProps) => {
+  const [current, setCurrent] = React.useState(products[0])
 
-  React.useEffect(() => setCurrent(weapons[0]), [])
+  React.useEffect(() => setCurrent(products[0]), [])
   React.useEffect(() => {
     const interval = window.setInterval(() => {
       let indexNext = 0
-      if (weapons.length !== weapons.indexOf(current) + 1) {
-        indexNext = weapons.indexOf(current) + 1
+      if (products.length !== products.indexOf(current) + 1) {
+        indexNext = products.indexOf(current) + 1
       }
-      setCurrent(weapons[indexNext])
+      setCurrent(products[indexNext])
     }, 10000)
     return () => clearInterval(interval)
   }, [current])
@@ -58,7 +58,7 @@ export const WeaponShowcase = ({weapons}: WeaponShowcaseProps) => {
           alignItems={'center'}
           justifyContent="center">
           <AnimatePresence initial={false}>
-            {weapons.map((weapon, index) => {
+            {products.map((weapon, index) => {
               const spotlightMetafields = weapon.metafields.filter(({namespace}) => namespace==="spotlight")
 
               const mirrorImage = spotlightMetafields.find(({key, value}) => key==="mirror_image")
@@ -111,7 +111,7 @@ export const WeaponShowcase = ({weapons}: WeaponShowcaseProps) => {
             })}
           </AnimatePresence>
           <AnimatePresence>
-            {weapons.map((weapon, index) => {
+            {products.map((weapon, index) => {
               const spotlightMetafields = weapon.metafields.filter(({namespace}) => namespace==="spotlight")
 
               const title = spotlightMetafields.find(({key, value}) => key==="titel")
@@ -169,7 +169,7 @@ export const WeaponShowcase = ({weapons}: WeaponShowcaseProps) => {
           zIndex="10"
           mt={{base: '10', md: '20'}}
           mb={{base: '10', lg: '5'}}>
-          {weapons.map(weapon => {
+          {products.map(weapon => {
             return (
               <Circle
                 cursor="pointer"

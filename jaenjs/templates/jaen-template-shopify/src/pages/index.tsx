@@ -8,7 +8,7 @@ interface IndexPageData {
   googleReviews: {
     nodes: GoogleReview[]
   }
-  weaponSpotlight: {
+  productSpotlight: {
     nodes: ShopifyProduct[]
   }
   categoryShowcase: {
@@ -43,7 +43,7 @@ export const query = graphql`
         ...googleReviewData
       }
     }
-    weaponSpotlight: allShopifyProduct(
+    productSpotlight: allShopifyProduct(
       filter: {
         metafields: {
           elemMatch: {

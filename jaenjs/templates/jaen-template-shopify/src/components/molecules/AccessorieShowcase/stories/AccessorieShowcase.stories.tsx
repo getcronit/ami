@@ -11,7 +11,7 @@ export default {
         style={{
           position: 'relative',
           overflow: 'hidden',
-          width: '100%',
+          width: '600px',
           height: '500px'
         }}>
         {storyFn()}

@@ -1,12 +1,12 @@
 import React from 'react'
 import {ComponentStory, ComponentMeta} from '@storybook/react'
-import {WeaponShowcase} from '../WeaponShowcase'
+import {ProductSpotlight} from '../ProductSpotlight'
 
 import data from './data'
 
 export default {
-  title: 'Components/Molecules/WeaponShowcase',
-  component: WeaponShowcase,
+  title: 'Components/Molecules/ProductSpotlight',
+  component: ProductSpotlight,
   decorators: [
     storyFn => (
       <div
@@ -20,13 +20,13 @@ export default {
       </div>
     )
   ]
-} as ComponentMeta<typeof WeaponShowcase>
+} as ComponentMeta<typeof ProductSpotlight>
 
-const Template: ComponentStory<typeof WeaponShowcase> = args => (
-  <WeaponShowcase {...args} />
+const Template: ComponentStory<typeof ProductSpotlight> = args => (
+  <ProductSpotlight {...args} />
 )
 
 export const Default = Template.bind({})
 Default.args = {
-  weapons: data.products
+  products: data.products
 }

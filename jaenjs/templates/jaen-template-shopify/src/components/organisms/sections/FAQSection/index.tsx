@@ -1,1 +1,1 @@
-export {ParallaxBackground} from './ParallaxHero'
+export {FAQSection, FAQSectionProps} from './FAQSection'
