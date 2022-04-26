@@ -1,10 +1,8 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": ".",
-    "baseUrl": ".",
     "outDir": "dist",
-    "paths": {}
+    "rootDir": "src"
   },
   "ts-node": {
     "transpiler": "ts-node/transpilers/swc",
@@ -16,7 +14,7 @@
     }
   },
 
-  "include": ["**/*", "./tsconfig.json"],
-  "typeRoots": ["./@types", "../../node_modules"],
+  "include": ["src"],
+  "typeRoots": ["../../node_modules"],
   "references": [{"path": "../snek-finder"}]
 }

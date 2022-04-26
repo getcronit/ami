@@ -1,7 +1,7 @@
-import AdminToolbarContainer from './src/ui/AdminToolbar'
+import AdminToolbarContainer from '../ui/AdminToolbar'
 import {GatsbySSR} from 'gatsby'
 import {Flex, Box} from '@chakra-ui/react'
-import {IncomingBuildCheckerProvider} from './src/services/IncomingBuildChecker'
+import {IncomingBuildCheckerProvider} from '../services/IncomingBuildChecker'
 
 export const wrapRootElement: GatsbySSR['wrapRootElement'] = ({element}) => {
   return <IncomingBuildCheckerProvider>{element}</IncomingBuildCheckerProvider>

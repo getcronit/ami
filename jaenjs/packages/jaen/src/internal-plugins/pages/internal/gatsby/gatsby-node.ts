@@ -7,6 +7,7 @@ import {IJaenPage, IPagesMigrationBase} from '../../types'
 import {processPage} from '../services/imaProcess'
 import {generateOriginPath} from '../services/path'
 import {sourceTemplates} from './gatsby-config'
+
 const GatsbyNode: GatsbyNodeType = {}
 
 GatsbyNode.onCreateWebpackConfig = ({
@@ -14,8 +15,9 @@ GatsbyNode.onCreateWebpackConfig = ({
   actions,
   loaders,
   stage,
-  getNodesByType
+  reporter
 }) => {
+  reporter.error(`sourceTemplates  s ${sourceTemplates}`)
   actions.setWebpackConfig({
     plugins: [
       plugins.define({
@@ -149,7 +151,9 @@ GatsbyNode.createPages = async ({actions, graphql, reporter}) => {
 
   const result = await graphql<QueryData>(`
     query {
-      allTemplate: allFile(filter: {sourceInstanceName: {eq: "jaen-templates"}}) {
+      allTemplate: allFile(
+        filter: {sourceInstanceName: {eq: "jaen-templates"}}
+      ) {
         nodes {
           name
           absolutePath
@@ -224,7 +228,7 @@ GatsbyNode.createPages = async ({actions, graphql, reporter}) => {
   createPage({
     path: '/_',
     matchPath: '/_/*',
-    component: require.resolve('../services/routing/pages/_.tsx'),
+    component: require.resolve('../services/routing/pages/_'),
     context: {}
   })
 }

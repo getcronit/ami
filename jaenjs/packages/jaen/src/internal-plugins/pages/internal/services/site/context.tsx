@@ -13,7 +13,7 @@ export const SiteContext = React.createContext<ISiteContext | undefined>(
 
 export const SiteProvider: React.FC<{}> = withRedux(({children}) => {
   const templateLoader = async (relativePath: string) => {
-    //@ts-ignore
+    alert(`Loading template ${___JAEN_TEMPLATES___}/${relativePath}`)
     return (await import(`${___JAEN_TEMPLATES___}/${relativePath}`)).default
   }
 

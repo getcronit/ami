@@ -69,7 +69,7 @@ GatsbyNode.createPages = async ({actions, graphql, reporter}) => {
     path: '/jaen/admin',
     // matchPath to ignore trailing slash
     matchPath: '/jaen/admin/*',
-    component: require.resolve('../ui/AdminPage.tsx'),
+    component: require.resolve('../ui/AdminPage'),
     context: {}
   })
 }

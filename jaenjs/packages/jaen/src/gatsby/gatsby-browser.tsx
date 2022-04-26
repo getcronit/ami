@@ -1,8 +1,8 @@
-import AdminToolbarContainer from './src/ui/AdminToolbar'
+import AdminToolbarContainer from '../ui/AdminToolbar'
 import {GatsbyBrowser} from 'gatsby'
-import {SnekFinder} from './src/withSnekFinder'
+import {SnekFinder} from '../withSnekFinder'
 import {Flex, Box} from '@chakra-ui/react'
-import {IncomingBuildCheckerProvider} from './src/services/IncomingBuildChecker'
+import {IncomingBuildCheckerProvider} from '../services/IncomingBuildChecker'
 
 export const wrapRootElement: GatsbyBrowser['wrapRootElement'] = ({
   element

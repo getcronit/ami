@@ -2,7 +2,7 @@
   "name": "@jaenjs/jaen",
   "version": "3.0.0-beta.33",
   "main": "index.js",
-  "types": "src/index.ts",
+  "types": "./dist/index.d.ts",
   "license": "EUPL-1.2",
   "scripts": {
     "storybook": "start-storybook -p 6006",
@@ -13,7 +13,6 @@
     "jaen": "./dist/bin/run.js"
   },
   "include": [
-    "src",
     "dist"
   ],
   "publishConfig": {
