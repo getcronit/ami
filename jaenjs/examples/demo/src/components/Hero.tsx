@@ -4,7 +4,7 @@ import {
   Heading,
   Image,
   Stack,
-  Text,
+  Box,
   useBreakpointValue
 } from '@chakra-ui/react'
 import {Field} from '@jaenjs/jaen'
@@ -15,7 +15,7 @@ export default function SplitScreen() {
       <Flex p={8} flex={1} align={'center'} justify={'center'}>
         <Stack spacing={6} w={'full'} maxW={'lg'}>
           <Heading fontSize={{base: '3xl', md: '4xl', lg: '5xl'}}>
-            <Text
+            <Box
               as={'span'}
               position={'relative'}
               _after={{
@@ -33,23 +33,23 @@ export default function SplitScreen() {
                 rtf={false}
                 defaultValue="<span>Freelance</span>"
               />
-            </Text>
+            </Box>
 
-            <Text color={'blue.400'} as={'span'}>
+            <Box color={'blue.400'} as={'span'}>
               <Field.Text
                 name="heading2"
                 rtf={false}
                 defaultValue="<span>Design Projects</span>"
               />
-            </Text>
+            </Box>
           </Heading>
-          <Text fontSize={{base: 'md', lg: 'lg'}} color={'gray.500'}>
+          <Box fontSize={{base: 'md', lg: 'lg'}} color={'gray.500'}>
             <Field.Text
               name="text"
               defaultValue="<p>The project board is an exclusive resource for contract work. It's
             perfect for freelancers, agencies, and moonlighters.</p>"
             />
-          </Text>
+          </Box>
           <Stack direction={{base: 'column', md: 'row'}} spacing={4}>
             <Button
               rounded={'full'}
