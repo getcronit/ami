@@ -1,5 +1,5 @@
 import {IPlugin, PluginStore} from 'react-pluggable'
-import {IAdminRoute} from './ui/AdminPage'
+import {IAdminRoute} from './ui/AdminPageShell'
 
 export enum RendererPlacements {
   TOOLBAR = 'toolbar',

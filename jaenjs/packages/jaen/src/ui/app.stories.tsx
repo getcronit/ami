@@ -10,6 +10,7 @@ import {BiNotification} from '@react-icons/all-files/bi/BiNotification'
 
 import {FilesContainer} from '../internal-plugins/pages/ui/tabs/Files'
 import AdminToolbarContainer from './AdminToolbar'
+import {IncomingBuildCheckerProvider} from '../services/IncomingBuildChecker'
 
 export default {
   title: 'NewUI',
@@ -18,7 +19,11 @@ export default {
     Story => {
       const Component = withSnekFinder(Story)
 
-      return <Component />
+      return (
+        <IncomingBuildCheckerProvider>
+          <Component />
+        </IncomingBuildCheckerProvider>
+      )
     }
   ]
 } as ComponentMeta<typeof Component>
