@@ -93,13 +93,6 @@ const Editor: React.FC<EditorProps> = props => {
     }
   }, [props.value, props.editing])
 
-  const raw = (
-    <Box
-      className="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline"
-      dangerouslySetInnerHTML={{__html: value}}
-    />
-  )
-
   const editorConfig: {[key: string]: any} = {
     mediaEmbed: {
       previewsInData: true
@@ -145,30 +138,49 @@ const Editor: React.FC<EditorProps> = props => {
 
   const handleBlur = () => setIsFocused(false)
 
-  const editorElement =
-    props.editing && isFocused && editor ? (
-      <LoadableCKEditor
-        fallback={raw}
-        //@ts-ignore
-        editor={editor?.default}
-        config={editorConfig}
-        data={value}
-        //@ts-ignore
-        onBlur={(_, editor) => {
-          const data = editor.getData()
+  const fallbackRef = React.useRef<HTMLDivElement>(null)
 
-          if (data !== value) {
-            setValue(data)
-            props.onBlurValue(data)
-          }
-        }}
-        onLoad={(editor: any) => {
-          editor.writer.addClass('revert-css')
-        }}
-      />
-    ) : (
-      <>{raw}</>
-    )
+  const fallbackElement = (
+    <div
+      ref={fallbackRef}
+      className="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline"
+      dangerouslySetInnerHTML={{__html: value}}
+    />
+  )
+
+  React.useEffect(() => {
+    if (fallbackRef.current) {
+      fallbackRef.current.innerHTML = value
+    }
+  }, [value])
+
+  const editorElement = (
+    <>
+      {props.editing && editor ? (
+        <LoadableCKEditor
+          fallback={fallbackElement}
+          //@ts-ignore
+          editor={editor?.default}
+          config={editorConfig}
+          data={value}
+          //@ts-ignore
+          onBlur={(_, editor) => {
+            const data = editor.getData()
+
+            if (data !== value) {
+              setValue(data)
+              props.onBlurValue(data)
+            }
+          }}
+          onLoad={(editor: any) => {
+            editor.writer.addClass('revert-css')
+          }}
+        />
+      ) : (
+        fallbackElement
+      )}
+    </>
+  )
 
   if (props.editing) {
     return (
