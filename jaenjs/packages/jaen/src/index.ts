@@ -7,3 +7,4 @@ export type {
   IMigrationEntity,
   IRemoteFileMigration
 } from './services/migration/types'
+export * from './withJaenMock'

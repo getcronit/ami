@@ -1,8 +1,6 @@
 import {
   Box,
-  Button,
   ChakraProvider,
-  Divider,
   useBreakpoint,
   Portal,
   Circle
@@ -15,36 +13,10 @@ import {AdminToolbar} from './components/AdminToolbar'
 import JaenActivationButton from './components/JaenActivationButton'
 import {DiscardButton, EditButton} from '../internal-plugins/pages/ui/toolbar'
 import isMobile from 'is-mobile'
-import {useChanges} from '../services/hooks'
 import React from 'react'
 import {useIncomingBuildChecker} from '../services/IncomingBuildChecker'
 import {IncomingBuildBanner} from './components/IncomingBuildBanner'
-
-const ToolbarChangesElement = () => {
-  const {totalChanges} = useChanges()
-
-  if (totalChanges === 0) {
-    return null
-  }
-
-  return (
-    <>
-      <Box>
-        <Divider orientation="vertical" color="red" />
-      </Box>
-      <Button
-        variant={'ghost'}
-        size="sm"
-        fontWeight="normal"
-        pointerEvents={'none'}>
-        {totalChanges} {totalChanges === 1 ? 'change' : 'changes'}
-      </Button>
-      <Box>
-        <Divider orientation="vertical" color="red" />
-      </Box>
-    </>
-  )
-}
+import {ToolbarChangesElement} from './ToolbarChangesElement'
 
 const logoText = 'Jaen Admin'
 const toolbarItems = {

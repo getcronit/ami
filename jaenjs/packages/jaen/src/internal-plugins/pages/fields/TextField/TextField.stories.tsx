@@ -4,14 +4,15 @@ import React from 'react'
 import Component from '.'
 import {EditButton} from '../../ui/toolbar'
 import {useField} from '../../internal/services/field'
+import {withJaenMock} from '../../../../withJaenMock'
 
 export default {
   title: 'fields/TextField',
   component: Component,
   decorators: [
-    Story => (
-      <JaenPageProvider
-        jaenPage={{
+    Story => {
+      const MockedStory = withJaenMock(Story, {
+        jaenPage: {
           id: `JaenPage jaen-page-1}`,
           slug: 'jaen-page-1',
           parent: null,
@@ -32,11 +33,11 @@ export default {
           chapters: {},
           template: 'BlogPage',
           jaenFiles: []
-        }}>
-        <EditButton />
-        <Story />
-      </JaenPageProvider>
-    )
+        }
+      })
+
+      return <MockedStory />
+    }
   ]
 } as ComponentMeta<typeof Component>
 
