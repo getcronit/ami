@@ -1,1 +1,1 @@
-export {HeroSection} from './HeroSection'
+export {HeroSection, HeroSectionProps} from './HeroSection'

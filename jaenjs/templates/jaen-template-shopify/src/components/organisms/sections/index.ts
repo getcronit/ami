@@ -1,3 +1,4 @@
+export {HeroSection, HeroSectionProps} from './HeroSection'
 export {
   FeaturedProductsSection,
   FeaturedProductsSectionProps

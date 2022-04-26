@@ -13,30 +13,42 @@ import {ProductCard} from '../../../molecules/ProductCard'
 import {Bullet} from '../../../atoms/Bullet'
 import {Link as GatsbyLink, navigate} from 'gatsby'
 import {StickyStrokeLogo} from '../../../molecules/StickyStrokeLogo'
-import {Field} from '@jaenjs/jaen'
 import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
 
 import * as style from './style'
 
 export interface FeaturedProductsSectionProps {
+  heading: React.ReactNode
   products: ShopifyProduct[]
-  getPath: (handle: string) => string
+  productsPagePath?: string
 }
 
 export const FeaturedProductsSection = ({
+  heading,
   products,
-  getPath
+  productsPagePath = '/products'
 }: FeaturedProductsSectionProps) => {
   return (
     <>
       <StickyStrokeLogo strokeColor="#dbd8d2" backgroundColor="white" />
-      <Box position="relative" overflow="hidden" color="ece8e1" pb="4" css={style.Section}>
-        <Heading fontSize="30vh" top="10%" left="10%" position="absolute" color="white" style={{WebkitTextStroke: '1px #dbd8d2'}}>
+      <Box
+        position="relative"
+        overflow="hidden"
+        color="ece8e1"
+        pb="4"
+        css={style.Section}>
+        <Heading
+          fontSize="30vh"
+          top="10%"
+          left="10%"
+          position="absolute"
+          color="white"
+          style={{WebkitTextStroke: '1px #dbd8d2'}}>
           <span>Si vis pacem</span>
           <span>para bellum</span>
         </Heading>
         <Divider
-          orientation='vertical'
+          orientation="vertical"
           position="absolute"
           // w="0"
           // h="100%"
@@ -47,32 +59,31 @@ export const FeaturedProductsSection = ({
         />
         <Container as="section" maxW="8xl" pt="6" id="featuredproducts">
           <Box textAlign="center" my="10">
-            <Heading size="2xl">
-              <Field.Text
-                name="featured-products-heading"
-                defaultValue="Unser Sortiment"
-              />
-            </Heading>
+            <Heading size="2xl">{heading}</Heading>
             <Bullet color="agt.red" w="unset" fontSize="xl" mt="5" mb="10" />
           </Box>
           <SimpleGrid columns={{base: 2, md: 3, xl: 4}} spacing="5">
             {products.map((item, key) => {
               return (
-                <Link key={key} as={GatsbyLink} to={getPath(item.handle)} _hover={{textDecoration: 'none'}}>
-                  <ProductCard product={item} key={key} borderline />
-                </Link>
+                <ProductCard
+                  product={item}
+                  key={key}
+                  borderline
+                  prefixPath={productsPagePath}
+                />
               )
             })}
           </SimpleGrid>
           <Center mt={{base: '4', md: '10'}}>
             <Button
+              as={GatsbyLink}
+              to={productsPagePath}
               color="white"
               borderRadius="5px"
               bg="agt.blue"
               variant="solid"
               size="lg"
-              _hover={{bg: 'agt.blueAccent'}}
-              onClick={() => navigate('/produkte')}>
+              _hover={{bg: 'agt.blueAccent'}}>
               Mehr davon
             </Button>
           </Center>

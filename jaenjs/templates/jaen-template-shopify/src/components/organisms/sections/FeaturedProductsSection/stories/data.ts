@@ -1,25 +1,7 @@
-import {
-  ProductsPageContext,
-  ProductsPageData,
-  ShopifyProduct
-} from '@snek-at/gatsby-theme-shopify'
+import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
 
-export interface ProductsTemplateProps extends ProductsPageData {
-  path: string
+export interface FeaturedProdutsSectionProps {
   products: ShopifyProduct[]
-  implicitTags: ProductsPageContext['implicitTags']
-  tags: ProductsPageContext['tags']
-  minPrice: ProductsPageContext['minPrice']
-  maxPrice: ProductsPageContext['maxPrice']
-  isFetching: boolean
-  fetchNextPage: () => void
-  updateFilter: (filter: {
-    tags?: string[]
-    minPrice?: number
-    maxPrice?: number
-  }) => void
-  sortOptions: string[]
-  onSortChange: (sort: string) => void
 }
 
 export default {
@@ -660,10 +642,5 @@ export default {
         }
       }
     }
-  ],
-  implicitTags: ['Kategorie:Repetiergewehre'],
-  tags: ['Kaliber:308Win', 'Kaliber:22lr', 'Kategorie:Kurz'],
-  maxPrice: 10000,
-  minPrice: 500,
-  sortOptions: ['Alphabetisch', 'Preis aufsteigend', 'Preis absteigend']
-} as ProductsTemplateProps
+  ]
+} as FeaturedProdutsSectionProps
