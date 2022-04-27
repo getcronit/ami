@@ -44,10 +44,6 @@ export const useProductSearch = ({
     after: null
   })
 
-  const [products, setProducts] = React.useState<
-    UseProductSearchResult['products']
-  >([])
-
   const {searchTerm, tags, minPrice, maxPrice} = filters
 
   // Relevance is non-deterministic if there is no query, so we default to "title" instead
@@ -68,18 +64,6 @@ export const useProductSearch = ({
   })
 
   React.useEffect(() => {
-    // reset products if conditions change
-    setProducts([])
-  }, [JSON.stringify(filters), sortKey, reverse])
-
-  React.useEffect(() => {
-    const {nodes} = transformProductSearchResultData(result?.data)
-
-    // merge new products with existing products (there are no duplicates, so this should be safe)
-    setProducts(products.concat(nodes))
-  }, [result.data?.products])
-
-  React.useEffect(() => {
     const qs = queryString.stringify({
       // Don't show if falsy
       q: searchTerm || undefined,
@@ -97,11 +81,8 @@ export const useProductSearch = ({
     url.hash = ''
 
     window.history.replaceState({}, '', url.toString())
-  }, [filters, cursors, sortKey])
-
-  React.useEffect(() => {
     setSearchQueryString(buildProductSearchQuery(filters))
-  }, [filters])
+  }, [filters, cursors, sortKey])
 
   const resetCursor = () => {
     setCursors({
@@ -115,17 +96,38 @@ export const useProductSearch = ({
     const prods = result?.data?.products?.edges
 
     if (prods) {
-      const nextCursor = prods[prods.length - 1].cursor
+      const prod = prods[prods.length - 1]
 
-      setCursors({
-        before: null,
-        after: nextCursor
-      })
+      if (prod) {
+        const nextCursor = prod.cursor
+
+        setCursors({
+          before: null,
+          after: nextCursor
+        })
+      }
     }
   }
 
   const isFetching = result?.fetching
   const hasNextPage = result?.data?.products?.pageInfo?.hasNextPage ?? false
+
+  const [products, setProducts] = React.useState<ShopifyProduct[]>([])
+
+  React.useEffect(() => {
+    setProducts([])
+  }, [searchTerm, tags, minPrice, maxPrice, sortKey, reverse])
+
+  React.useEffect(() => {
+    if (result?.data?.products?.edges) {
+      const transformedProducts = transformProductSearchResultData(result.data)
+        .nodes
+
+      setProducts(prevProducts => {
+        return [...prevProducts, ...transformedProducts]
+      })
+    }
+  }, [result.data?.products.edges])
 
   return {
     products,
