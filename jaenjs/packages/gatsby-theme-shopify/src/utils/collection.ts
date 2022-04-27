@@ -93,3 +93,11 @@ export const filterCollectionRelevantTags = (
 
   return filteredTags
 }
+
+export const cleanVendors = (vendors: Array<string>) => {
+  return vendors.filter(vendor => vendor !== '-')
+}
+
+export const cleanProductTypes = (productTypes: Array<string>) => {
+  return productTypes.filter(productType => productType && productType !== '-')
+}

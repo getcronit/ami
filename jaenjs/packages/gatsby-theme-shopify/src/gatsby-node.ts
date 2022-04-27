@@ -33,6 +33,8 @@ export const createPages: GatsbyNode['createPages'] = async function (
     query ShopifyPageGeneratorQuery {
       allShopifyProduct {
         tags: distinct(field: tags)
+        vendors: distinct(field: vendor)
+        productTypes: distinct(field: productType)
         totalCount
         maxPrice: max(field: variants___price)
         minPrice: min(field: variants___price)
@@ -62,6 +64,8 @@ export const createPages: GatsbyNode['createPages'] = async function (
               price
             }
             tags
+            vendor
+            productType
           }
         }
       }

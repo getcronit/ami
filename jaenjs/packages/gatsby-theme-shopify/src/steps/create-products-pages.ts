@@ -2,6 +2,8 @@ import {Actions, Reporter} from 'gatsby'
 import {PRODUCTS_PAGE_PRODUCTS_PER_PAGE_LIMIT} from '../constants'
 import {ShopifyPageGeneratorQueryData, ProductsPageContext} from '../types'
 import {
+  cleanProductTypes,
+  cleanVendors,
   filterCollectionRelevantTags,
   getCollectionStructure
 } from '../utils/collection'
@@ -62,6 +64,14 @@ const processCollections = async (
 
       const tags = filterCollectionRelevantTags(uniqueTags, collection.title)
 
+      const vendors = cleanVendors([
+        ...new Set(collection.products.map(product => product.vendor))
+      ])
+
+      const productTypes = cleanProductTypes([
+        ...new Set(collection.products.map(product => product.productType))
+      ])
+
       createPage<ProductsPageContext>({
         path: collectionProductsPagePath,
         component: template,
@@ -72,7 +82,9 @@ const processCollections = async (
           maxPrice,
           minPrice,
           implicitTags,
-          tags
+          tags,
+          vendors,
+          productTypes
         }
       })
     }
@@ -91,6 +103,8 @@ export const createProductsPages = async ({
   )
 
   const tags = allShopifyProduct.tags
+  const vendors = cleanVendors(allShopifyProduct.vendors)
+  const productTypes = cleanProductTypes(allShopifyProduct.productTypes)
 
   createPage<ProductsPageContext>({
     path: '/products',
@@ -101,7 +115,9 @@ export const createProductsPages = async ({
       maxPrice: allShopifyProduct.maxPrice,
       minPrice: allShopifyProduct.minPrice,
       implicitTags: [],
-      tags: tags
+      tags: tags,
+      vendors,
+      productTypes
     }
   })
 

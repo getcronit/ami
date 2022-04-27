@@ -44,7 +44,7 @@ export const useProductSearch = ({
     after: null
   })
 
-  const {searchTerm, tags, minPrice, maxPrice} = filters
+  const {searchTerm, tags, vendors, productTypes, minPrice, maxPrice} = filters
 
   // Relevance is non-deterministic if there is no query, so we default to "title" instead
   const initialSortKey = searchTerm ? 'RELEVANCE' : 'TITLE'
@@ -73,6 +73,8 @@ export const useProductSearch = ({
       s: sortKey === initialSortKey ? undefined : sortKey,
       // Don't show if all values are selected
       t: tags,
+      v: vendors,
+      p: productTypes,
       c: cursors.after || undefined
     })
 
@@ -84,39 +86,51 @@ export const useProductSearch = ({
     setSearchQueryString(buildProductSearchQuery(filters))
   }, [filters, cursors, sortKey])
 
+  const isFetching = result?.fetching
+  const hasNextPage = result?.data?.products?.pageInfo?.hasNextPage ?? false
+
+  const fetchNextPage = () => {
+    if (hasNextPage) {
+      // when we go forward we want all products after the last one of our array
+      const prods = result?.data?.products?.edges
+
+      if (prods) {
+        const prod = prods[prods.length - 1]
+
+        if (prod) {
+          const nextCursor = prod.cursor
+
+          setCursors({
+            before: null,
+            after: nextCursor
+          })
+        }
+      }
+    }
+  }
+
   const resetCursor = () => {
+    setProducts([])
     setCursors({
       before: null,
       after: null
     })
   }
 
-  const fetchNextPage = () => {
-    // when we go forward we want all products after the last one of our array
-    const prods = result?.data?.products?.edges
-
-    if (prods) {
-      const prod = prods[prods.length - 1]
-
-      if (prod) {
-        const nextCursor = prod.cursor
-
-        setCursors({
-          before: null,
-          after: nextCursor
-        })
-      }
-    }
-  }
-
-  const isFetching = result?.fetching
-  const hasNextPage = result?.data?.products?.pageInfo?.hasNextPage ?? false
-
   const [products, setProducts] = React.useState<ShopifyProduct[]>([])
 
   React.useEffect(() => {
-    setProducts([])
-  }, [searchTerm, tags, minPrice, maxPrice, sortKey, reverse])
+    resetCursor()
+  }, [
+    searchTerm,
+    tags,
+    vendors,
+    productTypes,
+    minPrice,
+    maxPrice,
+    sortKey,
+    reverse
+  ])
 
   React.useEffect(() => {
     if (result?.data?.products?.edges) {

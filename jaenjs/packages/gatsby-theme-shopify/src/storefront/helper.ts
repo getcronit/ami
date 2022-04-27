@@ -17,6 +17,8 @@ const appendToQuery = (query: string, value: string, key?: 'AND' | 'OR') => {
 export interface ProductSearchFilters {
   mainTag?: string
   tags?: string[]
+  vendors?: string[]
+  productTypes?: string[]
   searchTerm?: string
   minPrice?: number
   maxPrice?: number
@@ -87,6 +89,26 @@ export const buildProductSearchQuery = (filters: ProductSearchFilters) => {
         'AND'
       )
     }
+  }
+
+  if (filters.vendors) {
+    query = appendToQuery(
+      query,
+      `(${filters.vendors
+        .map(vendor => `vendor:${JSON.stringify(vendor)}`)
+        .join(' OR ')})`,
+      'AND'
+    )
+  }
+
+  if (filters.productTypes) {
+    query = appendToQuery(
+      query,
+      `(${filters.productTypes
+        .map(productType => `product_type:${JSON.stringify(productType)}`)
+        .join(' OR ')})`,
+      'AND'
+    )
   }
 
   if (filters.minPrice) {

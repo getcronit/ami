@@ -7,6 +7,8 @@ export interface NodeArray<T> {
 export interface ShopifyPageGeneratorQueryData {
   allShopifyProduct: {
     tags: string[]
+    vendors: Array<string>
+    productTypes: Array<string>
     totalCount: number
     maxPrice: number
     minPrice: number
@@ -36,6 +38,8 @@ export interface ShopifyPageGeneratorQueryData {
           price: number
         }>
         tags: string[]
+        vendor: string
+        productType: string
       }>
     }>
   }
@@ -55,6 +59,8 @@ export interface ProductsPageContext extends ExcludeJaenPage {
   minPrice: number | null
   implicitTags: Array<string>
   tags: Array<string>
+  vendors: Array<string>
+  productTypes: Array<string>
   collectionId?: string
   totalProductsPerPage?: number
 }
