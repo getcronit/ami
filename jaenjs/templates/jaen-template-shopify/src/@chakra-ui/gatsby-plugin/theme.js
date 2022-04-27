@@ -40,6 +40,21 @@ const theme = {
       },
       ':host,:root': {
         '--chakra-ui-focus-ring-color': '#424240'
+      },
+      '::-webkit-scrollbar': {
+        width: '0.5em',
+        height: '0.5em'
+      },
+
+      '::-webkit-scrollbar-thumb': {
+        background: 'agt.gray'
+      },
+      '::-webkit-scrollbar-thumb:hover': {
+        background: 'agt.gray.200'
+      },
+      '::-webkit-scrollbar-track': {
+        background: 'agt.lightgray',
+        boxShadow: 'inset 0px 0px 0px 0px #F0F0F0'
       }
     })
   },
