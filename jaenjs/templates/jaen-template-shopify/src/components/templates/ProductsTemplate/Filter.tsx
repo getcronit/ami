@@ -14,6 +14,7 @@ import {
   Select,
   Spacer,
   Stack,
+  StackProps,
   Text,
   useColorModeValue,
   VStack
@@ -118,19 +119,74 @@ const PriceRangeFilter = (props: {
   )
 }
 
+interface CheckboxFilterProps {
+  label: string
+  values: Array<{
+    label: string
+    value: string
+  }>
+  activeValues: Array<string>
+  onChange: (values: Array<string>) => void
+  height?: StackProps['height']
+}
+
+const CheckboxFilterBox = ({
+  label,
+  values,
+  activeValues,
+  onChange,
+  height = '44'
+}: CheckboxFilterProps) => {
+  if (values.length === 0) {
+    return null
+  }
+
+  return (
+    <Stack spacing={1}>
+      <Text fontWeight={'semibold'}>{label}</Text>
+      <Stack spacing={2} h={height} overflowY="scroll">
+        {values.map(v => {
+          const isActive = activeValues.includes(v.value)
+
+          return (
+            <Checkbox
+              key={v.value}
+              isChecked={isActive}
+              onChange={() =>
+                onChange(
+                  isActive
+                    ? activeValues.filter(t => t !== v.value)
+                    : [...activeValues, v.value]
+                )
+              }>
+              {v.label}
+            </Checkbox>
+          )
+        })}
+      </Stack>
+    </Stack>
+  )
+}
+
 interface FilterProps {
   allTags: Array<string> // ["category:test",...]
   activeTags: Array<string>
+  allVendors: Array<string>
+  activeVendors: Array<string>
+  allProductTypes: Array<string>
+  activeProductTypes: Array<string>
   onActiveTagsChange: (tags: FilterProps['activeTags']) => void
+  onActiveVendorsChange: (vendors: FilterProps['activeVendors']) => void
+  onActiveProductTypesChange: (
+    productTypes: FilterProps['activeProductTypes']
+  ) => void
   priceFilter?: React.ComponentProps<typeof PriceRangeFilter>
 }
 
 export const Filter = (props: FilterProps) => {
   const [activeTags, setActiveTags] = React.useState(props.activeTags)
 
-  console.log(`Filter: activeTags: ${JSON.stringify(activeTags)}`)
-
-  const groupedFilter = React.useMemo(() => {
+  const {Kategorie: category, ...groupedFilter} = React.useMemo(() => {
     const grouped: {
       [group: string]: Array<{
         tag: string
@@ -153,46 +209,60 @@ export const Filter = (props: FilterProps) => {
     return grouped
   }, [props.allTags])
 
-  const handleActiveTabsChange = (tag: string) => {
-    let newActiveTags
+  const handleActiveTabsChange = (tags: string[]) => {
+    setActiveTags(tags)
 
-    if (activeTags.includes(tag)) {
-      newActiveTags = activeTags.filter(t => t !== tag)
-    } else {
-      newActiveTags = [...activeTags, tag]
-    }
-
-    setActiveTags(newActiveTags)
-
-    props.onActiveTagsChange(newActiveTags)
+    props.onActiveTagsChange(tags)
   }
 
   return (
     <VStack px="2" spacing={4} divider={<Divider />} align="stretch">
-      <>
-        {Object.entries(groupedFilter).map(([tagType, values]) => (
-          <Box pb="2">
-            <Stack>
-              <Text fontWeight={'bold'}>{tagType}</Text>
-              <Stack>
-                {values.map(({tag, label}, key) => {
-                  const isChecked = activeTags.includes(tag)
+      <CheckboxFilterBox
+        label="Kategorie"
+        values={category.map(c => ({
+          label: c.label,
+          value: c.tag
+        }))}
+        activeValues={activeTags}
+        onChange={handleActiveTabsChange}
+      />
 
-                  return (
-                    <Checkbox
-                      key={key}
-                      defaultChecked={isChecked}
-                      onChange={() => handleActiveTabsChange(tag)}>
-                      {label}
-                    </Checkbox>
-                  )
-                })}
-              </Stack>
-            </Stack>
-          </Box>
-        ))}
-      </>
+      <CheckboxFilterBox
+        label="Hersteller"
+        values={props.allVendors.map(v => ({
+          label: v,
+          value: v
+        }))}
+        activeValues={props.activeVendors}
+        onChange={props.onActiveVendorsChange}
+        height={'24'}
+      />
+
+      <CheckboxFilterBox
+        label="Art"
+        values={props.allProductTypes.map(v => ({
+          label: v,
+          value: v
+        }))}
+        activeValues={props.activeProductTypes}
+        onChange={props.onActiveProductTypesChange}
+        height={'14'}
+      />
+
       {props.priceFilter && <PriceRangeFilter {...props.priceFilter} />}
+
+      {Object.entries(groupedFilter).map(([tagType, values]) => (
+        <CheckboxFilterBox
+          label={tagType}
+          values={values.map(c => ({
+            label: c.label,
+            value: c.tag
+          }))}
+          activeValues={activeTags}
+          onChange={handleActiveTabsChange}
+          height={'20'}
+        />
+      ))}
     </VStack>
   )
 }

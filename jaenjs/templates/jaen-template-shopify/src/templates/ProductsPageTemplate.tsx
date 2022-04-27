@@ -12,14 +12,25 @@ import {ProductsTemplate} from '../components/templates'
 const ProductsPageTemplate = (
   props: PageProps<ProductsPageData, ProductsPageContext>
 ) => {
-  const {implicitTags, tags, maxPrice, minPrice} = props.pageContext
+  const {
+    implicitTags,
+    tags,
+    maxPrice,
+    minPrice,
+    vendors,
+    productTypes
+  } = props.pageContext
 
   const [filters, setFilters] = React.useState<{
     tags?: string[]
+    vendors?: string[]
+    productTypes?: string[]
     maxPrice?: number
     minPrice?: number
   }>({
-    tags: []
+    tags: [],
+    vendors: [],
+    productTypes: []
   })
 
   const [sortKey, setSortKey] = React.useState<string | undefined>(undefined)
@@ -31,6 +42,8 @@ const ProductsPageTemplate = (
     filters: {
       mainTag: implicitTags.length > 0 ? implicitTags[0] : undefined,
       tags: filters.tags,
+      vendors: filters.vendors,
+      productTypes: filters.productTypes,
       maxPrice: filters.maxPrice,
       minPrice: filters.minPrice
     }
@@ -41,8 +54,6 @@ const ProductsPageTemplate = (
       ...filters,
       ...newFilters
     })
-
-    search.resetCursor()
   }
 
   const onSortChange = (sort: string) => {
@@ -66,8 +77,6 @@ const ProductsPageTemplate = (
         setReverse(false)
     }
 
-    search.resetCursor()
-
     setSortKey(sortOption)
   }
 
@@ -78,6 +87,8 @@ const ProductsPageTemplate = (
         products={search.products}
         implicitTags={implicitTags}
         tags={tags}
+        vendors={vendors}
+        productTypes={productTypes}
         isFetching={search.isFetching}
         fetchNextPage={search.fetchNextPage}
         updateFilter={updateFilters}

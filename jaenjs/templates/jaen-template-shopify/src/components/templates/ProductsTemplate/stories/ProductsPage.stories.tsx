@@ -18,6 +18,8 @@ Default.args = {
   products: data.products,
   implicitTags: data.implicitTags,
   tags: data.tags,
+  vendors: data.vendors,
+  productTypes: data.productTypes,
   path: '/products',
   minPrice: data.minPrice,
   maxPrice: data.maxPrice,

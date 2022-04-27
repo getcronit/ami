@@ -3907,10 +3907,10 @@
   dependencies:
     gatsby "^4.12.1"
 
-"@snek-at/gatsby-theme-shopify@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@snek-at/gatsby-theme-shopify/-/gatsby-theme-shopify-1.1.1.tgz#f4633ded19796ff375542e50bf39152c5a928218"
-  integrity sha512-6IZFYw5v8s4cDUTxYJe2O+DW10T6DuNq+J4W8z2+GAZNe3/EjdxT5p1CESxzmofKT1sxXVPVrN6pgqdkbbzR0A==
+"@snek-at/gatsby-theme-shopify@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@snek-at/gatsby-theme-shopify/-/gatsby-theme-shopify-1.2.0.tgz#dfedd757a4ef80963f6f52d5129bc011379fa115"
+  integrity sha512-UCUnDPRvFck3HE4E0SmrjMRKcL1pswrEp/abZXdJALVECp558EoE74kg/lHgasEbuI6L0mXGqw4Dans0paPcbA==
   dependencies:
     gatsby "^4.12.1"
     gatsby-plugin-image "^2.12.1"

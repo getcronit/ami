@@ -34,12 +34,16 @@ export interface ProductsTemplateProps extends ProductsPageData {
   products: ShopifyProduct[]
   implicitTags: ProductsPageContext['implicitTags']
   tags: ProductsPageContext['tags']
+  vendors: ProductsPageContext['vendors']
+  productTypes: ProductsPageContext['productTypes']
   minPrice: ProductsPageContext['minPrice']
   maxPrice: ProductsPageContext['maxPrice']
   isFetching: boolean
   fetchNextPage: () => void
   updateFilter: (filter: {
     tags?: string[]
+    vendors?: string[]
+    productTypes?: string[]
     minPrice?: number
     maxPrice?: number
   }) => void
@@ -49,15 +53,15 @@ export interface ProductsTemplateProps extends ProductsPageData {
 
 export const ProductsTemplate = (props: ProductsTemplateProps) => {
   const [activeTags, setActiveTags] = React.useState<string[]>([])
+  const [activeVendors, setActiveVendors] = React.useState<string[]>([])
+  const [activeProductTypes, setActiveProductTypes] = React.useState<string[]>(
+    []
+  )
 
   const mobile = useDisclosure()
   const [isDesktop] = useMediaQuery('(min-width: 1268px)')
 
   const gridRef = React.useRef<HTMLDivElement>(null)
-
-  const fetchMore = React.useCallback(() => {
-    props.fetchNextPage()
-  }, [props.isFetching, props.fetchNextPage])
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -66,8 +70,10 @@ export const ProductsTemplate = (props: ProductsTemplateProps) => {
 
         const currentScroll = window.pageYOffset + window.innerHeight
 
+        console.log(yOfDivEnd, currentScroll)
+
         if (yOfDivEnd < currentScroll) {
-          fetchMore()
+          props.fetchNextPage()
         }
       }
     }
@@ -77,13 +83,29 @@ export const ProductsTemplate = (props: ProductsTemplateProps) => {
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
-  }, [])
+  }, [props.fetchNextPage])
 
   const updateTags = (tags: string[]) => {
     setActiveTags(tags)
 
     props.updateFilter({
       tags
+    })
+  }
+
+  const updateVendors = (vendors: string[]) => {
+    setActiveVendors(vendors)
+
+    props.updateFilter({
+      vendors
+    })
+  }
+
+  const updateProductTypes = (productTypes: string[]) => {
+    setActiveProductTypes(productTypes)
+
+    props.updateFilter({
+      productTypes
     })
   }
 
@@ -101,7 +123,13 @@ export const ProductsTemplate = (props: ProductsTemplateProps) => {
     <Filter
       activeTags={activeTags}
       allTags={props.tags}
+      activeVendors={activeVendors}
+      allVendors={props.vendors}
+      activeProductTypes={activeProductTypes}
+      allProductTypes={props.productTypes}
       onActiveTagsChange={updateTags}
+      onActiveVendorsChange={updateVendors}
+      onActiveProductTypesChange={updateProductTypes}
       priceFilter={
         hasPriceFilter
           ? {
@@ -219,6 +247,9 @@ export const Header = (props: {
               variant={'unstyled'}
               my="2"
               icon={<Icon as={FaSort} mb="1" />}
+              defaultValue={
+                props.sortOptions.length > 0 ? props.sortOptions[0] : []
+              }
               onChange={e => props.onSortChange(e.target.value)}>
               {props.sortOptions.map((option, index) => (
                 <option key={index} value={option}>
