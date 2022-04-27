@@ -1,3 +1,4 @@
+export {HomeTemplate} from './HomeTemplate'
 export {ProductTemplate} from './ProductTemplate'
 export {ProductsTemplate} from './ProductsTemplate'
 export {CollectionTemplate} from './CollectionTemplate'

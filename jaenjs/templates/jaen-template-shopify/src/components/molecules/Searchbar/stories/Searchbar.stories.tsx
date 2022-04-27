@@ -16,5 +16,5 @@ const Template: ComponentStory<typeof Searchbar> = args => (
 
 export const Default = Template.bind({})
 Default.args = {
-  searchResultProducts: ProductsPageStories.Simple.args?.products
+  searchResultProducts: ProductsPageStories.Default.args?.products
 }

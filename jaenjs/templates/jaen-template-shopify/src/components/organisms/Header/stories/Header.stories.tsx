@@ -14,7 +14,7 @@ const Template: ComponentStory<typeof Header> = args => <Header {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  ...SearchbarStories.Simple.args,
+  ...SearchbarStories.Default.args,
   path: '/munition/waffen/waffen-klassen/waffen-klassen-kugeln',
   links: [
     {

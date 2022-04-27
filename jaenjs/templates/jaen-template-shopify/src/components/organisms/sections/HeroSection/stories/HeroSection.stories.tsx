@@ -28,7 +28,7 @@ const Template: ComponentStory<typeof HeroSection> = args => (
 export const Default = Template.bind({})
 Default.args = {
   categoryProducts: data.categoryShowcase.nodes,
-  showcaseProducts: data.weaponSpotlight.nodes,
+  spotlightProducts: data.weaponSpotlight.nodes,
   latestProducts: data.latestProducts.nodes,
   noScroll: false
 }

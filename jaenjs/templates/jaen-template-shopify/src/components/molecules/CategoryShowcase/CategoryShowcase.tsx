@@ -12,7 +12,7 @@ export interface CategoryTabProps {
   products: ShopifyProduct[]
   direction: string
   visible: string
-  getPath: (handle: string) => string
+  prefixPath: string
 }
 
 const TabBox = motion<BoxProps>(Box)
@@ -44,7 +44,7 @@ export const CategoryTab = ({
   products,
   direction,
   visible,
-  getPath
+  prefixPath
 }: CategoryTabProps) => {
   return (
     <AnimatePresence exitBeforeEnter custom={direction}>
@@ -63,9 +63,7 @@ export const CategoryTab = ({
             columns={{base: 1, sm: 2, md: 3, xl: 6}}
             spacing="5">
             {products.map((item, key) => (
-              <Link key={key} as={GatsbyLink} to={getPath(item.handle)} _hover={{textDecoration: 'none'}}>
-                <ProductCard product={item} key={key} borderline />
-              </Link>
+              <ProductCard product={item} key={key} prefixPath={prefixPath} borderline />
             ))}
           </SimpleGrid>
         </TabBox>
@@ -102,7 +100,7 @@ export const CategoryShowcase = ({
 
   tabs['LATEST'] = {
     name: 'Neueste Produkte',
-    path: 'latest',
+    path: '',
     items: latestProducts,
     position: -100
   }
@@ -166,9 +164,7 @@ export const CategoryShowcase = ({
                 )
                 .slice(0, 6)}
               direction={direction}
-              getPath={handle => {
-                return `${collection.path}/produkte/${handle}`
-              }}
+              prefixPath={`${collection.path}/products`}
             />
           )
         })}

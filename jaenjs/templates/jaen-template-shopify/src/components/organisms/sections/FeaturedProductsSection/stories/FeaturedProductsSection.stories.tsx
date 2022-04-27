@@ -16,6 +16,6 @@ const Template: ComponentStory<typeof FeaturedProductsSection> = args => (
 
 export const Default = Template.bind({})
 Default.args = {
-  products: data.products,
-  heading: 'Featured Products'
+  heading: 'Featured Products',
+  featuredProducts: data.products,
 }

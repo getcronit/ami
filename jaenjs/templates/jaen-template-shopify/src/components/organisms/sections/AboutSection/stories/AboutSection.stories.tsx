@@ -1,23 +1,21 @@
 import React from 'react'
 import {Image} from '@chakra-ui/react'
+import {withJaenMock} from '@jaenjs/jaen'
 import {ComponentStory, ComponentMeta} from '@storybook/react'
 
 import {AboutSection} from '../AboutSection'
+import {jaenPage} from './jaen-data'
 
 export default {
   title: 'Components/Organisms/Sections/AboutSection',
   component: AboutSection,
   decorators: [
-    storyFn => (
-      <div
-        style={{
-          position: 'relative',
-          overflow: 'hidden',
-          width: '100%'
-        }}>
-        {storyFn()}
-      </div>
-    )
+    Story => {
+      const MockedStory = withJaenMock(Story, {jaenPage})
+      return(
+        <MockedStory/>
+      )
+    }
   ]
 } as ComponentMeta<typeof AboutSection>
 
@@ -40,13 +38,6 @@ Default.args = {
       est laborum.
     </p>
   ),
-  backgroundimage: (
-    <Image
-      className="backgroundimage"
-      alt="backgroundimage"
-      src="https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_960_720.jpg"
-    />
-  )
 }
 
 

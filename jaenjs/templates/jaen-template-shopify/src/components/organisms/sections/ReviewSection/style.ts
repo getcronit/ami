@@ -1,12 +1,18 @@
 import {css} from '@emotion/react'
 
-export const BackgroundImage = css`
-  .backgroundimage {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    z-index: 0;
+const isVisible = (visible: boolean) => (visible ? 'block' : 'none')
+
+export const Section = () => css`
+  * {
+    z-index: 1;
+  }
+`
+
+export const ReviewStyle = (visible1: boolean, visible2: boolean) => css`
+  &:hover > .button1 {
+    display: ${isVisible(visible1)};
+  }
+  &:hover > .button2 {
+    display: ${isVisible(visible2)};
   }
 `

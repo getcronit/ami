@@ -58,64 +58,66 @@ export interface AboutSectionProps {
   heading: React.ReactNode
   teaser: React.ReactNode
   text: React.ReactNode
-  backgroundimage: React.ReactNode
 }
 
 export const AboutSection = ({
   heading,
   teaser,
   text,
-  backgroundimage
 }: AboutSectionProps) => {
   return (
-    <Container position={'relative'} maxW="8xl" my={8}>
-      <Flex
-        direction={{
-          base: 'column',
-          md: 'row'
-        }}>
-        <Box w="100%">
-          <Stack id="about" direction={{base: 'column', lg: 'row'}}>
-            <Stack flex={1} justify={{lg: 'center'}}>
-              <Box>
-                <Heading mb={5} size={'2xl'}>
-                  {heading}
-                </Heading>
-                <Bullet color="agt.red" w="unset" fontSize="xl" mb="10" />
-              </Box>
-              <Box py="3">{text}</Box>
-              <ButtonGroup>
-                <Button
-                  colorScheme="agt.blueScheme"
-                  variant="outline"
-                  size="lg">
-                  Mehr erfahren
-                </Button>
-                <Button colorScheme="agt.blueScheme" variant="solid" size="lg">
-                  Shop
-                </Button>
-              </ButtonGroup>
+    <Box bg="#ece8e1" position='relative' py={8}>
+      <Container position={'relative'} maxW="8xl">
+        <Flex
+          direction={{
+            base: 'column',
+            md: 'row'
+          }}>
+          <Box w="100%">
+            <Stack id="about" direction={{base: 'column', lg: 'row'}}>
+              <Stack flex={1} justify={{lg: 'center'}}>
+                <Box>
+                  <Heading mb={5} size={'2xl'}>
+                    <Field.Text name="heading" defaultValue={'Headingl'} />
+                  </Heading>
+                  <Bullet color="agt.red" w="unset" fontSize="xl" mb="10" />
+                </Box>
+                <Box py="3">
+                  <Field.Text name="text" defaultValue={'textl'} />
+                </Box>
+                <ButtonGroup>
+                  <Button
+                    colorScheme="agt.blueScheme"
+                    variant="outline"
+                    size="lg">
+                    Mehr erfahren
+                  </Button>
+                  <Button colorScheme="agt.blueScheme" variant="solid" size="lg">
+                    Shop
+                  </Button>
+                </ButtonGroup>
+              </Stack>
             </Stack>
-          </Stack>
-        </Box>
+          </Box>
 
-        <Field.Section
-          as={VStack}
-          props={{
-            w: '100%',
-            spacing: 0,
-            px: {base: 4, md: 36},
-            py: {base: 8, md: 16},
-            justify: 'center'
-          }}
-          sectionProps={{
-            w: '100%'
-          }}
-          name="features"
-          displayName="Merkmale"
-          sections={[FeatureSection]}
-        />
-      </Flex>
-    </Container>
+          <Field.Section
+            as={VStack}
+            props={{
+              w: '100%',
+              spacing: 0,
+              px: {base: 4, md: 36},
+              py: {base: 8, md: 16},
+              justify: 'center'
+            }}
+            sectionProps={{
+              w: '100%'
+            }}
+            name="features"
+            displayName="Merkmale"
+            sections={[FeatureSection]}
+          />
+        </Flex>
+      </Container>
+    </Box>
   )
 }

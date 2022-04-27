@@ -21,7 +21,7 @@ module.exports = {
 
     // Transpile Gatsby module because Gatsby and Jaen includes un-transpiled ES6 code.
     config.module.rules[0].exclude = [
-      /node_modules\/(?!(gatsby|@jaenjs\/jaen)\/)/
+      /node_modules\/(?!(gatsby|@jaenjs\/jaen|@jaenjs\/snek-finder)\/)/
     ]
     // Use babel-plugin-remove-graphql-queries to remove static queries from components when rendering in storybook
     config.module.rules[0].use[0].options.plugins.push(

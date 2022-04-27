@@ -1,9 +1,7 @@
 import React from 'react'
-
 import {ComponentStory, ComponentMeta} from '@storybook/react'
 
 import {ProductTemplate} from '../ProductTemplate'
-
 import data from './data'
 
 export default {

@@ -1,5 +1,17 @@
 import React from 'react'
 import {
+  Box,
+  Container,
+  Heading,
+  VStack,
+  Divider
+} from '@chakra-ui/layout'
+
+import {
+  AboutSection,
+  AboutSectionProps,
+  FAQSection,
+  FAQSectionProps,
   FeaturedProductsSection,
   HeroSection,
   ReviewSection,
@@ -7,8 +19,11 @@ import {
   FeaturedProductsSectionProps,
   ReviewSectionProps
 } from '../../organisms/sections'
+import {ParallaxBackground} from '../../molecules/ParallaxBackground'
 
 export interface HomeTemplateProps {
+  aboutSection: AboutSectionProps
+  faqSection: FAQSectionProps
   heroSection: HeroSectionProps
   featuredProductsSection: FeaturedProductsSectionProps
   reviewSection: ReviewSectionProps
@@ -19,7 +34,12 @@ export const HomeTemplate = (props: HomeTemplateProps) => {
     <>
       <HeroSection {...props.heroSection} />
       <FeaturedProductsSection {...props.featuredProductsSection} />
-      <ReviewSection {...props.reviewSection} />
+      <Box position={'relative'}>
+        <ParallaxBackground strokeColor="#dbd8d2" backgroundColor="#1f1f1d"/>
+        <ReviewSection {...props.reviewSection} />
+        <FAQSection {...props.faqSection} />
+      </Box>
+      <AboutSection {...props.aboutSection} />
     </>
   )
 }

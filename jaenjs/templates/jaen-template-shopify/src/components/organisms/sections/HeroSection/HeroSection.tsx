@@ -22,7 +22,7 @@ export interface CategoryProduct extends ShopifyProduct {
 export interface HeroSectionProps {
   latestProducts: ShopifyProduct[]
   categoryProducts: CategoryProduct[]
-  showcaseProducts: ShopifyProduct[]
+  spotlightProducts: ShopifyProduct[]
   noScroll?: boolean
 }
 
@@ -39,7 +39,7 @@ export interface Tabs {
 export const HeroSection = ({
   latestProducts,
   categoryProducts,
-  showcaseProducts,
+  spotlightProducts,
   noScroll
 }: HeroSectionProps) => {
   const tabs: Tabs = {}
@@ -66,7 +66,7 @@ export const HeroSection = ({
         overflow="hidden">
         <ParallaxHero noScroll={noScroll} />
         <Container maxW="8xl" py="6">
-          <ProductSpotlight products={showcaseProducts} />
+          <ProductSpotlight products={spotlightProducts} />
           <CategoryShowcase tabs={tabs} latestProducts={latestProducts} />
           <Flex
             mt="8"

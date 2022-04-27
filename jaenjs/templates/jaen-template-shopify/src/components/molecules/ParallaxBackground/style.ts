@@ -14,7 +14,7 @@ const parallaxMake = (parallax__layers: number) => {
 
 export const Section = (strokeColor: string, backgroundColor: string, noScroll: boolean | undefined) => css`
   perspective: 100px;
-  height: 800px;
+  height: 100%;
   overflow-x: hidden;
   overflow-y: ${noScroll ? "scroll" : "hidden"};
   position: absolute;

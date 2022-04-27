@@ -30,7 +30,7 @@ export const HeaderContainer = ({path}: HeaderContainerProps) => {
   )
 }
 
-export default function HeaderWithSearch({path}: HeaderContainerProps) {
+export const HeaderWithSearch = ({path}: HeaderContainerProps) => {
   return (
     <SearchProvider>
       <HeaderContainer path={path} />

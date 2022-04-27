@@ -1,8 +1,18 @@
+import * as React from 'react'
 import {GoogleReview} from '@snek-at/gatsby-plugin-scaleserp'
 import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
 import {graphql, PageProps} from 'gatsby'
-import * as React from 'react'
+import {connectPage} from '@jaenjs/jaen'
+
 import {Layout} from '../components/Layout'
+import {
+  HomeTemplate,
+} from '../components/templates'
+import {
+  FeaturedProductsSection,
+  HeroSection,
+  ReviewSection,
+} from '../components/organisms/sections'
 
 interface IndexPageData {
   googleReviews: {
@@ -12,11 +22,11 @@ interface IndexPageData {
     nodes: ShopifyProduct[]
   }
   categoryShowcase: {
-    nodes: ShopifyProduct & {
+    nodes: Array<ShopifyProduct & {
       collections: Array<{
         title: string
       }>
-    }
+    }>
   }
   latestProducts: {
     nodes: ShopifyProduct[]
@@ -30,14 +40,19 @@ interface IndexPageData {
 const IndexPage = (props: PageProps<IndexPageData>) => {
   return (
     <Layout path={props.path}>
-      {JSON.stringify(props.data)}
-      <h1>Your shop homepage</h1>
+      <HomeTemplate 
+        heroSection={{latestProducts: props.data.latestProducts.nodes, categoryProducts: props.data.categoryShowcase.nodes, spotlightProducts: props.data.productSpotlight.nodes}}
+        featuredProductsSection={{heading: "Featured Products", featuredProducts: props.data.featuredProducts.nodes}}
+        reviewSection={{heading: "Heading", googleReviews: props.data.googleReviews.nodes}}
+        faqSection={{heading: "Heading"}}
+        aboutSection={{heading: "Heading", teaser: "", text: ""}}
+      />
     </Layout>
   )
 }
 
 export const query = graphql`
-  query($featuredProductIds: [String!]!) {
+  query($featuredProductIds: [String!]!, $jaenPageId: String!) {
     googleReviews: allGoogleReview {
       nodes {
         ...googleReviewData
@@ -96,7 +111,11 @@ export const query = graphql`
         ...shopifyProductData
       }
     }
+    ...JaenPageQuery
   }
 `
 
-export default IndexPage
+export default connectPage(IndexPage, {
+  displayName: 'IndexPage'
+})
+

@@ -6,9 +6,6 @@ import {
   VStack,
   Divider
 } from '@chakra-ui/layout'
-import {useBreakpointValue} from '@chakra-ui/media-query'
-import {AnimatePresence} from 'framer-motion'
-import {useColorModeValue} from '@chakra-ui/color-mode'
 import {ReviewCard} from '../../../molecules/ReviewCard'
 import {ParallaxBackground} from '../../../molecules/ParallaxBackground'
 import {StickyStrokeLogo} from '../../../molecules/StickyStrokeLogo'
@@ -19,21 +16,19 @@ import * as style from './style'
 
 
 interface ReviewType {
-  id: string
   sourceImage: string
   source: string
-  rating: string
+  rating: number
   body: string
 }
 export interface ReviewSectionProps {
   heading: React.ReactNode
-  data: ReviewType[]
+  googleReviews: ReviewType[]
 }
 
-export const ReviewSection = ({heading, data}: ReviewSectionProps) => {
-  const reviewsForSlider = data.map((review: ReviewType) => (
+export const ReviewSection = ({heading, googleReviews}: ReviewSectionProps) => {
+  const reviewsForSlider = googleReviews.map((review: ReviewType) => (
     <ReviewCard
-      reviewId={review.id}
       reviewImage={review.sourceImage}
       reviewName={review.source}
       reviewRating={review.rating}
@@ -43,12 +38,13 @@ export const ReviewSection = ({heading, data}: ReviewSectionProps) => {
 
   return (
     <>
-      <StickyStrokeLogo strokeColor="#dbd8d2" backgroundColor="#1f1f1d" />
-      <Box position="relative" bg="agt.gray" overflow="hidden" color="ece8e1" py={16} css={style.Section}>
-        <ParallaxBackground strokeColor="#dbd8d2" backgroundColor="#1f1f1d"/>
+      {/* <StickyStrokeLogo strokeColor="#dbd8d2" backgroundColor="#1f1f1d" /> */}
+      <Box position="relative" overflow="hidden" color="ece8e1" py={16} css={style.Section}>
+        {/* <ParallaxBackground strokeColor="#dbd8d2" backgroundColor="#1f1f1d"/> */}
         <Divider
             orientation='vertical'
             position="absolute"
+            boxSizing='border-box'
             // w="0"
             // h="100%"
             top="0"
@@ -66,6 +62,27 @@ export const ReviewSection = ({heading, data}: ReviewSectionProps) => {
         <Container maxW="8xl" py={16}>
           <Slider>{reviewsForSlider}</Slider>
         </Container>
+        <Divider
+          orientation='horizontal'
+          position="absolute"
+          boxSizing='border-box'
+          w="85vw"
+          // h="100%"
+          bottom="0"
+          left="5vw"
+          // borderLeft="1px"
+          borderColor="#dbd8d2"
+        />
+        <Divider
+          orientation={undefined}
+          position="absolute"
+          boxSizing='border-box'
+          style={{transformOrigin: 'left', transform: 'rotate(330deg)'}}
+          w="15vw"
+          bottom="0"
+          left='90vw'
+          borderColor="#dbd8d2"
+        />
       </Box>
     </>
   )

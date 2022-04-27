@@ -19,22 +19,22 @@ import * as style from './style'
 
 export interface FeaturedProductsSectionProps {
   heading: React.ReactNode
-  products: ShopifyProduct[]
+  featuredProducts: ShopifyProduct[]
   productsPagePath?: string
 }
 
 export const FeaturedProductsSection = ({
   heading,
-  products,
+  featuredProducts,
   productsPagePath = '/products'
 }: FeaturedProductsSectionProps) => {
   return (
     <>
-      <StickyStrokeLogo strokeColor="#dbd8d2" backgroundColor="white" />
+      <StickyStrokeLogo strokeColor="#dbd8d2" backgroundColor="transperent" />
       <Box
         position="relative"
         overflow="hidden"
-        color="ece8e1"
+        bg="#ece8e1"
         pb="4"
         css={style.Section}>
         <Heading
@@ -42,7 +42,7 @@ export const FeaturedProductsSection = ({
           top="10%"
           left="10%"
           position="absolute"
-          color="white"
+          color="#ece8e1"
           style={{WebkitTextStroke: '1px #dbd8d2'}}>
           <span>Si vis pacem</span>
           <span>para bellum</span>
@@ -63,10 +63,10 @@ export const FeaturedProductsSection = ({
             <Bullet color="agt.red" w="unset" fontSize="xl" mt="5" mb="10" />
           </Box>
           <SimpleGrid columns={{base: 2, md: 3, xl: 4}} spacing="5">
-            {products.map((item, key) => {
+            {featuredProducts.map((product, key) => {
               return (
                 <ProductCard
-                  product={item}
+                  product={product}
                   key={key}
                   borderline
                   prefixPath={productsPagePath}
