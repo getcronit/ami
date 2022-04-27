@@ -66,8 +66,9 @@ const ProductsPageTemplate = (
         setReverse(false)
     }
 
-    setSortKey(sortOption)
     search.resetCursor()
+
+    setSortKey(sortOption)
   }
 
   return (
