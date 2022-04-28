@@ -203,47 +203,49 @@ export const Footer = ({
   col3
 }: FooterProps) => {
   return (
-    <Box
-      as="footer"
-      role="contentinfo"
-      mx="auto"
-      maxW="8xl"
-      py="12"
-      px={{base: '4', md: '8'}}>
-      <Stack spacing="10" divider={<StackDivider />}>
-        <Stack
-          direction={{base: 'column', lg: 'row'}}
-          spacing={{base: '10', lg: '28'}}>
-          <Box flex="1">
-            <Logo />
-          </Box>
+    <Box bg="white">
+      <Box
+        as="footer"
+        role="contentinfo"
+        mx="auto"
+        maxW="8xl"
+        py="12"
+        px={{base: '4', md: '8'}}>
+        <Stack spacing="10" divider={<StackDivider />}>
           <Stack
-            direction={{base: 'column', md: 'row'}}
-            spacing={{base: '10', md: '20'}}>
-            <LinkGrid
-              col1h={col1h}
-              col1={col1}
-              col2h={col2h}
-              col2={col2}
-              spacing={{base: '10', md: '20', lg: '28'}}
-              flex="1"
-            />
-            {/* <SubscribeForm width={{ base: 'full', md: 'sm' }} /> */}
-            <Businesshours
-              col3h={col3h}
-              col3={col3}
-              width={{base: 'full', md: 'sm'}}
-            />
+            direction={{base: 'column', lg: 'row'}}
+            spacing={{base: '10', lg: '28'}}>
+            <Box flex="1">
+              <Logo />
+            </Box>
+            <Stack
+              direction={{base: 'column', md: 'row'}}
+              spacing={{base: '10', md: '20'}}>
+              <LinkGrid
+                col1h={col1h}
+                col1={col1}
+                col2h={col2h}
+                col2={col2}
+                spacing={{base: '10', md: '20', lg: '28'}}
+                flex="1"
+              />
+              {/* <SubscribeForm width={{ base: 'full', md: 'sm' }} /> */}
+              <Businesshours
+                col3h={col3h}
+                col3={col3}
+                width={{base: 'full', md: 'sm'}}
+              />
+            </Stack>
+          </Stack>
+          <Stack
+            direction={{base: 'column-reverse', md: 'row'}}
+            justifyContent="space-between"
+            alignItems="center">
+            <Copyright />
+            <SocialMediaLinks />
           </Stack>
         </Stack>
-        <Stack
-          direction={{base: 'column-reverse', md: 'row'}}
-          justifyContent="space-between"
-          alignItems="center">
-          <Copyright />
-          <SocialMediaLinks />
-        </Stack>
-      </Stack>
+      </Box>
     </Box>
   )
 }

@@ -36,7 +36,7 @@ const theme = {
   styles: {
     global: props => ({
       body: {
-        bg: mode('gray.50', '#1d1f21')(props)
+        bg: mode('#ece8e1', '#1d1f21')(props)
       },
       ':host,:root': {
         '--chakra-ui-focus-ring-color': '#424240'

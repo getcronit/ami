@@ -12,7 +12,8 @@ export const ContainerLayout: React.FC = ({children}) => {
         id="featuredproducts"
         bg={useColorModeValue('white', 'gray.700')}
         borderWidth="1px"
-        my={{base: 4, md: 8}}
+        mt={{base: 4, md: 12}}
+        mb={{base: 8, md: 24}}
         px={4}
         py={4}
         borderRadius="lg">
