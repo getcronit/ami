@@ -29,15 +29,19 @@ const ProductPageTemplate = (
         compareAtPriceFormatted
       } = getFormattedProductPrices(shopifyProduct)
 
+      const {price, compareAtPrice} = shopifyProduct.variants[0]
+
       const tags = getProductTags(shopifyProduct)
 
       addToWishlist({
         id,
         handle: shopifyProduct.handle,
         title: shopifyProduct.title,
-        price: priceFormatted,
-        compareAtPrice: compareAtPriceFormatted,
-        image: shopifyProduct.featuredMedia.image,
+        price,
+        compareAtPrice,
+        priceFormatted,
+        compareAtPriceFormatted,
+        featuredMedia: shopifyProduct.featuredMedia,
         categoriesString: tags.categoryString,
         tagsString: tags.otherString,
         quantity: 1

@@ -221,15 +221,17 @@ export const Filter = (props: FilterProps) => {
 
   return (
     <VStack pr="4" spacing={4} divider={<Divider />} align="stretch">
-      <CheckboxFilterBox
-        label="Kategorie"
-        values={category.map(c => ({
-          label: c.label,
-          value: c.tag
-        }))}
-        activeValues={activeTags}
-        onChange={handleActiveTabsChange}
-      />
+      {category && (
+        <CheckboxFilterBox
+          label="Kategorie"
+          values={category.map(c => ({
+            label: c.label,
+            value: c.tag
+          }))}
+          activeValues={activeTags}
+          onChange={handleActiveTabsChange}
+        />
+      )}
 
       <CheckboxFilterBox
         label="Hersteller"

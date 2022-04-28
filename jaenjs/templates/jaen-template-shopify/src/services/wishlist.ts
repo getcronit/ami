@@ -1,3 +1,4 @@
+import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
 import {IGatsbyImageData} from 'gatsby-plugin-image'
 import React from 'react'
 
@@ -5,14 +6,13 @@ export interface WishlistProduct {
   id: string
   handle: string
   title: string
-  price: string
-  compareAtPrice: string | null
+  price: number
+  compareAtPrice: number | null
+  priceFormatted: string
+  compareAtPriceFormatted: string | null
   categoriesString: string
   tagsString: string
-  image: {
-    altText: string | null
-    gatsbyImageData: IGatsbyImageData
-  }
+  featuredMedia: ShopifyProduct['featuredMedia']
   quantity: number
 }
 

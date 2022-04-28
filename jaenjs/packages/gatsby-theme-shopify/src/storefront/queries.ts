@@ -21,6 +21,8 @@ export const StorefrontProductsQuery = `
           descriptionHtml
           totalInventory
           createdAt
+          vendor
+          productType
           variants(first: 100) {
             nodes {
               price

@@ -18,10 +18,12 @@ import {
   ShopifyProduct
 } from '@snek-at/gatsby-theme-shopify'
 import {GatsbyImage, IGatsbyImageData} from 'gatsby-plugin-image'
-import {calculateTextColorForBackgroundColor, uuidv1} from '../../../common/utils'
+import {
+  calculateTextColorForBackgroundColor,
+  uuidv1
+} from '../../../common/utils'
 
 import * as styles from './styles'
-
 
 export interface ProductCardProps {
   product: ShopifyProduct
@@ -106,7 +108,7 @@ export const ProductCard = ({
                   readOnly
                   checked></input>
                 <ImageBoxWithTags
-                  image={product.featuredMedia.image}
+                  image={product.featuredMedia?.image}
                   tags={coloredBadges}
                   className="main"
                 />
@@ -168,7 +170,6 @@ export const ProductCard = ({
             <VStack
               className="imgline"
               position="absolute"
-              zIndex={9}
               opacity="0"
               boxSize={'full'}
               py="0.5rem"
@@ -204,7 +205,7 @@ export const ProductCard = ({
 
 function ImageBoxWithTags(
   props: {
-    image: {
+    image?: {
       altText: string | null
       gatsbyImageData: IGatsbyImageData
     }
@@ -216,12 +217,14 @@ function ImageBoxWithTags(
 
   return (
     <Box overflow="hidden" position="relative" {...props}>
-      <GatsbyImage
-        onDragStart={e => e.preventDefault()}
-        draggable="false"
-        image={image.gatsbyImageData}
-        alt={image.altText || '-'}
-      />
+      {image && (
+        <GatsbyImage
+          onDragStart={e => e.preventDefault()}
+          draggable="false"
+          image={image.gatsbyImageData}
+          alt={image.altText || '-'}
+        />
+      )}
       <Flex position="absolute" top="0" left="0" right="0" p={2}>
         {tags.map((tag, index) => (
           <Badge

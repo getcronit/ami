@@ -126,7 +126,7 @@ export const WishlistTemplate = (props: {
   const itemLength = props.items.length
 
   const totalPrice = props.items.reduce(
-    (acc, item) => acc + parseInt(item.price) * item.quantity,
+    (acc, item) => acc + item.price * item.quantity,
     0
   )
 
@@ -203,7 +203,7 @@ const WishListItem = (
     <Link as={GatsbyLink} to={`/products/${props.handle}`}>
       <ProductRow
         title={props.title}
-        featuredMedia={props.image}
+        featuredMedia={props.featuredMedia}
         categoryString={props.categoriesString}
         otherString={props.tagsString}
       />
@@ -218,7 +218,7 @@ const WishListItem = (
     <Text
       fontWeight={'semibold'}
       color={props.compareAtPrice ? 'red' : 'black'}>
-      {props.price}
+      {props.priceFormatted}
     </Text>
   )
 

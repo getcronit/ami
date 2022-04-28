@@ -70,6 +70,15 @@ export const Breadcrumbs = (props: {path: string}) => {
       case 'products':
         item = 'Produkte'
         break
+      case 'wishlist':
+        item = 'Wunschliste'
+        break
+      case 'privacy':
+        item = 'Datenschutz'
+        break
+      case 'contact':
+        item = 'Kontakt'
+        break
     }
 
     let capitalizedItem = item.charAt(0).toUpperCase() + item.slice(1)

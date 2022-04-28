@@ -6,7 +6,7 @@ import {GatsbyImage} from 'gatsby-plugin-image'
 
 export const ProductRow = (props: {
   title: string
-  featuredMedia: ShopifyProduct['featuredMedia']['image']
+  featuredMedia: ShopifyProduct['featuredMedia']
   categoryString: string
   otherString: string
 }) => {
@@ -16,10 +16,12 @@ export const ProductRow = (props: {
         minW="100"
         boxSize="100"
         bg={useColorModeValue('gray.200', 'gray.600')}>
-        <GatsbyImage
-          alt={props.featuredMedia.altText || props.title}
-          image={props.featuredMedia.gatsbyImageData}
-        />
+        {props.featuredMedia?.image && (
+          <GatsbyImage
+            alt={props.featuredMedia.image.altText || props.title}
+            image={props.featuredMedia.image.gatsbyImageData}
+          />
+        )}
       </Box>
 
       <Flex ml={4} flexDirection="column" my="auto">

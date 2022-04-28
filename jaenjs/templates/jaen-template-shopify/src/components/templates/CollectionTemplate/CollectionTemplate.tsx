@@ -91,7 +91,7 @@ interface CollectionCardProps {
   image: {
     altText: string | null
     gatsbyImageData: IGatsbyImageData
-  }
+  } | null
   name: string
   productsCount?: number
 }
@@ -106,7 +106,7 @@ const CollectionCard = ({
     <Link
       as={GatsbyLink}
       to={path}
-      key={2323}
+      key={path}
       borderRadius="lg"
       overflow="hidden"
       position="relative"
@@ -119,16 +119,18 @@ const CollectionCard = ({
       }}>
       <AspectRatio ratio={1}>
         <VStack>
-          <GatsbyImage
-            alt={image.altText || name}
-            image={image.gatsbyImageData}
-            style={{
-              minHeight: '100%',
-              minWidth: '100%',
-              objectFit: 'cover',
-              objectPosition: 'center'
-            }}
-          />
+          {image && (
+            <GatsbyImage
+              alt={image.altText || name}
+              image={image.gatsbyImageData}
+              style={{
+                minHeight: '100%',
+                minWidth: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center'
+              }}
+            />
+          )}
         </VStack>
       </AspectRatio>
       <Text textAlign={'center'}>

@@ -154,6 +154,8 @@ export const transformProductSearchResultData = (
           status: undefined,
           totalInventory: edge.node.totalInventory,
           createdAt: edge.node.createdAt,
+          vendor: edge.node.vendor,
+          productType: edge.node.productType,
           media: edge.node.images.edges
             .map(imageEdge => {
               return {
@@ -169,19 +171,21 @@ export const transformProductSearchResultData = (
                 }
               }
             })
-            .filter(image => image.id !== edge.node.featuredImage.id),
-          featuredMedia: {
-            id: edge.node.featuredImage.id,
-            image: {
-              gatsbyImageData: getShopifyImage({
+            .filter(image => image.id !== edge.node.featuredImage?.id),
+          featuredMedia: edge.node.featuredImage
+            ? {
+                id: edge.node.featuredImage.id,
                 image: {
-                  ...edge.node.featuredImage,
-                  originalSrc: edge.node.featuredImage.url
+                  gatsbyImageData: getShopifyImage({
+                    image: {
+                      ...edge.node.featuredImage,
+                      originalSrc: edge.node.featuredImage.url
+                    }
+                  }),
+                  altText: edge.node.featuredImage.altText || edge.node.title
                 }
-              }),
-              altText: edge.node.featuredImage.altText || edge.node.title
-            }
-          },
+              }
+            : null,
           metafields: []
         }
       }) || []
