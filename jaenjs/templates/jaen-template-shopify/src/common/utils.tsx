@@ -1,5 +1,8 @@
 import React from 'react'
 import {Box} from '@chakra-ui/react'
+import {getColor} from '@chakra-ui/theme-tools'
+
+import theme from './theme'
 
 const breakpoints = ['0em', '30em', '48em', '62em', '80em', '96em']
 
@@ -48,3 +51,7 @@ export function replaceHexColorsInHTML(
   var re = new RegExp(coloraHex, 'g')
   return html.replace(re, colorbHex)
 }
+
+export const getThemeColor = (color: string) => (
+  getColor(theme, color)
+)
