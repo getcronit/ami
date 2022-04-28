@@ -17,7 +17,8 @@ import {
 } from '@chakra-ui/react'
 import {
   getFormattedProductPrices,
-  ProductPageData
+  ProductPageData,
+  ShopifyProduct
 } from '@snek-at/gatsby-theme-shopify'
 import {GatsbyImage, IGatsbyImageData} from 'gatsby-plugin-image'
 import React from 'react'
@@ -58,10 +59,10 @@ export const ProductTemplate = ({
           <Box w="100%">
             <Flex direction={{base: 'column', lg: 'row'}}>
               <ImageSlider
-                featuredImage={shopifyProduct.featuredMedia.image}
-                images={shopifyProduct.media
-                  .filter(m => m.id !== shopifyProduct.featuredMedia.id)
-                  .map(m => m.image)}
+                featuredMedia={shopifyProduct.featuredMedia}
+                media={shopifyProduct.media.filter(
+                  m => m.id !== shopifyProduct.featuredMedia?.id
+                )}
                 description={shopifyProduct.descriptionHtml}
               />
               <ProductDetail
@@ -247,17 +248,19 @@ function ShareText() {
   )
 }
 
-type SliderImage = {
-  altText: string | null
-  gatsbyImageData: IGatsbyImageData
-}
+type SliderMedia = ShopifyProduct['featuredMedia']
 
 const ImageThumbnailWrapItem = (props: {
-  image: SliderImage
+  media: SliderMedia
   active: boolean
   onClick: () => void
 }) => {
-  const {altText, gatsbyImageData} = props.image
+  if (!props.media) {
+    return null
+  }
+
+  const {gatsbyImageData, altText} = props.media.image
+
   return (
     <WrapItem
       boxSize={{base: '16', md: '20'}}
@@ -277,23 +280,25 @@ const ImageThumbnailWrapItem = (props: {
 }
 
 const ImageSlider = (props: {
-  featuredImage: SliderImage
-  images: Array<SliderImage>
+  featuredMedia: SliderMedia
+  media: ShopifyProduct['media']
   description?: string
 }) => {
   // null is featured image
-  const [currentImage, setCurrentImage] = React.useState<SliderImage>(
-    props.featuredImage
+  const [currentMedia, setCurrentMedia] = React.useState<SliderMedia>(
+    props.featuredMedia
   )
 
   return (
     <Box my="4" w={'100%'}>
       <AspectRatio ratio={16 / 9}>
         <Box>
-          <GatsbyImage
-            image={currentImage.gatsbyImageData}
-            alt={currentImage.altText || 'Product Image'}
-          />
+          {currentMedia?.image && (
+            <GatsbyImage
+              image={currentMedia.image.gatsbyImageData}
+              alt={currentMedia.image.altText || 'Product Image'}
+            />
+          )}
         </Box>
       </AspectRatio>
       <Wrap
@@ -301,17 +306,17 @@ const ImageSlider = (props: {
         spacing={0}
         justify="center">
         <ImageThumbnailWrapItem
-          image={props.featuredImage}
-          active={currentImage === props.featuredImage}
-          onClick={() => setCurrentImage(props.featuredImage)}
+          media={props.featuredMedia}
+          active={currentMedia === props.featuredMedia}
+          onClick={() => setCurrentMedia(props.featuredMedia)}
         />
 
-        {props.images.map((image, index) => (
+        {props.media.map((media, index) => (
           <ImageThumbnailWrapItem
             key={index}
-            image={image}
-            active={currentImage.gatsbyImageData === image.gatsbyImageData}
-            onClick={() => setCurrentImage(image)}
+            media={media}
+            active={currentMedia?.id === media.id || false}
+            onClick={() => setCurrentMedia(media)}
           />
         ))}
       </Wrap>

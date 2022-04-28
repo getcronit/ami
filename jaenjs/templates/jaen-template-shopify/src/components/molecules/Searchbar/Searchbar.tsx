@@ -27,7 +27,6 @@ import {getProductTags, ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
 import {Link as GatsbyLink} from 'gatsby'
 import {ProductRow} from '../ProductRow'
 
-
 export interface SearchbarProps {
   searchResultProducts: Array<ShopifyProduct>
   onSearch: (value: string) => void
@@ -178,7 +177,7 @@ export const Searchbar = (props: SearchbarProps) => {
                         transition="ease-out">
                         <ProductRow
                           title={product.title}
-                          featuredMedia={product.featuredMedia.image}
+                          featuredMedia={product.featuredMedia}
                           categoryString={tags.categoryString}
                           otherString={tags.otherString}
                         />

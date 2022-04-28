@@ -20,7 +20,7 @@ const tags = getProductTags(shopifyProduct)
 export const Default = Template.bind({})
 Default.args = {
   title: shopifyProduct.title,
-  featuredMedia: shopifyProduct.featuredMedia.image,
+  featuredMedia: shopifyProduct.featuredMedia,
   categoryString: tags.categoryString,
   otherString: tags.otherString
 }

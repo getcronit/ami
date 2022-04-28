@@ -203,7 +203,7 @@ const WishListItem = (
     <Link as={GatsbyLink} to={`/products/${props.handle}`}>
       <ProductRow
         title={props.title}
-        featuredMedia={props.image}
+        featuredMedia={props.featuredMedia}
         categoryString={props.categoriesString}
         otherString={props.tagsString}
       />

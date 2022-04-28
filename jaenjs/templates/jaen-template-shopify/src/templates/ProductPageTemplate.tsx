@@ -41,7 +41,7 @@ const ProductPageTemplate = (
         compareAtPrice,
         priceFormatted,
         compareAtPriceFormatted,
-        image: shopifyProduct.featuredMedia.image,
+        featuredMedia: shopifyProduct.featuredMedia,
         categoriesString: tags.categoryString,
         tagsString: tags.otherString,
         quantity: 1
