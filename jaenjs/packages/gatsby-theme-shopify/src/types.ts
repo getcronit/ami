@@ -87,6 +87,8 @@ export interface ShopifyProduct {
   status?: string
   totalInventory: number
   createdAt: string
+  vendor: string
+  productType: string
   media: Array<{
     id: string
     image: {

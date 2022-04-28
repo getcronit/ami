@@ -17,6 +17,8 @@ export const shopifyProductData = graphql`
     status
     totalInventory
     createdAt
+    vendor
+    productType
     media {
       ... on ShopifyMediaImage {
         id

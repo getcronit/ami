@@ -154,6 +154,8 @@ export const transformProductSearchResultData = (
           status: undefined,
           totalInventory: edge.node.totalInventory,
           createdAt: edge.node.createdAt,
+          vendor: edge.node.vendor,
+          productType: edge.node.productType,
           media: edge.node.images.edges
             .map(imageEdge => {
               return {

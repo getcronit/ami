@@ -20,6 +20,8 @@ export interface PurpleNode {
   descriptionHtml: string
   totalInventory: number
   createdAt: string
+  vendor: string
+  productType: string
   variants: Variants
   id: string
   tags: string[]
