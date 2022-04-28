@@ -23,7 +23,7 @@ export interface PurpleNode {
   variants: Variants
   id: string
   tags: string[]
-  featuredImage: FeaturedImage
+  featuredImage: FeaturedImage | null
   images: Images
   __typename: string
 }
