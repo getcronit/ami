@@ -28,7 +28,7 @@
     "@jaenjs/jaen": "^3.0.0-beta.34",
     "@react-icons/all-files": "^4.1.0",
     "@snek-at/gatsby-plugin-scaleserp": "^1.0.2",
-    "@snek-at/gatsby-theme-shopify": "^1.2.0",
+    "@snek-at/gatsby-theme-shopify": "^1.2.2",
     "@snek-at/react-lottie": "^1.0.0-beta.3",
     "@snek-at/uikit": "^1.0.0",
     "framer-motion": "^4.1.17",
