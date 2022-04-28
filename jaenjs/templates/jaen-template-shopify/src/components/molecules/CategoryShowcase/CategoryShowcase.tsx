@@ -1,6 +1,14 @@
 import React from 'react'
 import {Button} from '@chakra-ui/button'
-import {Box, BoxProps, Center, Flex, SimpleGrid, Text, Link} from '@chakra-ui/layout'
+import {
+  Box,
+  BoxProps,
+  Center,
+  Flex,
+  SimpleGrid,
+  Text,
+  Link
+} from '@chakra-ui/layout'
 import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
 import {useBreakpointValue} from '@chakra-ui/media-query'
 import {AnimatePresence, motion} from 'framer-motion'
@@ -59,11 +67,14 @@ export const CategoryTab = ({
           exit="exit"
           px={2}
           transition={{duration: 0.15}}>
-          <SimpleGrid
-            columns={{base: 1, sm: 2, md: 3, xl: 6}}
-            spacing="5">
+          <SimpleGrid columns={{base: 1, sm: 2, md: 3, xl: 6}} spacing="5">
             {products.map((item, key) => (
-              <ProductCard product={item} key={key} prefixPath={prefixPath} borderline />
+              <ProductCard
+                product={item}
+                key={key}
+                prefixPath={prefixPath}
+                borderline
+              />
             ))}
           </SimpleGrid>
         </TabBox>
@@ -105,44 +116,45 @@ export const CategoryShowcase = ({
     position: -100
   }
 
-  console.log(tabs)
+  const tabsList = Object.entries(tabs).sort((a, b) => {
+    const aPosition = a[1].position || 0
+    const bPosition = b[1].position || 0
+
+    return aPosition - bPosition
+  })
+
   return (
     <Box zIndex="2" position="relative" mt={-20}>
       <Flex direction={{base: 'column', md: 'row'}}>
-        {Object.entries(tabs)
-          .sort((a, b) => {
-            const aPosition = a[1].position || 0
-            const bPosition = b[1].position || 0
+        {tabsList.map(([titel, collection], index) => {
+          const isCurrent = current === titel
+          return (
+            <Box
+              userSelect="none"
+              _hover={isCurrent ? {bg: 'agt.lightgray'} : {bg: '#424240'}}
+              _first={firstRadius}
+              _last={{md: {borderTopRightRadius: '5px'}}}
+              cursor="pointer"
+              bg={isCurrent ? 'white' : 'agt.gray'}
+              py="3"
+              px="5"
+              color={isCurrent ? 'black' : 'white'}
+              onClick={() => {
+                setCurrent(titel)
 
-            return aPosition - bPosition
-          })
-          .map(([titel, collection], index) => {
-            const isCurrent = current === titel
-            return (
-              <Box
-                userSelect="none"
-                _hover={isCurrent ? {bg: 'agt.lightgray'} : {bg: '#424240'}}
-                _first={firstRadius}
-                _last={{md: {borderTopRightRadius: '5px'}}}
-                cursor="pointer"
-                bg={isCurrent ? 'white' : 'agt.gray'}
-                py="3"
-                px="5"
-                color={isCurrent ? 'black' : 'white'}
-                onClick={() => {
-                  setCurrent(titel)
-                  setDirection(
-                    index > Object.keys(tabs).indexOf(current)
-                      ? 'right'
-                      : 'left'
-                  )
-                }}>
-                <Text fontSize="14" fontWeight="bold" casing="uppercase">
-                  {collection.name}
-                </Text>
-              </Box>
-            )
-          })}
+                setDirection(
+                  index >
+                    Object.keys(Object.fromEntries(tabsList)).indexOf(current)
+                    ? 'right'
+                    : 'left'
+                )
+              }}>
+              <Text fontSize="14" fontWeight="bold" casing="uppercase">
+                {collection.name}
+              </Text>
+            </Box>
+          )
+        })}
       </Flex>
       <Box
         justifyContent="center"
@@ -154,7 +166,7 @@ export const CategoryShowcase = ({
         bg="white"
         borderBottomRadius="5px"
         borderTopRightRadius={{md: '5px'}}>
-        {Object.entries(tabs).map(([titel, collection], index) => {
+        {tabsList.map(([titel, collection], index) => {
           return (
             <CategoryTab
               visible={current === titel ? 'visible' : 'hidden'}
