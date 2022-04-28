@@ -19,8 +19,10 @@ Default.args = {
       id: '854cb18f-1179-5ad2-90d5-8c0467b0ff47',
       handle: 'cz-457-varmint-thumbhole-525-20-mit-mundungsgewinde-1-2-20-unf',
       title: 'CZ 457 Varmint THUMBHOLE 525 20" mit Mündungsgewinde 1/2×20 UNF',
-      price: '799,00 €',
+      price: 799,
+      priceFormatted: '799,00 €',
       compareAtPrice: null,
+      compareAtPriceFormatted: null,
       image: {
         gatsbyImageData: {
           images: {
@@ -54,8 +56,11 @@ Default.args = {
       id: '5474bec1-4a54-5fd9-91c2-85dfb04c7af6',
       handle: 'cz-75-tactical-sports-orange',
       title: 'CZ 75 Tactical Sports Orange',
-      price: '0,00 €',
+      price: 231,
+      priceFormatted: '231,00 €',
       compareAtPrice: null,
+      compareAtPriceFormatted: null,
+
       image: {
         gatsbyImageData: {
           images: {

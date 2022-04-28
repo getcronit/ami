@@ -5,8 +5,10 @@ export interface WishlistProduct {
   id: string
   handle: string
   title: string
-  price: string
-  compareAtPrice: string | null
+  price: number
+  compareAtPrice: number | null
+  priceFormatted: string
+  compareAtPriceFormatted: string | null
   categoriesString: string
   tagsString: string
   image: {
