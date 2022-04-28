@@ -19,7 +19,6 @@ import {
 
 import {flipImage} from './style'
 
-
 export interface ProductshowcaseProps {
   products: ShopifyProduct[]
 }
@@ -59,12 +58,17 @@ export const ProductSpotlight = ({products}: ProductshowcaseProps) => {
           justifyContent="center">
           <AnimatePresence initial={false}>
             {products.map((weapon, index) => {
-              const spotlightMetafields = weapon.metafields.filter(({namespace}) => namespace==="spotlight")
+              const spotlightMetafields = weapon.metafields.filter(
+                ({namespace}) => namespace === 'spotlight'
+              )
 
-              const mirrorImage = spotlightMetafields.find(({key, value}) => key==="mirror_image")
+              const mirrorImage = spotlightMetafields.find(
+                ({key, namespace}) =>
+                  key === 'mirror_image' && namespace === 'spotlight'
+              )
 
-              const shouldMirrorImage = mirrorImage?.value === "true"
-              
+              const shouldMirrorImage = !(mirrorImage?.value === 'true')
+
               const productPrices = getFormattedProductPrices(weapon)
 
               return (
@@ -75,13 +79,12 @@ export const ProductSpotlight = ({products}: ProductshowcaseProps) => {
                     initial={{opacity: 0, x: -300}}
                     animate={{opacity: 1, x: 0}}
                     transition={{duration: 0.5, type: 'spring'}}>
+                    <Text>{mirrorImage?.value}</Text>
                     <Box
                       height={{base: '300px', md: '450px'}}
                       width={{base: '300px', md: '450px'}}
                       mt={'-110px'}
-                      css={flipImage(
-                        shouldMirrorImage
-                      )}>
+                      css={flipImage(shouldMirrorImage)}>
                       <GatsbyImage
                         imgClassName="image"
                         image={weapon.featuredMedia.image.gatsbyImageData}
@@ -112,11 +115,16 @@ export const ProductSpotlight = ({products}: ProductshowcaseProps) => {
           </AnimatePresence>
           <AnimatePresence>
             {products.map((weapon, index) => {
-              const spotlightMetafields = weapon.metafields.filter(({namespace}) => namespace==="spotlight")
+              const spotlightMetafields = weapon.metafields.filter(
+                ({namespace}) => namespace === 'spotlight'
+              )
 
-              const title = spotlightMetafields.find(({key, value}) => key==="titel")
-              const description = spotlightMetafields.find(({key, value}) => key==="description")
-
+              const title = spotlightMetafields.find(
+                ({key, value}) => key === 'titel'
+              )
+              const description = spotlightMetafields.find(
+                ({key, value}) => key === 'description'
+              )
 
               return (
                 current === weapon && (
