@@ -109,7 +109,10 @@ export const ProductsTemplate = (props: ProductsTemplateProps) => {
     })
   }
 
-  const hasTagsFilter = props.tags.length > 0
+  const hasTagsFilter =
+    props.tags.length > 0 ||
+    props.vendors.length > 0 ||
+    props.productTypes.length > 0
 
   const hasPriceFilter = !!(
     props.minPrice &&
