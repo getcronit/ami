@@ -85,11 +85,15 @@ export const ProductSpotlight = ({products}: ProductshowcaseProps) => {
                       width={{base: '300px', md: '450px'}}
                       mt={'-110px'}
                       css={flipImage(shouldMirrorImage)}>
-                      <GatsbyImage
-                        imgClassName="image"
-                        image={weapon.featuredMedia.image.gatsbyImageData}
-                        alt={weapon.featuredMedia.image.altText || weapon.title}
-                      />
+                      {weapon.featuredMedia?.image && (
+                        <GatsbyImage
+                          imgClassName="image"
+                          image={weapon.featuredMedia.image.gatsbyImageData}
+                          alt={
+                            weapon.featuredMedia.image.altText || weapon.title
+                          }
+                        />
+                      )}
                     </Box>
                     <Text
                       zIndex="1"
