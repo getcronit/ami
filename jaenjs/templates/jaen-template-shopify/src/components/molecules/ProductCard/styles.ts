@@ -17,7 +17,7 @@ export const cardStyle = (
     border-collapse: collapse;
     text-decoration: none;
     transition: all 150ms;
-    z-index: 99;
+    z-index: 1;
 
     * {
       text-decoration: none;
@@ -28,7 +28,7 @@ export const cardStyle = (
       top: 0;
       width: 100%;
       height: 100%;
-      z-index: -99;
+      z-index: -1;
       right: 0%;
       border-collapse: collapse;
       text-decoration: none;
@@ -81,7 +81,7 @@ export const cardStyle = (
 
     &:hover {
       transform: scale(1.03);
-      z-index: 999;
+      z-index: 2;
     }
 
     &:hover .borderline {

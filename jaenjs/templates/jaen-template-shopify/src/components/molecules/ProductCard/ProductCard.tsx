@@ -170,7 +170,6 @@ export const ProductCard = ({
             <VStack
               className="imgline"
               position="absolute"
-              zIndex={9}
               opacity="0"
               boxSize={'full'}
               py="0.5rem"
