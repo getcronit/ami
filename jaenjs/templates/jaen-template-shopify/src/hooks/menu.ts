@@ -6,7 +6,15 @@ import {
 
 export const useFlatMenu = () => {
   const {navbarCollections} = useStaticQuery<{
-    navbarCollections: {nodes: Array<ShopifyCollection>}
+    navbarCollections: {
+      nodes: Array<{
+        title: string
+        productsCount: number
+        position: {
+          value: number
+        } | null
+      }>
+    }
   }>(graphql`
     {
       navbarCollections: allShopifyCollection(
@@ -23,12 +31,23 @@ export const useFlatMenu = () => {
         nodes {
           title
           productsCount
+          position: metafield(key: "position", namespace: "menu") {
+            value
+          }
         }
       }
     }
   `)
 
-  const flatMenu = navbarCollections.nodes.map(collection => {
+  const sortedNodes = navbarCollections.nodes.sort((a, b) => {
+    if (a.position && b.position) {
+      return a.position.value - b.position.value
+    }
+
+    return -1
+  })
+
+  const flatMenu = sortedNodes.map(collection => {
     const structure = getCollectionStructure(collection.title)
 
     return {
