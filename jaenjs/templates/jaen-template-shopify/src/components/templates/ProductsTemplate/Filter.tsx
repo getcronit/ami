@@ -143,13 +143,17 @@ const CheckboxFilterBox = ({
 
   return (
     <Stack spacing={1}>
-      <Text fontWeight={'semibold'}>{label}</Text>
+      <Text fontWeight={'semibold'} pl={1}>
+        {label}
+      </Text>
       <Stack spacing={2} h={height} overflowY="scroll">
         {values.map(v => {
           const isActive = activeValues.includes(v.value)
 
           return (
             <Checkbox
+              overflow={'visible'}
+              pl={1}
               key={v.value}
               isChecked={isActive}
               onChange={() =>
@@ -216,7 +220,7 @@ export const Filter = (props: FilterProps) => {
   }
 
   return (
-    <VStack px="2" spacing={4} divider={<Divider />} align="stretch">
+    <VStack pr="4" spacing={4} divider={<Divider />} align="stretch">
       <CheckboxFilterBox
         label="Kategorie"
         values={category.map(c => ({
