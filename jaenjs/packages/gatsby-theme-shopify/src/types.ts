@@ -100,7 +100,7 @@ export interface ShopifyProduct {
       gatsbyImageData: IGatsbyImageData
       altText: string | null
     }
-  }
+  } | null
   metafields: Array<{
     key: string
     value: string
@@ -115,7 +115,7 @@ export interface ShopifyCollection {
   image: {
     gatsbyImageData: IGatsbyImageData
     altText: string | null
-  }
+  } | null
 }
 
 export interface ProductPageData {
