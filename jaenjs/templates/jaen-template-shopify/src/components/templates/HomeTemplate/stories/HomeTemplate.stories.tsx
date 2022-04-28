@@ -3,6 +3,9 @@ import {withJaenMock} from '@jaenjs/jaen'
 import {ComponentStory, ComponentMeta} from '@storybook/react'
 
 import {HomeTemplate} from '../HomeTemplate'
+// import {ScrollToTopButtonProps} from '../../../molecules/buttons/ScrollToTopButton'
+// import {SideButtonsProps} from '../../../molecules/buttons/SideButtons'
+// import {ScrollSpyProps} from '../../../molecules/ScrollSpy'
 import {
   AboutSectionProps,
   FAQSectionProps,
@@ -10,6 +13,9 @@ import {
   ReviewSectionProps,
   FeaturedProductsSectionProps,
 } from '../../../organisms/sections'
+// import * as ScrollSpyStories from '../../../molecules/ScrollSpy/stories/ScrollSpy.stories'
+// import * as ScrollToTopStories from '../../../molecules/buttons/ScrollToTopButton/stories/ScrollToTopButton.stories'
+// import * as SideButtonsStories from '../../../molecules/buttons/SideButtons/stories/SideButtons.stories'
 import * as AboutSectionStories from '../../../organisms/sections/AboutSection/stories/AboutSection.stories'
 import * as FAQSectionStories from '../../../organisms/sections/FAQSection/stories/FAQSection.stories'
 import * as HeroSectionStories from '../../../organisms/sections/HeroSection/stories/HeroSection.stories'
@@ -38,6 +44,9 @@ const heroSectionArgs = HeroSectionStories.Default.args as HeroSectionProps
 const featuredProductsSectionArgs = FeaturedProductsSectionStories.Default
   .args as FeaturedProductsSectionProps
 const reviewSectionArgs = ReviewSectionStories.Default.args as ReviewSectionProps
+// const scrollToTopButtonArgs = ScrollToTopStories.Default.args as ScrollToTopButtonProps
+// const sideButtonsArgs = SideButtonsStories.Default.args as SideButtonsProps
+// const scrollSpyArgs = ScrollSpyStories.Default.args as ScrollSpyProps
 
 const Template: ComponentStory<typeof HomeTemplate> = args => (
   <HomeTemplate {...args} />
@@ -49,5 +58,8 @@ Default.args = {
   faqSection: faqSectionArgs,
   heroSection: heroSectionArgs,
   featuredProductsSection: featuredProductsSectionArgs,
-  reviewSection: reviewSectionArgs
+  reviewSection: reviewSectionArgs,
+  // sideButtons: sideButtonsArgs,
+  // scrollToTopButton: scrollToTopButtonArgs,
+  // scrollSpy: scrollSpyArgs
 }

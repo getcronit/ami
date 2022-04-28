@@ -22,11 +22,12 @@ interface ReviewType {
   body: string
 }
 export interface ReviewSectionProps {
+  anchor?: string
   heading: React.ReactNode
   googleReviews: ReviewType[]
 }
 
-export const ReviewSection = ({heading, googleReviews}: ReviewSectionProps) => {
+export const ReviewSection = ({anchor, heading, googleReviews}: ReviewSectionProps) => {
   const reviewsForSlider = googleReviews.map((review: ReviewType) => (
     <ReviewCard
       reviewImage={review.sourceImage}
@@ -39,7 +40,7 @@ export const ReviewSection = ({heading, googleReviews}: ReviewSectionProps) => {
   return (
     <>
       {/* <StickyStrokeLogo strokeColor="#dbd8d2" backgroundColor="#1f1f1d" /> */}
-      <Box position="relative" overflow="hidden" color="ece8e1" py={16} css={style.Section}>
+      <Box id={anchor} position="relative" overflow="hidden" color="ece8e1" py={16} css={style.Section}>
         {/* <ParallaxBackground strokeColor="#dbd8d2" backgroundColor="#1f1f1d"/> */}
         <Divider
             orientation='vertical'

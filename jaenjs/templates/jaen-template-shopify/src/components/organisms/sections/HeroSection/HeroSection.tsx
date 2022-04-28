@@ -20,6 +20,7 @@ export interface CategoryProduct extends ShopifyProduct {
 }
 
 export interface HeroSectionProps {
+  anchor?: string
   latestProducts: ShopifyProduct[]
   categoryProducts: CategoryProduct[]
   spotlightProducts: ShopifyProduct[]
@@ -37,6 +38,7 @@ export interface Tabs {
 }
 
 export const HeroSection = ({
+  anchor,
   latestProducts,
   categoryProducts,
   spotlightProducts,
@@ -58,7 +60,7 @@ export const HeroSection = ({
   return (
     <>
       <Box
-        id="hero"
+        id={anchor}
         as="section"
         width={'full'}
         backgroundColor="#210002"

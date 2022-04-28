@@ -2,7 +2,7 @@ import React from 'react'
 import {
   Box,
 } from '@chakra-ui/layout'
-import Logo from '../../../common/assets/Logo'
+import {Logo} from '../../../common/assets/Logo'
 
 import * as style from './style'
 

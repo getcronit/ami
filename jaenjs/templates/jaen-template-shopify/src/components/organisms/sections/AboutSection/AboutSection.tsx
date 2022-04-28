@@ -55,18 +55,20 @@ const FeatureSection = connectSection(
 )
 
 export interface AboutSectionProps {
+  anchor?: string
   heading: React.ReactNode
   teaser: React.ReactNode
   text: React.ReactNode
 }
 
 export const AboutSection = ({
+  anchor,
   heading,
   teaser,
   text,
 }: AboutSectionProps) => {
   return (
-    <Box bg="#ece8e1" position='relative' py={8}>
+    <Box id={anchor} bg="#ece8e1" position='relative' py={8}>
       <Container position={'relative'} maxW="8xl">
         <Flex
           direction={{
@@ -74,7 +76,7 @@ export const AboutSection = ({
             md: 'row'
           }}>
           <Box w="100%">
-            <Stack id="about" direction={{base: 'column', lg: 'row'}}>
+            <Stack direction={{base: 'column', lg: 'row'}}>
               <Stack flex={1} justify={{lg: 'center'}}>
                 <Box>
                   <Heading mb={5} size={'2xl'}>

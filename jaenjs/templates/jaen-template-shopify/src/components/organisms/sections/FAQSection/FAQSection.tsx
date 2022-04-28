@@ -19,12 +19,13 @@ import {ContactForm} from '../../../molecules/ContactForm'
 import {FAQAccordion} from '../../../molecules/FAQAccordion'
 
 export interface FAQSectionProps {
+  anchor?: string
   heading: React.ReactNode
 }
 
-export const FAQSection = ({heading}: FAQSectionProps) => {
+export const FAQSection = ({anchor, heading}: FAQSectionProps) => {
   return (
-    <Box w="full" position="relative" overflow="hidden" color="ece8e1" py="16">
+    <Box id={anchor} w="full" position="relative" overflow="hidden" color="ece8e1" py="16">
       {/* <ParallaxBackground strokeColor="#dbd8d2" backgroundColor="#1f1f1d"/> */}
       <Divider
         orientation='vertical'
@@ -35,7 +36,6 @@ export const FAQSection = ({heading}: FAQSectionProps) => {
       />
       <Container maxW="8xl" h="100%">
         <Stack
-          id="faq"
           direction={{base: 'column', md: 'row'}}
           h="100%"
           justifyContent="center"

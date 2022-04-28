@@ -1,7 +1,7 @@
 import React from 'react'
 import {Box} from '@chakra-ui/react'
 
-import Logo from '../../../common/assets/Logo'
+import {Logo} from '../../../common/assets/Logo'
 import {useScrollSync} from '../../../hooks/scroll'
 import * as style from './style'
 

@@ -18,12 +18,14 @@ import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
 import * as style from './style'
 
 export interface FeaturedProductsSectionProps {
+  anchor?: string
   heading: React.ReactNode
   featuredProducts: ShopifyProduct[]
   productsPagePath?: string
 }
 
 export const FeaturedProductsSection = ({
+  anchor,
   heading,
   featuredProducts,
   productsPagePath = '/products'
@@ -32,6 +34,7 @@ export const FeaturedProductsSection = ({
     <>
       <StickyStrokeLogo strokeColor="#dbd8d2" backgroundColor="transperent" />
       <Box
+        id={anchor}
         position="relative"
         overflow="hidden"
         bg="#ece8e1"
