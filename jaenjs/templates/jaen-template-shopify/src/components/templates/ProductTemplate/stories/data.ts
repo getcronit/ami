@@ -648,6 +648,8 @@ export default {
     ]
   },
   shopifyProduct: {
+    vendor: 'Glock',
+    productType: 'Poliert & Schiefer',
     variants: [
       {
         id: 'd7d7d7a0-842d-5503-905a-8e5f35e877bd',

@@ -13,10 +13,12 @@ import {
   Divider,
   Icon,
   useClipboard,
-  Heading
+  Heading,
+  HStack
 } from '@chakra-ui/react'
 import {
   getFormattedProductPrices,
+  getProductTags,
   ProductPageData,
   ShopifyProduct
 } from '@snek-at/gatsby-theme-shopify'
@@ -141,6 +143,26 @@ const ProductDetail = (props: {
 
   const prices = getFormattedProductPrices(props.product)
 
+  const tags = getProductTags(props.product)
+
+  const productTags = []
+
+  if (tags.categoryString) {
+    productTags.push(tags.categoryString)
+  }
+
+  if (tags.otherString) {
+    productTags.push(tags.otherString)
+  }
+
+  if (props.product.vendor !== '-') {
+    productTags.push(`Hersteller: ${props.product.vendor}`)
+  }
+
+  if (props.product.productType && props.product.productType !== '-') {
+    productTags.push(`Art: ${props.product.productType}`)
+  }
+
   return (
     <>
       <ContactModal
@@ -176,6 +198,21 @@ const ProductDetail = (props: {
           </Text>
 
           <Divider />
+
+          {productTags.map((tag, index) => (
+            <Box
+              as="span"
+              fontSize={'xs'}
+              fontWeight={'hairline'}
+              color="gray.600"
+              mr={2}
+              key={index}>
+              {tag}
+            </Box>
+          ))}
+
+          <Divider />
+
           <Text size="xs" fontWeight={'thin'}>
             Artikelnummer: {props.product.variants[0].sku || '-'}
           </Text>
