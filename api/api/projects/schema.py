@@ -19,6 +19,7 @@ class ProjectOut(ProjectBase):
 
 class ProjectCreateOut(ProjectOut):
     publish_token: str
+    sheets_token: str
 
 
 class ProjectInDB(ProjectIn):
