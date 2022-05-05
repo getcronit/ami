@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi_jwt_auth import AuthJWT
 
 
-from api.dependencies import get_project_dal, ProjectDAL
+from api.dependencies import project_sheet_auth, get_project_dal, ProjectDAL
 
 from .services import trigger_github_event
 from .schema import ProjectIn, ProjectOut, ProjectCreateOut
@@ -107,3 +107,66 @@ async def publish_project(
     raise HTTPException(
         status_code=403, detail="You are not authorized to perform this action"
     )
+
+
+@router.post(
+    "/{project_id}/sheets",
+    operation_id="authorize",
+    dependencies=[Depends(project_sheet_auth)],
+)
+async def create_sheet(
+    project_id: int,
+    sheet_name: str,
+    sheet_content: str,
+    project_dal: ProjectDAL = Depends(get_project_dal),
+):
+    return await project_dal.create_sheet(project_id, sheet_name, sheet_content)
+
+
+@router.get(
+    "/{project_id}/sheets/{sheet_id}",
+    operation_id="authorize",
+    dependencies=[Depends(project_sheet_auth)],
+)
+async def get_sheet(
+    sheet_id: str,
+    project_dal: ProjectDAL = Depends(get_project_dal),
+):
+    return await project_dal.get_sheet(sheet_id)
+
+
+@router.get(
+    "/{project_id}/sheets",
+    operation_id="authorize",
+    dependencies=[Depends(project_sheet_auth)],
+)
+async def get_sheets(
+    project_id: int,
+    project_dal: ProjectDAL = Depends(get_project_dal),
+):
+    return await project_dal.get_all_sheets(project_id)
+
+
+@router.patch(
+    "/{project_id}/sheets/{sheet_id}",
+    operation_id="authorize",
+    dependencies=[Depends(project_sheet_auth)],
+)
+async def update_sheet(
+    sheet_id: str,
+    sheet_content: str,
+    project_dal: ProjectDAL = Depends(get_project_dal),
+):
+    return await project_dal.update_sheet(sheet_id, sheet_content)
+
+
+@router.delete(
+    "/{project_id}/sheets/{sheet_id}",
+    operation_id="authorize",
+    dependencies=[Depends(project_sheet_auth)],
+)
+async def delete_sheet(
+    sheet_id: str,
+    project_dal: ProjectDAL = Depends(get_project_dal),
+):
+    return await project_dal.delete_sheet(sheet_id)
