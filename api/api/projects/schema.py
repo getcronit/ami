@@ -24,3 +24,7 @@ class ProjectCreateOut(ProjectOut):
 
 class ProjectInDB(ProjectIn):
     user_ids: List[int]
+
+
+class ProjectSheet(BaseModel):
+    name: str

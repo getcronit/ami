@@ -1,6 +1,6 @@
 from sqlalchemy.dialects.postgresql import UUID
 
-from sqlalchemy import Column, ForeignKey, Integer, String, ARRAY
+from sqlalchemy import Column, ForeignKey, Integer, String, ARRAY, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from api.database import Base
@@ -11,12 +11,16 @@ import uuid
 class Sheet(Base):
     __tablename__ = "sheets"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
-    content = Column(String, nullable=False)
+    path = Column(String, nullable=False)
 
     project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)
     project = relationship("Project", back_populates="sheets")
+
+    __table_args__ = (
+        UniqueConstraint("project_id", "name", name="_project_name_uc"),
+    )
 
 
 class Project(Base):

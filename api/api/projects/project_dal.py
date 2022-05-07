@@ -48,10 +48,10 @@ class ProjectDAL:
         )
         return jsonable_encoder(q.scalars().all())
 
-    async def get_sheet(self, sheet_id: str) -> Optional[Sheet]:
+    async def get_sheet(self, project_id: int, sheet_name: str) -> Optional[Sheet]:
         q = await self.db_session.execute(
             select(Sheet).where(
-                Sheet.id == sheet_id,
+                Sheet.project_id == project_id, Sheet.name == sheet_name
             )
         )
         return jsonable_encoder(q.scalars().first())
@@ -62,20 +62,24 @@ class ProjectDAL:
         )
         return jsonable_encoder(q.scalars().all())
 
-    async def create_sheet(self, project_id: int, sheet_name: str, sheet_content: str):
-        new_sheet = Sheet(project_id=project_id, name=sheet_name, content=sheet_content)
+    async def create_sheet(self, project_id: int, sheet_name: str, file_path: str):
+        new_sheet = Sheet(project_id=project_id, name=sheet_name, path=file_path)
 
         self.db_session.add(new_sheet)
         await self.db_session.flush()
 
         return jsonable_encoder(new_sheet)
 
-    async def delete_sheet(self, sheet_id: str):
-        q = await self.db_session.execute(delete(Sheet).where(Sheet.id == sheet_id))
+    async def delete_sheet(self, project_id: int, sheet_name: str):
+        q = await self.db_session.execute(delete(Sheet).where(
+            Sheet.project_id == project_id, Sheet.name == sheet_name
+        ))
         return jsonable_encoder(q.rowcount)
 
-    async def update_sheet(self, sheet_id: str, sheet_content: str):
+    async def update_sheet(self, project_id: int, sheet_name: str, file_path: str):
         q = await self.db_session.execute(
-            update(Sheet).where(Sheet.id == sheet_id).values(content=sheet_content)
+            update(Sheet).where(
+                Sheet.project_id == project_id, Sheet.name == sheet_name
+            ).values(path=file_path)
         )
         return jsonable_encoder(q.rowcount)
