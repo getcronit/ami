@@ -3,29 +3,34 @@ import { FunctionFactoryBlueprint, SnekFunction } from "./functions";
 import "isomorphic-fetch";
 
 import { stringify } from "./utils";
+import { SnekApi } from "./snekApi";
+
+const SNEK_FUNCTION_URL =
+  process.env.SNEK_FUNCTION_URL ||
+  // Gatsby needs a special prefix for its environment variables
+  // See: https://www.gatsbyjs.com/docs/how-to/local-development/environment-variables/#accessing-environment-variables-in-the-browser
+  process.env.GATSBY_SNEK_FUNCTION_URL ||
+  "http://localhost:4000/graphql";
 
 class FunctionFactory extends FunctionFactoryBlueprint {
   makeFn<FunctionArgs, FunctionReturn>(
-    snekFunction: (args: FunctionArgs) => Promise<FunctionReturn>,
+    snekFunction: (
+      args: FunctionArgs,
+      snekApi: SnekApi
+    ) => Promise<FunctionReturn>,
     options: {
       name: string;
     }
   ): SnekFunction<FunctionArgs, FunctionReturn> {
     const fn: SnekFunction<FunctionArgs, FunctionReturn> = async (args) => {
-      // send graphql request via post to snek-server or local server
+      const { data } = await fn.execute(args);
 
-      console.log(
-        "body",
-        JSON.stringify({
-          query: `
-            mutation {
-              ${options.name}(fnArgs: ${stringify(args)})
-            }
-          `,
-        })
-      );
+      return data;
+    };
 
-      const res = await fetch("http://localhost:4000/graphql", {
+    fn.options = options;
+    fn.execute = async (args) => {
+      const res = await fetch(SNEK_FUNCTION_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,14 +44,14 @@ class FunctionFactory extends FunctionFactoryBlueprint {
         }),
       });
 
-      const json = await res.json();
+      const { data, errors } = await res.json();
 
-      console.log("json", json);
-
-      return {} as FunctionReturn;
+      return {
+        data: JSON.parse(data[options.name]),
+        errors: errors || [],
+      };
     };
 
-    fn.options = options;
     fn.server = snekFunction;
 
     return fn;

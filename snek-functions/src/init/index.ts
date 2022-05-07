@@ -1,0 +1,2 @@
+export { initFunctionsDir } from "./init";
+

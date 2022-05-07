@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { importFresh } from "../utils";
 
 export const loadPaths = async (absolutePath: string): Promise<string[]> => {
   try {
@@ -40,18 +41,7 @@ export const validatePaths = (
 
 export const loadModule = async (absolutePath: string): Promise<any | null> => {
   try {
-    delete require.cache[absolutePath];
-
-    const module = require(absolutePath);
-
-    // read file content
-    const sourceCode = await fs.promises.readFile(absolutePath, "utf8");
-
-    console.log("sourceCode", sourceCode);
-
-    console.log("module", module);
-
-    return module.default;
+    return await importFresh(absolutePath);
   } catch (err) {
     console.warn(`Can't load module ${absolutePath}`, err);
 

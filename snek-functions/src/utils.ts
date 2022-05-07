@@ -1,3 +1,8 @@
+export async function importFresh(modulePath: string) {
+  const cacheBustingModulePath = `${modulePath}?update=${Date.now()}`;
+  return (await import(cacheBustingModulePath)).default;
+}
+
 export function stringify(obj_from_json: { [x: string]: any }): any {
   if (typeof obj_from_json !== "object" || Array.isArray(obj_from_json)) {
     // not an object, stringify using native function

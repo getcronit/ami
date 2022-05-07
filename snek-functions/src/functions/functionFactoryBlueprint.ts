@@ -1,6 +1,12 @@
+import { SnekApi } from "src/snekApi";
+
 export type SnekFunction<FunctionArgs, FunctionReturn> = {
   (args: FunctionArgs): Promise<FunctionReturn>;
-  server: (args: FunctionArgs) => Promise<FunctionReturn>;
+  server: (args: FunctionArgs, snekApi: SnekApi) => Promise<FunctionReturn>;
+  execute: (args: FunctionArgs) => Promise<{
+    data: FunctionReturn;
+    errors: any[];
+  }>;
   options: {
     name: string;
   };

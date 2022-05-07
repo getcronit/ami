@@ -1,7 +1,7 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --experimental-specifier-resolution=node
 
 import { Command } from "commander";
-import server from "./commands/server";
+import * as commands from "./commands";
 
 const program = new Command();
 
@@ -15,16 +15,32 @@ program
   .description("Start the functions server")
   .option("-p, --port <port>", "Port to listen on", "4000")
   .option(
-    "-f, --functions <path>",
+    "-f, --functions-path <path>",
     "Path to functions directory",
     "./functions"
   )
   .option(
-    "-wf, --watch-functions",
+    "--watch",
     "Watch the functions folder and build on changes (Should be disabled for production)",
     false
   )
 
-  .action(server);
+  .action(commands.server);
+
+program
+  .command("build")
+  .description("Build the functions")
+  .option(
+    "-f, --functions-path <path>",
+    "Path to functions directory",
+    "./functions"
+  )
+  .action(commands.build);
+
+program
+  .command("init")
+  .description("Initialize a new functions directory")
+  .option("-f, --functions-path <path>", "Path to functions directory")
+  .action(commands.init);
 
 program.parse();
