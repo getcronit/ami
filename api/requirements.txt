@@ -11,3 +11,5 @@ passlib[bcrypt]
 aiohttp
 requests
 sendgrid
+aiofiles
+python-multipart
