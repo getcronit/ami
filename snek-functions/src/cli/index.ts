@@ -1,4 +1,4 @@
-#!/usr/bin/env node --experimental-specifier-resolution=node
+#!/usr/bin/env -S node --experimental-specifier-resolution=node
 
 import { Command } from "commander";
 import * as commands from "./commands";
