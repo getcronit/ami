@@ -1,4 +1,4 @@
-import { makeFn } from "@snek-at/functions";
+import { makeFn } from "../../../../../dist";
 
 const exampleLogin = makeFn<{ username: string; password: string }, boolean>(
   async (args) => {

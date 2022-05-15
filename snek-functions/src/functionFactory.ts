@@ -1,7 +1,5 @@
 import { FunctionFactoryBlueprint, SnekFunction } from "./functions";
 
-import "isomorphic-fetch";
-
 import { stringify } from "./utils";
 import { SnekApi } from "./snekApi";
 
@@ -9,8 +7,7 @@ const SNEK_FUNCTION_URL =
   process.env.SNEK_FUNCTION_URL ||
   // Gatsby needs a special prefix for its environment variables
   // See: https://www.gatsbyjs.com/docs/how-to/local-development/environment-variables/#accessing-environment-variables-in-the-browser
-  process.env.GATSBY_SNEK_FUNCTION_URL ||
-  "http://localhost:4000/graphql";
+  process.env.GATSBY_SNEK_FUNCTION_URL;
 
 class FunctionFactory extends FunctionFactoryBlueprint {
   makeFn<FunctionArgs, FunctionReturn>(
@@ -30,6 +27,17 @@ class FunctionFactory extends FunctionFactoryBlueprint {
 
     fn.options = options;
     fn.execute = async (args) => {
+      // import isomorphic-fetch if fn is not running in a browser
+      if (typeof window === "undefined") {
+        await import("isomorphic-fetch");
+      }
+
+      if (!SNEK_FUNCTION_URL) {
+        throw new Error(
+          "SNEK_FUNCTION_URL environment variable is not defined. Please define it in your environment. If you are using Gatsby, use GATSBY_SNEK_FUNCTION_URL instead."
+        );
+      }
+
       const res = await fetch(SNEK_FUNCTION_URL, {
         method: "POST",
         headers: {

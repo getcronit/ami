@@ -15,6 +15,7 @@ interface NavItemProps {
 
 export const NavItem = (props: NavItemProps) => {
   const {active, subtle, icon, children, label, endElement, onClick} = props
+
   return (
     <HStack
       onClick={onClick}

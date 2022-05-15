@@ -7,8 +7,8 @@ import {
 
 const BASE_URL = 'https://api.snek.at'
 
-class KeyManager {
-  static LOCAL_STORAGE_KEY = 'jaen-auth'
+export class KeyManager {
+  static LOCAL_STORAGE_KEY = 'snek-auth'
   static LOCAL_STORAGE_ACCESS = this.LOCAL_STORAGE_KEY + '/access_token'
   static LOCAL_STORAGE_REFRESH = this.LOCAL_STORAGE_KEY + '/refresh_token'
 
@@ -74,8 +74,7 @@ async function baseFetch(
     }
 
     if (refreshResponse.status === 200) {
-      const refreshResponseJson =
-        (await refreshResponse.json()) as IAuthRefreshResponse
+      const refreshResponseJson = (await refreshResponse.json()) as IAuthRefreshResponse
 
       KeyManager.setAccessToken(refreshResponseJson.access_token)
 

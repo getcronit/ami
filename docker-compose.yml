@@ -8,7 +8,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./api/:/api/
-    command: bash -c "while !</dev/tcp/api_db/5432; do sleep 1; done; uvicorn api.app:app --reload --workers 1 --host 0.0.0.0 --port 8000"
+      - api_projects_data:/data/projects
+    command: bash -c "while !</dev/tcp/api_db/5432; do sleep 1; done; uvicorn api.app:app --reload --workers 1 --host 0.0.0.0 --port 13000"
     ports:
       - 8000:8000
     depends_on:
@@ -49,3 +50,4 @@ services:
 
 volumes:
   postgres_data:
+  api_projects_data:

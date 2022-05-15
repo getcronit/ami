@@ -21,7 +21,7 @@ export const AdminToolbar = ({logoText, toolbarItems}: AdminToolbarProps) => {
       py={{base: 2}}
       px={{base: 4}}
       align={'center'}>
-      <Link as={GatsbyLink} to="/jaen/admin">
+      <Link as={GatsbyLink} to="/admin">
         <Flex w="48" justifyContent="center" alignItems="center">
           <JaenLogo w="32px" h="32px" me="10px" color="white" />
           <Text fontSize="sm" mt="3px">

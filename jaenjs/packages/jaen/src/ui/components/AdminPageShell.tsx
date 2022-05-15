@@ -35,7 +35,6 @@ export type SidebarItem = {
 
 export interface UIProps {
   toolbar: JSX.Element
-  content: JSX.Element
   sidebarItems: {
     activePath: string
     ungrouped: Array<SidebarItem>
@@ -53,7 +52,7 @@ export interface UIProps {
 
 export const AdminPageShell: React.FC<UIProps> = ({
   toolbar,
-  content,
+  children,
   sidebarItems,
   onSidebarItemClick,
   onSettingsClick,
@@ -115,10 +114,12 @@ export const AdminPageShell: React.FC<UIProps> = ({
           h="100%"
           overflowY="hidden">
           <Box rounded="lg" bg="white" m="4" p="2">
-            {content}
+            {children}
           </Box>
         </Box>
       </Flex>
     </Box>
   )
 }
+
+export default AdminPageShell

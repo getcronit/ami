@@ -17,6 +17,7 @@ import React from 'react'
 import {useIncomingBuildChecker} from '../services/IncomingBuildChecker'
 import {IncomingBuildBanner} from './components/IncomingBuildBanner'
 import {ToolbarChangesElement} from './ToolbarChangesElement'
+import {useNavigate} from '../utils/hooks/useNavigate'
 
 const logoText = 'Jaen Admin'
 const toolbarItems = {
@@ -38,13 +39,15 @@ const AdminToolbarContainer = withRedux(() => {
   const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated)
   const {isIncomingBuild, onOpenAlert} = useIncomingBuildChecker()
 
+  const navigate = useNavigate()
+
   const handleJaenActivation = () => {
     if (isMobile()) {
       if (typeof window !== 'undefined') {
         window.scrollTo({top: 0, behavior: 'smooth'})
       }
     } else {
-      navigate('/jaen/admin/')
+      navigate('/admin/')
     }
   }
 

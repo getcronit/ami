@@ -16,7 +16,23 @@ GatsbyNode.onCreateWebpackConfig = (
       plugins.define({
         ___JAEN_PROJECT_ID___: JSON.stringify(options.jaenProjectId)
       })
-    ]
+    ],
+    resolve: {
+      fallback: {
+        fs: false,
+        tls: false,
+        net: false,
+        path: false,
+        zlib: false,
+        http: false,
+        https: false,
+        stream: false,
+        crypto: false
+      }
+    },
+    externalsPresets: {
+      node: true
+    }
   })
 }
 
@@ -66,10 +82,16 @@ GatsbyNode.createPages = async ({actions, graphql, reporter}) => {
   const {createPage} = actions
 
   createPage({
-    path: '/jaen/admin',
+    path: '/admin',
     // matchPath to ignore trailing slash
-    matchPath: '/jaen/admin/*',
+    matchPath: '/admin/*',
     component: require.resolve('../ui/AdminPage.tsx'),
+    context: {}
+  })
+
+  createPage({
+    path: '/admin/login',
+    component: require.resolve('../ui/LoginPage.tsx'),
     context: {}
   })
 }

@@ -11,7 +11,8 @@ const GatsbyConfig: GatsbyConfigType = {
 
 const internalPlugins = [
   require.resolve('../internal-plugins/pages'),
-  require.resolve('../internal-plugins/notify')
+  require.resolve('../internal-plugins/notify'),
+  require.resolve('../internal-plugins/views')
 ]
 
 GatsbyConfig.plugins = [

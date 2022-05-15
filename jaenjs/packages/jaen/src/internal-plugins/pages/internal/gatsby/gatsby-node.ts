@@ -149,7 +149,9 @@ GatsbyNode.createPages = async ({actions, graphql, reporter}) => {
 
   const result = await graphql<QueryData>(`
     query {
-      allTemplate: allFile(filter: {sourceInstanceName: {eq: "jaen-templates"}}) {
+      allTemplate: allFile(
+        filter: {sourceInstanceName: {eq: "jaen-templates"}}
+      ) {
         nodes {
           name
           absolutePath
@@ -241,7 +243,7 @@ GatsbyNode.onCreatePage = ({
 
   let stepPage = page
 
-  const blacklist = ['/jaen/admin']
+  const blacklist = ['/admin']
 
   // skip if the page is in the blacklist
   if (blacklist.includes(path)) {

@@ -21,13 +21,15 @@ import {BsHouse} from '@react-icons/all-files/bs/BsHouse'
 import {FaPager} from '@react-icons/all-files/fa/FaPager'
 import {BsFiles} from '@react-icons/all-files/bs/BsFiles'
 import {BiNotification} from '@react-icons/all-files/bi/BiNotification'
-import {AdminLoginPage} from './AdminLoginPage'
+import {AdminLoginPage} from './LoginPage'
 
 import PagesTab from '../internal-plugins/pages/ui/tabs/Pages'
 import FilesTab from '../internal-plugins/pages/ui/tabs/Files'
 import NotifyTab from '../internal-plugins/notify/ui/components/tabs/Notify'
 import Dashboard from './DashboardTab'
 import SettingsTab from './SettingsTab'
+import {BiUser} from '@react-icons/all-files/bi/BiUser'
+import {useViews} from '../internal-plugins/views/services/view'
 
 export interface IAdminRoute extends SidebarItem {
   group?: string
@@ -61,7 +63,7 @@ const buildSidebarItems = (routes: Array<IAdminRoute>) => {
   }
 }
 
-const AdminPageShell = (props: RouteComponentProps) => {
+const AdminPageShell = () => {
   const navigate = useNavigate()
 
   const windowPathname =
@@ -72,13 +74,20 @@ const AdminPageShell = (props: RouteComponentProps) => {
     document.title = 'Jaen Admin'
   }, [])
 
-  const routes = {
+  const views = useViews()
+
+  const routes: {[path: string]: JSX.Element} = {
     '/': <Dashboard />,
     '/pages': <PagesTab />,
     '/files': <FilesTab />,
     '/notifications': <NotifyTab />,
     '/settings': <SettingsTab />
   }
+
+  for (const View of views) {
+    routes['/views' + View.options.path] = <View />
+  }
+
   //const routes: IAdminRoute[] =
   //pluginStore.executeFunction(AdminFunctions.getRoutes) || []
   //const sidebarItems = React.useMemo(() => buildSidebarItems(routes), [routes])
@@ -147,6 +156,16 @@ const AdminPageShell = (props: RouteComponentProps) => {
                 path: '/notifications',
                 icon: <BiNotification />,
                 label: 'Notifications'
+              }
+            ]
+          },
+          views: {
+            label: 'Views',
+            items: [
+              {
+                path: '/views/users',
+                icon: <BiUser />,
+                label: 'Users'
               }
             ]
           }

@@ -1,11 +1,19 @@
 import AdminLogin from './components/AdminLogin'
-import {RouteComponentProps} from '@reach/router'
-import {useAppDispatch} from '../redux'
+import {useAppDispatch, useAppSelector, withRedux} from '../redux'
 import {login, demoLogin} from '../redux/slices/auth'
 import {navigate} from 'gatsby'
+import React from 'react'
 
-export const AdminLoginPage = (props: RouteComponentProps) => {
+export const AdminLoginPage = withRedux(() => {
   const dispatch = useAppDispatch()
+
+  const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated)
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/admin')
+    }
+  }, [isAuthenticated])
 
   const handleLogin = (email: string, password: string) => {
     dispatch(
@@ -38,4 +46,6 @@ export const AdminLoginPage = (props: RouteComponentProps) => {
       onDocsClick={handleDocsClick}
     />
   )
-}
+})
+
+export default AdminLoginPage

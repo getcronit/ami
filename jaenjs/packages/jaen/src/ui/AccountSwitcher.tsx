@@ -13,15 +13,18 @@ import {
 } from '@chakra-ui/react'
 import {store, useAppDispatch, useAppSelector} from '../redux'
 import {demoLogout, logout} from '../redux/slices/auth'
-import {Link, navigate} from 'gatsby'
+import {Link} from 'gatsby'
 import * as React from 'react'
 import {AccountSwitcherButton} from './components/AccountSwitcherButton'
 import {useIncomingBuildChecker} from '../services/IncomingBuildChecker'
+import {useNavigate} from '../utils/hooks/useNavigate'
 
 export const AccountSwitcher = () => {
   const dispatch = useAppDispatch()
 
   const incomingBuild = useIncomingBuildChecker()
+
+  const navigate = useNavigate()
 
   const handleSignOut = () => {
     const isDemo = store.getState().auth.user?.isDemo
@@ -65,12 +68,10 @@ export const AccountSwitcher = () => {
           {email}
         </Text>
         <MenuDivider />
-        <MenuItem rounded="md" onClick={() => navigate('/jaen/admin')}>
+        <MenuItem rounded="md" onClick={() => navigate('/admin')}>
           Admin
         </MenuItem>
-        <MenuItem
-          rounded="md"
-          onClick={() => navigate('/jaen/admin#/settings')}>
+        <MenuItem rounded="md" onClick={() => navigate('/admin#/settings')}>
           Settings
         </MenuItem>
 

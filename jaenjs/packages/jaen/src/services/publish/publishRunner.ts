@@ -1,7 +1,7 @@
-import {migrationPlugins} from '../migration/run-migration'
 import {upload} from '../openStorageGateway'
 import * as snekApi from '../api'
 import {runPublish} from './publish'
+import {migrationPlugins} from '../migration/plugins'
 
 const runPluginsToGetMergedData = async () => {
   const data: any = {}

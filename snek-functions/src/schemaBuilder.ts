@@ -5,7 +5,7 @@ import {
   GraphQLScalarType,
 } from "graphql";
 import { SnekFunction } from "./functions";
-import { SnekApi } from "./snekApi";
+import { snekApi } from "./snekApi";
 
 const functionData = new GraphQLScalarType({
   name: "FunctionData",
@@ -17,10 +17,6 @@ const functionData = new GraphQLScalarType({
     return JSON.parse(value);
   },
 });
-
-const snekApi = new SnekApi(
-  "https://schettn-schett-net-ami-p4xp5ppr395v-8000.githubpreview.dev"
-);
 
 const schemaBuilder = async (
   functions: Array<SnekFunction<any, any>>

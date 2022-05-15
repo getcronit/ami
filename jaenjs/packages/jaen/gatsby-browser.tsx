@@ -15,7 +15,7 @@ export const wrapPageElement: GatsbyBrowser['wrapPageElement'] = ({
 }) => {
   const pathname = window.location.pathname
 
-  if (pathname.startsWith('/jaen/admin')) {
+  if (pathname.startsWith('/admin')) {
     return <SnekFinder>{element}</SnekFinder>
   }
 

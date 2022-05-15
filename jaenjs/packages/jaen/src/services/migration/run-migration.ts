@@ -1,15 +1,10 @@
 import fs from 'fs'
 import {downloadMigrationURL, JAEN_STATIC_DATA_DIR} from '.'
-import NotifyMigrationPlugin from '../../internal-plugins/notify/NotifyMigrationPlugin'
-import PagesMigrationPlugin from '../../internal-plugins/pages/PagesMigrationPlugin'
+
 import * as internalJaenData from '../jaen-data/internal'
 
 import deepmerge from 'deepmerge'
-
-export const migrationPlugins = [
-  new PagesMigrationPlugin(),
-  new NotifyMigrationPlugin()
-]
+import {migrationPlugins} from './plugins'
 
 export const runMigration = async (migrationUrl: string) => {
   if (!fs.existsSync(JAEN_STATIC_DATA_DIR)) {

@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import {
   getGraphQLParameters,
   processRequest,
@@ -6,7 +7,6 @@ import {
   shouldRenderGraphiQL,
   sendResult,
 } from "graphql-helix";
-import serverless from "serverless-http";
 
 import schemaBuilder from "./schemaBuilder";
 import { buildFolder } from "./fileBuilder";
@@ -50,6 +50,8 @@ export const getApp = async (options: AppOptions) => {
 
   const app = express();
 
+  app.use(cors());
+
   app.use(express.json());
 
   app.use("/graphql", async (req, res) => {
@@ -89,8 +91,3 @@ export const getApp = async (options: AppOptions) => {
 
   return app;
 };
-
-export const getServerlessApp =
-  (options: AppOptions) => async (event: Object, context: Object) => {
-    return await serverless(await getApp(options))(event, context);
-  };

@@ -59,7 +59,6 @@
     "@react-icons/all-files": "4.0.0",
     "@reduxjs/toolkit": "^1.6.2",
     "@rtk-query/codegen-openapi": "^1.0.0-alpha.1",
-    "@swc-node/register": "^1.4.2",
     "@types/loadable__component": "^5.13.4",
     "babel-preset-react": "^6.24.1",
     "esm": "^3.2.25",
