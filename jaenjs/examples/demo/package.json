@@ -10,7 +10,7 @@
   "scripts": {
     "develop": "concurrently --kill-others \"gatsby develop --port 8001\" \"snek-functions server -f ./src/snek-functions/ --watch\"",
     "start": "gatsby develop",
-    "build": "gatsby build",
+    "gatsby-build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "deploy": "gatsby build && gh-pages -d public"

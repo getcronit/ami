@@ -1,5 +1,6 @@
+import {snekApi} from '@snek-at/snek-api-client'
+
 import {upload} from '../openStorageGateway'
-import * as snekApi from '../api'
 import {runPublish} from './publish'
 import {migrationPlugins} from '../migration/plugins'
 

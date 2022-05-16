@@ -32,7 +32,7 @@ async def project_sheet_auth(
         project = await project_dal.get_project(project_id)
 
         if project:
-            if sheets_token == project.get("sheets_token") or user_id in project.get(
+            if sheets_token == project.get("sheets_token") or int(user_id) in project.get(
                 "user_ids"
             ):
                 return True

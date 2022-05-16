@@ -37,7 +37,6 @@ export const Basic: Story<ComponentProps> = Template.bind({})
 
 Basic.args = {
   toolbar: <AdminToolbarContainer />,
-  content: <FilesContainer />,
   sidebarItems: {
     activePath: '/',
     ungrouped: [

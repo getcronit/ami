@@ -1,4 +1,4 @@
-import {IUser} from './services/api/types'
+import {IUser} from '@snek-at/snek-api-client'
 
 export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<
   T,

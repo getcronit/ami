@@ -3,10 +3,11 @@ import {makeFn} from '@snek-at/functions'
 type Sheet = Array<{
   email: string
   password: string
+  isActive: boolean
 }>
 
-const PROJECT_ID = parseInt(process.env.PROJECT_ID) || 1
-const SHEETS_TOKEN = process.env.SHEETS_TOKEN || 'aaa'
+const PROJECT_ID = parseInt(process.env.PROJECT_ID) || 2
+const SHEETS_TOKEN = process.env.SHEETS_TOKEN || 'AAA'
 const SHEET_NAME = 'snek-functions-users'
 
 const usersAuth = makeFn<{email: string; password: string}, boolean>(
@@ -16,7 +17,7 @@ const usersAuth = makeFn<{email: string; password: string}, boolean>(
     const {createHash} = await import('crypto')
 
     // 1. Check if auth sheet exists, and if not, create it with default values
-
+    console.log('sheetsToken', SHEETS_TOKEN)
     try {
       const sheet = await snekApi.getSheet({
         projectId: PROJECT_ID,
@@ -33,7 +34,7 @@ const usersAuth = makeFn<{email: string; password: string}, boolean>(
       // Find user
       const user = obj.find(u => u.email === args.email)
 
-      if (user) {
+      if (user && user.isActive) {
         // Check password
 
         const maybePassword = createHash('sha256')
@@ -44,7 +45,8 @@ const usersAuth = makeFn<{email: string; password: string}, boolean>(
           return true
         }
       }
-    } catch {
+    } catch (e) {
+      throw e
       throw new Error(`Sheet ${SHEET_NAME} does not exist`)
     }
 

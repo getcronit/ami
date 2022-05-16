@@ -407,7 +407,7 @@ const useUsers = () => {
 
   React.useEffect(() => {
     const fetchUsers = async () => {
-      const fetchedUsers = await usersGet()
+      const fetchedUsers = (await usersGet()) || []
 
       setIsFetching(false)
       setUsers(fetchedUsers)
@@ -670,7 +670,7 @@ const AddUserControl = () => {
                   {...register('password', {
                     required: 'This is required',
                     pattern: {
-                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                      value: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{8,}$/,
                       message:
                         'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character'
                     }

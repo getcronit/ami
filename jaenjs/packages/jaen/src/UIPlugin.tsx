@@ -1,5 +1,10 @@
 import {IPlugin, PluginStore} from 'react-pluggable'
-import {IAdminRoute} from './ui/AdminPageShell'
+import {SidebarItem} from './ui/components/AdminPageShell'
+
+export interface IAdminRoute extends SidebarItem {
+  group?: string
+  content: JSX.Element
+}
 
 export enum RendererPlacements {
   TOOLBAR = 'toolbar',

@@ -14,7 +14,7 @@ type ReducedUser = Omit<User, 'password'>
 type Sheet = Array<User>
 
 const PROJECT_ID = parseInt(process.env.PROJECT_ID || '') || 2
-const SHEETS_TOKEN = process.env.SHEETS_TOKEN || 'AAA'
+const SHEETS_TOKEN = process.env.SHEETS_TOKEN
 const SHEET_NAME = 'snek-functions-users'
 
 const usersGet = makeFn<void, ReducedUser[]>(
@@ -44,6 +44,8 @@ const usersGet = makeFn<void, ReducedUser[]>(
         createdAt: u.createdAt,
         isActive: u.isActive
       }))
+
+      console.log('users', users)
 
       return users
     } catch (e) {

@@ -6,7 +6,7 @@
   "description": "Generated with `snek-functions init -f functions`",
   "author": "snek-at",
   "dependencies": {
-    "@snek-at/functions": "*",
+    "@snek-at/functions": "file:../../../../packages/snek-functions",
     "node-fetch": "^3.2.4"
   }
 }

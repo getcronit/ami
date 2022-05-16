@@ -8,6 +8,7 @@
     {"path": "gatsby-theme-shopify"},
     {"path": "jaen"},
     {"path": "snek-finder"},
+    {"path": "snek-functions"},
     {"path": "storybook-addon-chakra-ui"},
     {"path": "uikit"}
   ]

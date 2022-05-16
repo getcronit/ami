@@ -1,8 +1,7 @@
 import {IAuth} from '../../types'
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 
-import * as snekApi from '../../services/api'
-import {IAuthLoginPayload} from '../../services/api/types'
+import {IAuthLoginPayload, snekApi} from '@snek-at/snek-api-client'
 
 export const authInitialState: IAuth = {
   isAuthenticated: false,
@@ -12,7 +11,7 @@ export const authInitialState: IAuth = {
 export const login = createAsyncThunk<void, IAuthLoginPayload>(
   'auth/login',
   async (args, thunkAPI) => {
-    const response = await snekApi.login(args)
+    await snekApi.login(args)
 
     await thunkAPI.dispatch(fetchMe())
   }

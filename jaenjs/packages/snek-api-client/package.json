@@ -1,0 +1,11 @@
+{
+  "name": "@snek-at/snek-api-client",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^3.2.4"
+  }
+}
