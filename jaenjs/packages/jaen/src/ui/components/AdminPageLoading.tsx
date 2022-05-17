@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react'
 import {JaenLogo} from './icons'
 
-export const AdminPageLoading = (props: {}) => {
+export const AdminPageLoading = (props: {heading: string}) => {
   return (
     <Box
       bg={useColorModeValue('gray.50', 'inherit')}
@@ -23,7 +23,7 @@ export const AdminPageLoading = (props: {}) => {
       />
       <Stack maxW="md" mx="auto" spacing={6}>
         <Heading textAlign="center" size="xl" fontWeight="extrabold">
-          Welcome to Jaen Admin!
+          {props.heading}
         </Heading>
         <Progress size="xs" isIndeterminate colorScheme="teal" />
         <Text mt="4" mb="8" align="center" maxW="md" fontWeight="medium">

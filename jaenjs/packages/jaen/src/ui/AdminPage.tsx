@@ -79,7 +79,7 @@ const buildViews = (
 }
 
 const AdminPageShell = loadable(() => import('./components/AdminPageShell'), {
-  fallback: <AdminPageLoading />
+  fallback: <AdminPageLoading heading="Welcome to Jaen Admin" />
 })
 
 const AdminPage = withRedux(() => {
@@ -139,6 +139,10 @@ const AdminPage = withRedux(() => {
   const onSidebarItemClick = React.useCallback((path: string) => {
     routerNavigate(path)
   }, [])
+
+  if (!isAuthenticated) {
+    return <AdminPageLoading heading="Redirecting" />
+  }
 
   return (
     <Routes>
