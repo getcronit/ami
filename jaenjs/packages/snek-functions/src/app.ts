@@ -8,9 +8,9 @@ import {
   sendResult
 } from 'graphql-helix'
 
-import schemaBuilder from './schemaBuilder'
-import {buildFolder} from './fileBuilder'
-import loadModules from './loader'
+import schemaBuilder from './schemaBuilder.js'
+import {buildFolder} from './fileBuilder.js'
+import loadModules from './loader/index.js'
 import {GraphQLSchema} from 'graphql'
 
 export interface AppOptions {

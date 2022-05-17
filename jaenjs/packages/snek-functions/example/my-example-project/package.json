@@ -1,0 +1,12 @@
+{
+  "name": "my-example-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "develop": "concurrently -i --kill-others \"watch .''\" \"yarn --cwd ./src/functions/ start\""
+  },
+  "dependencies": {
+    "@snek-at/functions": "^0.0.14"
+  }
+}

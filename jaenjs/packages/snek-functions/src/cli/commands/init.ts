@@ -1,5 +1,5 @@
-import { initFunctionsDir } from "../../init";
+import {initFunctionsDir} from '../../init/index.js'
 
-export default async (options: { functionsPath: string }) => {
-  await initFunctionsDir(options.functionsPath);
-};
+export default async (options: {functionsPath: string}) => {
+  await initFunctionsDir(options.functionsPath)
+}

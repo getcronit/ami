@@ -1,2 +1,1 @@
-export { initFunctionsDir } from "./init";
-
+export {initFunctionsDir} from './init.js'

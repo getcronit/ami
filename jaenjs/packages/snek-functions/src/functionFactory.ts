@@ -1,8 +1,8 @@
 import {SnekApi, KeyManager} from '@snek-at/snek-api-client'
 
-import {FunctionFactoryBlueprint, SnekFunction} from './functions'
+import {FunctionFactoryBlueprint, SnekFunction} from './functions/index.js'
 
-import {stringify} from './utils'
+import {stringify} from './utils.js'
 
 const SNEK_FUNCTION_URL =
   process.env.SNEK_FUNCTION_URL ||

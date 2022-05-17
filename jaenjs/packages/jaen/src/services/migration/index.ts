@@ -12,11 +12,13 @@ export const JAEN_STATIC_DATA_DIR = './jaen-data'
 
 export const downloadMigrationURL = async (
   url: string
-): Promise<IMigrationURLData> => await (await fetch(url)).json()
+): Promise<IMigrationURLData> =>
+  (await (await fetch(url)).json()) as IMigrationURLData
 
 export const downloadMigrationContext = async (
   entity: IMigrationEntity
-): Promise<object> => await (await fetch(entity.context.fileUrl)).json()
+): Promise<object> =>
+  (await (await fetch(entity.context.fileUrl)).json()) as object
 
 export const downloadBaseContext = async (entity: IBaseEntity): Promise<any> =>
   await (await fetch(entity.context.fileUrl)).json()

@@ -1,9 +1,9 @@
-import { buildFolder } from "../../fileBuilder";
+import {buildFolder} from '../../fileBuilder.js'
 
-export default async (options: { functionsPath: string }) => {
-  const { functionsPath } = options;
+export default async (options: {functionsPath: string}) => {
+  const {functionsPath} = options
 
-  const dstPath = `${functionsPath}/dist`;
+  const dstPath = `${functionsPath}/dist`
 
-  await buildFolder(functionsPath, dstPath);
-};
+  await buildFolder(functionsPath, dstPath)
+}

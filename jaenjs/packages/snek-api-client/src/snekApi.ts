@@ -19,8 +19,8 @@ import {
   IAuthLoginResponse,
   IAuthRefreshResponse,
   IUser
-} from './types'
-import {KeyManager} from './keyManager'
+} from './types.js'
+import {KeyManager} from './keyManager.js'
 
 export interface SnekApiOptions {}
 
@@ -66,7 +66,8 @@ export class SnekApi {
       }
 
       if (refreshResponse.status === 200) {
-        const refreshResponseJson = (await refreshResponse.json()) as IAuthRefreshResponse
+        const refreshResponseJson =
+          (await refreshResponse.json()) as IAuthRefreshResponse
 
         this.KeyManager.setAccessToken(refreshResponseJson.access_token)
 
@@ -200,10 +201,7 @@ export class SnekApi {
     return new File([blob], `${sheetName}.sheet`)
   }
 
-  async getSheets(args: {
-    projectId: number
-    sheetsToken?: string
-  }): Promise<
+  async getSheets(args: {projectId: number; sheetsToken?: string}): Promise<
     Array<{
       name: string
     }>

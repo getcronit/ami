@@ -1,14 +1,27 @@
-import { AppOptions, getApp } from "./app";
+import {AppOptions, getApp} from './app.js'
 
-import ServerlessHttp from "serverless-http";
+import ServerlessHttp from 'serverless-http'
+import {buildFolder} from './fileBuilder.js'
 
-export const getServerlessApp =
-  (options: AppOptions) => async (event: Object, context: Object) => {
-    if (typeof window !== "undefined") {
-      return null;
-    }
+const IS_OFFLINE = process.env.IS_OFFLINE
 
-    return await ServerlessHttp(await getApp(options))(event, context);
-  };
+export const getServerlessApp = (options: AppOptions) => async (
+  event: Object,
+  context: Object
+) => {
+  if (typeof window !== 'undefined') {
+    return null
+  }
 
-export default getServerlessApp;
+  if (IS_OFFLINE) {
+    const functionsPath = options.functions
+
+    await buildFolder(functionsPath, options.functions)
+  }
+
+  options.functions = `${options.functions}/dist`
+
+  return await ServerlessHttp(await getApp(options))(event, context)
+}
+
+export default getServerlessApp

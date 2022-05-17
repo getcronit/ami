@@ -1,6 +1,6 @@
 {
   "name": "@snek-at/functions",
-  "version": "0.0.1-beta.7",
+  "version": "0.0.14",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
@@ -10,14 +10,16 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "cli": "node --experimental-specifier-resolution=node dist/cli/index.js",
+    "cli": "node dist/cli/index.js",
     "example-init": "yarn cli init -f example/my-example-project/src/functions",
     "example-build": "yarn cli build -f example/my-example-project/src/functions",
     "example-server": "yarn cli server -f example/my-example-project/src/functions --watch"
   },
   "dependencies": {
+    "@snek-at/snek-api-client": "^0.0.4",
     "@swc/core": "^1.2.183",
     "commander": "^9.2.0",
+    "concurrently": "^7.2.0",
     "cors": "^2.8.5",
     "express": "^4.18.0",
     "form-data": "^4.0.0",
@@ -25,8 +27,10 @@
     "graphql-helix": "^1.12.0",
     "isomorphic-fetch": "^3.0.0",
     "node-fetch": "^3.2.4",
-    "serverless-http": "^3.0.1",
-    "@snek-at/snek-api-client": "^0.0.1"
+    "nodemon": "^2.0.16",
+    "patch-package": "^6.4.7",
+    "regenerator-runtime": "^0.13.9",
+    "serverless-http": "^3.0.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.16.11",
@@ -38,8 +42,14 @@
     "@types/node": "^17.0.30",
     "chokidar": "^3.5.3",
     "jest": "^28.0.2",
+    "patch-package": "^6.4.7",
+    "serverless-offline": "^8.8.0",
+    "serverless-plugin-ifelse": "^1.0.7",
     "ts-jest": "^27.1.4",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.4"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }

@@ -1,6 +1,6 @@
-import {SnekApi} from './snekApi'
-export {KeyManager} from './keyManager'
-export * from './types'
+import {SnekApi} from './snekApi.js'
+export {KeyManager} from './keyManager.js'
+export * from './types.js'
 export type {SnekApi}
 
 const SNEK_API_URL =

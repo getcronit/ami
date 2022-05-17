@@ -1,4 +1,4 @@
 export {
   FunctionFactoryBlueprint,
-  SnekFunction,
-} from "./functionFactoryBlueprint";
+  SnekFunction
+} from './functionFactoryBlueprint.js'

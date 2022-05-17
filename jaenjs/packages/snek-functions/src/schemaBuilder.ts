@@ -4,7 +4,7 @@ import {
   GraphQLString,
   GraphQLScalarType
 } from 'graphql'
-import {SnekFunction} from './functions'
+import {SnekFunction} from './functions/index.js'
 import {KeyManager, snekApi} from '@snek-at/snek-api-client'
 
 const functionData = new GraphQLScalarType({
@@ -22,11 +22,7 @@ const schemaBuilder = async (
   functions: Array<SnekFunction<any, any>>
 ): Promise<GraphQLSchema> => {
   const fields = functions.reduce((acc, fn) => {
-    console.log('fn', fn)
-
     const name = fn.options.name
-
-    console.log('name', name)
 
     acc[name] = {
       type: functionData,
