@@ -19,7 +19,7 @@ import DashboardTab from './DashboardTab'
 import SettingsTab from './SettingsTab'
 import {useViews, withBaseView} from '../internal-plugins/views/services/view'
 import React from 'react'
-import {UIProps} from './components/AdminPageShell'
+import AdminPageShell, {UIProps} from './components/AdminPageShell'
 import {Circle} from '@chakra-ui/react'
 
 import {BsHouse} from '@react-icons/all-files/bs/BsHouse'
@@ -77,10 +77,6 @@ const buildViews = (
 
   return {routes, sidebarItems}
 }
-
-const AdminPageShell = loadable(() => import('./components/AdminPageShell'), {
-  fallback: <AdminPageLoading heading="Welcome to Jaen Admin" />
-})
 
 const AdminPage = withRedux(() => {
   if (typeof window === 'undefined') {

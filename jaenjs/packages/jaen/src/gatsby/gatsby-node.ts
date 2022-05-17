@@ -9,7 +9,7 @@ GatsbyNode.onCreateWebpackConfig = (
   {plugins, actions, loaders, stage, getNodesByType},
   pluginOptions
 ) => {
-  const options = (pluginOptions as unknown) as IJaenConfig
+  const options = pluginOptions as unknown as IJaenConfig
 
   actions.setWebpackConfig({
     plugins: [
@@ -85,7 +85,7 @@ GatsbyNode.createPages = async ({actions, graphql, reporter}) => {
     path: '/admin',
     // matchPath to ignore trailing slash
     matchPath: '/admin/*',
-    component: require.resolve('../ui/AdminPage.tsx'),
+    component: require.resolve('../ui/LoadedAdminPage.tsx'),
     context: {}
   })
 

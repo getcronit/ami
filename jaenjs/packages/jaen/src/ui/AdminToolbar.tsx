@@ -47,7 +47,11 @@ const AdminToolbarContainer = withRedux(() => {
         window.scrollTo({top: 0, behavior: 'smooth'})
       }
     } else {
-      navigate('/admin/')
+      if (isAuthenticated) {
+        navigate('/admin/')
+      } else {
+        navigate('/admin/login')
+      }
     }
   }
 

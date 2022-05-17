@@ -1,6 +1,6 @@
 {
   "name": "@jaenjs/jaen",
-  "version": "3.0.0-beta.34",
+  "version": "3.0.0-beta.39",
   "main": "index.js",
   "types": "src/index.ts",
   "license": "EUPL-1.2",
@@ -59,6 +59,7 @@
     "@react-icons/all-files": "4.0.0",
     "@reduxjs/toolkit": "^1.6.2",
     "@rtk-query/codegen-openapi": "^1.0.0-alpha.1",
+    "@snek-at/snek-api-client": "^0.0.5",
     "@types/loadable__component": "^5.13.4",
     "babel-preset-react": "^6.24.1",
     "esm": "^3.2.25",
@@ -74,6 +75,7 @@
     "gatsby-transformer-sharp": "^4.5.0",
     "hash-source": "^1.0.5",
     "is-mobile": "^3.1.1",
+    "isomorphic-fetch": "^3.0.0",
     "react": "^17.0.2",
     "react-focus-lock": "^2.7.1",
     "react-github-btn": "^1.2.1",
@@ -83,9 +85,9 @@
     "react-in-viewport": "^1.0.0-alpha.20",
     "react-pluggable": "^0.4.3",
     "react-redux": "^7.2.6",
+    "react-router-dom": "^6.3.0",
     "redux": "^4.1.2",
     "ts-node": "^10.5.0",
-    "uuid": "^8.3.2",
-    "@snek-at/snek-api-client": "^0.0.5"
+    "uuid": "^8.3.2"
   }
 }

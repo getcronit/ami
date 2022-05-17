@@ -8,7 +8,10 @@ import * as React from 'react'
 export const useNavigate = () => {
   let pureNavigate: any = gatsbyNavigate
 
-  const inRouter = useInRouterContext()
+  let inRouter = false
+  if (typeof window !== 'undefined') {
+    inRouter = useInRouterContext()
+  }
 
   if (inRouter) {
     pureNavigate = routerUseNavigate()
