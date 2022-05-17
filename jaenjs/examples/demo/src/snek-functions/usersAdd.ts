@@ -12,7 +12,6 @@ interface User {
 type Sheet = Array<User>
 
 const PROJECT_ID = parseInt(process.env.PROJECT_ID || '') || 2
-const SHEETS_TOKEN = process.env.SHEETS_TOKEN || 'AAA'
 const SHEET_NAME = 'snek-functions-users'
 const SHEET_FILE_NAME = 'snek-functions-users.json'
 
@@ -36,7 +35,6 @@ const usersAdd = makeFn<
     try {
       const sheet = await snekApi.getSheet({
         projectId: PROJECT_ID,
-        sheetsToken: SHEETS_TOKEN,
         sheetName: SHEET_NAME
       })
 
@@ -61,7 +59,6 @@ const usersAdd = makeFn<
 
       const sheet = await snekApi.createSheet({
         projectId: PROJECT_ID,
-        sheetsToken: SHEETS_TOKEN,
         sheetName: SHEET_NAME,
         file: sheetDefaultData
       })
@@ -93,7 +90,6 @@ const usersAdd = makeFn<
       // Update sheet
       await snekApi.updateSheet({
         projectId: PROJECT_ID,
-        sheetsToken: SHEETS_TOKEN,
         sheetName: SHEET_NAME,
         file
       })

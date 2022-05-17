@@ -117,19 +117,6 @@ provider:
       appimage:
         path: ./
 
-  httpApi:
-    cors:
-      allowedOrigins:
-        - '*'
-      allowedMethods:
-        - GET
-        - POST
-        - HEAD
-      allowedHeaders:
-        - Accept
-        - Authorization
-        - Content-Type
-
 functions:
   endpoint:
     image: appimage

@@ -1,8 +1,9 @@
 import {GatsbyNode as GatsbyNodeType} from 'gatsby'
-import fetch from 'node-fetch'
 import {getJaenDataForPlugin} from '../../../services/migration/get-jaen-data-for-plugin'
 import {INotification, INotificationsMigrationBase} from '../types'
 import {sourceNotifications} from './gatsby-config'
+
+import 'isomorphic-fetch'
 
 const GatsbyNode: GatsbyNodeType = {}
 

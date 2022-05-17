@@ -13,13 +13,15 @@ export const getServerlessApp = (options: AppOptions) => async (
     return null
   }
 
+  const dstPath = `${options.functions}/dist`
+
   if (IS_OFFLINE) {
     const functionsPath = options.functions
 
-    await buildFolder(functionsPath, options.functions)
+    await buildFolder(functionsPath, dstPath)
   }
 
-  options.functions = `${options.functions}/dist`
+  options.functions = dstPath
 
   return await ServerlessHttp(await getApp(options))(event, context)
 }

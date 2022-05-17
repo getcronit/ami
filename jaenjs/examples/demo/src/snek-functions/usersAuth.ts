@@ -6,8 +6,8 @@ type Sheet = Array<{
   isActive: boolean
 }>
 
-const PROJECT_ID = parseInt(process.env.PROJECT_ID) || 2
-const SHEETS_TOKEN = process.env.SHEETS_TOKEN || 'AAA'
+const PROJECT_ID = parseInt(process.env.PROJECT_ID || '') || 2
+const SHEETS_TOKEN = process.env.SHEETS_TOKEN
 const SHEET_NAME = 'snek-functions-users'
 
 const usersAuth = makeFn<{email: string; password: string}, boolean>(

@@ -1,12 +1,13 @@
 import {convertToSlug} from '../../../../utils/helper'
 import {GatsbyNode as GatsbyNodeType} from 'gatsby'
-import fetch from 'node-fetch'
-import path from 'path'
 import {getJaenDataForPlugin} from '../../../../services/migration/get-jaen-data-for-plugin'
 import {IJaenPage, IPagesMigrationBase} from '../../types'
 import {processPage} from '../services/imaProcess'
 import {generateOriginPath} from '../services/path'
 import {sourceTemplates} from './gatsby-config'
+
+import 'isomorphic-fetch'
+
 const GatsbyNode: GatsbyNodeType = {}
 
 GatsbyNode.onCreateWebpackConfig = ({

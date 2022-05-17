@@ -14,7 +14,6 @@ type ReducedUser = Omit<User, 'password'>
 type Sheet = Array<User>
 
 const PROJECT_ID = parseInt(process.env.PROJECT_ID || '') || 2
-const SHEETS_TOKEN = process.env.SHEETS_TOKEN
 const SHEET_NAME = 'snek-functions-users'
 
 const usersGet = makeFn<void, ReducedUser[]>(
@@ -23,10 +22,11 @@ const usersGet = makeFn<void, ReducedUser[]>(
 
     // 1. Check if auth sheet exists, and if not, create it with default values
 
+    console.log('SHEETS TOKEN', process.env.SHEETS_TOKEN)
+
     try {
       const sheet = await snekApi.getSheet({
         projectId: PROJECT_ID,
-        sheetsToken: SHEETS_TOKEN,
         sheetName: SHEET_NAME
       })
 

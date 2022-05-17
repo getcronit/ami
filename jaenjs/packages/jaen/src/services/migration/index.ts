@@ -1,6 +1,5 @@
 import deepmerge from 'deepmerge'
 import update from 'immutability-helper'
-import fetch from 'node-fetch'
 import {nodejsSafeJsonUpload} from '../openStorageGateway'
 import {
   IBaseEntity,
@@ -9,6 +8,8 @@ import {
   IRemoteFileMigration
 } from './types'
 export const JAEN_STATIC_DATA_DIR = './jaen-data'
+
+import 'isomorphic-fetch'
 
 export const downloadMigrationURL = async (
   url: string
