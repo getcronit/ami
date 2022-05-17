@@ -4,6 +4,7 @@ export const shopifyProductData = graphql`
   fragment shopifyProductData on ShopifyProduct {
     variants {
       id
+      taxable
       sku
       compareAtPrice
       price
@@ -11,6 +12,7 @@ export const shopifyProductData = graphql`
     hasOnlyDefaultVariant
     id
     handle
+    description
     descriptionHtml
     title
     tags

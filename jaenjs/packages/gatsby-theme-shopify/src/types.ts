@@ -74,6 +74,7 @@ export interface ColllectionPageContext extends ExcludeJaenPage {
 export interface ShopifyProduct {
   variants: Array<{
     id: string
+    taxable: boolean
     sku: string
     compareAtPrice: number | null
     price: number
@@ -81,6 +82,7 @@ export interface ShopifyProduct {
   hasOnlyDefaultVariant?: boolean
   id: string
   handle: string
+  description: string
   descriptionHtml: string
   title: string
   tags: Array<string>

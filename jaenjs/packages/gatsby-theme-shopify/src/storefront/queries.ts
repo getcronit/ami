@@ -18,6 +18,7 @@ export const StorefrontProductsQuery = `
         node {
           title
           handle
+          description
           descriptionHtml
           totalInventory
           createdAt
@@ -25,6 +26,7 @@ export const StorefrontProductsQuery = `
           productType
           variants(first: 100) {
             nodes {
+              taxable
               price
               sku
               id

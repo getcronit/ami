@@ -17,6 +17,7 @@ export interface ProductsEdge {
 export interface PurpleNode {
   title: string
   handle: string
+  description: string
   descriptionHtml: string
   totalInventory: number
   createdAt: string
@@ -74,6 +75,7 @@ export interface FluffyNode {
 }
 
 export interface NodeElement {
+  taxable: boolean
   price: string
   sku: string
   id: string

@@ -138,6 +138,7 @@ export const transformProductSearchResultData = (
           variants: edge.node.variants.nodes.map(variant => {
             return {
               id: variant.id,
+              taxable: variant.taxable,
               sku: variant.sku,
               price: variant.price ? parseInt(variant.price) : Infinity,
               compareAtPrice: variant.compareAtPrice
@@ -147,6 +148,7 @@ export const transformProductSearchResultData = (
           }),
           hasOnlyDefaultVariant: undefined,
           id: edge.node.id,
+          description: edge.node.description,
           descriptionHtml: edge.node.descriptionHtml,
           handle: edge.node.handle,
           title: edge.node.title,
