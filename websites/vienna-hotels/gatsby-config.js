@@ -40,12 +40,6 @@ module.exports = {
         jaenProjectId: 4,
       },
     },
-    {
-      resolve: "@chakra-ui/gatsby-plugin",
-      options: {
-        resetCSS: true,
-        isUsingColorMode: true,
-      },
-    },
+    "@chakra-ui/gatsby-plugin",
   ],
 };
