@@ -8,11 +8,11 @@
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
 "@snek-at/functions@*":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@snek-at/functions/-/functions-0.0.16.tgz#71d085b3e70bfc83994af3ac70e4e55c67ea0340"
-  integrity sha512-nx5fxkDTtl/kZaMe0N6phmpY5Q7tN7ptl2O+4Yxw969NAOjQo3OubPja3nGT8sHciNN7MszQoP2alPpBYxyvBw==
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/@snek-at/functions/-/functions-0.0.23.tgz#9e4b0f4e5555e6ac9729517e2a7aa96164a4265e"
+  integrity sha512-cKqrW1xwJazjeZnFbiAposaxjzlaVWhczldqPVki7ivvwRx6rgf0IxuecpQRXIDzZdRwwUWbOSRqt3pkkDVS2w==
   dependencies:
-    "@snek-at/snek-api-client" "^0.0.5"
+    "@snek-at/snek-api-client" "*"
     "@swc/core" "^1.2.183"
     commander "^9.2.0"
     cors "^2.8.5"
@@ -27,10 +27,10 @@
     regenerator-runtime "^0.13.9"
     serverless-http "^3.0.1"
 
-"@snek-at/snek-api-client@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@snek-at/snek-api-client/-/snek-api-client-0.0.5.tgz#9252b1ed2121dac19d611b7feebfea563f9adf8c"
-  integrity sha512-3EnwfYEM7WclqSVnjA4HO/jueU2BL1jvEgDjPwdasTFNoUzzjiV5Bik0mFMyDsDcwytcuw1AbqIxhv7PkiTpuA==
+"@snek-at/snek-api-client@*":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@snek-at/snek-api-client/-/snek-api-client-0.0.7.tgz#5dc7a0cb03da9be5f0f4fb7c37d2ea458c992981"
+  integrity sha512-ahqrTteUpK2Uo2s/bgc2MpbKKJF5BrluGMlVdQIgsOGqhq6zG8Q235H0ULdK4Q+nGLICI1TdKWgsXSS7nCtmXA==
   dependencies:
     core-js "^3.22.5"
     node-fetch "^3.2.4"
