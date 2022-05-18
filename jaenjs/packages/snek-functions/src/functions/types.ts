@@ -1,4 +1,4 @@
-import {SnekApi} from '@snek-at/snek-api-client'
+import type {SnekApi} from '@snek-at/snek-api-client'
 
 export type SnekFunction<FunctionArgs, FunctionReturn> = {
   (args: FunctionArgs): Promise<FunctionReturn>
@@ -15,13 +15,4 @@ export type SnekFunction<FunctionArgs, FunctionReturn> = {
   options: {
     name: string
   }
-}
-
-export abstract class FunctionFactoryBlueprint {
-  abstract makeFn<FunctionArgs, FunctionReturn>(
-    snekFunction: (args: FunctionArgs) => Promise<FunctionReturn>,
-    options: {
-      name: string
-    }
-  ): SnekFunction<FunctionArgs, FunctionReturn>
 }

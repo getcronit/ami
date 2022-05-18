@@ -1,8 +1,7 @@
 import {SnekApi, KeyManager} from '@snek-at/snek-api-client'
 
-import {FunctionFactoryBlueprint, SnekFunction} from './functions/index.js'
-
-import {stringify} from './utils.js'
+import {stringify} from '../utils.js'
+import {SnekFunction} from './types.js'
 
 const SNEK_FUNCTION_URL =
   process.env.SNEK_FUNCTION_URL ||
@@ -10,8 +9,8 @@ const SNEK_FUNCTION_URL =
   // See: https://www.gatsbyjs.com/docs/how-to/local-development/environment-variables/#accessing-environment-variables-in-the-browser
   process.env.GATSBY_SNEK_FUNCTION_URL
 
-class FunctionFactory extends FunctionFactoryBlueprint {
-  makeFn<FunctionArgs, FunctionReturn>(
+class FunctionFactory {
+  static makeFn<FunctionArgs, FunctionReturn>(
     snekFunction: (
       args: FunctionArgs,
       snekApi: SnekApi
@@ -28,11 +27,6 @@ class FunctionFactory extends FunctionFactoryBlueprint {
 
     fn.options = options
     fn.execute = async args => {
-      // import isomorphic-fetch if fn is not running in a browser
-      if (typeof window === 'undefined') {
-        await import('isomorphic-fetch')
-      }
-
       if (!SNEK_FUNCTION_URL) {
         throw new Error(
           'SNEK_FUNCTION_URL environment variable is not defined. Please define it in your environment. If you are using Gatsby, use GATSBY_SNEK_FUNCTION_URL instead.'
@@ -70,6 +64,27 @@ class FunctionFactory extends FunctionFactoryBlueprint {
 
     return fn
   }
+
+  static browserMakeFn<FunctionArgs, FunctionReturn>(
+    snekFunction: (
+      args: FunctionArgs,
+      snekApi: SnekApi
+    ) => Promise<FunctionReturn | null>,
+
+    options: {
+      name: string
+    }
+  ): SnekFunction<FunctionArgs, FunctionReturn> {
+    const fn = FunctionFactory.makeFn(snekFunction, options)
+
+    fn.server = () => {
+      throw new Error(
+        'Executing a server function in the browser is not supported.'
+      )
+    }
+
+    return fn
+  }
 }
 
-export default new FunctionFactory()
+export default FunctionFactory

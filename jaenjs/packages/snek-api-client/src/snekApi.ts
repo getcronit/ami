@@ -1,19 +1,3 @@
-;(async () => {
-  if (!globalThis.fetch) {
-    const myFetch = await import('node-fetch')
-
-    globalThis.fetch = myFetch.default as any
-    globalThis.Response = myFetch.Response as any
-    globalThis.Headers = myFetch.Headers as any
-    globalThis.Request = myFetch.Request as any
-    globalThis.File = myFetch.File as any
-
-    const myFormData = await import('form-data')
-
-    globalThis.FormData = myFormData.default as any
-  }
-})()
-
 import {
   IAuthLoginPayload,
   IAuthLoginResponse,
@@ -66,8 +50,7 @@ export class SnekApi {
       }
 
       if (refreshResponse.status === 200) {
-        const refreshResponseJson =
-          (await refreshResponse.json()) as IAuthRefreshResponse
+        const refreshResponseJson = (await refreshResponse.json()) as IAuthRefreshResponse
 
         this.KeyManager.setAccessToken(refreshResponseJson.access_token)
 
@@ -201,7 +184,10 @@ export class SnekApi {
     return new File([blob], `${sheetName}.sheet`)
   }
 
-  async getSheets(args: {projectId: number; sheetsToken?: string}): Promise<
+  async getSheets(args: {
+    projectId: number
+    sheetsToken?: string
+  }): Promise<
     Array<{
       name: string
     }>

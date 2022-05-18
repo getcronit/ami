@@ -1,7 +1,8 @@
 {
   "name": "@snek-at/snek-api-client",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "main": "dist/index.js",
+  "browser": "dist/index.browser.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "license": "MIT",

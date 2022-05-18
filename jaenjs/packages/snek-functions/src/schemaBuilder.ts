@@ -4,8 +4,9 @@ import {
   GraphQLString,
   GraphQLScalarType
 } from 'graphql'
-import {SnekFunction} from './functions/index.js'
 import {KeyManager, snekApi} from '@snek-at/snek-api-client'
+
+import {SnekFunction} from './functions/index.js'
 
 const functionData = new GraphQLScalarType({
   name: 'FunctionData',

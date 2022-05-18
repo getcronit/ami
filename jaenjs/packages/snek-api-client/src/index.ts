@@ -1,13 +1,17 @@
-import {SnekApi} from './snekApi.js'
-export {KeyManager} from './keyManager.js'
-export * from './types.js'
-export type {SnekApi}
+;(async () => {
+  if (!globalThis.fetch) {
+    const myFetch = await import('node-fetch')
 
-const SNEK_API_URL =
-  process.env.SNEK_API_URL ||
-  // Gatsby needs a special prefix for its environment variables
-  // See: https://www.gatsbyjs.com/docs/how-to/local-development/environment-variables/#accessing-environment-variables-in-the-browser
-  process.env.GATSBY_SNEK_API_URL ||
-  'https://api.snek.at'
+    globalThis.fetch = myFetch.default as any
+    globalThis.Response = myFetch.Response as any
+    globalThis.Headers = myFetch.Headers as any
+    globalThis.Request = myFetch.Request as any
+    globalThis.File = myFetch.File as any
 
-export const snekApi = new SnekApi(SNEK_API_URL)
+    const myFormData = await import('form-data')
+
+    globalThis.FormData = myFormData.default as any
+  }
+})()
+
+export * from './index.browser.js'
