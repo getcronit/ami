@@ -116,7 +116,9 @@ export interface ShopifyCollection {
   title: string
   handle: string
   productsCount: number
+  description: string
   image: {
+    src: string
     gatsbyImageData: IGatsbyImageData
     altText: string | null
   } | null
@@ -133,4 +135,6 @@ export interface CollectionPageData {
   relatedProducts: NodeArray<ShopifyProduct>
 }
 
-export interface ProductsPageData {}
+export interface ProductsPageData {
+  collection: ShopifyCollection | null
+}

@@ -1,6 +1,6 @@
 import {graphql} from 'gatsby'
 
-export const shopifyProductData = graphql`
+export const shopifyData = graphql`
   fragment shopifyProductData on ShopifyProduct {
     variants {
       id
@@ -43,6 +43,18 @@ export const shopifyProductData = graphql`
       key
       value
       namespace
+    }
+  }
+
+  fragment shopifyCollectionData on ShopifyCollection {
+    title
+    handle
+    productsCount
+    description
+    image {
+      src
+      gatsbyImageData
+      altText
     }
   }
 `
