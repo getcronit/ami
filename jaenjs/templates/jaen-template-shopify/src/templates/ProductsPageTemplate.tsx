@@ -1,10 +1,12 @@
+import {SEO} from '@jaenjs/jaen'
 import {
+  getCollectionStructure,
   ProductsPageContext,
   ProductsPageData,
   SearchProvider,
   useProductSearch
 } from '@snek-at/gatsby-theme-shopify'
-import {PageProps} from 'gatsby'
+import {graphql, PageProps} from 'gatsby'
 import React from 'react'
 import {Layout} from '../components/Layout'
 import {ProductsTemplate} from '../components/templates'
@@ -80,24 +82,65 @@ const ProductsPageTemplate = (
     setSortKey(sortOption)
   }
 
+  const buildProductsPageMeta = () => {
+    const collection = props.data.collection
+
+    let title = 'Sortiment'
+    let description =
+      'Unser Sortiment' +
+      ' | Hersteller: ' +
+      vendors.join(', ') +
+      ' | Produkttypen: ' +
+      productTypes.join(', ') +
+      ' | Tags: ' +
+      tags.join(', ')
+
+    if (collection) {
+      const struct = getCollectionStructure(collection.title)
+
+      if (struct.name) {
+        title = struct.name
+        description +=
+          ' | Kategorie: ' +
+          title +
+          ' | Beschreibung: ' +
+          collection.description
+      }
+    }
+
+    return {
+      title,
+      description,
+      image: collection?.image?.src
+    }
+  }
+
   return (
-    <Layout path={props.path}>
-      <ProductsTemplate
-        path={props.path}
-        products={search.products}
-        implicitTags={implicitTags}
-        tags={tags}
-        vendors={vendors}
-        productTypes={productTypes}
-        isFetching={search.isFetching}
-        fetchNextPage={search.fetchNextPage}
-        updateFilter={updateFilters}
-        minPrice={minPrice}
-        maxPrice={maxPrice}
-        sortOptions={['Alphabetisch', 'Preis aufsteigend', 'Preis absteigend']}
-        onSortChange={onSortChange}
-      />
-    </Layout>
+    <>
+      <SEO pagePath={props.path} pageMeta={buildProductsPageMeta()} />
+      <Layout path={props.path}>
+        <ProductsTemplate
+          path={props.path}
+          collection={props.data.collection}
+          products={search.products}
+          implicitTags={implicitTags}
+          tags={tags}
+          vendors={vendors}
+          productTypes={productTypes}
+          isFetching={search.isFetching}
+          fetchNextPage={search.fetchNextPage}
+          updateFilter={updateFilters}
+          minPrice={minPrice}
+          maxPrice={maxPrice}
+          sortOptions={[
+            'Alphabetisch',
+            'Preis aufsteigend',
+            'Preis absteigend'
+          ]}
+          onSortChange={onSortChange}
+        />
+      </Layout>
+    </>
   )
 }
 
@@ -109,3 +152,11 @@ export default (
     <ProductsPageTemplate {...props} />
   </SearchProvider>
 )
+
+export const query = graphql`
+  query($collectionId: String) {
+    shopifyCollection(id: {eq: $collectionId}) {
+      ...shopifyCollectionData
+    }
+  }
+`

@@ -5,7 +5,7 @@ import {PrivacyTemplate} from '../components/templates'
 import {Layout} from '../components/Layout'
 import {connectPage} from '@jaenjs/jaen'
 
-const ImprintPage = connectPage(
+const PrivacyPage = connectPage(
   ({path}: PageProps) => {
     return (
       <Layout path={path}>
@@ -24,4 +24,4 @@ export const query = graphql`
   }
 `
 
-export default ImprintPage
+export default PrivacyPage

@@ -1,6 +1,7 @@
 import {graphql, PageProps} from 'gatsby'
 import React from 'react'
 
+import {SEO} from '@jaenjs/jaen'
 import {
   ProductPageContext,
   ProductPageData,
@@ -51,16 +52,36 @@ const ProductPageTemplate = (
     }
   }
 
+  const buildProductPageMeta = () => {
+    let title = shopifyProduct.title
+    let description =
+      shopifyProduct.description +
+      ` | Produkttyp: ${shopifyProduct.productType}` +
+      ` | Hersteller: ${shopifyProduct.vendor}`
+
+    return {
+      title,
+      description,
+      image:
+        shopifyProduct.featuredMedia?.image.gatsbyImageData.images.fallback
+          ?.src,
+      datePublished: shopifyProduct.createdAt
+    }
+  }
+
   return (
-    <Layout path={props.path}>
-      <ProductTemplate
-        path={props.path}
-        shopifyProduct={props.data.shopifyProduct}
-        relatedProducts={props.data.relatedProducts}
-        onWishlistAdd={handleWishlistAdd}
-        isOnWishList={isOnWishList}
-      />
-    </Layout>
+    <>
+      <SEO pagePath={props.path} pageMeta={buildProductPageMeta()} />
+      <Layout path={props.path}>
+        <ProductTemplate
+          path={props.path}
+          shopifyProduct={props.data.shopifyProduct}
+          relatedProducts={props.data.relatedProducts}
+          onWishlistAdd={handleWishlistAdd}
+          isOnWishList={isOnWishList}
+        />
+      </Layout>
+    </>
   )
 }
 

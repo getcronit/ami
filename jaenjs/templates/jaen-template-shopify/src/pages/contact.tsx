@@ -4,7 +4,7 @@ import {connectPage, Field} from '@jaenjs/jaen'
 import {ContactTemplate} from '../components/templates'
 import {Layout} from '../components/Layout'
 
-const ImprintPage = connectPage(
+const ContactPage = connectPage(
   (props: PageProps) => {
     return (
       <Layout path={props.path}>
@@ -35,4 +35,4 @@ export const query = graphql`
   }
 `
 
-export default ImprintPage
+export default ContactPage
