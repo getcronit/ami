@@ -1,2 +1,2 @@
 export * from './context'
-export * from './SEO'
+export {default as SEO} from './SEO'
