@@ -9,7 +9,7 @@ GatsbyNode.onCreateWebpackConfig = (
   {plugins, actions, loaders, stage, getNodesByType},
   pluginOptions
 ) => {
-  const options = pluginOptions as unknown as IJaenConfig
+  const options = (pluginOptions as unknown) as IJaenConfig
 
   actions.setWebpackConfig({
     plugins: [

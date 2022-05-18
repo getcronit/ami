@@ -1,6 +1,6 @@
 {
   "name": "@jaenjs/jaen",
-  "version": "3.0.0-beta.39",
+  "version": "3.0.0-beta.41",
   "main": "index.js",
   "types": "src/index.ts",
   "license": "EUPL-1.2",
@@ -59,7 +59,7 @@
     "@react-icons/all-files": "4.0.0",
     "@reduxjs/toolkit": "^1.6.2",
     "@rtk-query/codegen-openapi": "^1.0.0-alpha.1",
-    "@snek-at/snek-api-client": "^0.0.5",
+    "@snek-at/snek-api-client": "^0.0.7",
     "@types/loadable__component": "^5.13.4",
     "babel-preset-react": "^6.24.1",
     "esm": "^3.2.25",
