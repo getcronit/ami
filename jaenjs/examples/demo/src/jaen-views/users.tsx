@@ -62,8 +62,6 @@ const UsersList = () => {
 
   const {users, isFetching} = useUsers()
 
-  console.log(users)
-
   return (
     <Box overflowY={'auto'} height="100%">
       <Table variant={'simple'}>
@@ -302,8 +300,7 @@ const UserDetails = () => {
               {...register('password', {
                 required: 'This is required',
                 pattern: {
-                  value:
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                   message:
                     'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character'
                 }
@@ -671,8 +668,7 @@ const AddUserControl = () => {
                   {...register('password', {
                     required: 'This is required',
                     pattern: {
-                      value:
-                        /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{8,}$/,
+                      value: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{8,}$/,
                       message:
                         'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character'
                     }
