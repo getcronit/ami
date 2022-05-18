@@ -34,6 +34,7 @@ GatsbyConfig.plugins = [
       isUsingColorMode: true
     }
   },
+  'gatsby-plugin-react-helmet',
   {
     resolve: `gatsby-plugin-sharp`,
     options: {

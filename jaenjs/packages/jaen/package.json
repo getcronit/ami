@@ -1,6 +1,6 @@
 {
   "name": "@jaenjs/jaen",
-  "version": "3.0.0-beta.41",
+  "version": "3.0.0-beta.43",
   "main": "index.js",
   "types": "src/index.ts",
   "license": "EUPL-1.2",
@@ -68,6 +68,7 @@
     "gatsby-plugin-alias-imports": "^1.0.5",
     "gatsby-plugin-compile-es6-packages": "^2.1.1",
     "gatsby-plugin-image": "^2.5.1",
+    "gatsby-plugin-react-helmet": "^5.14.0",
     "gatsby-plugin-react-svg": "^3.1.0",
     "gatsby-plugin-sharp": "^4.5.1",
     "gatsby-plugin-ts-config": "^2.1.3",
