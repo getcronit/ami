@@ -14,12 +14,4 @@ on: push
 jobs:
   jaen-deploy:
     uses: ./.github/workflows/jaen-deploy.yaml
-    with:
-      SCALE_SERP_APIKEY: ${{ secrets.SCALE_SERP_APIKEY }}
-      SCALE_SERP_GOOGLE_PLACE_ID: ${{ secrets.SCALE_SERP_GOOGLE_PLACE_ID }}
-      SHOPIFY_APP_PASSWORD: ${{ secrets.SHOPIFY_APP_PASSWORD }}
-      GATSBY_MYSHOPIFY_URL: agtguntrade.myshopify.com
-      GATSBY_STOREFRONT_API_KEY: ${{ secrets.GATSBY_STOREFRONT_API_KEY }}
-      GATSBY_SNEK_FUNCTION_URL: ${{ secrets.GATSBY_SNEK_FUNCTION_URL }}
-      SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
-      GATSBY_MAPBOX_ACCESS_TOKEN: ${{ secrets.GATSBY_MAPBOX_ACCESS_TOKEN }}
+    secrets: inherit
