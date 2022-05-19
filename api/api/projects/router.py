@@ -1,7 +1,7 @@
 from hashlib import sha256
 from typing import List
 from fastapi.responses import FileResponse
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Request
+from fastapi import APIRouter, Body, Depends, HTTPException, UploadFile, File, Request
 from fastapi_jwt_auth import AuthJWT
 
 
@@ -108,6 +108,26 @@ async def publish_project(
 
     raise HTTPException(
         status_code=403, detail="You are not authorized to perform this action"
+    )
+
+
+@router.post("/{project_id}/publish", operation_id="authorize")
+async def post_publish_project(
+    project_id: int,
+    publish_data: dict = Body(...),
+    migration_url: str = None,
+    publish_token: str = None,
+    Authorize: AuthJWT = Depends(),
+    project_dal: ProjectDAL = Depends(get_project_dal),
+):
+    print(publish_data)
+
+    return await publish_project(
+        project_id=project_id,
+        migration_url=migration_url,
+        publish_token=publish_token,
+        Authorize=Authorize,
+        project_dal=project_dal,
     )
 
 
