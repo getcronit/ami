@@ -43,13 +43,7 @@ const config: GatsbyConfig = {
         jaenProjectId: 1337
       }
     },
-    {
-      resolve: '@chakra-ui/gatsby-plugin',
-      options: {
-        resetCSS: true,
-        isUsingColorMode: true
-      }
-    },
+    '@chakra-ui/gatsby-plugin',
     {
       resolve: '@snek-at/gatsby-plugin-scaleserp',
       options: {
