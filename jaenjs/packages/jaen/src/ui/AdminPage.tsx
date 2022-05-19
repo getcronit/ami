@@ -9,9 +9,9 @@ import {
   useNavigate
 } from 'react-router-dom'
 
-import loadable from '@loadable/component'
 import AdminPageLoading from './components/AdminPageLoading'
 import AdminToolbarContainer from './AdminToolbar'
+import {SEO} from '../internal-plugins/pages'
 import PagesTab from '../internal-plugins/pages/ui/tabs/Pages'
 import FilesTab from '../internal-plugins/pages/ui/tabs/Files'
 import NotifyTab from '../internal-plugins/notify/ui/components/tabs/Notify'
@@ -26,7 +26,7 @@ import {BsHouse} from '@react-icons/all-files/bs/BsHouse'
 import {FaPager} from '@react-icons/all-files/fa/FaPager'
 import {BsFiles} from '@react-icons/all-files/bs/BsFiles'
 import {BiNotification} from '@react-icons/all-files/bi/BiNotification'
-import {navigate} from 'gatsby'
+import {navigate, PageProps} from 'gatsby'
 
 const buildViews = (
   views: Array<{
@@ -189,8 +189,16 @@ const ProtectedRoute = ({
   return children ? children : <Outlet />
 }
 
-export default () => (
-  <HashRouter>
-    <AdminPage />
-  </HashRouter>
+export default (props: PageProps) => (
+  <>
+    <SEO
+      pagePath={props.path}
+      pageMeta={{
+        title: 'Jaen Admin'
+      }}
+    />
+    <HashRouter>
+      <AdminPage />
+    </HashRouter>
+  </>
 )

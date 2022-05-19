@@ -1,10 +1,11 @@
 import AdminLogin from './components/AdminLogin'
 import {useAppDispatch, useAppSelector, withRedux} from '../redux'
 import {login, demoLogin} from '../redux/slices/auth'
-import {navigate} from 'gatsby'
+import {navigate, PageProps} from 'gatsby'
 import React from 'react'
+import {SEO} from '../internal-plugins/pages'
 
-export const AdminLoginPage = withRedux(() => {
+export const AdminLoginPage = withRedux((props: PageProps) => {
   const dispatch = useAppDispatch()
 
   const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated)
@@ -39,12 +40,20 @@ export const AdminLoginPage = withRedux(() => {
   }
 
   return (
-    <AdminLogin
-      onLogin={handleLogin}
-      onLiveDemo={handleLiveDemo}
-      onHomeClick={handleHomeClick}
-      onDocsClick={handleDocsClick}
-    />
+    <>
+      <SEO
+        pagePath={props.path}
+        pageMeta={{
+          title: 'Jaen Admin | Login'
+        }}
+      />
+      <AdminLogin
+        onLogin={handleLogin}
+        onLiveDemo={handleLiveDemo}
+        onHomeClick={handleHomeClick}
+        onDocsClick={handleDocsClick}
+      />
+    </>
   )
 })
 
