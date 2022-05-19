@@ -36,6 +36,7 @@ import {replaceHexColorsInHTML} from '../../../common/utils'
 
 import {ContainerLayout} from '../../ContainerLayout'
 import {ProductSlider} from '../../molecules/ProductSlider'
+import {useUserAuth} from '../../../services/useUserAuth'
 
 export interface ProductTemplateProps extends ProductPageData {
   path: string
@@ -139,9 +140,18 @@ const ProductDetail = (props: {
   isOnWishList?: boolean
   onWishlistAdd: (id: string) => void
 }) => {
+  const {user} = useUserAuth()
+
+  console.log('proeuct user', user)
+
   const {isOpen, onOpen, onClose} = useDisclosure()
 
   const prices = getFormattedProductPrices(props.product)
+
+  const taxable = user ? false : props.product.variants[0]?.taxable
+
+  console.log(user, props.product.variants[0]?.taxable)
+  console.log(taxable)
 
   const tags = getProductTags(props.product)
 
@@ -193,9 +203,11 @@ const ProductDetail = (props: {
         <VStack align={'left'} spacing="4">
           <Price prices={prices} />
 
-          <Text fontSize={'xs'} fontWeight={'hairline'}>
-            inkl. MwSt.
-          </Text>
+          {taxable && (
+            <Text fontSize="xs" color="gray.600">
+              inkl. MwSt.
+            </Text>
+          )}
 
           <Divider />
 

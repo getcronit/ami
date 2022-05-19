@@ -75,7 +75,6 @@ export interface FluffyNode {
 }
 
 export interface NodeElement {
-  taxable: boolean
   price: string
   sku: string
   id: string

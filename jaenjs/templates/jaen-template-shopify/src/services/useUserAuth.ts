@@ -27,7 +27,7 @@ export const useUserAuth = () => {
         setUser(auth)
 
         // simulate soft refresh
-        navigate('')
+        navigate(0)
       }
 
       return !!auth
@@ -38,7 +38,12 @@ export const useUserAuth = () => {
   const onLogout = React.useCallback(() => {
     localStorage.removeItem('user')
     setUser(null)
+
+    // simulate soft refresh
+    navigate(0)
   }, [])
+
+  console.log('user', user)
 
   return {user, onLogin, onLogout}
 }

@@ -22,6 +22,7 @@ import {
   calculateTextColorForBackgroundColor,
   uuidv1
 } from '../../../common/utils'
+import {useUserAuth} from '../../../services/useUserAuth'
 
 import * as styles from './styles'
 
@@ -42,6 +43,8 @@ export const ProductCard = ({
   bcolor,
   prefixPath
 }: ProductCardProps) => {
+  const {user} = useUserAuth()
+
   const path = prefixPath ? `${prefixPath}/${product.handle}` : product.handle
 
   const radioRef = React.useRef<(HTMLInputElement | null)[]>([])
@@ -49,6 +52,8 @@ export const ProductCard = ({
   const tags = getProductTags(product)
 
   const prices = getFormattedProductPrices(product)
+
+  const taxable = user ? false : product.variants[0]?.taxable
 
   const cardId = uuidv1()
 
@@ -142,6 +147,11 @@ export const ProductCard = ({
           </Text>
           <Text fontWeight="semibold">{product.title}</Text>
           <ProductPrices prices={prices} />
+          {taxable && (
+            <Text fontSize="xs" color="gray.600" textAlign={'center'}>
+              inkl. MwSt.
+            </Text>
+          )}
           <Spacer
             position="absolute"
             className="bspacer"

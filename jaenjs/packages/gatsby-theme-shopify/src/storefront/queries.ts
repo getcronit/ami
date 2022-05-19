@@ -26,7 +26,6 @@ export const StorefrontProductsQuery = `
           productType
           variants(first: 100) {
             nodes {
-              taxable
               price
               sku
               id

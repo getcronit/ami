@@ -138,7 +138,7 @@ export const transformProductSearchResultData = (
           variants: edge.node.variants.nodes.map(variant => {
             return {
               id: variant.id,
-              taxable: variant.taxable,
+              taxable: true,
               sku: variant.sku,
               price: variant.price ? parseInt(variant.price) : Infinity,
               compareAtPrice: variant.compareAtPrice
