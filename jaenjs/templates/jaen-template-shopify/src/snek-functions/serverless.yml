@@ -21,7 +21,7 @@ provider:
   region: eu-central-1
 
   environment:
-    PROJECT_ID: 2
+    PROJECT_ID: 3
     SHEETS_TOKEN: ${env:SHEETS_TOKEN}
 
   ecr:
