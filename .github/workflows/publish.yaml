@@ -25,3 +25,4 @@ jobs:
   jaen-deploy:
     needs: jaen-publish
     uses: ./.github/workflows/jaen-deploy.yaml
+    secrets: inherit
