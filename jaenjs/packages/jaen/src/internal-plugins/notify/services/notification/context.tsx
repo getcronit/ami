@@ -61,7 +61,11 @@ export interface NotificationProviderProps extends NotificationOptions {
   onClose?: () => void
 }
 
-export const NotificationProvider: React.FC<NotificationProviderProps> = ({
+export const NotificationProvider: React.FC<
+  NotificationProviderProps & {
+    editable?: boolean
+  }
+> = ({
   id,
   notification,
   children,
@@ -71,13 +75,24 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   customTrigger,
   advanced,
   forceOpen,
-  onClose: onCloseProp
+  onClose: onCloseProp,
+  editable = false
 }) => {
   const dispatch = useAppDispatch()
   const {isOpen, onClose, onOpen} = useDisclosure({
     defaultIsOpen: false,
     isOpen: forceOpen
   })
+
+  React.useEffect(() => {
+    if (editable) {
+      dispatch(internalActions.setEditing(true))
+
+      return () => {
+        dispatch(internalActions.setEditing(false))
+      }
+    }
+  }, [dispatch, editable])
 
   const handleClose = React.useCallback(() => {
     onCloseProp?.()

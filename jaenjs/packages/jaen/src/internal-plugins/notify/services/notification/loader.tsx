@@ -114,7 +114,7 @@ export const loadNotificationsForPage = (
   pageProps: IJaenPageProps,
   stateAdvanced: IJaenState['notifications']['advanced']
 ) => {
-  const blacklist = ['/jaen']
+  const blacklist = ['/admin']
 
   if (blacklist.some(item => pageProps.path.startsWith(item))) {
     return []
@@ -128,8 +128,8 @@ export const loadNotificationsForPage = (
   const allNotificationElement: Array<JSX.Element> = []
 
   for (const {Component, id, isActive, notification} of notifications) {
-    const isDynamicActive: boolean | undefined = store.getState().internal
-      .notifications.nodes?.[id]?.active
+    const isDynamicActive: boolean | undefined =
+      store.getState().internal.notifications.nodes?.[id]?.active
 
     if (isDynamicActive === false) {
       continue

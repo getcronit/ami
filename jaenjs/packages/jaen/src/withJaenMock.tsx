@@ -3,7 +3,7 @@ import {
   NotificationProvider,
   NotificationProviderProps
 } from './internal-plugins/notify/services/notification/context'
-import {withRedux as withNotificationsProvider} from './internal-plugins/notify/redux'
+import {withRedux as withNotifyRedux} from './internal-plugins/notify/redux'
 import {
   JaenPageContext,
   JaenPageProvider
@@ -15,22 +15,26 @@ import {AdminToolbar} from './ui/components/AdminToolbar'
 import {ToolbarChangesElement} from './ui/ToolbarChangesElement'
 import {withSnekFinder} from './withSnekFinder'
 
-export type JaenMockProps = NotificationProviderProps | JaenPageContext
+type NotifyMockProps = {
+  notify: NotificationProviderProps
+}
+
+export type JaenMockProps = NotifyMockProps | JaenPageContext
 
 export const withJaenMock = <P extends object>(
   Component: React.ComponentType<P>,
   mockProps: JaenMockProps
 ) => {
   const InnerElement = ({children}: {children: React.ReactNode}) => {
-    if ((mockProps as any).notification) {
-      const props = mockProps as NotificationProviderProps
+    if ((mockProps as any).notify) {
+      const props = mockProps as NotifyMockProps
 
-      const NotificationsProvider = withNotificationsProvider(
-        NotificationProvider
-      )
+      const NotifyRedux = withNotifyRedux(NotificationProvider)
 
       return (
-        <NotificationsProvider {...props}>{children}</NotificationsProvider>
+        <NotifyRedux {...props.notify} editable>
+          {children}
+        </NotifyRedux>
       )
     }
 
