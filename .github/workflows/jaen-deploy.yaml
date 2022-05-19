@@ -13,19 +13,19 @@ on:
   workflow_call:
     # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecrets
     secrets:
-      SCALE_SERP_API_KEY:
+      SCALE_SERP_APIKEY:
         description: Scale Serp api key.
         # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecretssecret_idrequired
         required: false
-      SCALE_SERP_PLACE_ID:
+      SCALE_SERP_GOOGLE_PLACE_ID:
         description: Place IDs uniquely identify a place in the Google Places database and on Google Maps.
         # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecretssecret_idrequired
         required: false
-      SHOPIFY_SHOP:
-        description: Domain of a Shopify shop (hans-franz-juergen.myshopify.com).
+      GATSBY_MYSHOPIFY_URL:
+        description: Domain of a Shopify shop (foo.myshopify.com).
         # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecretssecret_idrequired
         required: false
-      SHOPIFY_SHOP_PASSWORD:
+      SHOPIFY_APP_PASSWORD:
         description: Personal access token for a Shopify account.
         required: false
       SENDGRID_API_KEY:
@@ -34,6 +34,10 @@ on:
         required: false
       GATSBY_MAPBOX_ACCESS_TOKEN:
         description: Mapbox access token.
+        # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecretssecret_idrequired
+        required: false
+      GATSBY_SNEK_FUNCTION_URL:
+        description: URL of the Snek function.
         # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecretssecret_idrequired
         required: false
 
@@ -125,10 +129,12 @@ jobs:
       - name: Build and Deploy 🚀
         # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsenv
         env:
-          SCALE_SERP_APIKEY: ${{ secrets.SCALE_SERP_API_KEY }}
-          PLACE_ID: ${{ secrets.SCALE_SERP_PLACE_ID }}
-          SHOP: ${{ secrets.SHOPIFY_SHOP }}
-          SHOPIFY_SHOP_PASSWORD: ${{ secrets.SHOPIFY_SHOP_PASSWORD }}
+          SCALE_SERP_APIKEY: ${{ secrets.SCALE_SERP_APIKEY }}
+          SCALE_SERP_GOOGLE_PLACE_ID: ${{ secrets.SCALE_SERP_GOOGLE_PLACE_ID }}
+          SHOPIFY_APP_PASSWORD: ${{ secrets.SHOPIFY_APP_PASSWORD }}
+          GATSBY_MYSHOPIFY_URL: ${{ secrets.GATSBY_MYSHOPIFY_URL }}
+          GATSBY_STOREFRONT_API_KEY: ${{ secrets.GATSBY_STOREFRONT_API_KEY }}
+          GATSBY_SNEK_FUNCTION_URL: ${{ secrets.GATSBY_SNEK_FUNCTION_URL }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
           GATSBY_MAPBOX_ACCESS_TOKEN: ${{ secrets.GATSBY_MAPBOX_ACCESS_TOKEN }}
         # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsrun
