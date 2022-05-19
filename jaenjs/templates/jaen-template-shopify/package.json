@@ -8,7 +8,7 @@
     "gatsby"
   ],
   "scripts": {
-    "develop": "gatsby develop",
+    "develop": "concurrently --kill-others \"gatsby develop --port 8001\" \"yarn --cwd ./src/snek-functions start\"",
     "start": "gatsby develop",
     "build": "gatsby build",
     "build:incremental": "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --log-pages",
@@ -25,8 +25,9 @@
     "@chakra-ui/react": "^1.8.8",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "@jaenjs/jaen": "^3.0.0-beta.43",
+    "@jaenjs/jaen": "^3.0.0-beta.47",
     "@react-icons/all-files": "^4.1.0",
+    "@snek-at/functions": "^0.0.23",
     "@snek-at/gatsby-plugin-scaleserp": "^1.0.2",
     "@snek-at/gatsby-theme-shopify": "^1.5.0",
     "@snek-at/react-lottie": "^1.0.0-beta.3",
@@ -58,6 +59,7 @@
     "@types/react-scroll": "^1.8.3",
     "@types/react-scrollspy": "^3.3.5",
     "babel-loader": "^8.2.4",
+    "concurrently": "^7.2.0",
     "gatsby-plugin-emotion": "^7.12.1",
     "gatsby-plugin-sitemap": "^5.12.1",
     "typescript": "^4.6.3"

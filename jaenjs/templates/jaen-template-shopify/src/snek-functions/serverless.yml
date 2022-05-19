@@ -1,0 +1,39 @@
+service: snek-functions-agtguntrade
+frameworkVersion: '3'
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-ifelse
+
+custom:
+  isOffline: ${env:IS_OFFLINE, "false"}
+  serverlessIfElse:
+    - If: '"${self:custom.isOffline}" != "true"'
+      Exclude:
+        - functions.endpoint.handler
+      ElseExclude:
+        - functions.endpoint.image
+
+useDotenv: true
+
+provider:
+  name: aws
+  region: eu-central-1
+
+  environment:
+    PROJECT_ID: 2
+    SHEETS_TOKEN: ${env:SHEETS_TOKEN}
+
+  ecr:
+    images:
+      appimage:
+        path: ./
+
+functions:
+  endpoint:
+    image: appimage
+    handler: app.handler
+    events:
+      - httpApi:
+          path: '*'
+          method: '*'

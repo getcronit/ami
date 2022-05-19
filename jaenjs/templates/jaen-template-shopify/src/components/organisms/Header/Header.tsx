@@ -16,7 +16,8 @@ import {
   Icon
 } from '@chakra-ui/react'
 import {CloseIcon, HamburgerIcon, ChevronDownIcon} from '@chakra-ui/icons'
-import {FaHeart} from '@react-icons/all-files/fa/FaHeart'
+import {FaShoppingBasket} from '@react-icons/all-files/fa/FaShoppingBasket'
+import {FaUser} from '@react-icons/all-files/fa/FaUser'
 import {Link as GatsbyLink} from 'gatsby'
 import React from 'react'
 import {Logo} from '../../../common/assets/Logo'
@@ -64,6 +65,14 @@ export interface HeaderProps extends SearchbarProps {
     name: string
     path: string
   }[]
+  auth: {
+    isLoggedIn: boolean
+    user?: {
+      fullName: string
+    }
+    onUserClick: () => void
+    onLoginClick: () => void
+  }
 }
 
 export const Header = (props: HeaderProps) => {
@@ -82,6 +91,16 @@ export const Header = (props: HeaderProps) => {
     activePath,
     links.map(l => l.path)
   )
+
+  const authDisplayName = props.auth.user?.fullName || 'Anmelden'
+
+  const handleAuthClick = () => {
+    if (props.auth.isLoggedIn) {
+      props.auth.onUserClick()
+    } else {
+      props.auth.onLoginClick()
+    }
+  }
 
   return (
     <>
@@ -118,16 +137,44 @@ export const Header = (props: HeaderProps) => {
           <Box display={{base: 'none', md: 'block'}} w="100%">
             <Center>{searchbar}</Center>
           </Box>
-          <HStack spacing={8} alignItems={'center'} justifyContent={'flex-end'}>
-            <Link
+          <HStack spacing={4} alignItems={'center'} justifyContent={'flex-end'}>
+            <Button
               as={GatsbyLink}
               to="/contact"
+              variant="ghost"
               display={{
                 base: 'none',
-                md: 'block'
-              }}>
+                sm: 'flex'
+              }}
+              _hover={{
+                textDecoration: 'underline'
+              }}
+              color={['white']}
+              colorScheme="agt.grayScheme"
+              fontSize={'md'}
+              size="sm"
+              rounded="md">
               Kontakt
-            </Link>
+            </Button>
+
+            <Button
+              variant="ghost"
+              display={{
+                base: 'none',
+                sm: 'flex'
+              }}
+              _hover={{
+                textDecoration: 'underline'
+              }}
+              color={['white']}
+              colorScheme="agt.grayScheme"
+              fontSize={'md'}
+              size="sm"
+              rounded="md"
+              onClick={handleAuthClick}>
+              {authDisplayName}
+            </Button>
+
             <Button
               as={GatsbyLink}
               to="/wishlist"
@@ -139,8 +186,8 @@ export const Header = (props: HeaderProps) => {
               rounded="md"
               color={['white']}
               colorScheme="agt.redScheme"
-              leftIcon={<FaHeart />}>
-              Wunschliste
+              leftIcon={<FaShoppingBasket />}>
+              Warenkorb
             </Button>
             <IconButton
               as={GatsbyLink}
@@ -149,8 +196,8 @@ export const Header = (props: HeaderProps) => {
                 base: 'flex',
                 sm: 'none'
               }}
-              icon={<FaHeart />}
-              aria-label="Open wishlist"
+              icon={<FaShoppingBasket />}
+              aria-label="Open Warenkorb"
               colorScheme={'agt.redScheme'}
             />
           </HStack>
@@ -175,6 +222,17 @@ export const Header = (props: HeaderProps) => {
                       children={links}
                     />
                     <Divider />
+                    <ClickMobileNavItem
+                      name={
+                        <>
+                          <Icon as={FaUser} w={4} h={4} />
+                          <Box as="span" ml={2}>
+                            {authDisplayName}
+                          </Box>
+                        </>
+                      }
+                      onClick={handleAuthClick}
+                    />
                     <MobileNavItem name="Kontakt" path="/contact" />
                   </VStack>
                 </Flex>
@@ -283,5 +341,28 @@ const MobileNavItem = ({name, children, path}: NavItem) => {
         </Stack>
       </Collapse>
     </Stack>
+  )
+}
+
+const ClickMobileNavItem = ({
+  name,
+  onClick
+}: {
+  name: React.ReactNode
+  onClick: () => void
+}) => {
+  return (
+    <Flex
+      as={'button'}
+      py={2}
+      onClick={onClick}
+      align={'center'}
+      _hover={{
+        textDecoration: 'none'
+      }}>
+      <Text fontWeight={600} color={useColorModeValue('gray.600', 'gray.200')}>
+        {name}
+      </Text>
+    </Flex>
   )
 }

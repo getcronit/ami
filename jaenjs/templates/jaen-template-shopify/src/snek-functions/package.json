@@ -1,0 +1,16 @@
+{
+  "name": "snek-functions",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Generated with `snek-functions init -f functions`",
+  "author": "snek-at",
+  "dependencies": {
+    "@snek-at/functions": "*",
+    "node-fetch": "^3.2.4"
+  },
+  "scripts": {
+    "start": "IS_OFFLINE=true nodemon --watch dist --exec sls offline",
+    "deploy": "sls deploy"
+  }
+}
