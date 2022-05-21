@@ -61,7 +61,7 @@ export const Section = (strokeColor: string, backgroundColor: string, noScroll: 
     top: 100%;
     left: 0;
     right: 0;
-    height: 2000px;
+    height: 200%;
     z-index: 2;
   }
 

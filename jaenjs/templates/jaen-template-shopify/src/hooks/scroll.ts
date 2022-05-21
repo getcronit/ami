@@ -1,7 +1,7 @@
 import React from 'react'
 import {useRef, useEffect, useState} from 'react'
 
-export const useScrollSync = (offset?: number) => {
+export const useScrollSync = (offset: number = 0, offsetTop?: number, noScroll?: boolean) => {
   const [scrollTop, setScrollTop] = useState(0)
 
   const ref: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
@@ -14,7 +14,8 @@ export const useScrollSync = (offset?: number) => {
 
       ref.current!.scrollTop =
         target.documentElement.scrollTop / 2 -
-        (offset ? offset : ref.current!.offsetTop)
+        (offsetTop ? offsetTop : ref.current!.offsetTop) -
+        (noScroll ? 999999999 : offset)
     }
 
     window.addEventListener('scroll', onScrollHandler)
