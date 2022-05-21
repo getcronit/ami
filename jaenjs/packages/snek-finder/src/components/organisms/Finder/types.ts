@@ -29,38 +29,3 @@ export type ResolvedFileItem = FinderFileItem & {uuid: string}
 export type FinderData = {
   [UUID: string]: FinderItem
 }
-
-interface FinderAction {}
-
-interface FinderAddAction extends FinderAction {
-  type: 'ADD'
-  payload: {
-    uuid: string
-    file?: File
-  }
-}
-
-interface FinderDeleteAction extends FinderAction {
-  type: 'DELETE'
-  payload: {
-    uuid: string
-  }
-}
-
-interface FinderUpdateAction extends FinderAction {
-  type: 'UPDATE'
-}
-
-interface FinderSelectorSelectAction extends FinderAction {
-  type: 'SELECTOR_SELECT'
-  payload: {
-    uuid: string
-    item: FinderFileItem
-  }
-}
-
-export type SnekFinderAction =
-  | FinderAddAction
-  | FinderDeleteAction
-  | FinderUpdateAction
-  | FinderSelectorSelectAction

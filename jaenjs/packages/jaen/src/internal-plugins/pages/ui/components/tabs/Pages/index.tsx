@@ -49,61 +49,59 @@ const PagesTab = (props: PagesTabProps) => {
   )
 
   return (
-    <div>
-      <Flex>
-        <Box w={selection ? '30%' : '100%'}>
-          <>
-            <ButtonGroup size="sm" pb="4">
-              <IconButton
-                aria-label="Add a subpage to the selected page"
-                icon={<AddIcon />}
-                disabled
-              />
-              <IconButton
-                aria-label="Delete the selected page"
-                icon={<DeleteIcon />}
-                onClick={handleItemDelete}
-                disabled={!selection?.template}
-              />
-              <IconButton
-                aria-label="Navigate to the page"
-                icon={<ViewIcon />}
-                onClick={() => props.onItemDoubleClick(selection?.id!)}
-                disabled={!selection}
-              />
-            </ButtonGroup>
-            <PageTree
-              items={props.items}
-              templates={props.templates}
-              creatorFallbackTemplates={props.creatorFallbackTemplates}
-              onItemSelect={onSelect}
-              onItemDoubleClick={props.onItemDoubleClick}
-              onItemCreate={props.onItemCreate}
-              onItemDelete={handleItemDelete}
-              onItemMove={props.onItemMove}
+    <Flex h={'85vh'}>
+      <Box w={selection ? '30%' : '100%'}>
+        <>
+          <ButtonGroup size="sm" pb="4">
+            <IconButton
+              aria-label="Add a subpage to the selected page"
+              icon={<AddIcon />}
+              disabled
             />
-          </>
-        </Box>
-        <Divider orientation="vertical" />
+            <IconButton
+              aria-label="Delete the selected page"
+              icon={<DeleteIcon />}
+              onClick={handleItemDelete}
+              disabled={!selection?.template}
+            />
+            <IconButton
+              aria-label="Navigate to the page"
+              icon={<ViewIcon />}
+              onClick={() => props.onItemDoubleClick(selection?.id!)}
+              disabled={!selection}
+            />
+          </ButtonGroup>
+          <PageTree
+            items={props.items}
+            templates={props.templates}
+            creatorFallbackTemplates={props.creatorFallbackTemplates}
+            onItemSelect={onSelect}
+            onItemDoubleClick={props.onItemDoubleClick}
+            onItemCreate={props.onItemCreate}
+            onItemDelete={handleItemDelete}
+            onItemMove={props.onItemMove}
+          />
+        </>
+      </Box>
+      <Divider orientation="vertical" />
 
-        <Box flex={1}>
-          {selection && (
-            <PageContent
-              key={selection.id}
-              template={selectedTemplate}
-              values={{
-                title: selection.jaenPageMetadata.title,
-                slug: selection.slug,
-                description: selection.jaenPageMetadata.description,
-                image: selection.jaenPageMetadata.image,
-                excludedFromIndex: selection.excludedFromIndex
-              }}
-              onSubmit={handlePageUpdate}
-            />
-          )}
-        </Box>
-      </Flex>
-    </div>
+      <Box flex={1}>
+        {selection && (
+          <PageContent
+            key={selection.id}
+            template={selectedTemplate}
+            values={{
+              title: selection.jaenPageMetadata.title,
+              slug: selection.slug,
+              description: selection.jaenPageMetadata.description,
+              image: selection.jaenPageMetadata.image,
+              excludedFromIndex: selection.excludedFromIndex
+            }}
+            onSubmit={handlePageUpdate}
+          />
+        )}
+      </Box>
+    </Flex>
   )
 }
 

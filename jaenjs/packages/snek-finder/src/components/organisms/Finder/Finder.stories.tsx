@@ -38,8 +38,7 @@ Primary.args = {
       name: 'PDF 1',
       createdAt: '',
       modifiedAt: '',
-      src:
-        'https://cors.snek.at/https://github.com/snek-at/tonic/raw/1f92dae18012ef5472868c5ff0fd863afff8e495/slides/PP_21022020_SNEK.pdf',
+      src: 'https://cors.snek.at/https://github.com/snek-at/tonic/raw/1f92dae18012ef5472868c5ff0fd863afff8e495/slides/PP_21022020_SNEK.pdf',
       previewSrc:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/1200px-PDF_file_icon.svg.png',
       mimeType: 'application/pdf',
@@ -49,8 +48,7 @@ Primary.args = {
       name: 'Image 1',
       createdAt: '',
       modifiedAt: '',
-      src:
-        'https://cors.snek.at/https://github.com/snek-at/tonic/raw/1f92dae18012ef5472868c5ff0fd863afff8e495/slides/PP_21022020_SNEK.pdf',
+      src: 'https://cors.snek.at/https://github.com/snek-at/tonic/raw/1f92dae18012ef5472868c5ff0fd863afff8e495/slides/PP_21022020_SNEK.pdf',
       mimeType: 'image/png',
       size: 'string'
     },
@@ -58,13 +56,12 @@ Primary.args = {
       name: 'Image 2',
       createdAt: '',
       modifiedAt: '',
-      src:
-        'https://topsexymodels.net/wp-content/uploads/2020/04/_92444178_518742988810667_5403639706982625195_n-820x1024.jpg',
+      src: 'https://topsexymodels.net/wp-content/uploads/2020/04/_92444178_518742988810667_5403639706982625195_n-820x1024.jpg',
       mimeType: 'image/png',
       size: 'string'
     }
   },
-  onDataChanged: (data, action) => console.log(data, action),
+  onDataChanged: async data => console.log(data),
   onItemOpen: () => null
 }
 

@@ -82,7 +82,7 @@ export const useProductSearch = ({
     url.search = qs
     url.hash = ''
 
-    window.history.replaceState({}, '', url.toString())
+    //window.history.replaceState({}, '', url.toString())
     setSearchQueryString(buildProductSearchQuery(filters))
   }, [filters, cursors, sortKey])
 
@@ -134,8 +134,9 @@ export const useProductSearch = ({
 
   React.useEffect(() => {
     if (result?.data?.products?.edges) {
-      const transformedProducts = transformProductSearchResultData(result.data)
-        .nodes
+      const transformedProducts = transformProductSearchResultData(
+        result.data
+      ).nodes
 
       setProducts(prevProducts => {
         return [...prevProducts, ...transformedProducts]

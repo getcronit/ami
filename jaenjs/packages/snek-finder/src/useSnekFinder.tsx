@@ -1,12 +1,14 @@
+import {useToast} from '@chakra-ui/react'
 import update from 'immutability-helper'
 import * as React from 'react'
 import {Backend} from './backends/backend'
+import {uuidv4} from './common/uuid'
 import Finder from './components/organisms/Finder'
 import {
   FinderFileItem,
   FinderFolderItem,
   FinderMode,
-  SnekFinderAction
+  MimeType
 } from './components/organisms/Finder/types'
 import ImageViewer from './components/organisms/ImageViewer'
 import PdfViewer from './components/organisms/PdfViewer'
@@ -14,8 +16,8 @@ import SnekStudio from './components/organisms/SnekStudio'
 import {useSnekFinderContext} from './SnekFinderProvider'
 
 export interface IUseSnekFinderArgs {
-  onAction?: (action: SnekFinderAction) => void
   mode: FinderMode
+  onSelect?: (file: FinderFileItem) => void
 }
 
 export interface IUseSnekFinder {
@@ -25,8 +27,8 @@ export interface IUseSnekFinder {
 }
 
 export const useSnekFinder = ({
-  onAction,
-  mode
+  mode,
+  ...props
 }: IUseSnekFinderArgs): IUseSnekFinder => {
   const {backend, initData, rootFileId} = useSnekFinderContext()
 
@@ -41,16 +43,30 @@ export const useSnekFinder = ({
     const fn = async () => {
       const index = await backend.readIndex()
 
-      setData(index || initData)
+      // check if data is different from index
+
+      const newData = index || initData
+
+      console.log('newData', newData)
+      console.log('data', data)
+
+      const isDataDifferent = JSON.stringify(newData) !== JSON.stringify(data)
+
+      console.log('isDataDifferent 11111', isDataDifferent)
+
+      if (isDataDifferent) {
+        setData(newData)
+      }
     }
 
     fn()
-  }, [])
+  }, [isSelectorOpen])
 
-  const [openFile, setOpenFile] = React.useState<{
-    fileId: string
-    previewType: 'IMAGE_VIEWER' | 'PDF_VIEWER' | 'SNEK_STUDIO'
-  } | null>(null)
+  const [openFile, setOpenFile] =
+    React.useState<{
+      fileId: string
+      previewType: 'IMAGE_VIEWER' | 'PDF_VIEWER' | 'SNEK_STUDIO'
+    } | null>(null)
 
   const openedFileItem = React.useMemo(() => {
     if (!openFile) {
@@ -71,25 +87,10 @@ export const useSnekFinder = ({
   }, [openFile, data])
 
   const handleDataChange = React.useCallback(
-    async (newData: any, action: SnekFinderAction) => {
-      onAction && onAction(action)
-
-      if (action.type === 'ADD') {
-        const {uuid, file} = action.payload
-
-        if (file) {
-          const url = await backend.upload(file)
-
-          newData[uuid] = update(newData[uuid], {
-            src: {$set: url}
-          })
-        }
-      }
-      setData(newData)
-
-      backend.writeIndex(newData)
+    async newData => {
+      await backend.writeIndex(newData)
     },
-    [onAction, setData, backend, data]
+    [backend]
   )
 
   const handleFileOpen = React.useCallback(
@@ -126,9 +127,8 @@ export const useSnekFinder = ({
   )
 
   const toggleSelectorSelect = React.useCallback(
-    (action: SnekFinderAction) => {
-      onAction && onAction(action)
-
+    (_: string, file: FinderFileItem) => {
+      props.onSelect && props.onSelect(file)
       toggleSelector()
     },
     [toggleSelector]
@@ -193,6 +193,7 @@ export const useSnekFinder = ({
           onDataChanged={handleDataChange}
           onSelectorClose={handleFinderClose}
           onSelectorSelect={toggleSelectorSelect}
+          onUploadFile={backend.upload}
         />
       )}
     </>

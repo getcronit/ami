@@ -60,17 +60,13 @@ export const SettingsTab = ({data, onUpdate}: SettingsTabProps) => {
 
   const finder = useSnekFinder({
     mode: 'selector',
-    onAction: action => {
-      if (action.type === 'SELECTOR_SELECT') {
-        const imageUrl = action.payload.item.src
+    onSelect: ({src, name, description}) => {
+      if (finderReference) {
+        setValue(finderReference, src, {
+          shouldDirty: true
+        })
 
-        if (finderReference) {
-          setValue(finderReference, imageUrl, {
-            shouldDirty: true
-          })
-
-          setFinderReference(null)
-        }
+        setFinderReference(null)
       }
     }
   })

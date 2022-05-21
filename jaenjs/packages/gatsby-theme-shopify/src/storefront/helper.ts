@@ -1,4 +1,6 @@
 import {getShopifyImage} from 'gatsby-source-shopify'
+import queryString from 'query-string'
+
 import {NodeArray, ShopifyProduct} from '../types'
 import {StorefrontSearchData} from './types'
 
@@ -126,6 +128,42 @@ export const buildProductSearchQuery = (filters: ProductSearchFilters) => {
   }
 
   return query
+}
+
+function arrayify(value: any) {
+  if (!value) {
+    return []
+  }
+  if (!Array.isArray(value)) {
+    return [value]
+  }
+  return value
+}
+
+/**
+ * Extracts default search values from the query string or object
+ * @param {string|object} query
+ */
+export function getValuesFromQuery(query: string | object) {
+  const isClient = typeof query === 'string'
+  const {
+    q: searchTerm,
+    s: sortKey,
+    x: maxPrice,
+    n: minPrice,
+    p,
+    t,
+    v
+  } = isClient ? (queryString.parse(query) as any) : (query as any)
+  return {
+    searchTerm,
+    sortKey,
+    maxPrice,
+    minPrice,
+    productTypes: arrayify(p),
+    tags: arrayify(t),
+    vendors: arrayify(v)
+  }
 }
 
 export const transformProductSearchResultData = (

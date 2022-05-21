@@ -45,12 +45,6 @@ export default {
 
 export const ToggleSelector = () => {
   const {finderElement, toggleSelector} = useSnekFinder({
-    onAction: action => {
-      console.log('action', action)
-      if (action.type === 'SELECTOR_SELECT') {
-        toggleSelector()
-      }
-    },
     mode: 'selector'
   })
 
@@ -64,16 +58,18 @@ export const ToggleSelector = () => {
 
 export const Element = () => {
   const {finderElement} = useSnekFinder({
-    onAction: action => console.log('action', action),
     mode: 'browser'
   })
 
-  return <Box h="90vh">{finderElement}</Box>
+  return (
+    <Box h="80vh" m={4}>
+      {finderElement}
+    </Box>
+  )
 }
 
 export const SmallElement = () => {
   const {finderElement} = useSnekFinder({
-    onAction: action => console.log('action', action),
     mode: 'browser'
   })
 

@@ -62,14 +62,12 @@ export const UpdateModal = ({
 
   const finder = useSnekFinder({
     mode: 'selector',
-    onAction: action => {
-      if (action.type === 'SELECTOR_SELECT') {
-        onUpdate({
-          image: action.payload.item.src,
-          title: action.payload.item.name,
-          description: action.payload.item.description || ''
-        })
-      }
+    onSelect: ({src, name, description}) => {
+      onUpdate({
+        image: src,
+        title: name,
+        description: description || ''
+      })
     }
   })
 

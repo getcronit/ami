@@ -113,7 +113,7 @@ export const AdminPageShell: React.FC<UIProps> = ({
           w="100%"
           h="100%"
           overflowY="hidden">
-          <Box rounded="lg" bg="white" m="4" p="2">
+          <Box rounded="lg" bg="white" m="4" p="6">
             {children}
           </Box>
         </Box>

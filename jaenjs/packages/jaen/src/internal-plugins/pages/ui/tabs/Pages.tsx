@@ -22,10 +22,11 @@ export const PagesContainer = withRedux(() => {
     state => state.internal.pages.lastAddedNodeId
   )
 
-  let [shouldUpdateDpathsFor, setShouldUpdateDpathsFor] = React.useState<{
-    pageId: string
-    create: boolean
-  } | null>(null)
+  let [shouldUpdateDpathsFor, setShouldUpdateDpathsFor] =
+    React.useState<{
+      pageId: string
+      create: boolean
+    } | null>(null)
 
   React.useEffect(() => {
     if (shouldUpdateDpathsFor) {

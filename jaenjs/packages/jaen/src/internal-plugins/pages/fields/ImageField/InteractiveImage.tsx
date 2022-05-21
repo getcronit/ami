@@ -27,14 +27,12 @@ export const InteractiveImage: React.FC<IInteractiveImageProps> =
 
     const finder = useSnekFinder({
       mode: 'selector',
-      onAction: action => {
-        if (action.type === 'SELECTOR_SELECT') {
-          handleUpdateValue({
-            internalImageUrl: action.payload.item.src,
-            title: action.payload.item.name,
-            alt: action.payload.item.description
-          })
-        }
+      onSelect: ({src, name, description}) => {
+        handleUpdateValue({
+          internalImageUrl: src,
+          title: name,
+          alt: description
+        })
       }
     })
 

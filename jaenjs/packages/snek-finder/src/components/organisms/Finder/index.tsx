@@ -1,6 +1,12 @@
 import {DeleteIcon} from '@chakra-ui/icons'
 import {Box, Divider} from '@chakra-ui/layout'
 import {
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
   Flex,
   HStack,
   Icon,
@@ -20,6 +26,7 @@ import {FaFile} from '@react-icons/all-files/fa/FaFile'
 import {FaFilePdf} from '@react-icons/all-files/fa/FaFilePdf'
 import {FaFolder} from '@react-icons/all-files/fa/FaFolder'
 import update from 'immutability-helper'
+import React from 'react'
 import {MouseEvent, useEffect, useState} from 'react'
 import {useDropzone, FileRejection} from 'react-dropzone'
 import {MimeTypes} from '../../../common/mimeTypes'
@@ -39,18 +46,18 @@ import {
   FinderFileItem,
   FinderFolderItem,
   FinderMode,
-  MimeType,
-  SnekFinderAction
+  MimeType
 } from './types'
 
 export type SnekFinderProps = {
   mode?: FinderMode
   onSelectorClose?: () => void
-  onSelectorSelect?: (action: SnekFinderAction) => void
+  onSelectorSelect?: (uuid: string, fileItem: FinderFileItem) => void
   data: FinderData
   rootUUID: string
   onItemOpen: (uuid: string) => void
-  onDataChanged: (data: FinderData, action: SnekFinderAction) => void
+  onDataChanged: (data: FinderData) => Promise<void>
+  onUploadFile: (file: File) => Promise<string>
 }
 
 const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
@@ -63,16 +70,15 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
 
   let [data, setData] = useState<FinderData>(props.data)
 
-  useEffect(() => {
-    if (
-      JSON.stringify(Object.keys(data)) !==
-      JSON.stringify(Object.keys(props.data))
-    ) {
-      setData(props.data)
-    } else {
-      data = props.data
-    }
+  React.useEffect(() => {
+    setData(props.data)
   }, [props.data])
+
+  const updateData = (newData: FinderData) => {
+    setData(newData)
+    props.onDataChanged(newData)
+  }
+
   const [rootUUID, setRootUUID] = useState(props.rootUUID)
 
   const [parentNodeHistory, setParentNodeHistory] = useState<
@@ -139,7 +145,7 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
         }
       })
 
-      setData(newData)
+      updateData(newData)
 
       toast({
         title: `Moved item`,
@@ -147,8 +153,6 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
         isClosable: true,
         position: 'bottom-right'
       })
-
-      props.onDataChanged(newData, {type: 'UPDATE'})
     }
   }
 
@@ -187,9 +191,18 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
 
     const todayDate = new Date().toDateString()
 
-    let newData: FinderData | undefined
+    const files: {
+      [uuid: string]: {
+        name: string
+        createdAt: string
+        modifiedAt: string
+        src: string
+        mimeType: MimeType
+        size: string
+      }
+    } = {}
 
-    for (const file of acceptedFiles) {
+    for (const [i, file] of acceptedFiles.entries()) {
       const {name, type, size} = file
 
       // convert size to kb or mb
@@ -206,48 +219,55 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
           isClosable: true,
           position: 'bottom-right'
         })
+      } else {
+        toast({
+          title: `Uploading ${name}`,
+          description: `${sizeString}`,
+          status: 'info',
+          isClosable: true,
+          position: 'bottom-right'
+        })
       }
 
-      // convert file to datauri string
-      const fileDataUrl = (await fileToBase64(file)) as string
       const fileName = name.split('.')[0]
 
-      // Generate a uuid
-      const uuid = uuidv4()
+      const src = await props.onUploadFile(file)
 
-      // add uuid to data[rootUUID].childUUIDs
-      newData = update(newData || data, {
+      files[uuidv4()] = {
+        name: fileName,
+        createdAt: todayDate,
+        modifiedAt: todayDate,
+        src,
+        mimeType: type as MimeType,
+        size: sizeString
+      }
+
+      toast({
+        title: `Uploaded ${name} (${i + 1}/${acceptedFiles.length})`,
+        status: 'success',
+        isClosable: true,
+        position: 'bottom-right'
+      })
+    }
+
+    let newData
+
+    for (const [uuid, file] of Object.entries(files)) {
+      newData = update(data, {
         [rootUUID]: {
           childUUIDs: {$push: [uuid]}
         }
       })
 
-      newData = {
-        ...newData,
+      newData = update(newData, {
         [uuid]: {
-          name: fileName,
-          createdAt: todayDate,
-          modifiedAt: todayDate,
-          src: fileDataUrl,
-          mimeType: type as MimeType,
-          size: sizeString
+          $set: file
         }
-      }
-
-      props.onDataChanged(newData, {type: 'ADD', payload: {uuid, file}})
+      })
     }
 
-    newData && setData(newData)
-
-    if (acceptedFiles.length > 0) {
-      toast({
-        title: `Uploaded ${acceptedFiles.length} file${
-          draggedFiles.length > 1 ? 's' : ''
-        }`,
-        status: 'success',
-        isClosable: true,
-        position: 'bottom-right'
-      })
+    if (newData) {
+      updateData(newData)
     }
   }
 
@@ -265,9 +285,7 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
       }
     })
 
-    setData(newData)
-
-    props.onDataChanged(newData, {type: 'UPDATE'})
+    updateData(newData)
   }
 
   const handleFinishFolderCreate = (name: string) => {
@@ -294,7 +312,7 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
     }
 
     // Update data with new folder
-    setData(newData)
+    updateData(newData)
 
     toast({
       title: `Created folder`,
@@ -304,7 +322,6 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
     })
 
     folderCreateContextModal.onClose()
-    props.onDataChanged(newData, {type: 'ADD', payload: {uuid}})
   }
 
   const handleItemRename = (name: string) => {
@@ -320,10 +337,9 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
       }
     })
 
-    setData(newData)
+    updateData(newData)
 
     itemRenameContextModal.onClose()
-    props.onDataChanged(newData, {type: 'UPDATE'})
   }
 
   //#region > Context Menu handlers
@@ -343,13 +359,7 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
           // check if url is valid
 
           if (isValidHttpUrl(fileItem.src)) {
-            props.onSelectorSelect({
-              type: 'SELECTOR_SELECT',
-              payload: {
-                uuid,
-                item: fileItem
-              }
-            })
+            props.onSelectorSelect(uuid, fileItem)
           }
         }
       } else {
@@ -379,8 +389,7 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
     })
 
     setSelectedFiles([])
-    setData(newData)
-    props.onDataChanged(newData, {type: 'DELETE', payload: {uuid}})
+    updateData(newData)
   }
 
   const handleNewFolder = () => {
@@ -495,7 +504,7 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
     }
   }, [isDragActive, isDragAccept, draggedFiles.length])
 
-  const finder = (
+  const finderExtras = (
     <>
       {contextMenu && (
         <Portal>
@@ -542,47 +551,6 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
           </Box>
         </Portal>
       )}
-      <Box boxSize={'100%'} userSelect="none">
-        <Toolbar
-          view="LIST"
-          onViewToggleClick={() => null}
-          onInfoToggleClick={infoCardToggle}
-          breadcrumbs={parentNodeHistory}
-          onBreadcrumbClick={switchParentNode}
-          onBreadcrumbDnDMove={handleBreadcrumbMove}
-          onUpload={handleUpload}
-          onNewFolder={handleNewFolder}
-        />
-
-        <Divider />
-
-        <Flex h="100%">
-          <Box flex="1" overflowY="scroll">
-            <Box
-              {...getRootProps()}
-              h={'100%'}
-              _focus={{outline: 'none'}}
-              onClick={e => e.stopPropagation()}
-              onContextMenu={e => {
-                e.preventDefault()
-              }}>
-              <input {...getInputProps()} />
-
-              <FileList
-                items={prepareFileListItems()}
-                onSelectionDoubleClick={handleFileOpen}
-                onSelectionChange={handleSelectionChange}
-                onContextMenu={handleContextMenu}
-                onDnD={handleListMove}
-                onContextMenuClose={() => setContextMenu(null)}
-              />
-            </Box>
-          </Box>
-          <Box>
-            {showInfoCard && <FileInfoBox {...prepareFileInfoBoxProps()} />}
-          </Box>
-        </Flex>
-      </Box>
       <ContextModal
         title="Create folder"
         inputPlaceholder="Your new folder"
@@ -602,30 +570,109 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
         onClose={itemRenameContextModal.onClose}
         onCancel={itemRenameContextModal.onClose}
       />
+      <Drawer isOpen={showInfoCard} onClose={infoCardToggle}>
+        <DrawerContent minW="fit-content">
+          <DrawerCloseButton />
+          <DrawerHeader>File info</DrawerHeader>
+          <DrawerBody>
+            <FileInfoBox {...prepareFileInfoBoxProps()} />
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </>
   )
 
   if (mode === 'selector' && props.onSelectorClose) {
     return (
-      <Modal
-        isOpen={true}
-        onClose={props.onSelectorClose}
-        isCentered
-        size="6xl"
-        scrollBehavior="inside">
-        <ModalOverlay />
-        <ModalContent overflow={'hidden'}>
-          <ModalHeader>SnekFinder - Selector</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody overflow={'hidden'}>
-            <Box h="90vh">{finder}</Box>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      <>
+        {finderExtras}
+        <Modal
+          isOpen={true}
+          onClose={props.onSelectorClose}
+          isCentered
+          scrollBehavior="inside">
+          <ModalOverlay />
+          <ModalContent minW={'8xl'} minH="85vh">
+            <ModalHeader>SnekFinder - Selector</ModalHeader>
+            <ModalCloseButton />
+            <Box px={4}>
+              <Toolbar
+                view="LIST"
+                onViewToggleClick={() => null}
+                onInfoToggleClick={infoCardToggle}
+                breadcrumbs={parentNodeHistory}
+                onBreadcrumbClick={switchParentNode}
+                onBreadcrumbDnDMove={handleBreadcrumbMove}
+                onUpload={handleUpload}
+                onNewFolder={handleNewFolder}
+              />
+            </Box>
+
+            <ModalBody as={Flex} flexDirection="column" pt={0}>
+              <Box flexGrow={1} h="100vh">
+                <Box
+                  {...getRootProps()}
+                  h={'100%'}
+                  _focus={{outline: 'none'}}
+                  onClick={e => e.stopPropagation()}
+                  onContextMenu={e => {
+                    e.preventDefault()
+                  }}>
+                  <input {...getInputProps()} />
+
+                  <FileList
+                    items={prepareFileListItems()}
+                    onSelectionDoubleClick={handleFileOpen}
+                    onSelectionChange={handleSelectionChange}
+                    onContextMenu={handleContextMenu}
+                    onDnD={handleListMove}
+                    onContextMenuClose={() => setContextMenu(null)}
+                  />
+                </Box>
+              </Box>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      </>
     )
   }
 
-  return finder
+  return (
+    <>
+      {finderExtras}
+      <Toolbar
+        view="LIST"
+        onViewToggleClick={() => null}
+        onInfoToggleClick={infoCardToggle}
+        breadcrumbs={parentNodeHistory}
+        onBreadcrumbClick={switchParentNode}
+        onBreadcrumbDnDMove={handleBreadcrumbMove}
+        onUpload={handleUpload}
+        onNewFolder={handleNewFolder}
+      />
+
+      <Box
+        {...getRootProps()}
+        h={'90%'}
+        overflowY="auto"
+        _focus={{outline: 'none'}}
+        onClick={e => e.stopPropagation()}
+        onContextMenu={e => {
+          e.preventDefault()
+        }}>
+        <input {...getInputProps()} />
+
+        <FileList
+          items={prepareFileListItems()}
+          onSelectionDoubleClick={handleFileOpen}
+          onSelectionChange={handleSelectionChange}
+          onContextMenu={handleContextMenu}
+          onDnD={handleListMove}
+          onContextMenuClose={() => setContextMenu(null)}
+        />
+      </Box>
+    </>
+  )
 }
 
 export default Finder

@@ -16,9 +16,8 @@ import {IViewConnection} from '../context'
 import {DividerWithText} from '../../../../../ui/components/AdminLogin/DividerWithText'
 
 const Breadcrums = () => {
-  const path = (typeof window !== 'undefined'
-    ? window.location.hash
-    : ''
+  const path = (
+    typeof window !== 'undefined' ? window.location.hash : ''
   ).replace('#', '')
 
   const paths = path.split('/').filter(Boolean)
@@ -58,7 +57,7 @@ export const BaseView = (props: {
   children: React.ReactNode
 }) => {
   return (
-    <Stack>
+    <Stack h="85vh">
       <Breadcrums />
       <Flex>
         <Heading>{props.title}</Heading>
@@ -74,7 +73,7 @@ export const BaseView = (props: {
         )}
       </Flex>
       <DividerWithText>{props.description}</DividerWithText>
-      <Box maxWidth="100%" width="100%" h="75vh" px="4" py="6">
+      <Box maxWidth="100%" width="100%" h={'70vh'} px="4" py="6">
         {props.children}
       </Box>
     </Stack>

@@ -30,7 +30,7 @@ export default function NotifyTableCard(props: NotifyTableProps) {
   const textColor = useColorModeValue('gray.700', 'white')
 
   return (
-    <Box overflowY={'auto'} maxHeight={'100vh'} minH="85vh">
+    <Box overflowY={'auto'} h={'85vh'}>
       <Table variant="simple" color={textColor}>
         <Thead position="sticky" top={0} bgColor={'white'}>
           <Tr my=".8rem" pl="0px">

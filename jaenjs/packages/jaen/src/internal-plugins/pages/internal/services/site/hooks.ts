@@ -76,9 +76,10 @@ export const useJaenTemplates = () => {
   const site = useSiteContext()
   const data = useStaticData()
 
-  const [templates, setTemplates] = React.useState<{
-    [name: string]: IJaenTemplate
-  } | null>(null)
+  const [templates, setTemplates] =
+    React.useState<{
+      [name: string]: IJaenTemplate
+    } | null>(null)
 
   React.useEffect(() => {
     const templateNodes = data.jaenTemplates.nodes
@@ -116,9 +117,10 @@ export const useJaenTemplates = () => {
     load()
   }, [])
 
-  const templatesArray = React.useMemo(() => Object.values(templates || {}), [
-    templates
-  ])
+  const templatesArray = React.useMemo(
+    () => Object.values(templates || {}),
+    [templates]
+  )
 
   return templatesArray
 }

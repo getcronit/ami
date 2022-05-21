@@ -74,14 +74,10 @@ export const PageContent = (props: PageContentProps) => {
 
   const finder = useSnekFinder({
     mode: 'selector',
-    onAction: action => {
-      if (action.type === 'SELECTOR_SELECT') {
-        const image = action.payload.item.src
-
-        setValue('image', image, {
-          shouldDirty: true
-        })
-      }
+    onSelect: ({src}) => {
+      setValue('image', src, {
+        shouldDirty: true
+      })
     }
   })
 
