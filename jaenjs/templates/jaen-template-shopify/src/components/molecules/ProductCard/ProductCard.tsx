@@ -9,7 +9,8 @@ import {
   VStack,
   BoxProps,
   AspectRatio,
-  Link
+  Link,
+  HStack
 } from '@chakra-ui/react'
 import {Link as GatsbyLink} from 'gatsby'
 import {
@@ -37,7 +38,7 @@ export interface ProductCardProps {
 
 export const ProductCard = ({
   product,
-  borderline = false,
+  borderline,
   left,
   bwidth,
   bcolor,
@@ -76,6 +77,8 @@ export const ProductCard = ({
 
   return (
     <VStack
+      as={GatsbyLink}
+      to={path}
       display={'block'}
       css={styles.cardStyle(borderline, bwidth, bcolor, left)}
       boxSize={'full'}
@@ -85,7 +88,6 @@ export const ProductCard = ({
         base: 'center',
         md: 'left'
       }}>
-      <Link as={GatsbyLink} to={path}>
         <Box
           className="pcard"
           position="relative"
@@ -96,6 +98,7 @@ export const ProductCard = ({
           // h={'full'}
           minH={'full'}
           borderRadius="5px"
+          // boxShadow="lg"
           // border="1px"
           // borderColor="gray.200"
           // mt="3"
@@ -208,7 +211,6 @@ export const ProductCard = ({
             </VStack>
           </Box>
         </Box>
-      </Link>
     </VStack>
   )
 }
@@ -233,6 +235,12 @@ function ImageBoxWithTags(
           draggable="false"
           image={image.gatsbyImageData}
           alt={image.altText || '-'}
+          style={{
+            height: '100%',
+            width: '100%',
+            objectFit: 'contain',
+            objectPosition: 'center'
+          }}
         />
       )}
       <Flex position="absolute" top="0" left="0" right="0" p={2}>
@@ -263,8 +271,7 @@ const ProductPrices = ({
 }) => {
   if (prices.compareAtPriceFormatted) {
     return (
-      <Flex
-        direction="row"
+      <HStack
         wrap="wrap"
         justifyContent={{
           base: 'center',
@@ -280,7 +287,7 @@ const ProductPrices = ({
         <Text fontSize="sm" fontWeight="bold" color="red.500" ml={2}>
           {prices.priceFormatted}
         </Text>
-      </Flex>
+      </HStack>
     )
   }
 

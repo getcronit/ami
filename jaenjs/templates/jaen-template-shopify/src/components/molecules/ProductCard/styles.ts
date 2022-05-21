@@ -70,13 +70,10 @@ export const cardStyle = (
 
     .imgline {
       opacity: 0;
+      z-index: 1;
       top: 0;
       ${left ? 'right: calc(100% * (1/1.3));' : 'left: calc(100% * (1/1.3));'}
       width: calc(${borderlinWidth(bwidth)} * (1/1.3));
-    }
-
-    .imgline {
-      opacity: 0;
     }
 
     &:hover {
@@ -87,7 +84,7 @@ export const cardStyle = (
     &:hover .borderline {
       position: absolute;
       top: 0;
-      animation: scale-up-hor-left 200ms cubic-bezier(0.68, -0.55, 0.265, 1.55)
+      animation: ${left ? 'scale-up-hor-left' : 'scale-up-hor-right'} 200ms cubic-bezier(0.68, -0.55, 0.265, 1.55)
         both;
       ${borderline ? '' : 'animation: none;'}
     }
@@ -111,15 +108,19 @@ export const cardStyle = (
       display: none;
     }
     .radioimg + .preview {
+      position: absolute;
       top: 0;
-      display: none;
+      opacity: 0;
+      height: 100%;
+      width: 100%;
+      transition: all 250ms;
     }
     .radioimg:checked + .preview {
-      position: absolute;
-      display: block;
+      opacity: 1;
     }
     .radioimg + .main {
       opacity: 0;
+      transition: all 250ms;
     }
     .radioimg:checked + .main {
       opacity: 1;
@@ -138,14 +139,25 @@ export const cardStyle = (
     }
   }
 
-  @keyframes scale-up-hor-left {
+  @keyframes scale-up-hor-right {
     0% {
       transform: scaleX(1.03);
-      transform-origin: ${left ? '100%' : '0%'} 0%;
+      transform-origin: 0% 0%;
     }
     100% {
       transform: ${transformWidth(bwidth)};
-      transform-origin: ${left ? '100%' : '0%'} 0%;
+      transform-origin: 0% 0%;
+    }
+  }
+
+  @keyframes scale-up-hor-left {
+    0% {
+      transform: scaleX(1.03);
+      transform-origin: 100% 0%;
+    }
+    100% {
+      transform: ${transformWidth(bwidth)};
+      transform-origin: 100% 0%;
     }
   }
 `
