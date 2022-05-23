@@ -79,10 +79,7 @@ export const useJaenPageTree = (): IJaenPage[] => {
   const filteredData = React.useMemo(
     () =>
       mergeData.filter(
-        item =>
-          !['JaenPage /', 'JaenPage /admin', 'JaenPage /admin/login'].includes(
-            item.id
-          )
+        item => !['JaenPage /admin', 'JaenPage /admin/login'].includes(item.id)
       ),
     [mergeData]
   )

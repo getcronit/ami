@@ -161,23 +161,25 @@ export const PagesContainer = withRedux(() => {
 
   const treeItems = React.useMemo(
     () =>
-      pageTree.reduce((a, v) => {
-        return {
-          ...a,
-          [v.id]: {
-            id: v.id,
-            children: v.children.map(child => child.id),
-            data: {
-              title: v.jaenPageMetadata.title,
-              slug: v.slug,
-              template: v.template,
-              hasChanges: false,
-              deleted: v.deleted
-            },
-            parent: v.parent?.id || null
+      pageTree
+        .filter(e => !['JaenPage /'].includes(e.id))
+        .reduce((a, v) => {
+          return {
+            ...a,
+            [v.id]: {
+              id: v.id,
+              children: v.children.map(child => child.id),
+              data: {
+                title: v.jaenPageMetadata.title,
+                slug: v.slug,
+                template: v.template,
+                hasChanges: false,
+                deleted: v.deleted
+              },
+              parent: v.parent?.id || null
+            }
           }
-        }
-      }, {}),
+        }, {}),
     [pageTree]
   )
 

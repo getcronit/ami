@@ -44,7 +44,7 @@ export type Items = {
 
 export type PageTreeProps = {
   items: Items
-  defaultSelection?: string
+  selection?: string
   templates: IJaenTemplate[]
   creatorFallbackTemplates: IJaenTemplate['children']
   onItemSelect: (id: string | null) => void
@@ -82,16 +82,22 @@ const PageTree: React.FC<PageTreeProps> = ({
   const [tree, setTree] = React.useState(TreeConverter(items))
 
   const defaultSelection = React.useMemo(() => {
-    if (props.defaultSelection && tree.items[props.defaultSelection]) {
-      return props.defaultSelection
+    if (props.selection && tree.items[props.selection]) {
+      return props.selection
     }
 
     return tree.rootId.toString()
-  }, [tree.rootId, props.defaultSelection])
+  }, [tree.rootId, props.selection])
 
   const [selectedItem, setSelectedItem] = React.useState<string>(
     defaultSelection
   )
+
+  React.useEffect(() => {
+    if (props.selection) {
+      setSelectedItem(props.selection)
+    }
+  }, [props.selection])
 
   const creatorTemplates = React.useMemo(() => {
     return (

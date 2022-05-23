@@ -196,7 +196,7 @@ const FieldsAdminPanel = (props: {jaenPageId: string}) => {
     const transformed = transformFields(registerdFields)
 
     return (
-      <Box>
+      <Box p={1}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack divider={<Divider />} overflowY={'auto'} h={'70vh'}>
             {transformed.map((field, index) => {

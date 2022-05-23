@@ -130,13 +130,13 @@ export const PageContent = (props: PageContentProps) => {
       <Tabs isFitted>
         <TabList>
           <Tab>General</Tab>
-          <Tab>Fields</Tab>
+          <Tab>Content</Tab>
         </TabList>
 
         <TabPanels>
           <TabPanel>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <Box>
+              <Box overflowY={'auto'} h={'70vh'} p={1}>
                 <FormControl isInvalid={!!errors.title}>
                   <FormLabel>Title</FormLabel>
                   <Input
@@ -235,15 +235,14 @@ export const PageContent = (props: PageContentProps) => {
                 <FormControl mt={4}>
                   <FormLabel>Settings</FormLabel>
                   <Checkbox {...register('excludedFromIndex')}>
-                    Exclude form index
+                    Exclude from index
                   </Checkbox>
                 </FormControl>
               </Box>
 
-              <ButtonGroup isDisabled={!isDirty} mt="4">
+              <ButtonGroup isDisabled={!isDirty} mt="8">
                 <Button
-                  colorScheme="blue"
-                  mr={4}
+                  colorScheme="teal"
                   isLoading={isSubmitting}
                   type="submit">
                   Save
