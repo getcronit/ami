@@ -135,121 +135,123 @@ export const PageContent = (props: PageContentProps) => {
 
         <TabPanels>
           <TabPanel>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Box overflowY={'auto'} h={'70vh'} p={1}>
-                <FormControl isInvalid={!!errors.title}>
-                  <FormLabel>Title</FormLabel>
-                  <Input
-                    // id="title"
-                    placeholder="Title"
-                    {...register('title', {
-                      required: 'This is required',
-                      minLength: {
-                        value: 4,
-                        message: 'Minimum length should be 4'
-                      }
-                    })}
-                  />
-                  <FormErrorMessage>{errors.title?.message}</FormErrorMessage>
-                </FormControl>
-                <FormControl mt={4} isInvalid={!!errors.slug}>
-                  <FormLabel>Slug</FormLabel>
-                  <Input
-                    // id="slug"
-                    placeholder="the-slug"
-                    disabled={!props.template}
-                    {...register('slug', {
-                      required: 'This is required',
-                      minLength: {
-                        value: 4,
-                        message: 'Minimum length should be 4'
-                      },
-                      pattern: {
-                        value: /^[a-z0-9-]+$/,
-                        message:
-                          'Only lowercase letters, numbers and hyphens are allowed'
-                      },
-                      validate: (value: string) => {
-                        const {externalValidation} = props
+            <Box p={1}>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Box overflowY={'auto'} h={'70vh'}>
+                  <FormControl isInvalid={!!errors.title}>
+                    <FormLabel>Title</FormLabel>
+                    <Input
+                      // id="title"
+                      placeholder="Title"
+                      {...register('title', {
+                        required: 'This is required',
+                        minLength: {
+                          value: 4,
+                          message: 'Minimum length should be 4'
+                        }
+                      })}
+                    />
+                    <FormErrorMessage>{errors.title?.message}</FormErrorMessage>
+                  </FormControl>
+                  <FormControl mt={4} isInvalid={!!errors.slug}>
+                    <FormLabel>Slug</FormLabel>
+                    <Input
+                      // id="slug"
+                      placeholder="the-slug"
+                      disabled={!props.template}
+                      {...register('slug', {
+                        required: 'This is required',
+                        minLength: {
+                          value: 4,
+                          message: 'Minimum length should be 4'
+                        },
+                        pattern: {
+                          value: /^[a-z0-9-]+$/,
+                          message:
+                            'Only lowercase letters, numbers and hyphens are allowed'
+                        },
+                        validate: (value: string) => {
+                          const {externalValidation} = props
 
-                        if (externalValidation) {
-                          const validation = externalValidation('slug', value)
+                          if (externalValidation) {
+                            const validation = externalValidation('slug', value)
 
-                          if (validation) {
-                            return validation
+                            if (validation) {
+                              return validation
+                            }
                           }
                         }
-                      }
-                    })}
-                  />
-                  {!errors.slug && (
-                    <FormHelperText>
-                      Make sure the slug is unique between siblings.
-                    </FormHelperText>
-                  )}
-                  <FormErrorMessage>{errors.slug?.message}</FormErrorMessage>
-                </FormControl>
-                <FormControl mt={4}>
-                  <FormLabel>Description</FormLabel>
-                  <Textarea
-                    // id="description"
-                    placeholder="This is a sample description used for this page."
-                    {...register('description', {})}
-                  />
-                </FormControl>
-                <FormControl mt={4}>
-                  <FormLabel>Image</FormLabel>
-
-                  <Controller
-                    control={control}
-                    name="image"
-                    render={({field: {value}}) => (
-                      <Stack
-                        direction="row"
-                        spacing="6"
-                        align="center"
-                        width="full">
-                        <Avatar size="xl" name="Page" src={value} />
-                        <Box>
-                          <HStack spacing="5">
-                            <Button
-                              leftIcon={<HiCloudUpload />}
-                              onClick={handleImageUpload}>
-                              Change photo
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              colorScheme="red"
-                              onClick={handleImageRemove}>
-                              Delete
-                            </Button>
-                          </HStack>
-                          <Text fontSize="sm" mt="3" color="gray.500">
-                            Upload a photo to represent this page.
-                          </Text>
-                        </Box>
-                      </Stack>
+                      })}
+                    />
+                    {!errors.slug && (
+                      <FormHelperText>
+                        Make sure the slug is unique between siblings.
+                      </FormHelperText>
                     )}
-                  />
-                </FormControl>
-                <FormControl mt={4}>
-                  <FormLabel>Settings</FormLabel>
-                  <Checkbox {...register('excludedFromIndex')}>
-                    Exclude from index
-                  </Checkbox>
-                </FormControl>
-              </Box>
+                    <FormErrorMessage>{errors.slug?.message}</FormErrorMessage>
+                  </FormControl>
+                  <FormControl mt={4}>
+                    <FormLabel>Description</FormLabel>
+                    <Textarea
+                      // id="description"
+                      placeholder="This is a sample description used for this page."
+                      {...register('description', {})}
+                    />
+                  </FormControl>
+                  <FormControl mt={4}>
+                    <FormLabel>Image</FormLabel>
 
-              <ButtonGroup isDisabled={!isDirty} mt="8">
-                <Button
-                  colorScheme="teal"
-                  isLoading={isSubmitting}
-                  type="submit">
-                  Save
-                </Button>
-                <Button onClick={onReset}>Cancel</Button>
-              </ButtonGroup>
-            </form>
+                    <Controller
+                      control={control}
+                      name="image"
+                      render={({field: {value}}) => (
+                        <Stack
+                          direction="row"
+                          spacing="6"
+                          align="center"
+                          width="full">
+                          <Avatar size="xl" name="Page" src={value} />
+                          <Box>
+                            <HStack spacing="5">
+                              <Button
+                                leftIcon={<HiCloudUpload />}
+                                onClick={handleImageUpload}>
+                                Change photo
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                colorScheme="red"
+                                onClick={handleImageRemove}>
+                                Delete
+                              </Button>
+                            </HStack>
+                            <Text fontSize="sm" mt="3" color="gray.500">
+                              Upload a photo to represent this page.
+                            </Text>
+                          </Box>
+                        </Stack>
+                      )}
+                    />
+                  </FormControl>
+                  <FormControl mt={4}>
+                    <FormLabel>Settings</FormLabel>
+                    <Checkbox {...register('excludedFromIndex')}>
+                      Exclude from index
+                    </Checkbox>
+                  </FormControl>
+                </Box>
+
+                <ButtonGroup isDisabled={!isDirty} mt="8">
+                  <Button
+                    colorScheme="teal"
+                    isLoading={isSubmitting}
+                    type="submit">
+                    Save
+                  </Button>
+                  <Button onClick={onReset}>Cancel</Button>
+                </ButtonGroup>
+              </form>
+            </Box>
           </TabPanel>
           <TabPanel>
             <FieldsAdminPanel jaenPageId={props.jaenPageId} />
