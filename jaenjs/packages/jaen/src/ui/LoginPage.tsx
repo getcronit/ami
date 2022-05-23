@@ -4,6 +4,7 @@ import {login, demoLogin} from '../redux/slices/auth'
 import {navigate, PageProps} from 'gatsby'
 import React from 'react'
 import {SEO} from '../internal-plugins/pages'
+import {GlobalStyle, LightMode} from '@chakra-ui/react'
 
 export const AdminLoginPage = withRedux((props: PageProps) => {
   const dispatch = useAppDispatch()
@@ -40,7 +41,8 @@ export const AdminLoginPage = withRedux((props: PageProps) => {
   }
 
   return (
-    <>
+    <LightMode>
+      <GlobalStyle />
       <SEO
         pagePath={props.path}
         pageMeta={{
@@ -53,7 +55,7 @@ export const AdminLoginPage = withRedux((props: PageProps) => {
         onHomeClick={handleHomeClick}
         onDocsClick={handleDocsClick}
       />
-    </>
+    </LightMode>
   )
 })
 

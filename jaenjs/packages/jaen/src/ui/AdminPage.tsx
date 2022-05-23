@@ -20,7 +20,7 @@ import SettingsTab from './SettingsTab'
 import {useViews, withBaseView} from '../internal-plugins/views/services/view'
 import React from 'react'
 import AdminPageShell, {UIProps} from './components/AdminPageShell'
-import {Circle} from '@chakra-ui/react'
+import {Circle, GlobalStyle, LightMode} from '@chakra-ui/react'
 
 import {BsHouse} from '@react-icons/all-files/bs/BsHouse'
 import {FaPager} from '@react-icons/all-files/fa/FaPager'
@@ -190,7 +190,8 @@ const ProtectedRoute = ({
 }
 
 export default (props: PageProps) => (
-  <>
+  <LightMode>
+    <GlobalStyle />
     <SEO
       pagePath={props.path}
       pageMeta={{
@@ -200,5 +201,5 @@ export default (props: PageProps) => (
     <HashRouter>
       <AdminPage />
     </HashRouter>
-  </>
+  </LightMode>
 )
