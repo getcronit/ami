@@ -1,3 +1,5 @@
+import React from 'react'
+import {cleanObject} from '../../utils/helper'
 import {IJaenConnection} from '../../types'
 import {useAppDispatch, useAppSelector, withRedux} from './internal/redux'
 import {internalActions} from './internal/redux/slices'
@@ -9,6 +11,7 @@ import {
   useJaenSectionContext
 } from './internal/services/section'
 import {IJaenPage, IJaenPageProps} from './types'
+import {isAuthenticated} from '../../utils/hooks/isAuthenticated'
 /**
  * @function connectPage Connects a gatsby page with Jaen.
  *
@@ -145,6 +148,19 @@ export interface JaenFieldProps<IDefaultValue> {
   className?: string
 }
 
+export interface FieldOptions<IValue, IProps = {}> {
+  fieldType: string
+  getAdminWidget?: (
+    props: {
+      field: {
+        defaultValue: IValue
+        value: IValue
+        onChange: (value: IValue) => void
+      }
+    } & IProps
+  ) => JSX.Element
+}
+
 /**
  * @function connectField - Connects a field to Jaen.
  *
@@ -158,9 +174,9 @@ export interface JaenFieldProps<IDefaultValue> {
  * })
  * ```
  */
-export const connectField = <IValue, IDefaultValue = IValue, IProps = {}>(
+export const connectField = <IValue, IDefaultValue = IValue, P = {}>(
   Component: React.ComponentType<
-    IProps & {
+    P & {
       jaenField: JaenFieldProps<IDefaultValue> & {
         staticValue?: IValue
         value?: IValue
@@ -169,42 +185,45 @@ export const connectField = <IValue, IDefaultValue = IValue, IProps = {}>(
       }
     }
   >,
-  options: {
-    fieldType: string
-  }
-): React.FC<IProps & JaenFieldProps<IDefaultValue>> =>
-  withRedux(props => {
-    const dispatch = useAppDispatch()
+  options: FieldOptions<IValue, P>
+) => {
+  const MyComp: IJaenConnection<
+    P & JaenFieldProps<IDefaultValue>,
+    typeof options
+  > = props => {
+    const RegisterHelper: React.FC = withRedux(() => {
+      const field = useField<IValue>(props.name, options.fieldType)
 
-    const field = useField<IValue>(props.name, options.fieldType)
+      React.useEffect(() => {
+        if (isAuthenticated()) {
+          // clean up props to prevent circular reference, react items or other issues in redux store / local storage
+          field.register(cleanObject(props))
+        }
+      }, [])
 
-    const handleUpdateValue = (value: IValue) => {
-      dispatch(
-        internalActions.field_write({
-          pageId: field.jaenPageId,
-          section: field.sectionContext,
-          fieldType: options.fieldType,
-          fieldName: props.name,
-          value
-        })
+      return (
+        <Component
+          jaenField={{
+            name: props.name,
+            defaultValue: props.defaultValue,
+            staticValue: field.staticValue,
+            value: field.value,
+            isEditing: field.isEditing,
+            onUpdateValue: field.write,
+            style: props.style,
+            className: props.className
+          }}
+          {...props}
+        />
       )
-    }
+    })
 
-    return (
-      <Component
-        jaenField={{
-          name: props.name,
-          defaultValue: props.defaultValue,
-          staticValue: field.staticValue,
-          value: field.value,
-          isEditing: field.isEditing,
-          onUpdateValue: handleUpdateValue,
-          style: props.style,
-          className: props.className
-        }}
-        {...props}
-      />
-    )
-  })
+    return <RegisterHelper />
+  }
+
+  MyComp.options = options
+
+  return MyComp
+}
 
 export type IFieldConnection = ReturnType<typeof connectField>

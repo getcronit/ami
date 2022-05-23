@@ -1,4 +1,5 @@
 import {Store} from 'redux'
+import {onErrorResetAndRery} from './middleware'
 
 export default <RootState extends {}>(persistKey: string) => {
   const loadState = (): RootState | undefined => {
@@ -39,9 +40,12 @@ export default <RootState extends {}>(persistKey: string) => {
     return {resetState}
   }
 
+  const persistMiddleware = [onErrorResetAndRery<RootState>(persistKey)]
+
   return {
     loadState,
     saveState,
-    persistState
+    persistState,
+    persistMiddleware
   }
 }

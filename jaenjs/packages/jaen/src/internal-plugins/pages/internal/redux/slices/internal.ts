@@ -1,7 +1,7 @@
 import {omitSingle} from '../../../../../utils/helper'
 import {combineReducers, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {v4 as uuidv4} from 'uuid'
-import {ITreeJaenPage} from '../../../types'
+import {IJaenPage, JaenFieldsOrderEntry} from '../../../types'
 import {generatePagePaths} from '../../services/path'
 import {IJaenSection, IJaenSectionWithId, IJaenState} from '../types'
 
@@ -359,6 +359,61 @@ const pagesSlice = createSlice({
       return state
     },
 
+    page_unregisterFields(
+      state,
+      action: PayloadAction<{
+        pageId: string
+      }>
+    ) {
+      const {pageId} = action.payload
+
+      console.log('dispatching unregister for ', pageId)
+
+      state.nodes[pageId] = {
+        ...state.nodes[pageId],
+        children: state.nodes[pageId]?.children || [],
+        jaenFieldsOrder: []
+      }
+    },
+
+    field_register(
+      state,
+      action: PayloadAction<
+        {
+          pageId: string
+        } & JaenFieldsOrderEntry
+      >
+    ) {
+      const {pageId, ...rest} = action.payload
+
+      console.log('dispatching field_register for ', pageId)
+
+      // find the page
+      // Create the page if not found
+      state.nodes[pageId] = {
+        ...state.nodes[pageId],
+        children: state.nodes[pageId]?.children || [],
+        jaenFieldsOrder: (state.nodes[pageId]?.jaenFieldsOrder || []).concat([
+          rest
+        ])
+      }
+
+      // remove duplicates
+      state.nodes[pageId].jaenFieldsOrder = state.nodes[
+        pageId
+      ].jaenFieldsOrder!.filter(
+        (entry, index, self) =>
+          index ===
+          self.findIndex(
+            t =>
+              t.name == entry.name &&
+              t.type == entry.type &&
+              t.chapter?.name == entry.chapter?.name &&
+              t.chapter?.sectionId == entry.chapter?.sectionId
+          )
+      )
+    },
+
     field_write(
       state,
       action: PayloadAction<{
@@ -445,7 +500,7 @@ const routingSlice = createSlice({
     updateDynamicPaths(
       state,
       action: PayloadAction<{
-        jaenPageTree: ITreeJaenPage[]
+        jaenPageTree: IJaenPage[]
         pageId: string
         create?: boolean
       }>

@@ -1,23 +1,45 @@
 import {IJaenPage} from '../../../../pages/types'
 import {graphql} from 'gatsby'
 import React from 'react'
-import {store} from '../../redux'
+import {store, useAppDispatch, withRedux} from '../../redux'
+import {internalActions} from '../../redux/slices'
+import {isAuthenticated} from '../../../../../utils/hooks/isAuthenticated'
 
-export interface JaenPageContext {
+export interface JaenPageProviderProps {
   jaenPage: {
     id: string
   } & Partial<IJaenPage>
   jaenPages?: Array<Partial<IJaenPage>>
+  unregisterFields?: boolean
 }
+
+export interface JaenPageContext extends JaenPageProviderProps {}
 
 export const JaenPageContext = React.createContext<JaenPageContext | undefined>(
   undefined
 )
 
-export const JaenPageProvider: React.FC<JaenPageContext> = ({
+const UnregisterFieldsHelper = withRedux(() => {
+  const {jaenPage} = useJaenPageContext()
+
+  const dispatch = useAppDispatch()
+
+  React.useEffect(() => {
+    dispatch(
+      internalActions.page_unregisterFields({
+        pageId: jaenPage.id
+      })
+    )
+  }, [jaenPage.id])
+
+  return null
+})
+
+export const JaenPageProvider: React.FC<JaenPageProviderProps> = ({
   children,
   jaenPage,
-  jaenPages
+  jaenPages,
+  unregisterFields = true
 }) => {
   return (
     <JaenPageContext.Provider
@@ -25,6 +47,7 @@ export const JaenPageProvider: React.FC<JaenPageContext> = ({
         jaenPage,
         jaenPages
       }}>
+      {unregisterFields && isAuthenticated() && <UnregisterFieldsHelper />}
       {children}
     </JaenPageContext.Provider>
   )

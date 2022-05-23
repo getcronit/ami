@@ -1,17 +1,17 @@
 import {
   Box,
   Divider,
-  Flex,
-  FlexProps,
+  StackProps,
+  HStack,
   Text,
   useColorModeValue
 } from '@chakra-ui/react'
 import * as React from 'react'
 
-export const DividerWithText = (props: FlexProps) => {
+export const DividerWithText = (props: StackProps) => {
   const {children, ...flexProps} = props
   return (
-    <Flex align="center" color="gray.300" {...flexProps}>
+    <HStack color="gray.300" {...flexProps}>
       <Box flex="1">
         <Divider borderColor="currentcolor" />
       </Box>
@@ -25,6 +25,6 @@ export const DividerWithText = (props: FlexProps) => {
       <Box flex="1">
         <Divider borderColor="currentcolor" />
       </Box>
-    </Flex>
+    </HStack>
   )
 }

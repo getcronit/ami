@@ -20,7 +20,9 @@ import internal, {initialState} from './slices/internal'
 import PersistState from '../../../../redux/persist-state'
 
 export const persistKey = 'jaenjs-pages-state'
-const {loadState, persistState} = PersistState<RootState>(persistKey)
+const {loadState, persistState, persistMiddleware} = PersistState<RootState>(
+  persistKey
+)
 
 const combinedReducer = combineReducers({
   internal
@@ -44,7 +46,7 @@ export const store = configureStore({
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       thunk: {extraArgument: {}}
-    }).concat([]),
+    }).concat([...persistMiddleware]),
   devTools: true || process.env.NODE_ENV !== 'production',
   preloadedState: persistedState
 })
@@ -58,16 +60,15 @@ export type AppDispatch = typeof store.dispatch
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
-export const useAppDeepEqualSelector =
-  useDeepEqualSelector as TypedUseSelectorHook<RootState>
+export const useAppDeepEqualSelector = useDeepEqualSelector as TypedUseSelectorHook<RootState>
 export const useAppState = () => useStore().getState() as RootState
 
-export const withRedux =
-  <P extends object>(Component: React.ComponentType<P>): React.FC<P> =>
-  props => {
-    return (
-      <Provider store={store}>
-        <Component {...props} />
-      </Provider>
-    )
-  }
+export const withRedux = <P extends object>(
+  Component: React.ComponentType<P>
+): React.FC<P> => props => {
+  return (
+    <Provider store={store}>
+      <Component {...props} />
+    </Provider>
+  )
+}

@@ -1,0 +1,1 @@
+export {usePageFieldsRegister} from './usePageFieldsRegister'

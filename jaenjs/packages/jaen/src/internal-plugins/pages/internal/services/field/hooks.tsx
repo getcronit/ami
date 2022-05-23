@@ -1,8 +1,9 @@
 import React from 'react'
 import {IJaenPage} from '../../../types'
-import {store} from '../../redux'
+import {store, useAppDispatch} from '../../redux'
+import {internalActions} from '../../redux/slices'
 import {useJaenPageContext} from '../page'
-import {useJaenSectionContext} from '../section'
+import {JaenSectionType, useJaenSectionContext} from '../section'
 
 export const useField = <IValue extends {}>(name: string, type: string) => {
   const {jaenPage} = useJaenPageContext()
@@ -15,9 +16,12 @@ export const useField = <IValue extends {}>(name: string, type: string) => {
 
   const sectionContext = useJaenSectionContext()
 
+  const dispatch = useAppDispatch()
+
   function getPageField(
     page: IJaenPage | Partial<IJaenPage> | null
   ): IValue | undefined {
+    console.log('getPageField', page)
     if (page) {
       let fields
 
@@ -91,11 +95,50 @@ export const useField = <IValue extends {}>(name: string, type: string) => {
     }
   }, [isEditing])
 
+  const write = React.useCallback(
+    (newValue: IValue | null) => {
+      console.log('write', newValue)
+
+      dispatch(
+        internalActions.field_write({
+          pageId: jaenPage.id,
+          section: sectionContext,
+          fieldType: type,
+          fieldName: name,
+          value: newValue
+        })
+      )
+    },
+    [dispatch, jaenPage.id, sectionContext, type, name, value]
+  )
+
+  const register = React.useCallback(
+    (props: any) => {
+      dispatch(
+        internalActions.field_register({
+          pageId: jaenPage.id,
+          type,
+          name,
+          chapter: sectionContext
+            ? {
+                name: sectionContext.chapterName,
+                sectionId: sectionContext.sectionId
+              }
+            : undefined,
+          props
+        })
+      )
+    },
+    [dispatch, jaenPage.id, sectionContext, type, name]
+  )
+
   return {
     value,
     staticValue,
     jaenPageId: jaenPage.id,
     isEditing,
-    sectionContext
+    sectionContext,
+    write,
+    register
   }
 }

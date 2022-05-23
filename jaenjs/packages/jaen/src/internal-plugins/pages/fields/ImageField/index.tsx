@@ -8,6 +8,9 @@ import {
 } from './JaenImage'
 import {useJaenPageImage} from './useJaenPageImage'
 import loadable from '@loadable/component'
+import {Stack, Avatar, Box, HStack, Button, Text} from '@chakra-ui/react'
+import {HiCloudUpload} from 'react-icons/hi'
+import {useSnekFinder} from '@jaenjs/snek-finder'
 
 export interface ImageFieldData extends JaenImageData {
   imageId?: string
@@ -91,7 +94,60 @@ const ImageField = connectField<
     )
   },
   {
-    fieldType: 'IMA:ImageField'
+    fieldType: 'IMA:ImageField',
+    getAdminWidget: ({field}) => {
+      const finder = useSnekFinder({
+        mode: 'selector',
+        onSelect: ({src}) => {
+          field.onChange({
+            ...field.value,
+            internalImageUrl: src
+          })
+        }
+      })
+
+      const handleImageRemove = () => {
+        field.onChange({
+          ...field.value,
+          internalImageUrl: undefined
+        })
+      }
+
+      return (
+        <>
+          {finder.finderElement}
+          <Stack direction="row" spacing="6" align="center" width="full">
+            {JSON.stringify(field.defaultValue)}
+
+            <Avatar
+              size="xl"
+              name="Page"
+              src={
+                field.value?.internalImageUrl ||
+                field.value?.gatsbyImage?.placeholder?.fallback ||
+                field.defaultValue?.internalImageUrl ||
+                field.defaultValue?.gatsbyImage?.placeholder?.fallback
+              }
+            />
+            <Box>
+              <HStack spacing="5">
+                <Button
+                  leftIcon={<HiCloudUpload />}
+                  onClick={finder.toggleSelector}>
+                  Change photo
+                </Button>
+                <Button
+                  variant="ghost"
+                  colorScheme="red"
+                  onClick={handleImageRemove}>
+                  Delete
+                </Button>
+              </HStack>
+            </Box>
+          </Stack>
+        </>
+      )
+    }
   }
 )
 

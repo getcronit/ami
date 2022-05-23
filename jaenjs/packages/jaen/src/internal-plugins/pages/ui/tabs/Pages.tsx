@@ -22,11 +22,10 @@ export const PagesContainer = withRedux(() => {
     state => state.internal.pages.lastAddedNodeId
   )
 
-  let [shouldUpdateDpathsFor, setShouldUpdateDpathsFor] =
-    React.useState<{
-      pageId: string
-      create: boolean
-    } | null>(null)
+  let [shouldUpdateDpathsFor, setShouldUpdateDpathsFor] = React.useState<{
+    pageId: string
+    create: boolean
+  } | null>(null)
 
   React.useEffect(() => {
     if (shouldUpdateDpathsFor) {
@@ -162,8 +161,8 @@ export const PagesContainer = withRedux(() => {
 
   const treeItems = React.useMemo(
     () =>
-      pageTree.reduce(
-        (a, v) => ({
+      pageTree.reduce((a, v) => {
+        return {
           ...a,
           [v.id]: {
             id: v.id,
@@ -177,9 +176,8 @@ export const PagesContainer = withRedux(() => {
             },
             parent: v.parent?.id || null
           }
-        }),
-        {}
-      ),
+        }
+      }, {}),
     [pageTree]
   )
 

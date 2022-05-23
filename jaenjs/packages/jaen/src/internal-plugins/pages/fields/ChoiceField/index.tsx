@@ -5,7 +5,8 @@ import {
   PopoverCloseButton,
   PopoverContent,
   PopoverHeader,
-  PopoverTrigger
+  PopoverTrigger,
+  Select
 } from '@chakra-ui/react'
 import {connectField} from '../..'
 
@@ -68,7 +69,24 @@ const ChoiceField = connectField<
       </Popover>
     )
   },
-  {fieldType: 'IMA:ChoiceField'}
+  {
+    fieldType: 'IMA:ChoiceField',
+    getAdminWidget: ({field, options}) => {
+      return (
+        <Select
+          placeholder="Select option"
+          defaultValue={field.defaultValue || undefined}
+          value={field.value || undefined}
+          onChange={e => field.onChange(e.target.value)}>
+          {options.map(option => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </Select>
+      )
+    }
+  }
 )
 
 export default ChoiceField

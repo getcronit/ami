@@ -24,7 +24,9 @@ import status, {statusInitialState} from './slices/status'
 
 export const persistKey = 'jaenjs-state'
 
-const {loadState, persistState} = PersistState<RootState>(persistKey)
+const {loadState, persistState, persistMiddleware} = PersistState<RootState>(
+  persistKey
+)
 
 const combinedReducer = combineReducers({
   auth,
@@ -52,7 +54,7 @@ export const store = configureStore({
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       thunk: {extraArgument: {}}
-    }).concat([]),
+    }).concat([...persistMiddleware]),
   devTools: true || process.env.NODE_ENV !== 'production',
   preloadedState: persistedState
 })

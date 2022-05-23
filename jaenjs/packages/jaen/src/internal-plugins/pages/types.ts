@@ -2,6 +2,8 @@ import {PageProps} from 'gatsby'
 import {IGatsbyImageData} from 'gatsby-plugin-image'
 import {IBaseEntity} from '../../index'
 
+import {useField} from './internal/services/field'
+
 export interface IJaenTemplate {
   name: string
   displayName: string
@@ -10,6 +12,16 @@ export interface IJaenTemplate {
     displayName: string
   }[]
   isRootTemplate?: boolean
+}
+
+export type JaenFieldsOrderEntry = {
+  type: string
+  name: string
+  chapter?: {
+    name: string
+    sectionId: string
+  }
+  props: any
 }
 
 export interface IJaenPage {
@@ -67,19 +79,8 @@ export interface IJaenPage {
   template: string | null
   deleted?: boolean
   excludedFromIndex?: boolean
+  jaenFieldsOrder?: Array<JaenFieldsOrderEntry>
 }
-
-export type ITreeJaenPage = Pick<
-  IJaenPage,
-  | 'id'
-  | 'parent'
-  | 'children'
-  | 'slug'
-  | 'jaenPageMetadata'
-  | 'template'
-  | 'deleted'
-  | 'excludedFromIndex'
->
 
 export type IJaenPages = {
   [uuid: string]: IJaenPage
@@ -111,3 +112,16 @@ export interface IFormProps<Values> {
     value: string
   ) => string | undefined
 }
+
+export interface IFieldRegistryEntry {
+  name: string
+  type: string
+  chapter?: {
+    name: string
+    sectionId: string
+  }
+}
+
+export type IFieldRegistry = IFieldRegistryEntry[]
+
+export type AdminWidgetProps = ReturnType<typeof useField>

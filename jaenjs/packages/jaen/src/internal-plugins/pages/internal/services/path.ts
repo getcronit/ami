@@ -1,4 +1,4 @@
-import {ITreeJaenPage} from '../../types'
+import {IJaenPage} from '../../types'
 
 type PageNode = {
   id: string
@@ -23,10 +23,7 @@ export const generateOriginPath = (
   return path
 }
 
-export const generatePagePaths = (
-  allNodes: ITreeJaenPage[],
-  pageId: string
-) => {
+export const generatePagePaths = (allNodes: IJaenPage[], pageId: string) => {
   const originNode = allNodes.find(node => node.id === pageId)
 
   if (originNode) {
@@ -34,7 +31,7 @@ export const generatePagePaths = (
 
     const originPath = generateOriginPath(allNodes, originNode!)
 
-    const lookupPath = (node: ITreeJaenPage, pathPrefix = '/') => {
+    const lookupPath = (node: IJaenPage, pathPrefix = '/') => {
       paths[pathPrefix] = node.id
 
       if (node.children.length) {

@@ -1,13 +1,14 @@
 import {AddIcon, DeleteIcon, ViewIcon} from '@chakra-ui/icons'
 import {Box, Divider, Flex} from '@chakra-ui/layout'
 import {ButtonGroup, IconButton} from '@chakra-ui/react'
-import {ITreeJaenPage} from '../../../../types'
 import * as React from 'react'
 import {ContentValues, PageContent} from './PageContent'
 import PageTree, {PageTreeProps} from './PageTree'
+import {JaenPageProvider} from '../../../../internal/services/page'
+import {IJaenPage} from '../../../../types'
 
 export interface PagesTabProps extends PageTreeProps {
-  getPage: (id: string) => ITreeJaenPage | null
+  getPage: (id: string) => IJaenPage | null
   onPageUpdate: (id: string, values: ContentValues) => void
 }
 
@@ -16,7 +17,7 @@ export interface PagesTabProps extends PageTreeProps {
  * Display PageTree and PageContent next to each other.
  */
 const PagesTab = (props: PagesTabProps) => {
-  const [selection, setSelection] = React.useState<ITreeJaenPage | null>(null)
+  const [selection, setSelection] = React.useState<IJaenPage | null>(null)
 
   const onSelect = (id: string | null) => {
     if (id !== null) {
@@ -83,22 +84,26 @@ const PagesTab = (props: PagesTabProps) => {
           />
         </>
       </Box>
+
       <Divider orientation="vertical" />
 
       <Box flex={1}>
         {selection && (
-          <PageContent
-            key={selection.id}
-            template={selectedTemplate}
-            values={{
-              title: selection.jaenPageMetadata.title,
-              slug: selection.slug,
-              description: selection.jaenPageMetadata.description,
-              image: selection.jaenPageMetadata.image,
-              excludedFromIndex: selection.excludedFromIndex
-            }}
-            onSubmit={handlePageUpdate}
-          />
+          <JaenPageProvider jaenPage={selection} unregisterFields={false}>
+            <PageContent
+              key={selection.id}
+              template={selectedTemplate}
+              jaenPageId={selection.id}
+              values={{
+                title: selection.jaenPageMetadata.title,
+                slug: selection.slug,
+                description: selection.jaenPageMetadata.description,
+                image: selection.jaenPageMetadata.image,
+                excludedFromIndex: selection.excludedFromIndex
+              }}
+              onSubmit={handlePageUpdate}
+            />
+          </JaenPageProvider>
         )}
       </Box>
     </Flex>

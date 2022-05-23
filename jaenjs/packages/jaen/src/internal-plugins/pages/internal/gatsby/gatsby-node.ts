@@ -59,6 +59,7 @@ GatsbyNode.createSchemaCustomization = ({actions}) => {
       template: String
       jaenFiles: [JaenFile!]!
       excludedFromIndex: Boolean
+      jaenFieldsOrder: JSON
     }
 
     type JaenFile {

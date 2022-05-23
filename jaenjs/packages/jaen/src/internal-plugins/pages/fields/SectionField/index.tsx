@@ -81,6 +81,10 @@ const SectionField = ({
   const dynamicChapter = useAppSelector(
     state => state.internal.pages.nodes[jaenPage.id]?.chapters?.[name],
     (l, r) => {
+      if (!l && !r) {
+        return true
+      }
+
       if (!l || !r) {
         return false
       }
@@ -202,6 +206,7 @@ const SectionField = ({
       if (!ptrHead || totalSections === 0) {
         return (
           <SectionAddPopover
+            key={`${ptrHead}-add-popover`}
             disabled={false}
             header={
               <>
@@ -251,6 +256,7 @@ const SectionField = ({
         if (isEditing) {
           rendered.push(
             <SectionWrapper
+              key={`${sectionId}-manage-popover`}
               {...sectionProps}
               className={rest.sectionClassName}
               style={rest.sectionStyle}>
@@ -287,6 +293,7 @@ const SectionField = ({
         } else {
           rendered.push(
             <SectionWrapper
+              key={`${sectionId}-section`}
               {...sectionProps}
               className={rest.sectionClassName}
               style={rest.sectionStyle}>
