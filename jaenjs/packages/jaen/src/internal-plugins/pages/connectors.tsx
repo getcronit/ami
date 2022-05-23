@@ -143,6 +143,7 @@ export type ISectionConnection = ReturnType<typeof connectSection>
 
 export interface JaenFieldProps<IDefaultValue> {
   name: string
+  displayName?: string
   defaultValue: IDefaultValue
   style?: React.CSSProperties
   className?: string

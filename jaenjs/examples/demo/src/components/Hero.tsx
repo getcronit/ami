@@ -32,6 +32,7 @@ export default function SplitScreen() {
                 name="heading1"
                 rtf={false}
                 defaultValue="<span>Freelance</span>"
+                displayName="Hero Heading"
               />
             </Box>
 

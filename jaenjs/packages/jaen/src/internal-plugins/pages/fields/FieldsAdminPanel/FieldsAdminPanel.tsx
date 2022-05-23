@@ -16,7 +16,7 @@ import {AddIcon} from '@chakra-ui/icons'
 import {useField} from '../../internal/services/field'
 import {usePageFieldsRegister} from '../../internal/services/page/hooks'
 import {Field} from '../../index'
-import {FieldOptions} from '../../connectors'
+import {FieldOptions, JaenFieldProps} from '../../connectors'
 import {JaenFieldsOrderEntry} from '../../types'
 import {Control, Controller, useForm} from 'react-hook-form'
 import {JaenSectionProvider} from '../../internal/services/section'
@@ -36,11 +36,11 @@ const FormField = ({
   type: string
   index: number
   control: Control
-  props: any
+  props: JaenFieldProps<any>
 }) => {
   const field = useField(name, type)
 
-  let getAdminWidget: FieldOptions<any, any>['getAdminWidget']
+  let getAdminWidget: FieldOptions<any, typeof props>['getAdminWidget']
 
   switch (type) {
     case 'IMA:TextField':
@@ -55,14 +55,16 @@ const FormField = ({
       break
 
     case 'IMA:ChoiceField':
-      getAdminWidget = Field.Choice.options.getAdminWidget
+      getAdminWidget = Field.Choice.options.getAdminWidget as any
 
       break
   }
 
+  const formLabel = props.displayName || name
+
   return (
     <FormControl>
-      <FormLabel>{name}</FormLabel>
+      <FormLabel>{formLabel}</FormLabel>
       <Controller
         control={control}
         name={`${index}`}
@@ -75,7 +77,8 @@ const FormField = ({
           if (getAdminWidget) {
             return getAdminWidget({
               field: {
-                defaultValue: field.value || field.staticValue,
+                defaultValue:
+                  field.value || field.staticValue || props.defaultValue,
                 value: value,
                 onChange: onChangeValue
               },
