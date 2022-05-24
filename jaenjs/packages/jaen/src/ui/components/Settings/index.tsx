@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Center,
   Checkbox,
   Divider,
   FormControl,
@@ -11,7 +12,9 @@ import {
   FormLabel,
   Heading,
   HStack,
+  Image,
   Input,
+  Skeleton,
   Stack,
   StackDivider,
   Text,
@@ -200,7 +203,21 @@ export const SettingsTab = ({data, onUpdate}: SettingsTabProps) => {
                         spacing="6"
                         align="center"
                         width="full">
-                        <Avatar size="xl" name="Site Logo" src={value} />
+                        <Box boxSize={36} borderRadius="lg" bg="gray.50">
+                          <Image
+                            borderRadius="lg"
+                            boxSize={'100%'}
+                            src={value}
+                            fallback={
+                              <Center boxSize={'100%'}>
+                                <Text color="gray.600" fontSize="sm">
+                                  No image
+                                </Text>
+                              </Center>
+                            }
+                          />
+                        </Box>
+
                         <Box>
                           <HStack spacing="5">
                             <Button
@@ -293,11 +310,20 @@ export const SettingsTab = ({data, onUpdate}: SettingsTabProps) => {
                         spacing="6"
                         align="center"
                         width="full">
-                        <Avatar
-                          size="xl"
-                          name="Organisation Logo"
-                          src={value}
-                        />
+                        <Box boxSize={36} borderRadius="lg" bg="gray.50">
+                          <Image
+                            borderRadius="lg"
+                            boxSize={'100%'}
+                            src={value}
+                            fallback={
+                              <Center boxSize={'100%'}>
+                                <Text color="gray.600" fontSize="sm">
+                                  No image
+                                </Text>
+                              </Center>
+                            }
+                          />
+                        </Box>
                         <Box>
                           <HStack spacing="5">
                             <Button

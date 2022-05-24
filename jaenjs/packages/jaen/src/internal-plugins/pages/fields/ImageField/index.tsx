@@ -8,7 +8,16 @@ import {
 } from './JaenImage'
 import {useJaenPageImage} from './useJaenPageImage'
 import loadable from '@loadable/component'
-import {Stack, Avatar, Box, HStack, Button, Text} from '@chakra-ui/react'
+import {
+  Stack,
+  Avatar,
+  Box,
+  HStack,
+  Button,
+  Text,
+  Image,
+  Center
+} from '@chakra-ui/react'
 import {HiCloudUpload} from 'react-icons/hi'
 import {useSnekFinder} from '@jaenjs/snek-finder'
 
@@ -119,16 +128,26 @@ const ImageField = connectField<
           <Stack direction="row" spacing="6" align="center" width="full">
             {JSON.stringify(field.defaultValue)}
 
-            <Avatar
-              size="xl"
-              name="Page"
-              src={
-                field.value?.internalImageUrl ||
-                field.value?.gatsbyImage?.placeholder?.fallback ||
-                field.defaultValue?.internalImageUrl ||
-                field.defaultValue?.gatsbyImage?.placeholder?.fallback
-              }
-            />
+            <Box boxSize={36} borderRadius="lg" bg="gray.50">
+              <Image
+                borderRadius="lg"
+                boxSize={'100%'}
+                src={
+                  field.value?.internalImageUrl ||
+                  field.value?.gatsbyImage?.placeholder?.fallback ||
+                  field.defaultValue?.internalImageUrl ||
+                  field.defaultValue?.gatsbyImage?.placeholder?.fallback
+                }
+                fallback={
+                  <Center boxSize={'100%'}>
+                    <Text color="gray.600" fontSize="sm">
+                      No image
+                    </Text>
+                  </Center>
+                }
+              />
+            </Box>
+
             <Box>
               <HStack spacing="5">
                 <Button

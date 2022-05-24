@@ -9,6 +9,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Center,
   Checkbox,
   Divider,
   Flex,
@@ -18,6 +19,7 @@ import {
   FormLabel,
   Heading,
   HStack,
+  Image,
   Img,
   Input,
   Skeleton,
@@ -210,7 +212,21 @@ export const PageContent = (props: PageContentProps) => {
                           spacing="6"
                           align="center"
                           width="full">
-                          <Avatar size="xl" name="Page" src={value} />
+                          <Box boxSize={36} borderRadius="lg" bg="gray.50">
+                            <Image
+                              borderRadius="lg"
+                              boxSize={'100%'}
+                              src={value}
+                              fallback={
+                                <Center boxSize={'100%'}>
+                                  <Text color="gray.600" fontSize="sm">
+                                    No image
+                                  </Text>
+                                </Center>
+                              }
+                            />
+                          </Box>
+
                           <Box>
                             <HStack spacing="5">
                               <Button
