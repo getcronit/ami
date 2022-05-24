@@ -30,6 +30,8 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  Tag,
+  TagLabel,
   Text,
   Textarea,
   useToast,
@@ -43,6 +45,7 @@ import {IFormProps, IJaenTemplate} from '../../../../../types'
 import {HiCloudUpload} from '@react-icons/all-files/hi/HiCloudUpload'
 
 import FieldsAdminPanel from '../../../../../fields/FieldsAdminPanel'
+import {HiClock, HiTemplate} from 'react-icons/hi'
 
 export type ContentValues = {
   title: string
@@ -55,6 +58,7 @@ export type ContentValues = {
 export interface PageContentProps extends IFormProps<ContentValues> {
   jaenPageId: string
   template: IJaenTemplate | null
+  publishedAt: string | undefined
 }
 
 /**
@@ -138,6 +142,18 @@ export const PageContent = (props: PageContentProps) => {
         <TabPanels>
           <TabPanel>
             <Box p={1}>
+              <HStack>
+                {props.template && (
+                  <Tag my={4} size="lg">
+                    <Box ml={-1} mr={2}>
+                      <HiTemplate />
+                    </Box>
+
+                    <TagLabel>{props.template.displayName}</TagLabel>
+                  </Tag>
+                )}
+              </HStack>
+
               <form onSubmit={handleSubmit(onSubmit)}>
                 <Box overflowY={'auto'} h={'70vh'}>
                   <FormControl isInvalid={!!errors.title}>

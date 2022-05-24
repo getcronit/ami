@@ -130,6 +130,7 @@ const PagesTab = (props: PagesTabProps) => {
               key={selection.id}
               template={selectedTemplate}
               jaenPageId={selection.id}
+              publishedAt={selection.jaenPageMetadata.datePublished}
               values={{
                 title: selection.jaenPageMetadata.title,
                 slug: selection.slug || 'root',

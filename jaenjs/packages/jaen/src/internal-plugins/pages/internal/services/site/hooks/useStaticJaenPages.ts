@@ -22,6 +22,7 @@ export const useStaticJaenPages = () => {
             children {
               id
             }
+            template
           }
         }
       }

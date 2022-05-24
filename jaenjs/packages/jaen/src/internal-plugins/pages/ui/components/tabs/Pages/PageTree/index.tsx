@@ -22,11 +22,13 @@ import {
 import styled from '@emotion/styled'
 import {motion} from 'framer-motion'
 import * as React from 'react'
-import {FaFile, FaFolderMinus, FaFolderPlus} from 'react-icons/fa'
+import {BiListPlus, BiListMinus, BiListUl} from 'react-icons/bi'
+
 import {IJaenTemplate} from '../../../../../types'
 import {ContextMenu} from '../../../ContextMenu'
 import {CreateValues, PageCreator} from '../PageCreator'
 import {TreeConverter} from './treeconverter'
+import {HiTemplate} from 'react-icons/hi'
 
 export type Items = {
   [id: string]: {
@@ -63,7 +65,6 @@ const PreTextIcon = styled.span`
   display: inline-block;
   width: 16px;
   justify-content: center;
-  cursor: pointer;
   margin-right: 5px;
 `
 
@@ -222,17 +223,17 @@ const PageTree: React.FC<PageTreeProps> = ({
     if (hasChildren) {
       return item.isExpanded ? (
         <PreTextIcon onClick={() => onCollapse(item.id)}>
-          <FaFolderMinus />
+          <BiListMinus cursor={'pointer'} />
         </PreTextIcon>
       ) : (
         <PreTextIcon onClick={() => onExpand(item.id)}>
-          <FaFolderPlus />
+          <BiListPlus cursor={'pointer'} />
         </PreTextIcon>
       )
     }
     return (
       <PreTextIcon>
-        <FaFile />
+        <BiListUl />
       </PreTextIcon>
     )
   }
@@ -268,9 +269,11 @@ const PageTree: React.FC<PageTreeProps> = ({
       const isLocked = !item.data.template
       const hasChanges = item.data.hasChanges
 
+      console.log('tree', item.data)
+
       return (
         <HStack align="center" justify="space-between">
-          {isLocked && <LockIcon />}
+          {!isLocked && <HiTemplate />}
           {hasChanges && (
             <Badge
               bg={orange}
