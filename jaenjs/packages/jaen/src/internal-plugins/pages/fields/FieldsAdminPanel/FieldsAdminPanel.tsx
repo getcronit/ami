@@ -64,7 +64,10 @@ const FormField = ({
 
   return (
     <FormControl>
-      <FormLabel>{formLabel}</FormLabel>
+      <FormLabel>
+        <Text fontSize="lg">{formLabel}</Text>
+      </FormLabel>
+
       <Controller
         control={control}
         name={`${index}`}
@@ -103,14 +106,18 @@ const ChapterFormField = ({
   return (
     <Box m={1} p={2} borderLeft={'4px'} borderColor="teal">
       <Heading>{chapter.name}</Heading>
-      <Stack divider={<Divider />} spacing={4}>
+      <Stack divider={<Divider />} spacing={8}>
         {chapter.sections.map((section, index) => {
           return (
             <JaenSectionProvider
               chapterName={chapter.name}
               sectionId={section.id}
               key={section.id}>
-              <Box m={1} p={2}>
+              <Stack
+                m={1}
+                p={2}
+                divider={<Divider variant="dashed" />}
+                spacing={6}>
                 {section.fields.map((field, index) => {
                   if (field.__type === 'field') {
                     return (
@@ -132,7 +139,7 @@ const ChapterFormField = ({
 
                   return null
                 })}
-              </Box>
+              </Stack>
             </JaenSectionProvider>
           )
         })}
