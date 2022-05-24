@@ -186,7 +186,11 @@ export const ProductsTemplate = (props: ProductsTemplateProps) => {
           )}
 
           <Box w="100%" ref={gridRef}>
-            <ProductGrid products={props.products} />
+            <ProductGrid
+              products={props.products}
+              columns={{base: 2, sm: 2, md: 3, xl: 4}}
+              spacing="4"
+            />
             {props.isFetching && (
               <Center w="100%" h="xs">
                 <Spinner
