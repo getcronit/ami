@@ -13,7 +13,9 @@ const Desktop = (
     css={BulletStyle}
     position="relative"
     borderRadius="5px"
-    bg="white"
+    border="1px"
+    borderColor="border"
+    bg="primary"
     mr={{base: '0', lg: '6'}}
     mb="6">
     <Flex

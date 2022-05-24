@@ -35,7 +35,7 @@ export const FAQAccordion = ({question, answer}: FAQAccordionProps) => {
         bg={useColorModeValue('white', 'gray.700')}
         borderStyle="border-box"
         border="1px solid"
-        borderColor="gray.200"
+        borderColor="border"
         // borderStyle="solid"
         _hover={{bg: '#D4D4D9'}}
         py="2">

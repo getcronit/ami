@@ -44,7 +44,7 @@ export const NewsCard = () => {
       maxW="sm"
       position="relative"
       border="1px"
-      borderColor="gray.200"
+      borderColor="border"
       // divider={<StackDivider />}
       css={style.CardStyle}>
         <AspectRatio ratio={16/10} boxSize="full" css={{img: {objectFit: "cover"}}}>

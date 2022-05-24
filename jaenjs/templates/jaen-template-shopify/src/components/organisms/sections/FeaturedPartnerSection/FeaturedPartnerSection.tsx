@@ -52,7 +52,7 @@ export const FeaturedPartner = ({
         left="10%"
         position="absolute"
         color="background"
-        style={{WebkitTextStroke: '1px #dbd8d2'}}
+        style={{WebkitTextStroke: `1px ${getThemeColor('stroke')}`}}
         display={{ base: 'none', '2xl': 'block' }}>
         <span>Si vis pacem para bellum</span>
       </Text>

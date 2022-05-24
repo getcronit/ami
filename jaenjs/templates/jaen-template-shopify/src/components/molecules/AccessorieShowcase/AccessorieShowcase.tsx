@@ -2,6 +2,7 @@ import React from 'react'
 import {Box, Heading} from '@chakra-ui/layout'
 import {navigate} from 'gatsby'
 
+import {getThemeColor} from '../../../common/utils'
 import {Shine} from '../../../common/style/base'
 
 export interface AccessorieShowcaseProps {}
@@ -14,7 +15,9 @@ export const AccessorieShowcase = ({}: AccessorieShowcaseProps) => {
       h={{base: '300px', lg: '320px'}}
       css={Shine}
       w="full"
-      bg="gray.800"
+      bg="background"
+      border="1px"
+      borderColor="border"
       className="shine"
       textAlign="center"
       borderRadius="5px"
@@ -24,7 +27,7 @@ export const AccessorieShowcase = ({}: AccessorieShowcaseProps) => {
       backgroundSize="cover"
       alignSelf={{base: 'center', lg: 'auto'}}
       backgroundImage="https://secondamendsports.com/wp-content/uploads/2019/10/4D5EB7A900000578-0-image-a-30_1529321909720-1.jpg">
-      <Heading color="white" mt="90px" userSelect="none" style={{WebkitTextStroke: '1px #1f1f1d'}}>
+      <Heading color="white" mt="90px" userSelect="none" style={{WebkitTextStroke: `1px ${getThemeColor("agt.gray")}`}}>
         Acessories
       </Heading>
     </Box>

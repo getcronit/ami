@@ -47,6 +47,14 @@ const theme = {
         default: 'agt.lightbackground',
         _dark: 'agt.darkbackground',
       },
+      text: {
+        default: 'agt.grey',
+        _dark: 'white',
+      },
+      border: {
+        default: 'agt.lightstroke',
+        _dark: 'agt.darkstroke',
+      },
       stroke: {
         default: 'agt.lightstroke',
         _dark: 'agt.darkstroke',

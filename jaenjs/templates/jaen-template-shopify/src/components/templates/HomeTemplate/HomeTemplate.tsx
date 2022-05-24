@@ -50,7 +50,6 @@ export interface HomeTemplateProps {
 export const HomeTemplate = (props: HomeTemplateProps) => {
   return (
     <>
-      {/* <StickyStrokeLogo strokeColor="#dbd8d2" backgroundColor="transperent" /> */}
       <Field.Section
         as={VStack}
         props={{

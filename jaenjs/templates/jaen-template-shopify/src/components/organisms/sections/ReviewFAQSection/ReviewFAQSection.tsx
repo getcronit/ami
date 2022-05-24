@@ -1,5 +1,5 @@
 import React, {ReactNode} from 'react'
-import {HStack, Text, Box} from '@chakra-ui/layout'
+import {Divider, Box} from '@chakra-ui/layout'
 import {Field, connectSection} from '@jaenjs/jaen'
 
 import {getThemeColor} from '../../../../common/utils'
@@ -40,6 +40,22 @@ export const ReviewFAQ = ({
   return (
     <Box position="relative">
       <ParallaxBackground strokeColor={getThemeColor("stroke")} backgroundColor={getThemeColor("agt.darkbackground")} offset={200}/>
+      <Divider
+        orientation='horizontal'
+        position="absolute"
+        boxSizing='border-box'
+        borderColor="stroke"
+        top="0"
+        left="0"
+      />
+      <Divider
+        orientation='horizontal'
+        position="absolute"
+        boxSizing='border-box'
+        borderColor="stroke"
+        bottom="0"
+        left="0"
+      />
       <Review
         anchor={reviewAnchor}
         heading={reviewHeading}
