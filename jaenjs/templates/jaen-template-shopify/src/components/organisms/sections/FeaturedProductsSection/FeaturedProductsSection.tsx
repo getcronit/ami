@@ -1,92 +1,83 @@
-import React from 'react'
+import React, {ReactNode} from 'react'
 import {
   Container,
   SimpleGrid,
   Center,
   Box,
   Heading,
-  Link,
+  Text,
   Divider
 } from '@chakra-ui/layout'
-import {Button} from '@chakra-ui/button'
-import {ProductCard} from '../../../molecules/ProductCard'
-import {Bullet} from '../../../atoms/Bullet'
+import {useColorModeValue} from '@chakra-ui/react'
 import {Link as GatsbyLink, navigate} from 'gatsby'
-import {StickyStrokeLogo} from '../../../molecules/StickyStrokeLogo'
+import {Button} from '@chakra-ui/button'
 import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
+import {Field, connectSection} from '@jaenjs/jaen'
 
+import {ProductGrid} from '../../../molecules/ProductGrid'
+import {Bullet} from '../../../atoms/Bullet'
+import {StickyStrokeLogo} from '../../../molecules/StickyStrokeLogo'
+import {getThemeColor} from '../../../../common/utils'
 import * as style from './style'
 
 export interface FeaturedProductsSectionProps {
+  name: string
+  displayName: string
   anchor?: string
-  heading: React.ReactNode
   featuredProducts: ShopifyProduct[]
   productsPagePath?: string
 }
 
-export const FeaturedProductsSection = ({
+export interface FeaturedProductsProps {
+  anchor?: string
+  featuredProducts: ShopifyProduct[]
+  productsPagePath?: string
+  heading: ReactNode
+}
+
+export const FeaturedProducts = ({
   anchor,
   heading,
   featuredProducts,
-  productsPagePath = '/products'
-}: FeaturedProductsSectionProps) => {
+  productsPagePath
+}: FeaturedProductsProps) => {
   return (
     <>
-      <StickyStrokeLogo strokeColor="#dbd8d2" backgroundColor="transperent" />
+    <StickyStrokeLogo strokeColor={getThemeColor("stroke")} backgroundColor={getThemeColor("background")} />
       <Box
         id={anchor}
         position="relative"
         overflow="hidden"
-        bg="#ece8e1"
-        pb="4"
         css={style.Section}>
-        <Heading
-          fontSize="30vh"
-          top="10%"
-          left="10%"
-          position="absolute"
-          color="#ece8e1"
-          style={{WebkitTextStroke: '1px #dbd8d2'}}>
-          <span>Si vis pacem</span>
-          <span>para bellum</span>
-        </Heading>
         <Divider
           orientation="vertical"
           position="absolute"
+          zIndex={-1}
           // w="0"
           // h="100%"
           top="0"
-          left="5vw"
+          left="calc(4em + 2.5vw)"
           // borderLeft="1px"
           borderColor="#dbd8d2"
+          display={{ base: 'none', '2xl': 'block' }}
         />
-        <Container as="section" maxW="8xl" pt="6" id="featuredproducts">
+        <Container position='relative' py="10" maxW="8xl">
           <Box textAlign="center" my="10">
-            <Heading size="2xl">{heading}</Heading>
+            <Heading size="2xl">
+              {heading}
+            </Heading>
             <Bullet color="agt.red" w="unset" fontSize="xl" mt="5" mb="10" />
           </Box>
-          <SimpleGrid columns={{base: 2, md: 3, xl: 4}} spacing="5">
-            {featuredProducts.map((product, key) => {
-              return (
-                <ProductCard
-                  product={product}
-                  key={key}
-                  borderline
-                  prefixPath={productsPagePath}
-                />
-              )
-            })}
-          </SimpleGrid>
-          <Center mt={{base: '4', md: '10'}}>
-            <Button
-              as={GatsbyLink}
-              to={productsPagePath}
-              color="white"
-              borderRadius="5px"
-              bg="agt.blue"
-              variant="solid"
-              size="lg"
-              _hover={{bg: 'agt.blueAccent'}}>
+          <ProductGrid products={featuredProducts} spacing="5" columns={{base: 2, md: 3, xl: 4}} />
+          <Center mt='10'>
+          <Button
+            as={GatsbyLink}
+            to={productsPagePath}
+            color="white"
+            borderRadius="5px"
+            colorScheme="agt.grayScheme"
+            variant="solid"
+            size="lg">
               Mehr davon
             </Button>
           </Center>
@@ -95,3 +86,34 @@ export const FeaturedProductsSection = ({
     </>
   )
 }
+
+export const FeaturedProductsSection = ({
+  name,
+  displayName,
+  anchor,
+  featuredProducts,
+  productsPagePath = '/products'
+}: FeaturedProductsSectionProps) => 
+  connectSection(() => {
+    return (
+      <FeaturedProducts
+        anchor={anchor}
+        heading={<Field.Text name="heading" defaultValue={'Über uns'} />}
+        featuredProducts={featuredProducts} 
+        productsPagePath={productsPagePath} 
+      />
+    )
+  },
+  {
+    name: name,
+    displayName: displayName
+  }
+)
+
+export const FeaturedProductsSectionJSX = ({name, displayName, anchor, featuredProducts, productsPagePath}: FeaturedProductsSectionProps) => (
+  <Field.Section
+    name={name}
+    displayName={displayName}
+    sections={[FeaturedProductsSection({name: `${name}-item`, anchor, displayName, featuredProducts, productsPagePath})]}
+  />
+)

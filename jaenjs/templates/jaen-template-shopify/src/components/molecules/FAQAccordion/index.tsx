@@ -1,1 +1,0 @@
-export {FAQAccordion} from './FAQAccordion'

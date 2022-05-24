@@ -1,5 +1,5 @@
 import React from 'react'
-import {Box, Heading, SimpleGrid, SimpleGridProps} from '@chakra-ui/react'
+import {Box, Heading, SimpleGrid, SimpleGridProps, useBreakpointValue} from '@chakra-ui/react'
 import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
 
 import {BulletIcon} from '../../../common/assets/icons'
@@ -8,7 +8,6 @@ import {gridPadBoxes} from '../../../common/utils'
 
 export interface ProductGridProps extends SimpleGridProps {
   heading?: string
-
   products: ShopifyProduct[]
 }
 
@@ -28,9 +27,9 @@ export const ProductGrid = ({
         </Box>
       )}
 
-      <SimpleGrid spacing={4} minChildWidth={'250px'} {...gridProps}>
-        {products.map((item, key) => {
-          return <ProductCard product={item} key={key} borderline />
+      <SimpleGrid {...gridProps}>
+        {products.map((item, index) => {
+          return <ProductCard product={item} key={index} left={0 === (index + 1) % (useBreakpointValue(gridProps.columns || 0) || 0)} borderline />
         })}
         {emptyBoxes}
       </SimpleGrid>

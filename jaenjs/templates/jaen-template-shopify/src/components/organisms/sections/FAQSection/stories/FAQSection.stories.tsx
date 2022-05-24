@@ -1,28 +1,31 @@
 import React from 'react'
-import {withJaenMock} from '@jaenjs/jaen'
+import {withJaenMock, Field} from '@jaenjs/jaen'
 import {ComponentStory, ComponentMeta} from '@storybook/react'
 
-import {FAQSection} from '../FAQSection'
-import {jaenPage} from './jaen-data'
+import {FAQSectionJSX} from '../FAQSection'
+import {jaenData} from './jaen-data'
+import {FAQAccordionSectionJSX} from '../../FAQAccordionSection'
 
 export default {
   title: 'Components/Organisms/Sections/FAQSection',
-  component: FAQSection,
+  component: FAQSectionJSX,
   decorators: [
     Story => {
-      const MockedStory = withJaenMock(Story, {jaenPage})
+      const MockedStory = withJaenMock(Story, {jaenPage: {...jaenData.jaenPage}})
       return(
         <MockedStory/>
       )
     }
   ]
-} as ComponentMeta<typeof FAQSection>
+} as ComponentMeta<typeof FAQSectionJSX>
 
-const Template: ComponentStory<typeof FAQSection> = args => (
-  <FAQSection {...args} />
+const Template: ComponentStory<typeof FAQSectionJSX> = args => (
+  <FAQSectionJSX {...args} />
 )
 
 export const Default = Template.bind({})
 Default.args = {
-  heading: <p>This is me</p>
+  name: "faq",
+  displayName: "Fragen",
+  anchor: ""
 }

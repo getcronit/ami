@@ -1,5 +1,5 @@
 import React from 'react'
-import {Box} from '@chakra-ui/react'
+import {Box, useToken} from '@chakra-ui/react'
 import {getColor} from '@chakra-ui/theme-tools'
 
 import theme from './theme'
@@ -53,5 +53,5 @@ export function replaceHexColorsInHTML(
 }
 
 export const getThemeColor = (color: string) => (
-  getColor(theme, color)
+  getColor(theme, color, useToken('colors', color, "green"))
 )

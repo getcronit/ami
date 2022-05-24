@@ -17,7 +17,6 @@ import {Textarea} from '@chakra-ui/textarea'
 
 import {useForm} from 'react-hook-form'
 import {sendEmail} from '../../../services/sendMail'
-
 import * as styles from './styles'
 
 
@@ -124,7 +123,7 @@ ${message}
       scrollBehavior="inside">
       <ModalOverlay />
       <ModalContent
-        bg="gray.50"
+        bg="primary"
         borderRadius="5px"
         minH="60vh"
         maxW={{base: '90vw', md: '64vw', xl: '60vw'}}>

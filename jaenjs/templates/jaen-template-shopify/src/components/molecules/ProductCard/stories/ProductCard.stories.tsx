@@ -28,11 +28,11 @@ const Template: ComponentStory<typeof ProductCard> = args => (
 
 export const Default = Template.bind({})
 Default.args = {
-  product: ProductPageStories.Simple.args?.shopifyProduct
+  product: ProductPageStories.Default.args?.shopifyProduct,
 }
 
 export const WithBorderline = Template.bind({})
 WithBorderline.args = {
-  product: ProductPageStories.Simple.args?.shopifyProduct,
+  product: ProductPageStories.Default.args?.shopifyProduct,
   borderline: true
 }

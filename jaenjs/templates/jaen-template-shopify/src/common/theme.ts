@@ -8,6 +8,12 @@ const theme = {
   },
   colors: {
     agt: {
+      lightbackground: '#f6f8fa',
+      darkbackground: '#1d1f21',
+      lightstroke: '#d0d7de',
+      darkstroke: '#d0d7de',
+      lightprimary: '#ffffff',
+      darkprimary: '#2D3748',
       orange: '#ff6000',
       red: '#ef3340',
       blue: '#2151a1',
@@ -34,10 +40,27 @@ const theme = {
       }
     }
   },
+  semanticTokens: {
+    colors: {
+      error: 'red.500',
+      background: {
+        default: 'agt.lightbackground',
+        _dark: 'agt.darkbackground',
+      },
+      stroke: {
+        default: 'agt.lightstroke',
+        _dark: 'agt.darkstroke',
+      },
+      primary: {
+        default: 'agt.lightprimary',
+        _dark: 'agt.darkprimary',
+      }
+    },
+  },
   styles: {
     global: (props: Dict<any> | StyleFunctionProps) => ({
       body: {
-        bg: mode('gray.50', '#1d1f21')(props)
+        bg: "background"
       },
       ':host,:root': {
         '--chakra-ui-focus-ring-color': '#424240'

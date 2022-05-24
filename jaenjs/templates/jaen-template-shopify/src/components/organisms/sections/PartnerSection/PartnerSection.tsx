@@ -1,78 +1,118 @@
-import {Box, Container, Flex} from '@chakra-ui/react'
-import {Field} from '@jaenjs/jaen'
+import React, {ReactNode} from 'react'
+import {Box, Container, Flex, HStack, Divider, Heading} from '@chakra-ui/layout'
+import {useColorModeValue} from '@chakra-ui/react'
+import {Field, connectSection} from '@jaenjs/jaen'
 import {StaticImage} from 'gatsby-plugin-image'
-import React from 'react'
 import {Slider} from '@snek-at/uikit'
 
-import {ImageStyle} from './style'
+import {Bullet} from '../../../atoms/Bullet'
+import {FixedStrokeLogo} from '../../../molecules/FixedStrokeLogo'
+import {getThemeColor} from '../../../../common/utils'
+import {PartnerScrollSection} from '../PartnerScrollSection'
+import * as style from './style'
 
-export const PartnerCard = (props: {identifier: number}) => {
-  const [width, setWidth] = React.useState(150)
-  const [height, setHeight] = React.useState(150)
+export interface PartnerSectionProps {
+  anchor?: string
+  name: string
+  displayName: string
+}
 
-  const imageRef = React.useRef<HTMLDivElement>(null)
+export interface PartnerProps {
+  anchor?: string
+  heading: ReactNode
+  partnerscrollsections: ReactNode
+}
 
-  React.useEffect(() => {
-    const offsetWidth = imageRef.current?.offsetWidth || 100
-    const offsetHeight = imageRef.current?.offsetHeight || 0
-    const diff = Math.abs(offsetWidth - offsetHeight)
-
-    if (diff < 20) {
-      setWidth(offsetWidth + (100 - offsetWidth))
-      setHeight(offsetHeight + (100 - offsetHeight))
-    }
-  }, [imageRef])
-
+export const Partner = ({anchor, heading, partnerscrollsections}: PartnerProps) => {
   return (
-    <>
-      <Flex
-        id="partner"
-        w="280px"
-        pb="4"
-        height="180px"
-        className="container"
-        border="1px"
-        borderRadius="5px"
-        borderColor={'agt.lightgray'}
-        _hover={{borderColor: 'agt.gray'}}
-        justifyContent="center"
-        alignItems={'center'}
-        css={ImageStyle(width, height)}>
-        <Box ref={imageRef} className="ref-container">
-          <Field.Image
-            name={`partner-image-${props.identifier}`}
-            defaultValue={
-              <StaticImage
-                src="./logoipsum-logo-15.svg"
-                alt="superPartner"
-                imgClassName="image"
-                className="image-container"
-                draggable="false"
-                onDragCapture={e => e.preventDefault()}
-              />
-            }
-            className="image-container"
-            imgClassName="image"
-          />
+    <Box
+      id={anchor}
+      position="relative"
+      overflow="hidden"
+      pb="10"
+      // pt="6"
+      css={style.Section}>
+      {/* <Box position="absolute" top="0" bg="red" boxSize="300px"/> */}
+      <Divider
+        orientation='horizontal'
+        position="absolute"
+        boxSizing='border-box'
+        // w="85vw"
+        // h="100%"
+        top="0"
+        left={{ base: '0', '2xl': "calc(4em + 2.5vw)" }}
+        //left="5vw"
+        borderColor="#dbd8d2"
+      />
+      <Divider
+        orientation='vertical'
+        position="absolute"
+        top="0"
+        left="calc(4em + 2.5vw)"
+        borderColor="#dbd8d2"
+        display={{ base: 'none', '2xl': 'block' }}
+      />
+      <Box w="100%" h="100%" position="absolute" style={{clip: "rect(0, auto, auto, 0)"}}>
+        <FixedStrokeLogo strokeColor={getThemeColor("stroke")} backgroundColor={getThemeColor("background")} />
+      </Box>
+      <Container position='relative' py="10" maxW="8xl">
+        <Box textAlign="center" my="10">
+          <Heading size="2xl">
+            {heading}
+          </Heading>
+          <Bullet color="agt.red" w="unset" fontSize="xl" mt="5" mb="10" />
         </Box>
-      </Flex>
-    </>
+        <Slider flexDir="column" alignItems="stretch" w="100%" elementProps={{boxSize: "none"}}>
+          {partnerscrollsections}
+        </Slider>
+      </Container>
+    </Box>
   )
 }
 
-export const PartnerSection = () => {
-  const items: Array<React.ReactNode> = []
-
-  for (let i = 0; i < 39; i++) {
-    items.push(
-      <>
-        <PartnerCard identifier={i} />
-      </>
+export const PartnerSection = ({
+  anchor,
+  name,
+  displayName
+}: PartnerSectionProps) => 
+  connectSection(() => {
+    return (
+      <Partner
+        anchor={anchor} 
+        heading={<Field.Text name="heading" defaultValue={'Partner'} />}
+        partnerscrollsections={
+          <Field.Section
+            as={HStack}
+            props={{
+              h: '100%',
+              py: "5",
+              spacing: "5",
+              width: "max-content",
+              minW: "100%",
+              justifyContent: "center"
+            }}
+            sectionProps={{
+              h: '100%',
+              // w: '100%'
+            }}
+            name="partner"
+            displayName="Partner"
+            sections={[PartnerScrollSection({name: `partner-item`, displayName: "Partner"})]}
+          />
+        }
+      />
     )
+  },
+  {
+    name: name,
+    displayName: displayName
   }
-  return (
-    <Container my="20" maxW="8xl">
-      <Slider>{items}</Slider>
-    </Container>
-  )
-}
+)
+
+export const PartnerSectionJSX = ({name, displayName, anchor}: PartnerSectionProps) => (
+  <Field.Section
+    name={name}
+    displayName={displayName}
+    sections={[PartnerSection({name: `${name}-item`, anchor, displayName})]}
+  />
+)

@@ -1,21 +1,34 @@
 import React from 'react'
+import {withJaenMock} from '@jaenjs/jaen'
 import {ComponentStory, ComponentMeta} from '@storybook/react'
-import {FeaturedProductsSection} from '../FeaturedProductsSection'
+import {Field} from '@jaenjs/jaen'
 
+import {FeaturedProductsSectionJSX} from '../FeaturedProductsSection'
+import {jaenData} from './jaen-data'
 import data from './data'
 
 export default {
   title: 'Components/Organisms/Sections/FeaturedProductsSection',
-  component: FeaturedProductsSection,
-  decorators: [storyFn => <div style={{}}>{storyFn()}</div>]
-} as ComponentMeta<typeof FeaturedProductsSection>
+  component: FeaturedProductsSectionJSX,
+  decorators: [
+    Story => {
+      const MockedStory = withJaenMock(Story, {jaenPage: {...jaenData.jaenPage}})
+      return(
+        <MockedStory/>
+      )
+    }
+  ]
+} as ComponentMeta<typeof FeaturedProductsSectionJSX>
 
-const Template: ComponentStory<typeof FeaturedProductsSection> = args => (
-  <FeaturedProductsSection {...args} />
+const Template: ComponentStory<typeof FeaturedProductsSectionJSX> = args => (
+  <FeaturedProductsSectionJSX {...args} />
 )
 
 export const Default = Template.bind({})
 Default.args = {
-  heading: 'Featured Products',
-  featuredProducts: data.products,
+  name: "featured",
+  displayName: "Empfohlen",
+  anchor: "",
+  productsPagePath: "",
+  featuredProducts: data.products
 }
