@@ -177,7 +177,7 @@ export const Header = (props: HeaderProps) => {
 
             <Button
               as={GatsbyLink}
-              to="/wishlist"
+              to="/shopping-cart"
               display={{
                 base: 'none',
                 sm: 'flex'
@@ -191,7 +191,7 @@ export const Header = (props: HeaderProps) => {
             </Button>
             <IconButton
               as={GatsbyLink}
-              to="/wishlist"
+              to="/shopping-cart"
               display={{
                 base: 'flex',
                 sm: 'none'

@@ -11,10 +11,10 @@ export default {
   component: FeaturedProductsSectionJSX,
   decorators: [
     Story => {
-      const MockedStory = withJaenMock(Story, {jaenPage: {...jaenData.jaenPage}})
-      return(
-        <MockedStory/>
-      )
+      const MockedStory = withJaenMock(Story, {
+        jaenPage: {...jaenData.jaenPage}
+      })
+      return <MockedStory />
     }
   ]
 } as ComponentMeta<typeof FeaturedProductsSectionJSX>
@@ -26,9 +26,9 @@ const Template: ComponentStory<typeof FeaturedProductsSectionJSX> = args => (
 export const Default = Template.bind({})
 Default.args = {
   name: 'featuredpartner',
-  displayName: 'Featured/Partner',
-  featuredAnchor: "",
-  partnerAnchor: "",
-  productsPagePath: "",
+  displayName: 'Empfehlungen/Partner',
+  featuredAnchor: '',
+  partnerAnchor: '',
+  productsPagePath: '',
   featuredProducts: data.products
 }

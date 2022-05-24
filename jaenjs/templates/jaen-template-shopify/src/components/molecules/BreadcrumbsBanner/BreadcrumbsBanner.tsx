@@ -70,8 +70,8 @@ export const Breadcrumbs = (props: {path: string}) => {
       case 'products':
         item = 'Produkte'
         break
-      case 'wishlist':
-        item = 'Wunschliste'
+      case 'shopping-cart':
+        item = 'Warenkorb'
         break
       case 'privacy':
         item = 'Datenschutz'

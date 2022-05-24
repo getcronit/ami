@@ -41,50 +41,50 @@ const IndexPage = (props: PageProps<IndexPageData>) => {
   return (
     <Layout path={props.path}>
       <HomeTemplate
-        name=''
-        displayName=''
+        name="home"
+        displayName="Sections"
         heroSection={{
-          name: "",
-          displayName: "",
+          name: 'hero',
+          displayName: 'Hero',
           latestProducts: props.data.latestProducts.nodes,
           categoryProducts: props.data.categoryShowcase.nodes,
           spotlightProducts: props.data.productSpotlight.nodes
         }}
         featuredProductsSection={{
-          name: "",
-          displayName: "",
+          name: 'featured',
+          displayName: 'Empfoheln',
           featuredProducts: props.data.featuredProducts.nodes
         }}
         partnerSection={{
-          name: "",
-          displayName: "",
+          name: 'partner',
+          displayName: 'Vertretungen'
         }}
         featuredPartnerSection={{
-          name: "",
-          displayName: "",
+          name: 'featuredpartner',
+          displayName: 'Empfehlungen/Vertretungen',
           featuredProducts: props.data.featuredProducts.nodes
         }}
         faqSection={{
-          name: "",
-          displayName: ""
+          name: 'faq',
+          displayName: 'Fragen und Antworten'
         }}
         reviewSection={{
-          name: "",
-          displayName: "",
+          name: 'review',
+          displayName: 'Bewertungen',
           googleReviews: props.data.googleReviews.nodes
         }}
         reviewFAQSection={{
-          name: "",
-          displayName: "",
+          name: 'reviewfaq',
+          displayName: 'Bewertungen/FAQ',
           googleReviews: props.data.googleReviews.nodes
         }}
         aboutSection={{
-          name: "",
-          displayName: ""
+          name: 'about',
+          displayName: 'Über uns'
         }}
         newsSection={{
-          name: "",
-          displayName: ""
+          name: 'news',
+          displayName: 'Neuigkeiten'
         }}
       />
     </Layout>

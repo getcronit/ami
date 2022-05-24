@@ -10,7 +10,6 @@ import {Box} from '@chakra-ui/layout'
 import {useColorModeValue} from '@chakra-ui/react'
 import {connectSection, Field} from '@jaenjs/jaen'
 
-
 export interface FAQAccordionSectionProps {
   name: string
   displayName: string
@@ -30,7 +29,7 @@ export const FAQAccordion = ({question, answer}: FAQAccordionProps) => {
         _expanded={{
           bg: 'agt.red',
           color: 'white',
-          borderBottomRadius: "0px",
+          borderBottomRadius: '0px',
           _hover: {bg: '#BD0F1B'}
         }}
         bg={useColorModeValue('white', 'gray.700')}
@@ -51,36 +50,47 @@ export const FAQAccordion = ({question, answer}: FAQAccordionProps) => {
         pt={2}
         px={4}
         borderBottomRadius="7px">
-          {answer}
+        {answer}
       </AccordionPanel>
     </AccordionItem>
   )
 }
 
-export const FAQAccordionSection = ({name, displayName}: FAQAccordionSectionProps) => connectSection(
-  () => {
-    return (
-      <FAQAccordion
-        question={<Field.Text name="question" defaultValue="Frage" />}
-        answer={<Field.Text
-          name="answer"
-          defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+export const FAQAccordionSection = ({
+  name,
+  displayName
+}: FAQAccordionSectionProps) =>
+  connectSection(
+    () => {
+      return (
+        <FAQAccordion
+          question={<Field.Text name="question" defaultValue="Frage" />}
+          answer={
+            <Field.Text
+              name="answer"
+              defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
         minim veniam, quis nostrud exercitation ullamco laboris nisi ut
         aliquip ex ea commodo consequat."
-        />}
-      />
-    )
-  },
-  {
-    name: name,
-    displayName: displayName
-  }
-)
+            />
+          }
+        />
+      )
+    },
+    {
+      name: name,
+      displayName: displayName
+    }
+  )
 
-export const FAQAccordionSectionJSX = ({name, displayName}: FAQAccordionSectionProps) => (
+export const FAQAccordionSectionJSX = ({
+  name,
+  displayName
+}: FAQAccordionSectionProps) => (
   <Field.Section
     as={Accordion}
+    props={{defaultIndex: [0]}}
+    sectionProps={{allowMultiple: true}}
     name={name}
     displayName={displayName}
     sections={[FAQAccordionSection({name: `${name}-item`, displayName})]}

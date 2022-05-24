@@ -61,7 +61,7 @@ const SummaryBox = (props: {totalPrice: number; onRequestNow: () => void}) => {
           md: 6
         }}>
         <Heading as="h3" size="md" fontWeight="bold" mb={2}>
-          Wunschliste Übersicht
+          Warenkorb Übersicht
         </Heading>
         <HStack justifyContent={'space-between'}>
           <Text fontSize={'xl'}>Total</Text>
@@ -106,7 +106,7 @@ const EmptyWishList = () => {
       borderRadius="sm">
       <Icon as={FaHeartBroken} boxSize={20} color="agt.red" />
       <Heading as="h3" size="md" fontWeight="bold" mb={2}>
-        Wunschliste ist leer
+        Warenkorb ist leer
       </Heading>
       <Text fontSize={'xl'}>
         Füllen Sie sie mit Ihren Wunschartikeln aus dem Shop auf.
@@ -136,7 +136,7 @@ export const WishlistTemplate = (props: {
 
   return (
     <>
-      <BreadcrumbsBanner path={props.path} title="Wunschliste" />
+      <BreadcrumbsBanner path={props.path} title="Warenkorb" />
       <ContainerLayout>
         <Box
           m={{
@@ -145,7 +145,7 @@ export const WishlistTemplate = (props: {
             xl: 12
           }}>
           <Heading as="h1" size="lg" fontWeight="extrabold" pb={4}>
-            Wunschliste {`(${itemLength} Artikel)`}
+            Warenkorb {`(${itemLength} Artikel)`}
           </Heading>
           {itemLength > 0 ? (
             <>

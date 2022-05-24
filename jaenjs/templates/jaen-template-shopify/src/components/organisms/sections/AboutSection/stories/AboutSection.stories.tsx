@@ -13,10 +13,10 @@ export default {
   component: AboutSectionJSX,
   decorators: [
     Story => {
-      const MockedStory = withJaenMock(Story, {jaenPage: {...jaenData.jaenPage}})
-      return(
-        <MockedStory/>
-      )
+      const MockedStory = withJaenMock(Story, {
+        jaenPage: {...jaenData.jaenPage}
+      })
+      return <MockedStory />
     }
   ]
 } as ComponentMeta<typeof AboutSectionJSX>
@@ -27,7 +27,7 @@ const Template: ComponentStory<typeof AboutSectionJSX> = args => (
 
 export const Default = Template.bind({})
 Default.args = {
-  name: "about",
-  displayName: "Über uns",
-  anchor: "about",
+  name: 'about',
+  displayName: 'Über uns',
+  anchor: 'about'
 }

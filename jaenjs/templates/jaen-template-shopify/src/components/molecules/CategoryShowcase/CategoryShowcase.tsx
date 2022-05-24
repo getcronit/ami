@@ -3,24 +3,29 @@ import {Button} from '@chakra-ui/button'
 import {Box, Center, Flex, Text} from '@chakra-ui/layout'
 import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
 import {useBreakpointValue} from '@chakra-ui/media-query'
-import {navigate} from 'gatsby'
+import {Link as GatsbyLink} from 'gatsby'
 
 import {CategoryTab} from '../CategoryTab'
 
-
 interface Tab {
   [category: string]: {
-    title: string
+    name: string
+    path: string
     items: ShopifyProduct[]
+    position?: number
   }
 }
 
 export interface CategoryShowcaseProps {
   tabs: Tab
+  latestProducts: ShopifyProduct[]
 }
 
-export const CategoryShowcase = ({tabs}: CategoryShowcaseProps) => {
-  const [current, setCurrent] = React.useState('New')
+export const CategoryShowcase = ({
+  tabs,
+  latestProducts
+}: CategoryShowcaseProps) => {
+  const [current, setCurrent] = React.useState('LATEST')
   const [direction, setDirection] = React.useState('right')
 
   const firstRadius = useBreakpointValue({
@@ -28,43 +33,48 @@ export const CategoryShowcase = ({tabs}: CategoryShowcaseProps) => {
     md: {borderTopLeftRadius: '5px'}
   })
 
-  const getCategoryPath = (tabTitle: string) => {
-    const splitTitle = tabs[tabTitle].title
-      .toLowerCase()
-      .replaceAll(' ', '-')
-      .split(':')
-      .splice(1)
-
-    return splitTitle.map(value => `/${value}`).join('')
+  tabs['LATEST'] = {
+    name: 'Neueste Produkte',
+    path: '',
+    items: latestProducts,
+    position: -100
   }
 
-  const categories = Object.keys(tabs)
+  const tabsList = Object.entries(tabs).sort((a, b) => {
+    const aPosition = a[1].position || 0
+    const bPosition = b[1].position || 0
+
+    return aPosition - bPosition
+  })
 
   return (
     <Box zIndex="2" position="relative" mt={-20}>
       <Flex direction={{base: 'column', md: 'row'}}>
-        {categories.map((category, index) => {
+        {tabsList.map(([titel, collection], index) => {
+          const isCurrent = current === titel
           return (
             <Box
               userSelect="none"
-              _hover={
-                current === category ? {bg: 'agt.lightgray'} : {bg: '#424240'}
-              }
+              _hover={isCurrent ? {bg: 'agt.lightgray'} : {bg: '#424240'}}
               _first={firstRadius}
               _last={{md: {borderTopRightRadius: '5px'}}}
               cursor="pointer"
-              bg={current === category ? 'white' : 'agt.gray'}
+              bg={isCurrent ? 'white' : 'agt.gray'}
               py="3"
               px="5"
-              color={current === category ? 'black' : 'white'}
+              color={isCurrent ? 'black' : 'white'}
               onClick={() => {
-                setCurrent(category)
+                setCurrent(titel)
+
                 setDirection(
-                  index > categories.indexOf(current) ? 'right' : 'left'
+                  index >
+                    Object.keys(Object.fromEntries(tabsList)).indexOf(current)
+                    ? 'right'
+                    : 'left'
                 )
               }}>
               <Text fontSize="14" fontWeight="bold" casing="uppercase">
-                {category}
+                {collection.name}
               </Text>
             </Box>
           )
@@ -80,29 +90,34 @@ export const CategoryShowcase = ({tabs}: CategoryShowcaseProps) => {
         bg="white"
         borderBottomRadius="5px"
         borderTopRightRadius={{md: '5px'}}>
-        {categories.map(category => {
+        {tabsList.map(([titel, collection], index) => {
           return (
             <CategoryTab
-              visible={current === category ? 'visible' : 'hidden'}
-              products={tabs[category].items}
+              visible={current === titel ? 'visible' : 'hidden'}
+              products={collection.items
+                .sort((a, b) =>
+                  new Date(a.createdAt) < new Date(b.createdAt) ? 1 : -1
+                )
+                .slice(0, 6)}
               direction={direction}
-              getPath={handle => {
-                return `${getCategoryPath(category)}/produkte/${handle}`
-              }}
+              prefixPath={`${collection.path}/products`}
             />
           )
         })}
       </Box>
       <Center position="relative" w="full" left="0" top="-6">
         <Button
+          as={GatsbyLink}
+          to={
+            current === 'LATEST'
+              ? '/products'
+              : `${tabs[current].path}/products`
+          }
           color="white"
           borderRadius="5px"
           colorScheme="agt.grayScheme"
           variant="solid"
-          size="lg"
-          onClick={() =>
-            navigate(current === 'New' ? '/produkte' : getCategoryPath(current))
-          }>
+          size="lg">
           Mehr davon
         </Button>
       </Center>

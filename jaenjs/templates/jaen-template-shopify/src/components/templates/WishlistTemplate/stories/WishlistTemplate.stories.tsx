@@ -97,5 +97,5 @@ Default.args = {
       quantity: 5
     }
   ],
-  path: '/wishlist'
+  path: '/shopping-cart'
 }
