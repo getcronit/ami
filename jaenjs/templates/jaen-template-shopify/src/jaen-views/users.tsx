@@ -45,7 +45,11 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   ButtonProps,
-  useToast
+  useToast,
+  Spinner,
+  Center,
+  Link,
+  Stack
 } from '@chakra-ui/react'
 import {AddIcon, CheckCircleIcon, EditIcon, Icon} from '@chakra-ui/icons'
 import {Controller, useForm} from 'react-hook-form'
@@ -60,61 +64,78 @@ const UsersList = () => {
 
   const navigate = useNavigate()
 
-  const {users, isFetching} = useUsers()
+  const {users, isLoading, clearCacheAndFetch} = useUsers()
 
   return (
-    <Box overflowY={'auto'} height="100%">
-      <Table variant={'simple'}>
-        <Thead position="sticky" top={0} bgColor={'white'} zIndex={1}>
-          <Tr my=".8rem" pl="0px">
-            <Th pl="0px" color="gray.400">
-              Id
-            </Th>
-            <Th color="gray.400">E-Mail</Th>
-            <Th color="gray.400">Name</Th>
-            <Th color="gray.400">Created at</Th>
-            <Th color="gray.400">Active</Th>
+    <>
+      <Stack overflowY={'auto'} height="100%">
+        <Table variant={'simple'}>
+          <Thead position="sticky" top={0} bgColor={'white'} zIndex={1}>
+            <Tr my=".8rem" pl="0px">
+              <Th pl="0px" color="gray.400">
+                Id
+              </Th>
+              <Th color="gray.400">E-Mail</Th>
+              <Th color="gray.400">Name</Th>
+              <Th color="gray.400">Created at</Th>
+              <Th color="gray.400">Active</Th>
 
-            <Th></Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {users.map((user, index) => (
-            <Tr>
-              <Td p={1}>
-                <Text fontSize="sm" color={textColor} textAlign={'left'}>
-                  {index + 1}
-                </Text>
-              </Td>
-              <Td>
-                <Text fontSize="sm" color={textColor}>
-                  {user.email}
-                </Text>
-              </Td>
-              <Td>
-                <Text fontSize="sm" color={textColor}>
-                  {user.fullName}
-                </Text>
-              </Td>
-              <Td>
-                <Text fontSize="sm" color={textColor}>
-                  {new Date(user.createdAt).toDateString()}
-                </Text>
-              </Td>
-              <Td>{user.isActive ? <CheckCircleIcon /> : null}</Td>
-              <Td textAlign={'right'}>
-                <Button
-                  p="0px"
-                  bg="transparent"
-                  onClick={() => navigate((index + 1).toString())}>
-                  <Icon as={EditIcon} color="gray.400" cursor="pointer" />
-                </Button>
-              </Td>
+              <Th></Th>
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    </Box>
+          </Thead>
+          <Tbody>
+            {users.map((user, index) => (
+              <Tr>
+                <Td p={1}>
+                  <Text fontSize="sm" color={textColor} textAlign={'left'}>
+                    {index + 1}
+                  </Text>
+                </Td>
+                <Td>
+                  <Text fontSize="sm" color={textColor}>
+                    {user.email}
+                  </Text>
+                </Td>
+                <Td>
+                  <Text fontSize="sm" color={textColor}>
+                    {user.fullName}
+                  </Text>
+                </Td>
+                <Td>
+                  <Text fontSize="sm" color={textColor}>
+                    {new Date(user.createdAt).toDateString()}
+                  </Text>
+                </Td>
+                <Td>{user.isActive ? <CheckCircleIcon /> : null}</Td>
+                <Td textAlign={'right'}>
+                  <Button
+                    p="0px"
+                    bg="transparent"
+                    onClick={() => navigate((index + 1).toString())}>
+                    <Icon as={EditIcon} color="gray.400" cursor="pointer" />
+                  </Button>
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+
+        <Link fontSize="sm" color={textColor} onClick={clearCacheAndFetch}>
+          <HStack>
+            <Text>Refresh</Text>
+            {isLoading && (
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="agt.blue"
+                size="sm"
+              />
+            )}
+          </HStack>
+        </Link>
+      </Stack>
+    </>
   )
 }
 
@@ -300,8 +321,7 @@ const UserDetails = () => {
               {...register('password', {
                 required: 'This is required',
                 pattern: {
-                  value:
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                   message:
                     'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character'
                 }
@@ -408,6 +428,7 @@ const useUsers = () => {
 
   React.useEffect(() => {
     const fetchUsers = async () => {
+      setIsLoading(true)
       const fetchedUsers = (await usersGet()) || []
 
       setIsFetching(false)
@@ -420,6 +441,8 @@ const useUsers = () => {
     const cache: Cache | null =
       JSON.parse(localStorage.getItem('users') || '{}') || null
 
+    console.log('try to refetch', cache)
+
     // check if timestamp is older than 1 minute or if no cache is available
 
     if (!cache?.timestamp || (cache && Date.now() - cache.timestamp > 60000)) {
@@ -429,7 +452,7 @@ const useUsers = () => {
       setIsLoading(false)
       console.log('using cache', cache)
     }
-  }, [])
+  }, [isFetching])
 
   React.useEffect(() => {
     // cache users in local storage with timestamp
@@ -442,6 +465,12 @@ const useUsers = () => {
       )
     }
   }, [isLoading, users])
+
+  const clearCacheAndFetch = React.useCallback(() => {
+    localStorage.removeItem('users')
+
+    setIsFetching(true)
+  }, [])
 
   const checkErrors = (errors: Array<{message: string}>) => {
     if (errors.length > 0) {
@@ -540,11 +569,13 @@ const useUsers = () => {
 
   return {
     users,
+    clearCacheAndFetch,
     addUser,
     updateUser,
     deleteUser,
 
-    isFetching
+    isFetching,
+    isLoading
   }
 }
 
@@ -677,8 +708,7 @@ const AddUserControl = () => {
                   {...register('password', {
                     required: 'This is required',
                     pattern: {
-                      value:
-                        /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{8,}$/,
+                      value: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{8,}$/,
                       message:
                         'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character'
                     }
