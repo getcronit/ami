@@ -37,26 +37,34 @@ class FunctionFactory {
 
       console.log('snekApiHeaders', snekApiHeaders)
 
-      const res = await fetch(SNEK_FUNCTION_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...snekApiHeaders
-        },
-        body: JSON.stringify({
-          query: `
-              mutation {
-                ${options.name}(fnArgs: ${stringify(args)})
-              }
-            `
+      try {
+        const res = await fetch(SNEK_FUNCTION_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...snekApiHeaders
+          },
+          body: JSON.stringify({
+            query: `
+                mutation {
+                  ${options.name}(fnArgs: ${stringify(args)})
+                }
+              `
+          })
         })
-      })
 
-      const {data, errors} = await res.json()
+        const {data, errors} = await res.json()
 
-      return {
-        data: JSON.parse(data[options.name]),
-        errors: errors || []
+        return {
+          data: JSON.parse(data[options.name]),
+          errors: errors || []
+        }
+      } catch (err) {
+        console.error(err)
+        return {
+          data: null,
+          errors: [err]
+        }
       }
     }
 

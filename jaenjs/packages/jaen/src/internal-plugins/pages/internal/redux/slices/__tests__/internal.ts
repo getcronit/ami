@@ -1094,7 +1094,10 @@ describe('routing', () => {
             jaenPageMetadata: {
               title: 'Root'
             },
-            template: null
+            template: null,
+            jaenFields: {},
+            jaenFiles: [],
+            chapters: {}
           },
           {
             id: '2',
@@ -1108,7 +1111,10 @@ describe('routing', () => {
             jaenPageMetadata: {
               title: 'Root'
             },
-            template: null
+            template: null,
+            jaenFields: {},
+            jaenFiles: [],
+            chapters: {}
           },
           {
             id: '3',
@@ -1118,7 +1124,10 @@ describe('routing', () => {
             jaenPageMetadata: {
               title: 'Root'
             },
-            template: null
+            template: null,
+            jaenFields: {},
+            jaenFiles: [],
+            chapters: {}
           }
         ],
         pageId: '3',

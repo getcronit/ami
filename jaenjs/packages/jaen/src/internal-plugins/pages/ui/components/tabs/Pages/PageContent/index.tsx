@@ -142,20 +142,19 @@ export const PageContent = (props: PageContentProps) => {
         <TabPanels>
           <TabPanel>
             <Box p={1}>
-              <HStack>
-                {props.template && (
-                  <Tag my={4} size="lg">
-                    <Box ml={-1} mr={2}>
-                      <HiTemplate />
-                    </Box>
-
-                    <TagLabel>{props.template.displayName}</TagLabel>
-                  </Tag>
-                )}
-              </HStack>
-
               <form onSubmit={handleSubmit(onSubmit)}>
                 <Box overflowY={'auto'} h={'70vh'}>
+                  <HStack>
+                    {props.template && (
+                      <Tag my={4} size="lg">
+                        <Box ml={-1} mr={2}>
+                          <HiTemplate />
+                        </Box>
+
+                        <TagLabel>{props.template.displayName}</TagLabel>
+                      </Tag>
+                    )}
+                  </HStack>
                   <FormControl isInvalid={!!errors.title}>
                     <FormLabel>Title</FormLabel>
                     <Input
