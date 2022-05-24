@@ -50,14 +50,21 @@ export const ReviewCard = ({
   }
 
   const stars = createReviewStars(reviewRating)
+
   return (
-    <>
+    <Box css={style.Borderline}>
       <VStack
+        className='borderline'
         bg="primary"
         // minH="200px"
         borderRadius="5px"
         border="1px"
         borderColor="border"
+        boxSizing='border-box'
+        _hover={{
+          before: {borderColor: 'agt.red'},
+          _after: {borderColor: 'agt.red'}
+        }}
         p="5"
         maxW="sm"
         divider={<StackDivider />}>
@@ -74,7 +81,7 @@ export const ReviewCard = ({
           </Box>
         </HStack>
       </VStack>
-    </>
+    </Box>
   )
 }
 //#endregion
