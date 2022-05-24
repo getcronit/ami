@@ -13,7 +13,8 @@ import {
   Link,
   Text,
   Stack,
-  Icon
+  Icon,
+  Container
 } from '@chakra-ui/react'
 import {CloseIcon, HamburgerIcon, ChevronDownIcon} from '@chakra-ui/icons'
 import {FaShoppingBasket} from '@react-icons/all-files/fa/FaShoppingBasket'
@@ -107,102 +108,105 @@ export const Header = (props: HeaderProps) => {
       <Box
         bg={['agt.gray', 'agt.gray', 'agt.gray', 'agt.gray']}
         color={['white', 'white', 'primary.700', 'primary.700']}
-        w="full"
-        px={{base: '4', md: '8'}}>
-        <Flex
-          py={4}
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          maxW="8xl"
-          mx="auto">
-          <IconButton
-            onClick={onToggle}
-            icon={
-              isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
-            }
-            variant={'ghost'}
-            aria-label={'Toggle Navigation'}
-            display={{base: 'flex', md: 'none'}}
-          />
-          <HStack
-            as={GatsbyLink}
-            to="/"
-            cursor={'pointer'}
-            spacing={{base: '10', md: '20'}}
-            alignItems={'center'}
-            maxW="2xl"
-            css={styles.Logo}>
-            <Logo />
-          </HStack>
-          <Box display={{base: 'none', md: 'block'}} w="100%">
-            <Center>{searchbar}</Center>
-          </Box>
-          <HStack spacing={4} alignItems={'center'} justifyContent={'flex-end'}>
-            <Button
-              as={GatsbyLink}
-              to="/contact"
-              variant="ghost"
-              display={{
-                base: 'none',
-                sm: 'flex'
-              }}
-              _hover={{
-                textDecoration: 'underline'
-              }}
-              color={['white']}
-              colorScheme="agt.grayScheme"
-              fontSize={'md'}
-              size="sm"
-              rounded="md">
-              Kontakt
-            </Button>
-
-            <Button
-              variant="ghost"
-              display={{
-                base: 'none',
-                sm: 'flex'
-              }}
-              _hover={{
-                textDecoration: 'underline'
-              }}
-              color={['white']}
-              colorScheme="agt.grayScheme"
-              fontSize={'md'}
-              size="sm"
-              rounded="md"
-              onClick={handleAuthClick}>
-              {authDisplayName}
-            </Button>
-
-            <Button
-              as={GatsbyLink}
-              to="/shopping-cart"
-              display={{
-                base: 'none',
-                sm: 'flex'
-              }}
-              size="sm"
-              rounded="md"
-              color={['white']}
-              colorScheme="agt.redScheme"
-              leftIcon={<FaShoppingBasket />}>
-              Warenkorb
-            </Button>
+        w="full">
+        <Container maxW="8xl">
+          <HStack py={4} alignItems={'center'} justifyContent={'space-between'}>
             <IconButton
-              as={GatsbyLink}
-              to="/shopping-cart"
-              display={{
-                base: 'flex',
-                sm: 'none'
-              }}
-              icon={<FaShoppingBasket />}
-              aria-label="Open Warenkorb"
-              colorScheme={'agt.redScheme'}
+              onClick={onToggle}
+              icon={
+                isOpen ? (
+                  <CloseIcon w={3} h={3} />
+                ) : (
+                  <HamburgerIcon w={5} h={5} />
+                )
+              }
+              variant={'ghost'}
+              aria-label={'Toggle Navigation'}
+              display={{base: 'flex', md: 'none'}}
             />
-          </HStack>
-        </Flex>
+            <HStack
+              as={GatsbyLink}
+              to="/"
+              cursor={'pointer'}
+              spacing={{base: '10', md: '20'}}
+              alignItems={'center'}
+              maxW="2xl"
+              css={styles.Logo}>
+              <Logo />
+            </HStack>
+            <Box display={{base: 'none', md: 'block'}} w="100%" px={8}>
+              {searchbar}
+            </Box>
 
+            <HStack
+              spacing={4}
+              alignItems={'center'}
+              justifyContent={'flex-end'}>
+              <Button
+                as={GatsbyLink}
+                to="/contact"
+                variant="ghost"
+                display={{
+                  base: 'none',
+                  md: 'flex'
+                }}
+                _hover={{
+                  textDecoration: 'underline'
+                }}
+                color={['white']}
+                colorScheme="agt.grayScheme"
+                fontSize={'md'}
+                size="sm"
+                rounded="md">
+                Kontakt
+              </Button>
+
+              <Button
+                variant="ghost"
+                display={{
+                  base: 'none',
+                  md: 'flex'
+                }}
+                _hover={{
+                  textDecoration: 'underline'
+                }}
+                color={['white']}
+                colorScheme="agt.grayScheme"
+                fontSize={'md'}
+                size="sm"
+                rounded="md"
+                onClick={handleAuthClick}>
+                {authDisplayName}
+              </Button>
+
+              <Button
+                as={GatsbyLink}
+                to="/shopping-cart"
+                display={{
+                  base: 'none',
+                  sm: 'flex'
+                }}
+                size="sm"
+                rounded="md"
+                color={['white']}
+                colorScheme="agt.redScheme"
+                leftIcon={<FaShoppingBasket />}>
+                Warenkorb
+              </Button>
+              <IconButton
+                as={GatsbyLink}
+                to="/shopping-cart"
+                display={{
+                  base: 'flex',
+                  sm: 'none'
+                }}
+                icon={<FaShoppingBasket />}
+                aria-label="Open Warenkorb"
+                colorScheme={'agt.redScheme'}
+              />
+            </HStack>
+          </HStack>
+        </Container>
         <Box>
           <Collapse in={isOpen} animateOpacity>
             <Box py="4">

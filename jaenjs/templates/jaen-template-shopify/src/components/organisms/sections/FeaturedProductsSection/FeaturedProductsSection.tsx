@@ -43,7 +43,10 @@ export const FeaturedProducts = ({
 }: FeaturedProductsProps) => {
   return (
     <>
-    <StickyStrokeLogo strokeColor={getThemeColor("stroke")} backgroundColor={getThemeColor("background")} />
+      <StickyStrokeLogo
+        strokeColor={getThemeColor('stroke')}
+        backgroundColor={getThemeColor('background')}
+      />
       <Box
         id={anchor}
         position="relative"
@@ -59,25 +62,27 @@ export const FeaturedProducts = ({
           left="calc(4em + 2.5vw)"
           // borderLeft="1px"
           borderColor="#dbd8d2"
-          display={{ base: 'none', '2xl': 'block' }}
+          display={{base: 'none', '2xl': 'block'}}
         />
-        <Container position='relative' py="10" maxW="8xl">
+        <Container position="relative" py="10" maxW="8xl">
           <Box textAlign="center" my="10">
-            <Heading size="2xl">
-              {heading}
-            </Heading>
+            <Heading size="2xl">{heading}</Heading>
             <Bullet color="agt.red" w="unset" fontSize="xl" mt="5" mb="10" />
           </Box>
-          <ProductGrid products={featuredProducts} spacing="5" columns={{base: 2, md: 3, xl: 4}} />
-          <Center mt='10'>
-          <Button
-            as={GatsbyLink}
-            to={productsPagePath}
-            color="white"
-            borderRadius="5px"
-            colorScheme="agt.grayScheme"
-            variant="solid"
-            size="lg">
+          <ProductGrid
+            products={featuredProducts}
+            spacing="5"
+            columns={{base: 2, md: 3, xl: 4}}
+          />
+          <Center mt="10">
+            <Button
+              as={GatsbyLink}
+              to={productsPagePath}
+              color="white"
+              borderRadius="5px"
+              colorScheme="agt.grayScheme"
+              variant="solid"
+              size="lg">
               Mehr davon
             </Button>
           </Center>
@@ -93,27 +98,42 @@ export const FeaturedProductsSection = ({
   anchor,
   featuredProducts,
   productsPagePath = '/products'
-}: FeaturedProductsSectionProps) => 
-  connectSection(() => {
-    return (
-      <FeaturedProducts
-        anchor={anchor}
-        heading={<Field.Text name="heading" defaultValue={'Über uns'} />}
-        featuredProducts={featuredProducts} 
-        productsPagePath={productsPagePath} 
-      />
-    )
-  },
-  {
-    name: name,
-    displayName: displayName
-  }
-)
+}: FeaturedProductsSectionProps) =>
+  connectSection(
+    () => {
+      return (
+        <FeaturedProducts
+          anchor={anchor}
+          heading={<Field.Text name="heading" defaultValue={'Über uns'} />}
+          featuredProducts={featuredProducts}
+          productsPagePath={productsPagePath}
+        />
+      )
+    },
+    {
+      name: name,
+      displayName: displayName
+    }
+  )
 
-export const FeaturedProductsSectionJSX = ({name, displayName, anchor, featuredProducts, productsPagePath}: FeaturedProductsSectionProps) => (
+export const FeaturedProductsSectionJSX = ({
+  name,
+  displayName,
+  anchor,
+  featuredProducts,
+  productsPagePath
+}: FeaturedProductsSectionProps) => (
   <Field.Section
     name={name}
     displayName={displayName}
-    sections={[FeaturedProductsSection({name: `${name}-item`, anchor, displayName, featuredProducts, productsPagePath})]}
+    sections={[
+      FeaturedProductsSection({
+        name: `${name}-item`,
+        anchor,
+        displayName,
+        featuredProducts,
+        productsPagePath
+      })
+    ]}
   />
 )

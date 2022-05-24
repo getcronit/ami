@@ -13,7 +13,6 @@ import {AccessorieShowcase} from '../../../molecules/AccessorieShowcase'
 import {ProductSpotlight} from '../../../molecules/ProductSpotlight'
 import {ParallaxHero} from '../../../molecules/ParallaxHero'
 
-
 export interface CategoryProduct extends ShopifyProduct {
   collections: Array<{
     title: string
@@ -102,22 +101,44 @@ export const HeroSection = ({
   latestProducts,
   categoryProducts,
   spotlightProducts
-}: HeroSectionProps) => 
-  connectSection(() => {
-    return (
-      <Hero anchor={anchor} latestProducts={latestProducts} categoryProducts={categoryProducts} spotlightProducts={spotlightProducts} />
-    )
-  },
-  {
-    name: name,
-    displayName: displayName
-  }
-)
+}: HeroSectionProps) =>
+  connectSection(
+    () => {
+      return (
+        <Hero
+          anchor={anchor}
+          latestProducts={latestProducts}
+          categoryProducts={categoryProducts}
+          spotlightProducts={spotlightProducts}
+        />
+      )
+    },
+    {
+      name: name,
+      displayName: displayName
+    }
+  )
 
-export const HeroSectionJSX = ({name, displayName, anchor, latestProducts, categoryProducts, spotlightProducts}: HeroSectionProps) => (
+export const HeroSectionJSX = ({
+  name,
+  displayName,
+  anchor,
+  latestProducts,
+  categoryProducts,
+  spotlightProducts
+}: HeroSectionProps) => (
   <Field.Section
     name={name}
     displayName={displayName}
-    sections={[HeroSection({name: `${name}-item`, anchor, displayName, latestProducts, categoryProducts, spotlightProducts})]}
+    sections={[
+      HeroSection({
+        name: `${name}-item`,
+        anchor,
+        displayName,
+        latestProducts,
+        categoryProducts,
+        spotlightProducts
+      })
+    ]}
   />
 )

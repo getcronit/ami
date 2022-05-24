@@ -35,8 +35,7 @@ export interface SearchbarProps {
 export const SearchbarButton = (props: ButtonProps) => {
   return (
     <Button
-      maxW="3xl"
-      mx="4"
+      w="full"
       flex="1"
       type="button"
       lineHeight="1.2"
