@@ -1,0 +1,1 @@
+export {PartnerScrollSection} from './PartnerScrollSection'

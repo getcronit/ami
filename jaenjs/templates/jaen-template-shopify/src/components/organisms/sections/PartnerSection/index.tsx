@@ -1,1 +1,1 @@
-export {PartnerSection} from './PartnerSection'
+export {PartnerSection, PartnerSectionProps} from './PartnerSection'

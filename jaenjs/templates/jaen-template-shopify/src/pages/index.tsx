@@ -41,21 +41,51 @@ const IndexPage = (props: PageProps<IndexPageData>) => {
   return (
     <Layout path={props.path}>
       <HomeTemplate
+        name=''
+        displayName=''
         heroSection={{
+          name: "",
+          displayName: "",
           latestProducts: props.data.latestProducts.nodes,
           categoryProducts: props.data.categoryShowcase.nodes,
           spotlightProducts: props.data.productSpotlight.nodes
         }}
         featuredProductsSection={{
-          heading: 'Featured Products',
+          name: "",
+          displayName: "",
           featuredProducts: props.data.featuredProducts.nodes
         }}
+        partnerSection={{
+          name: "",
+          displayName: "",
+        }}
+        featuredPartnerSection={{
+          name: "",
+          displayName: "",
+          featuredProducts: props.data.featuredProducts.nodes
+        }}
+        faqSection={{
+          name: "",
+          displayName: ""
+        }}
         reviewSection={{
-          heading: 'Heading',
+          name: "",
+          displayName: "",
           googleReviews: props.data.googleReviews.nodes
         }}
-        faqSection={{heading: 'Heading'}}
-        aboutSection={{heading: 'Heading', teaser: '', text: ''}}
+        reviewFAQSection={{
+          name: "",
+          displayName: "",
+          googleReviews: props.data.googleReviews.nodes
+        }}
+        aboutSection={{
+          name: "",
+          displayName: ""
+        }}
+        newsSection={{
+          name: "",
+          displayName: ""
+        }}
       />
     </Layout>
   )

@@ -1,33 +1,32 @@
 import React from 'react'
-import {Image} from '@chakra-ui/react'
+import {withJaenMock, Field} from '@jaenjs/jaen'
 import {ComponentStory, ComponentMeta} from '@storybook/react'
 
-import {ReviewSection} from '../ReviewSection'
+import {ReviewSectionJSX} from '../ReviewSection'
+import {jaenData} from './jaen-data'
 
 export default {
   title: 'Components/Organisms/Sections/ReviewSection',
-  component: ReviewSection,
+  component: ReviewSectionJSX,
   decorators: [
-    storyFn => (
-      <div
-        style={{
-          position: 'relative',
-          overflow: 'hidden',
-          width: '100%'
-        }}>
-        {storyFn()}
-      </div>
-    )
+    Story => {
+      const MockedStory = withJaenMock(Story, {jaenPage: {...jaenData.jaenPage}})
+      return(
+        <MockedStory/>
+      )
+    }
   ]
-} as ComponentMeta<typeof ReviewSection>
+} as ComponentMeta<typeof ReviewSectionJSX>
 
-const Template: ComponentStory<typeof ReviewSection> = args => (
-  <ReviewSection {...args} />
+const Template: ComponentStory<typeof ReviewSectionJSX> = args => (
+  <ReviewSectionJSX {...args} />
 )
 
 export const Default = Template.bind({})
 Default.args = {
-  heading: <p>Heading</p>,
+  name: "review",
+  displayName: "Bewertungen",
+  anchor: "",
   googleReviews: [
     {
       sourceImage: '',

@@ -1,6 +1,11 @@
 import React from 'react'
 import {Container, Box, Flex} from '@chakra-ui/react'
 import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
+import {Field, connectSection} from '@jaenjs/jaen'
+import {
+  getCollectionStructure,
+  ShopifyCollection
+} from '@snek-at/gatsby-theme-shopify'
 
 import {BulletShowcase} from '../../../molecules/BulletShowcase'
 import {CategoryShowcase} from '../../../molecules/CategoryShowcase'
@@ -8,10 +13,6 @@ import {AccessorieShowcase} from '../../../molecules/AccessorieShowcase'
 import {ProductSpotlight} from '../../../molecules/ProductSpotlight'
 import {ParallaxHero} from '../../../molecules/ParallaxHero'
 
-import {
-  getCollectionStructure,
-  ShopifyCollection
-} from '@snek-at/gatsby-theme-shopify'
 
 export interface CategoryProduct extends ShopifyProduct {
   collections: Array<{
@@ -20,6 +21,15 @@ export interface CategoryProduct extends ShopifyProduct {
 }
 
 export interface HeroSectionProps {
+  name: string
+  displayName: string
+  anchor?: string
+  latestProducts: ShopifyProduct[]
+  categoryProducts: CategoryProduct[]
+  spotlightProducts: ShopifyProduct[]
+}
+
+export interface HeroProps {
   anchor?: string
   latestProducts: ShopifyProduct[]
   categoryProducts: CategoryProduct[]
@@ -37,13 +47,13 @@ export interface Tabs {
   [name: string]: Categories
 }
 
-export const HeroSection = ({
+export const Hero = ({
   anchor,
   latestProducts,
   categoryProducts,
   spotlightProducts,
   noScroll
-}: HeroSectionProps) => {
+}: HeroProps) => {
   const tabs: Tabs = {}
 
   categoryProducts.forEach(node => {
@@ -84,3 +94,30 @@ export const HeroSection = ({
     </>
   )
 }
+
+export const HeroSection = ({
+  anchor,
+  name,
+  displayName,
+  latestProducts,
+  categoryProducts,
+  spotlightProducts
+}: HeroSectionProps) => 
+  connectSection(() => {
+    return (
+      <Hero anchor={anchor} latestProducts={latestProducts} categoryProducts={categoryProducts} spotlightProducts={spotlightProducts} />
+    )
+  },
+  {
+    name: name,
+    displayName: displayName
+  }
+)
+
+export const HeroSectionJSX = ({name, displayName, anchor, latestProducts, categoryProducts, spotlightProducts}: HeroSectionProps) => (
+  <Field.Section
+    name={name}
+    displayName={displayName}
+    sections={[HeroSection({name: `${name}-item`, anchor, displayName, latestProducts, categoryProducts, spotlightProducts})]}
+  />
+)
