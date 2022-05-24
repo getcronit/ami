@@ -33,7 +33,7 @@ const SectionAddPopover: React.FC<Props> = ({
   }
 
   return (
-    <Popover trigger="hover" placement="top-start">
+    <Popover trigger="hover" placement="top-start" closeOnBlur={false}>
       <PopoverTrigger>
         <Box
           w="100%"

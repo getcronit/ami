@@ -54,49 +54,22 @@ const SectionManagePopover = React.memo<Props>(
 
     let closing = false
 
-    const handleMouseEnter = () => {
-      // Prevent the popover  from closing when the mouse enters the trigger
-      if (closing) {
-        closing = false
-      }
-
-      onOpen()
-    }
-
-    const handleMouseLeave = () => {
-      closing = true
-
-      // delay of 300ms to prevent the popover from closing immediately
-      // when the mouse is over the popover
-      setTimeout(() => {
-        if (closing) {
-          onClose()
-        }
-      }, 300)
-    }
-
     if (disabled) {
       return <>{trigger}</>
     }
 
     return (
-      <Popover trigger="hover" isOpen={isOpen}>
+      <Popover trigger="hover" closeOnBlur={false}>
         <PopoverTrigger>
           <Box
             transition={'box-shadow 0.3s ease-in-out'}
             boxShadow={isOpen ? '0 0 0 2.5px #4fd1c5' : 'none'}
             h="100%"
-            w="100%"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onFocus={onOpen}
-            onBlur={onClose}>
+            w="100%">
             {trigger}
           </Box>
         </PopoverTrigger>
-        <PopoverContent
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}>
+        <PopoverContent>
           <PopoverArrow />
           <PopoverCloseButton onClick={onClose} />
           <PopoverHeader>Manage Section</PopoverHeader>
