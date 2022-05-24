@@ -113,14 +113,14 @@ export const cardStyle = (
       opacity: 0;
       height: 100%;
       width: 100%;
-      transition: all 250ms;
+      transition: all 350ms;
     }
     .radioimg:checked + .preview {
       opacity: 1;
     }
     .radioimg + .main {
       opacity: 0;
-      transition: all 250ms;
+      transition: all 350ms;
     }
     .radioimg:checked + .main {
       opacity: 1;

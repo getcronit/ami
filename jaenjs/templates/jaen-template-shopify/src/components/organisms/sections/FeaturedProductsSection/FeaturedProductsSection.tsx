@@ -61,7 +61,7 @@ export const FeaturedProducts = ({
           top="0"
           left="calc(4em + 2.5vw)"
           // borderLeft="1px"
-          borderColor="#dbd8d2"
+          borderColor="stroke"
           display={{base: 'none', '2xl': 'block'}}
         />
         <Container position="relative" py="10" maxW="8xl">

@@ -32,7 +32,7 @@ export const PartnerScroll = ({image}: PartnerScrollProps) => {
       p="5" 
       borderRadius="5px" 
       border="1px"
-      borderColor="gray.200"
+      borderColor="border"
       bg={useColorModeValue('white', 'gray.700')}>
       {image}
     </Flex>

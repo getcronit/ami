@@ -1,11 +1,13 @@
 import React from 'react'
 import {Button} from '@chakra-ui/button'
-import {Box, Center, Flex, Text} from '@chakra-ui/layout'
+import {Box, Center, Flex, HStack, Text} from '@chakra-ui/layout'
 import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
 import {useBreakpointValue} from '@chakra-ui/media-query'
 import {Link as GatsbyLink} from 'gatsby'
 
 import {CategoryTab} from '../CategoryTab'
+import {getThemeColor} from '../../../common/utils'
+import * as style from './style'
 
 interface Tab {
   [category: string]: {
@@ -29,8 +31,8 @@ export const CategoryShowcase = ({
   const [direction, setDirection] = React.useState('right')
 
   const firstRadius = useBreakpointValue({
-    base: {borderTopRadius: '5px'},
-    md: {borderTopLeftRadius: '5px'}
+    base: {borderTopRadius: '5px', borderLeft: '1px', borderRight: "1px"},
+    md: {borderTopLeftRadius: '5px', borderLeft: '1px', borderRight: "0px"}
   })
 
   tabs['LATEST'] = {
@@ -48,38 +50,45 @@ export const CategoryShowcase = ({
   })
 
   return (
-    <Box zIndex="2" position="relative" mt={-20}>
-      <Flex direction={{base: 'column', md: 'row'}}>
-        {tabsList.map(([titel, collection], index) => {
-          const isCurrent = current === titel
-          return (
-            <Box
-              userSelect="none"
-              _hover={isCurrent ? {bg: 'agt.lightgray'} : {bg: '#424240'}}
-              _first={firstRadius}
-              _last={{md: {borderTopRightRadius: '5px'}}}
-              cursor="pointer"
-              bg={isCurrent ? 'white' : 'agt.gray'}
-              py="3"
-              px="5"
-              color={isCurrent ? 'black' : 'white'}
-              onClick={() => {
-                setCurrent(titel)
+    <Box zIndex="2" position="relative" mt={-20} css={style.CategoryShowcase(getThemeColor("border"))} >
+      <Flex>
+        <Flex direction={{base: 'column', md: 'row'}} borderTopLeftRadius='5px' w={{base: '100%', md: 'unset'}}>
+          {tabsList.map(([titel, collection], index) => {
+            const isCurrent = current === titel
+            return (
+              <Box
+                className="tabs"
+                userSelect="none"
+                minW='max-content'
+                _hover={isCurrent ? {bg: 'agt.lightgray'} : {bg: '#424240'}}
+                borderTop="1px"
+                _first={firstRadius}
+                _last={{base: {borderTopRadius: '0px',  borderLeft: '1px', borderRight: "1px"}, md: {borderTopRightRadius: '5px', borderLeft: '0px', borderRight: "1px"}}}
+                cursor="pointer"
+                bg={isCurrent ? 'primary' : 'agt.gray'}
+                py="3"
+                px="5"
+                color={isCurrent ? 'text' : 'white'}
+                onClick={() => {
+                  setCurrent(titel)
 
-                setDirection(
-                  index >
-                    Object.keys(Object.fromEntries(tabsList)).indexOf(current)
-                    ? 'right'
-                    : 'left'
-                )
-              }}>
-              <Text fontSize="14" fontWeight="bold" casing="uppercase">
-                {collection.name}
-              </Text>
-            </Box>
-          )
-        })}
+                  setDirection(
+                    index >
+                      Object.keys(Object.fromEntries(tabsList)).indexOf(current)
+                      ? 'right'
+                      : 'left'
+                  )
+                }}>
+                <Text fontSize="14" fontWeight="bold" casing="uppercase">
+                  {collection.name}
+                </Text>
+              </Box>
+            )
+          })}
+        </Flex>
+        <Box w="100%" borderColor="border" borderBottom="1px" display={{base: 'none', md: 'block'}} />
       </Flex>
+      
       <Box
         justifyContent="center"
         alignContent="center"
@@ -87,7 +96,10 @@ export const CategoryShowcase = ({
         pl={{base: '0', lg: '10'}}
         minH={{base: '1010px', md: '700px', lg: '390px'}}
         pb="20"
-        bg="white"
+        bg="primary"
+        border="1px"
+        borderColor="border"
+        borderTop="none"
         borderBottomRadius="5px"
         borderTopRightRadius={{md: '5px'}}>
         {tabsList.map(([titel, collection], index) => {

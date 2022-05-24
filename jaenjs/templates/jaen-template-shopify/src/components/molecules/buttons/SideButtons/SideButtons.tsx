@@ -14,8 +14,8 @@ export const SideButtons: React.FC<SideButtonsProps> = props => {
   return (
     <ButtonGroup
       as="aside"
-      variant="ghost"
       color="white"
+      colorScheme="agt.redScheme"
       position="fixed"
       bottom={{base: '0', md: '50%'}}
       right="0"
@@ -25,35 +25,26 @@ export const SideButtons: React.FC<SideButtonsProps> = props => {
       spacing="0"
       zIndex="999">
       <IconButton
-        as="a"
         w={{base: '100%', md: 'unset'}}
-        bg="agt.red"
-        // href="#"
         aria-label="Email"
         icon={<FiMail fontSize="20px" />}
         onClick={() => {
           props.onMailButtonClick()
-        }}></IconButton>
+        }}/>
       <IconButton
-        as="a"
         w={{base: '100%', md: 'unset'}}
-        bg="agt.red"
-        // href="#"
         aria-label="Location"
         icon={<FiMapPin fontSize="20px" />}
         onClick={() => {
           props.onLocationButtonClick()
-        }}></IconButton>
+        }}/>
       <IconButton
-        as="a"
         w={{base: '100%', md: 'unset'}}
-        bg="agt.red"
-        // href="#"
         aria-label="Phone"
         icon={<FiPhoneCall fontSize="20px" />}
         onClick={() => {
           props.onPhoneButtonClick()
-        }}></IconButton>
+        }}/>
     </ButtonGroup>
   )
 }

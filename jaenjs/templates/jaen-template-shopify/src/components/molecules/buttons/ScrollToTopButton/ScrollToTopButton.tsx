@@ -23,7 +23,7 @@ export const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = props => {
       <IconButton
         as="a"
         // href="#root"
-        bg="agt.blue"
+        colorScheme="agt.blueScheme"
         aria-label="ScrollToTop"
         icon={<FiArrowUp fontSize="40px" />}
       />

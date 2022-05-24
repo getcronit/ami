@@ -65,7 +65,7 @@ export const News = ({anchor, heading}: NewsProps) => {
           top="0"
           left={{base: '0', '2xl': 'calc(4em + 2.5vw)'}}
           //left="5vw"
-          borderColor="#dbd8d2"
+          borderColor="stroke"
         />
         <Divider
           orientation="vertical"
@@ -76,7 +76,7 @@ export const News = ({anchor, heading}: NewsProps) => {
           top="0"
           left="calc(4em + 2.5vw)"
           // borderLeft="1px"
-          borderColor="#dbd8d2"
+          borderColor="stroke"
           display={{base: 'none', '2xl': 'block'}}
         />
         <Box

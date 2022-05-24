@@ -29,14 +29,14 @@ const Template: ComponentStory<typeof ParallaxBackground> = args => (
 
 export const Dark = Template.bind({})
 Dark.args = {
-  strokeColor: '#dbd8d2',
+  strokeColor: 'getThemeColor("stroke")',
   backgroundColor: '#1f1f1d',
   noScroll: true
 }
 
 export const Light = Template.bind({})
 Light.args = {
-  strokeColor: '#dbd8d2',
+  strokeColor: 'getThemeColor("stroke")',
   backgroundColor: '#ece8e1',
   noScroll: true
 }

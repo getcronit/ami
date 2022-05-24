@@ -100,7 +100,7 @@ export const ProductCard = ({
           borderRadius="5px"
           // boxShadow="lg"
           // border="1px"
-          // borderColor="gray.200"
+          // borderColor="border"
           // mt="3"
         >
           <Box position="relative">
@@ -162,7 +162,7 @@ export const ProductCard = ({
             h="100%"
             top="0"
             borderLeft="1px"
-            borderColor="gray.200"
+            borderColor="border"
             transform="scale(0.97)"
           />
           <Box
@@ -175,7 +175,7 @@ export const ProductCard = ({
             // minH={'full'}
             borderRadius="5px"
             border="1px"
-            borderColor="gray.200"
+            borderColor="border"
             _hover={{
               before: {borderColor: 'agt.red'},
               _after: {borderColor: 'agt.red'}
@@ -192,7 +192,7 @@ export const ProductCard = ({
                   <Box
                     transform="scale(0.97)"
                     borderBottom="1px"
-                    borderColor="gray.200"
+                    borderColor="border"
                     py="1"
                     _hover={{borderColor: 'agt.red'}}
                     onMouseOver={() =>

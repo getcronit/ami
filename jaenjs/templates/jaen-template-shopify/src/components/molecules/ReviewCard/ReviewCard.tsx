@@ -53,10 +53,11 @@ export const ReviewCard = ({
   return (
     <>
       <VStack
-        bg="white"
+        bg="primary"
         // minH="200px"
         borderRadius="5px"
-        boxShadow="lg"
+        border="1px"
+        borderColor="border"
         p="5"
         maxW="sm"
         divider={<StackDivider />}>

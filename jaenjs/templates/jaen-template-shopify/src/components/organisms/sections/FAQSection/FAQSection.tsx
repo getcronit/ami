@@ -33,13 +33,12 @@ export interface FAQProps {
 export const FAQ = ({anchor, heading, faqheading, contactheading, accordionsection, bg}: FAQProps) => {
   return (
     <Box id={anchor} w="full" position="relative" overflow="hidden" bg={bg} color="ece8e1">
-      {/* <ParallaxBackground strokeColor="#dbd8d2" backgroundColor="#1f1f1d"/> */}
       <Divider
         orientation='vertical'
         position="absolute"
         top="0"
         left="calc(4em + 2.5vw)"
-        borderColor="#dbd8d2"
+        borderColor="stroke"
         display={{ base: 'none', '2xl': 'block' }}
       />
       <Box w="100%" h="100%" position="absolute" style={{clip: "rect(0, auto, auto, 0)"}}>
@@ -69,7 +68,7 @@ export const FAQ = ({anchor, heading, faqheading, contactheading, accordionsecti
             bg={useColorModeValue('white', 'gray.700')}
             boxSizing='border-box'
             border="1px"
-            borderColor="gray.200"
+            borderColor="border"
             borderRadius="5px"
             p="10"
             h="100%">

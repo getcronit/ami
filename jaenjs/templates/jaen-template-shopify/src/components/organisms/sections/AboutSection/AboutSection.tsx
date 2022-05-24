@@ -61,12 +61,14 @@ export const About = ({
       <Divider
         orientation="vertical"
         position="absolute"
-        h="100%"
+        zIndex={-1}
+        // w="0"
+        // h="100%"
         top="0"
         left="calc(4em + 2.5vw)"
-        border="1px"
-        borderColor="gray.200"
-        display={{ base: 'none', '2xl': 'block' }}
+        // borderLeft="1px"
+        borderColor="stroke"
+        display={{base: 'none', '2xl': 'block'}}
       />
       <Box w="100%" h="100%" position="absolute" style={{clip: "rect(0, auto, auto, 0)"}}>
         <FixedStrokeLogo strokeColor={getThemeColor("stroke")} backgroundColor={getThemeColor("background")} />
@@ -79,7 +81,7 @@ export const About = ({
           <Bullet color="agt.red" w="unset" fontSize="xl" mt="5" mb="10" />
         </Box>
         <Grid templateAreas={{base: baseAreas, lg: lgAreas}} gap={9}>
-          <GridItem border="1px" borderColor="gray.200" borderRadius="7px" overflow="hidden" bg={useColorModeValue('white', 'gray.700')} area="one">
+          <GridItem border="1px" borderColor="border" borderRadius="7px" overflow="hidden" bg={useColorModeValue('white', 'gray.700')} area="one">
             <AspectRatio ratio={16/9} boxSize="full" css={{img: {objectFit: "cover"}}}>
               <Box position="relative">
                 <Flex css={{img: {objectFit: "cover"}}} alignItems="stretch" w="100%" h="100%">
@@ -93,7 +95,7 @@ export const About = ({
               </Box>
             </AspectRatio>
           </GridItem>
-          <GridItem border="1px" borderColor="gray.200" borderRadius="7px" overflow="hidden" bg={useColorModeValue('white', 'gray.700')} area="two">
+          <GridItem border="1px" borderColor="border" borderRadius="7px" overflow="hidden" bg={useColorModeValue('white', 'gray.700')} area="two">
             <AspectRatio ratio={16/7} boxSize="full" css={{img: {objectFit: "cover"}}}>
               <Flex>
                 <Box w="60%" h="100%">
@@ -107,7 +109,7 @@ export const About = ({
               </Flex>
             </AspectRatio>
           </GridItem>
-          <GridItem border="1px" borderColor="gray.200" overflow="hidden" borderRadius="7px" bg={useColorModeValue('white', 'gray.700')} area="three">
+          <GridItem border="1px" borderColor="border" overflow="hidden" borderRadius="7px" bg={useColorModeValue('white', 'gray.700')} area="three">
             {rightsection}
           </GridItem>
         </Grid>

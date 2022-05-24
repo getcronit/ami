@@ -51,9 +51,7 @@ export const Review = ({anchor, heading, googleReviews, bg}: ReviewProps) => {
 
   return (
     <>
-      {/* <StickyStrokeLogo strokeColor="#dbd8d2" backgroundColor="#1f1f1d" /> */}
       <Box id={anchor} position="relative" overflow="hidden" bg={bg} color="ece8e1" pb="16" css={style.Section}>
-        {/* <ParallaxBackground strokeColor="#dbd8d2" backgroundColor="#1f1f1d"/> */}
         <Divider
           orientation='vertical'
           position="absolute"
@@ -63,7 +61,7 @@ export const Review = ({anchor, heading, googleReviews, bg}: ReviewProps) => {
           top="0"
           left="calc(4em + 2.5vw)"
           // borderLeft="1px"
-          borderColor="#dbd8d2"
+          borderColor="stroke"
           display={{ base: 'none', '2xl': 'block' }}
         />
         <Divider
@@ -75,7 +73,7 @@ export const Review = ({anchor, heading, googleReviews, bg}: ReviewProps) => {
           bottom="0"
           left={{ base: '0', '2xl': "calc(4em + 2.5vw)" }}
           // borderLeft="1px"
-          borderColor="#dbd8d2"
+          borderColor="stroke"
         />
         <Divider
           orientation={undefined}
@@ -85,7 +83,7 @@ export const Review = ({anchor, heading, googleReviews, bg}: ReviewProps) => {
           w="15vw"
           bottom="0"
           left='90vw'
-          borderColor="#dbd8d2"
+          borderColor="stroke"
           display={{ base: 'none', '2xl': 'block' }}
         />
         <Box w="100%" h="100%" position="absolute" style={{clip: "rect(0, auto, auto, 0)"}}>

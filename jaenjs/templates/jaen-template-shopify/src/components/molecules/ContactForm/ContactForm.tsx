@@ -98,7 +98,7 @@ ${message}
               <Input
                 id="first-name"
                 placeholder="Max"
-                bg="white"
+                bg="primary"
                 borderColor="#D4D4D9"
                 {...register('name', {required: true})}
               />
@@ -110,7 +110,7 @@ ${message}
               <Input
                 id="last-name"
                 placeholder="Mustermann"
-                bg="white"
+                bg="primary"
                 borderColor="#D4D4D9"
                 {...register('lastname', {required: true})}
               />
@@ -125,7 +125,7 @@ ${message}
                 id="email"
                 type="email"
                 placeholder="max.mustermann@example.at"
-                bg="white"
+                bg="primary"
                 borderColor="#D4D4D9"
                 {...register('email', {
                   required: true,
@@ -146,7 +146,7 @@ ${message}
                 render={({field}) => (
                   <Select
                     placeholder="Bitte auswählen"
-                    bg="white"
+                    bg="primary"
                     borderColor="#D4D4D9"
                     {...field}>
                     {requestOptions.map((option, index) => (
@@ -165,7 +165,7 @@ ${message}
             <FormLabel htmlFor="message">Nachricht</FormLabel>
             <Textarea
               resize="vertical"
-              bg="white"
+              bg="primary"
               borderColor="#D4D4D9"
               maxH="45vh"
               {...register('message', {required: true})}
@@ -188,6 +188,7 @@ ${message}
           </Flex>
           <Button
             colorScheme="agt.grayScheme"
+            color="white"
             type="submit"
             isLoading={isSubmitting}>
             Absenden
