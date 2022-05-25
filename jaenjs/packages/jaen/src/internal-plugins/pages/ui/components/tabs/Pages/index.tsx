@@ -65,6 +65,28 @@ const PagesTab = (props: PagesTabProps) => {
   return (
     <HStack h={'85vh'} align="start">
       <Stack w="20%">
+        <ButtonGroup size="sm">
+          <IconButton
+            aria-label="Add a subpage to the selected page"
+            icon={<AddIcon />}
+            disabled
+          />
+          <IconButton
+            aria-label="Delete the selected page"
+            icon={<DeleteIcon />}
+            onClick={handleItemDelete}
+            disabled={!selection?.template}
+          />
+          <IconButton
+            aria-label="Navigate to the page"
+            icon={<ViewIcon />}
+            onClick={() => props.onItemDoubleClick(selection?.id!)}
+            disabled={!selection}
+          />
+        </ButtonGroup>
+
+        <Divider />
+
         <Button
           leftIcon={<FaGlobeEurope />}
           w="full"
@@ -88,26 +110,6 @@ const PagesTab = (props: PagesTabProps) => {
           }}>
           Landing Page
         </Button>
-        <Divider />
-        <ButtonGroup size="sm">
-          <IconButton
-            aria-label="Add a subpage to the selected page"
-            icon={<AddIcon />}
-            disabled
-          />
-          <IconButton
-            aria-label="Delete the selected page"
-            icon={<DeleteIcon />}
-            onClick={handleItemDelete}
-            disabled={!selection?.template}
-          />
-          <IconButton
-            aria-label="Navigate to the page"
-            icon={<ViewIcon />}
-            onClick={() => props.onItemDoubleClick(selection?.id!)}
-            disabled={!selection}
-          />
-        </ButtonGroup>
         <PageTree
           selection={selection?.id}
           items={props.items}
