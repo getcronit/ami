@@ -1,90 +1,198 @@
 import {
   buildProductSearchQuery,
+  getValuesFromQuery,
   ProductSearchFilters,
   transformProductSearchResultData
 } from './helper'
 import React from 'react'
-import {useQuery, Provider} from 'urql'
+import {useQuery} from 'urql'
 import queryString from 'query-string'
 import {StorefrontProductsQuery} from './queries'
-import {NodeArray, ShopifyProduct} from '../types'
+import {ShopifyProduct} from '../types'
 import {StorefrontSearchData} from './types'
+import {removeEmpty} from '../utils/removeEmpty'
 
-interface UseProductSearchArgs {
+export interface ProductSearchCursor {
+  before: string | null
+  after: string | null
+}
+
+export interface ProductSearchQuery {
   filters: ProductSearchFilters
-  sortKey?: string
-  reverse?: boolean
-  count?: number
+  options: {
+    sortKey?: string
+  }
 }
 
-interface UseProductSearchResult {
-  products: ShopifyProduct[]
-  isFetching: boolean
-  hasNextPage: boolean
-  fetchNextPage: () => void
-  resetCursor: () => void
+export interface ProductSearchOptions {
+  sortKey: string
+  reverse: boolean
+  count: number
 }
 
-// Kategorie:Waffen AND ((Kategorie:Waffen:Pistole OR Kategorie:Waffen:Revolver) AND (Kaliber:5.56mm OR Kaliber:9mm OR Kaliber:12g))
 export const useProductSearch = ({
-  filters,
-  sortKey,
-  reverse = false,
-  count = 10
-}: UseProductSearchArgs): UseProductSearchResult => {
-  const [serachQueryString, setSearchQueryString] = React.useState(
-    buildProductSearchQuery(filters)
+  persistData = true,
+  ...props
+}: {
+  filters?: ProductSearchFilters
+  options?: Partial<ProductSearchOptions>
+  persistData?: boolean
+}) => {
+  const defaultQuery = React.useMemo<ProductSearchQuery>(() => {
+    if (!persistData) {
+      return {
+        filters: {},
+        options: {}
+      }
+    }
+
+    const url = new URL(window.location.href)
+
+    const values = getValuesFromQuery(url.search)
+
+    // validate if values are valid
+
+    if (values.maxPrice) {
+      values.maxPrice = parseInt(values.maxPrice)
+    }
+
+    if (values.minPrice) {
+      values.minPrice = parseInt(values.minPrice)
+    }
+
+    return {
+      filters: removeEmpty({
+        mainTag: values.mainTag,
+        searchTerm: values.searchTerm,
+        maxPrice: values.maxPrice,
+        minPrice: values.minPrice,
+        productTypes: values.productTypes,
+        tags: values.tags,
+        vendors: values.vendors
+      }),
+      options: removeEmpty({
+        sortKey: values.sortKey
+      })
+    }
+  }, [])
+
+  const [filters, setFilters] = React.useState<ProductSearchFilters>({
+    ...props.filters,
+    ...defaultQuery.filters
+  })
+
+  console.log('Filters: ', props.filters)
+
+  const [options, setOptions] = React.useState<ProductSearchOptions>({
+    sortKey:
+      props.options?.sortKey ||
+      defaultQuery.options.sortKey ||
+      filters.searchTerm
+        ? 'RELEVANCE'
+        : 'TITLE',
+    reverse: props.options?.reverse || false,
+    count: props.options?.count !== undefined ? props.options.count : 10
+  })
+
+  const onChangeOptions = React.useCallback(
+    (newOptions: Partial<ProductSearchOptions>) => {
+      setOptions({
+        ...options,
+        ...newOptions
+      })
+    },
+    [setOptions, options]
   )
 
-  const [cursors, setCursors] = React.useState<{
-    before: string | null
-    after: string | null
-  }>({
+  const onChangeFilter = React.useCallback(
+    (newFilters: Partial<ProductSearchFilters>) => {
+      setFilters({
+        ...filters,
+        ...newFilters
+      })
+    },
+    [setFilters, filters]
+  )
+
+  const [cursors, setCursors] = React.useState<ProductSearchCursor>({
     before: null,
     after: null
   })
 
-  const {searchTerm, tags, vendors, productTypes, minPrice, maxPrice} = filters
+  const [query, setQuery] = React.useState(buildProductSearchQuery(filters))
 
-  // Relevance is non-deterministic if there is no query, so we default to "title" instead
-  const initialSortKey = searchTerm ? 'RELEVANCE' : 'TITLE'
-
-  const [result] = useQuery<StorefrontSearchData>({
-    query: StorefrontProductsQuery,
-    variables: {
-      query: serachQueryString,
-      sortKey: sortKey || initialSortKey,
-      first: !cursors.before ? count : null,
-      last: cursors.before ? count : null,
-      after: cursors.after,
-      before: cursors.before,
-      reverse: reverse
+  const updateQuery = React.useCallback(
+    (newFilters: ProductSearchFilters) => {
+      setQuery(buildProductSearchQuery(newFilters))
     },
-    pause: false
-  })
+    [setQuery]
+  )
+
+  const initialSortKey = filters.searchTerm ? 'RELEVANCE' : 'TITLE'
 
   React.useEffect(() => {
     const qs = queryString.stringify({
       // Don't show if falsy
-      q: searchTerm || undefined,
-      x: maxPrice || undefined,
-      n: minPrice || undefined,
+      q: filters.searchTerm || undefined,
+      x: filters.maxPrice || undefined,
+      n: filters.minPrice || undefined,
       // Don't show if sort order is default
-      s: sortKey === initialSortKey ? undefined : sortKey,
+      s: options.sortKey === initialSortKey ? undefined : options.sortKey,
       // Don't show if all values are selected
-      t: tags,
-      v: vendors,
-      p: productTypes,
+      t: filters.tags,
+      v: filters.vendors,
+      p: filters.productTypes,
       c: cursors.after || undefined
     })
 
-    const url = new URL(window.location.href)
-    url.search = qs
-    url.hash = ''
+    updateQuery(filters)
 
-    //window.history.replaceState({}, '', url.toString())
-    setSearchQueryString(buildProductSearchQuery(filters))
-  }, [filters, cursors, sortKey])
+    if (persistData) {
+      const url = new URL(window.location.href)
+      url.search = qs
+      url.hash = ''
+
+      window.history.replaceState({}, '', url.toString())
+    }
+  }, [filters, cursors, options.sortKey, options.reverse])
+
+  const [result] = useQuery<StorefrontSearchData>({
+    query: StorefrontProductsQuery,
+    variables: {
+      query,
+      sortKey: options.sortKey,
+      first: !cursors.before ? options.count : null,
+      last: cursors.before ? options.count : null,
+      after: cursors.after,
+      before: cursors.before,
+      reverse: options.reverse
+    },
+    pause: false
+  })
+
+  const [products, setProducts] = React.useState<ShopifyProduct[]>([])
+
+  React.useEffect(() => {
+    if (result?.data?.products?.edges) {
+      const transformedProducts = transformProductSearchResultData(result.data)
+        .nodes
+
+      console.log('new products', transformedProducts)
+
+      setProducts(prevProducts => {
+        return [...prevProducts, ...transformedProducts]
+      })
+    }
+  }, [result.data?.products.edges])
+
+  React.useEffect(() => {
+    setCursors({
+      before: null,
+      after: null
+    })
+    setProducts([])
+    console.log('reset')
+  }, [filters, options.reverse, options.sortKey, options.count])
 
   const isFetching = result?.fetching
   const hasNextPage = result?.data?.products?.pageInfo?.hasNextPage ?? false
@@ -109,46 +217,27 @@ export const useProductSearch = ({
     }
   }
 
-  const resetCursor = () => {
-    setProducts([])
-    setCursors({
-      before: null,
-      after: null
-    })
-  }
-
-  const [products, setProducts] = React.useState<ShopifyProduct[]>([])
-
-  React.useEffect(() => {
-    resetCursor()
-  }, [
-    searchTerm,
-    tags,
-    vendors,
-    productTypes,
-    minPrice,
-    maxPrice,
-    sortKey,
-    reverse
-  ])
-
-  React.useEffect(() => {
-    if (result?.data?.products?.edges) {
-      const transformedProducts = transformProductSearchResultData(
-        result.data
-      ).nodes
-
-      setProducts(prevProducts => {
-        return [...prevProducts, ...transformedProducts]
-      })
+  const finalProducts = React.useMemo(() => {
+    if (
+      result.data &&
+      result.data.products &&
+      result.data.products.edges.length > 0 &&
+      products.length === 0
+    ) {
+      return transformProductSearchResultData(result.data).nodes
     }
-  }, [result.data?.products.edges])
+
+    return products
+  }, [result.data, products])
 
   return {
-    products,
     isFetching,
     hasNextPage,
     fetchNextPage,
-    resetCursor
+    products: finalProducts,
+    filters,
+    options,
+    onChangeFilter,
+    onChangeOptions
   }
 }

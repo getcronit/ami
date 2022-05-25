@@ -10,6 +10,7 @@ import {graphql, PageProps} from 'gatsby'
 import React from 'react'
 import {Layout} from '../components/Layout'
 import {ProductsTemplate} from '../components/templates'
+import {ProductsTemplateProps} from '../components/templates/ProductsTemplate/ProductsTemplate'
 
 const ProductsPageTemplate = (
   props: PageProps<ProductsPageData, ProductsPageContext>
@@ -23,63 +24,48 @@ const ProductsPageTemplate = (
     productTypes
   } = props.pageContext
 
-  const [filters, setFilters] = React.useState<{
-    tags?: string[]
-    vendors?: string[]
-    productTypes?: string[]
-    maxPrice?: number
-    minPrice?: number
-  }>({
-    tags: [],
-    vendors: [],
-    productTypes: []
-  })
-
-  const [sortKey, setSortKey] = React.useState<string | undefined>(undefined)
-  const [reverse, setReverse] = React.useState<boolean | undefined>(undefined)
-
   const search = useProductSearch({
-    sortKey,
-    reverse,
     filters: {
-      mainTag: implicitTags.length > 0 ? implicitTags[0] : undefined,
-      tags: filters.tags,
-      vendors: filters.vendors,
-      productTypes: filters.productTypes,
-      maxPrice: filters.maxPrice,
-      minPrice: filters.minPrice
+      mainTag: implicitTags.length > 0 ? implicitTags[0] : undefined
     }
   })
 
-  const updateFilters = (newFilters: typeof filters) => {
-    setFilters({
-      ...filters,
-      ...newFilters
-    })
-  }
-
   const onSortChange = (sort: string) => {
-    let sortOption
+    let sortKey
+
+    let reverse
 
     switch (sort) {
       case 'Alphabetisch':
-        sortOption = 'TITLE'
-        setReverse(false)
+        sortKey = 'TITLE'
+        reverse = false
         break
       case 'Preis aufsteigend':
-        sortOption = 'PRICE'
-        setReverse(false)
+        sortKey = 'PRICE'
+        reverse = false
         break
       case 'Preis absteigend':
-        sortOption = 'PRICE'
-        setReverse(true)
+        sortKey = 'PRICE'
+        reverse = true
         break
       default:
-        sortOption = 'TITLE'
-        setReverse(false)
+        sortKey = 'TITLE'
+        reverse = false
     }
 
-    setSortKey(sortOption)
+    search.onChangeOptions({
+      sortKey,
+      reverse
+    })
+  }
+
+  const updateFilter = (filters: Partial<ProductsTemplateProps['filters']>) => {
+    console.log('set filters', filters)
+    search.onChangeFilter({
+      ...filters,
+      maxPrice: filters.maxPrice || undefined,
+      minPrice: filters.minPrice || undefined
+    })
   }
 
   const buildProductsPageMeta = () => {
@@ -123,15 +109,17 @@ const ProductsPageTemplate = (
           path={props.path}
           collection={props.data.collection}
           products={search.products}
-          implicitTags={implicitTags}
-          tags={tags}
-          vendors={vendors}
-          productTypes={productTypes}
           isFetching={search.isFetching}
           fetchNextPage={search.fetchNextPage}
-          updateFilter={updateFilters}
-          minPrice={minPrice}
-          maxPrice={maxPrice}
+          filters={{
+            tags,
+            vendors,
+            productTypes,
+            minPrice,
+            maxPrice
+          }}
+          activeFilters={search.filters}
+          updateFilter={updateFilter}
           sortOptions={[
             'Alphabetisch',
             'Preis aufsteigend',

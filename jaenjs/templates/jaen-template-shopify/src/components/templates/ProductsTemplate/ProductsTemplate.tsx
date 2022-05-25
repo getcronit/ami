@@ -32,32 +32,22 @@ import {Filter} from './Filter'
 export interface ProductsTemplateProps extends ProductsPageData {
   path: string
   products: ShopifyProduct[]
-  implicitTags: ProductsPageContext['implicitTags']
-  tags: ProductsPageContext['tags']
-  vendors: ProductsPageContext['vendors']
-  productTypes: ProductsPageContext['productTypes']
-  minPrice: ProductsPageContext['minPrice']
-  maxPrice: ProductsPageContext['maxPrice']
+  filters: {
+    tags: ProductsPageContext['tags']
+    vendors: ProductsPageContext['vendors']
+    productTypes: ProductsPageContext['productTypes']
+    minPrice: ProductsPageContext['minPrice']
+    maxPrice: ProductsPageContext['maxPrice']
+  }
+  activeFilters: Partial<ProductsTemplateProps['filters']>
   isFetching: boolean
   fetchNextPage: () => void
-  updateFilter: (filter: {
-    tags?: string[]
-    vendors?: string[]
-    productTypes?: string[]
-    minPrice?: number
-    maxPrice?: number
-  }) => void
+  updateFilter: (filter: ProductsTemplateProps['activeFilters']) => void
   sortOptions: string[]
   onSortChange: (sort: string) => void
 }
 
 export const ProductsTemplate = (props: ProductsTemplateProps) => {
-  const [activeTags, setActiveTags] = React.useState<string[]>([])
-  const [activeVendors, setActiveVendors] = React.useState<string[]>([])
-  const [activeProductTypes, setActiveProductTypes] = React.useState<string[]>(
-    []
-  )
-
   const mobile = useDisclosure()
   const [isDesktop] = useMediaQuery('(min-width: 1268px)')
 
@@ -86,58 +76,54 @@ export const ProductsTemplate = (props: ProductsTemplateProps) => {
   }, [props.fetchNextPage])
 
   const updateTags = (tags: string[]) => {
-    setActiveTags(tags)
-
     props.updateFilter({
       tags
     })
   }
 
   const updateVendors = (vendors: string[]) => {
-    setActiveVendors(vendors)
-
     props.updateFilter({
       vendors
     })
   }
 
   const updateProductTypes = (productTypes: string[]) => {
-    setActiveProductTypes(productTypes)
-
     props.updateFilter({
       productTypes
     })
   }
 
   const hasTagsFilter =
-    props.tags.length > 0 ||
-    props.vendors.length > 0 ||
-    props.productTypes.length > 0
+    props.filters.tags.length > 0 ||
+    props.filters.vendors.length > 0 ||
+    props.filters.productTypes.length > 0
 
   const hasPriceFilter = !!(
-    props.minPrice &&
-    props.maxPrice &&
-    props.minPrice !== props.maxPrice
+    props.filters.minPrice &&
+    props.filters.maxPrice &&
+    props.filters.minPrice !== props.filters.maxPrice
   )
 
   const disableFilter = !hasTagsFilter && !hasPriceFilter
 
   const filter = !disableFilter ? (
     <Filter
-      activeTags={activeTags}
-      allTags={props.tags}
-      activeVendors={activeVendors}
-      allVendors={props.vendors}
-      activeProductTypes={activeProductTypes}
-      allProductTypes={props.productTypes}
+      activeTags={props.activeFilters.tags || []}
+      allTags={props.filters.tags}
+      activeVendors={props.activeFilters.vendors || []}
+      allVendors={props.filters.vendors}
+      activeProductTypes={props.activeFilters.productTypes || []}
+      allProductTypes={props.filters.productTypes}
       onActiveTagsChange={updateTags}
       onActiveVendorsChange={updateVendors}
       onActiveProductTypesChange={updateProductTypes}
       priceFilter={
         hasPriceFilter
           ? {
-              minPrice: props.minPrice!,
-              maxPrice: props.maxPrice!,
+              minPrice: props.filters.minPrice!,
+              maxPrice: props.filters.maxPrice!,
+              activeMinPrice: props.activeFilters.minPrice || undefined,
+              activeMaxPrice: props.activeFilters.maxPrice || undefined,
               onPriceChange: (minPrice, maxPrice) =>
                 props.updateFilter({minPrice, maxPrice})
             }

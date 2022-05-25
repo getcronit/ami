@@ -13,15 +13,18 @@ export interface HeaderContainerProps {
 export const HeaderContainer = ({path}: HeaderContainerProps) => {
   const menu = useFlatMenu()
 
-  const [searchTerm, setSearchTerm] =
-    React.useState<string | undefined>(undefined)
-
-  const searched = useProductSearch({
-    count: 15,
-    filters: {
-      searchTerm
-    }
+  const search = useProductSearch({
+    options: {
+      count: 15
+    },
+    persistData: false
   })
+
+  const onSearch = (searchTerm: string) => {
+    search.onChangeFilter({
+      searchTerm
+    })
+  }
 
   const authDisclosure = useDisclosure()
 
@@ -39,8 +42,8 @@ export const HeaderContainer = ({path}: HeaderContainerProps) => {
       <Header
         links={menu}
         path={path}
-        onSearch={setSearchTerm}
-        searchResultProducts={searched.products}
+        onSearch={onSearch}
+        searchResultProducts={search.products}
         auth={{
           isLoggedIn: !!user,
           onUserClick: authDisclosure.onOpen,
