@@ -105,7 +105,7 @@ const ImageViewer: React.FC<ImageViewerProps> = props => {
                     </HStack>
                   </Flex>
                 </HStack>
-                <Center>
+                <Center bg="rgba(0,0,0,0.6)">
                   <TransformComponent
                     contentStyle={{
                       height: '100vh'
