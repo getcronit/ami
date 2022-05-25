@@ -17,3 +17,21 @@ Primary.args = {
   onClose: () => null,
   onOpenStudio: () => null
 }
+
+export const Huge: Story<ImageViewerProps> = Template.bind({})
+
+Huge.args = {
+  src:
+    'https://upload.wikimedia.org/wikipedia/commons/d/d4/Wikidata_Map_April_2016_Huge.png',
+  onClose: () => null,
+  onOpenStudio: () => null
+}
+
+export const Mario: Story<ImageViewerProps> = Template.bind({})
+
+Mario.args = {
+  src:
+    'https://osg.snek.at/storage/BQACAgQAAxkDAAIG62Icqx5FOrs4Ebfb_wqb3UXflqdqAALFCwACme_pUGv0zVvz-wo7IwQ',
+  onClose: () => null,
+  onOpenStudio: () => null
+}
