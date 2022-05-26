@@ -8,7 +8,8 @@ module.exports = {
     {
       resolve: '@jaenjs/jaen',
       options: {
-        jaenProjectId: 2
+        jaenProjectId: 2,
+        snekAnalyticsId: 'SA-1234-5'
       }
     },
     '@chakra-ui/gatsby-plugin'

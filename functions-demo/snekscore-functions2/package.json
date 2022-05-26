@@ -9,7 +9,7 @@
     "@snek-at/functions": "*"
   },
   "scripts": {
-    "start": "IS_OFFLINE=true nodemon --watch dist --exec sls offline",
+    "start": "IS_OFFLINE=true nodemon --watch dist --exec sls offline --httpPort 3010 --lambdaPort 3012",
     "deploy": "sls deploy"
   }
 }

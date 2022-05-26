@@ -10,6 +10,7 @@ export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<
 
 export interface IJaenConfig {
   jaenProjectId: number
+  snekAnalyticsId?: string
 }
 
 export interface IJaenStaticData {

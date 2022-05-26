@@ -1,6 +1,6 @@
-import { makeFn } from "@snek-at/functions";
+import { fn } from "./factory";
 
-const exampleLogin = makeFn<{ username: string; password: string }, boolean>(
+const exampleLogin = fn<{ username: string; password: string }, boolean>(
   async (args) => {
     return args.username === "admin" && args.password === "admin";
   },

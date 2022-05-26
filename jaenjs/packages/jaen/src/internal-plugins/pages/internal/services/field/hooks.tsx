@@ -21,7 +21,6 @@ export const useField = <IValue extends {}>(name: string, type: string) => {
   function getPageField(
     page: IJaenPage | Partial<IJaenPage> | null
   ): IValue | undefined {
-    console.log('getPageField', page)
     if (page) {
       let fields
 

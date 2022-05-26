@@ -6,10 +6,14 @@
   "description": "Generated with `snek-functions init -f functions`",
   "author": "snek-at",
   "dependencies": {
-    "@snek-at/functions": "*"
+    "@snek-at/functions": "*",
+    "parquetjs": "^0.11.2"
   },
   "scripts": {
-    "start": "IS_OFFLINE=true nodemon --watch dist --exec sls offline",
+    "start": "IS_OFFLINE=true nodemon --watch dist --exec sls offline --httpPort 3010 --lambdaPort 3012",
     "deploy": "sls deploy"
+  },
+  "devDependencies": {
+    "@types/parquetjs": "^0.10.3"
   }
 }

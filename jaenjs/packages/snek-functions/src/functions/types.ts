@@ -4,7 +4,8 @@ export type SnekFunction<FunctionArgs, FunctionReturn> = {
   (args: FunctionArgs): Promise<FunctionReturn>
   server: (
     args: FunctionArgs,
-    snekApi: SnekApi
+    snekApi: SnekApi,
+    req: Request
   ) => Promise<FunctionReturn | null>
   execute: (
     args: FunctionArgs

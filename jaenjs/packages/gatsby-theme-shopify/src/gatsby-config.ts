@@ -3,12 +3,6 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-console.log(
-  'FUCK FUCK',
-  process.env.GATSBY_MYSHOPIFY_URL,
-  process.env.SHOPIFY_APP_PASSWORD
-)
-
 const config: GatsbyConfig = {
   plugins: [
     {

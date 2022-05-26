@@ -10,5 +10,6 @@
     ]
   ],
   "plugins": ["@babel/transform-runtime"],
-  "compact": true
+  "compact": true,
+  "ignore": ["/node_modules/"]
 }

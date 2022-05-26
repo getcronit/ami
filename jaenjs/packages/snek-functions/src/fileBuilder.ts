@@ -7,6 +7,11 @@ export const buildFile = async (filePath: string, outputFilePath: string) => {
 
   const {code} = await transformFile(filePath, {})
 
+  // regex replace `import {fn} from './factory'` to `import {fn} from './factory.js'`
+  const transformedCode = code
+    .replaceAll(`'./factory'`, `'./factory.js'`)
+    .replaceAll(`"./factory"`, `"./factory.js"`)
+
   let newFilePath = outputFilePath
 
   // change file extension to .js if it's a .ts file
@@ -15,7 +20,7 @@ export const buildFile = async (filePath: string, outputFilePath: string) => {
   }
 
   // write code to output file
-  await fs.promises.writeFile(newFilePath, code, 'utf8')
+  await fs.promises.writeFile(newFilePath, transformedCode, 'utf8')
 }
 
 export const buildFolder = async (

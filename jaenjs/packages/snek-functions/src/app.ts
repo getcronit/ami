@@ -79,7 +79,7 @@ export const getApp = async (options: AppOptions) => {
         request,
         schema,
         contextFactory: () => ({
-          headers: req.headers
+          req
         })
       })
 

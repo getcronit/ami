@@ -45,12 +45,14 @@
     "@ckeditor/ckeditor5-react": "^3.0.3",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@fingerprintjs/fingerprintjs": "^3.3.3",
     "@jaenjs/snek-finder": "^1.0.0-beta.0",
     "@loadable/component": "^5.15.2",
     "@react-icons/all-files": "4.0.0",
     "@reduxjs/toolkit": "^1.6.2",
     "@snek-at/snek-api-client": "^0.0.7",
     "@types/loadable__component": "^5.13.4",
+    "analytics": "^0.8.1",
     "framer-motion": "^5",
     "gatsby": "^4.15.0",
     "gatsby-plugin-compile-es6-packages": "^2.1.1",
@@ -70,6 +72,7 @@
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.3.0",
     "redux": "^4.1.2",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "vanilla-cookieconsent": "^2.8.0"
   }
 }

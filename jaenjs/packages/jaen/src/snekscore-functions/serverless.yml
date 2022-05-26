@@ -14,27 +14,20 @@ custom:
       ElseExclude:
         - functions.endpoint.image
 
+useDotenv: true
+
 provider:
   name: aws
   region: eu-central-1
+
+  environment:
+    PROJECT_ID: 2
+    SHEETS_TOKEN: ${env:SHEETS_TOKEN}
 
   ecr:
     images:
       appimage:
         path: ./
-
-  httpApi:
-    cors:
-      allowedOrigins:
-        - '*'
-      allowedMethods:
-        - GET
-        - POST
-        - HEAD
-      allowedHeaders:
-        - Accept
-        - Authorization
-        - Content-Type
 
 functions:
   endpoint:
