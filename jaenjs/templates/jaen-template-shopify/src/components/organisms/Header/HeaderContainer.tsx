@@ -1,4 +1,5 @@
 import {useDisclosure} from '@chakra-ui/react'
+import {useAnalytics} from '@jaenjs/jaen'
 import {SearchProvider, useProductSearch} from '@snek-at/gatsby-theme-shopify'
 import React from 'react'
 import {useFlatMenu} from '../../../hooks/menu'
@@ -20,8 +21,14 @@ export const HeaderContainer = ({path}: HeaderContainerProps) => {
     persistData: false
   })
 
+  const analytics = useAnalytics()
+
   const onSearch = (searchTerm: string) => {
     search.onChangeFilter({
+      searchTerm
+    })
+
+    analytics.track('search', {
       searchTerm
     })
   }
