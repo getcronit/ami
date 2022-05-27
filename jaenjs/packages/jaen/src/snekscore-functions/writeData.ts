@@ -88,16 +88,13 @@ const SHEETS_TOKEN = process.env.SHEETS_TOKEN
 
 const writeData = fn<WriteData, void>(
   async (args, snekApi, request) => {
-    console.log(request)
-
     const {File} = await import('node-fetch')
 
     let mySheet: Sheet = []
 
-    console.log('SHEETS_TOKEN', SHEETS_TOKEN)
-
     console.log(`fingerprint: ${args.fingerprint}`)
 
+    console.log(args.payload)
     // Check if  sheet exists, and if not, create it with default values
     try {
       const sheet = await snekApi.getSheet({

@@ -1,12 +1,11 @@
-import AdminToolbarContainer from './src/ui/AdminToolbar'
+import {Box, Flex} from '@chakra-ui/react'
 import {GatsbyBrowser} from 'gatsby'
-import {SnekFinder} from './src/withSnekFinder'
-import {Flex, Box} from '@chakra-ui/react'
 import {IncomingBuildCheckerProvider} from './src/services/IncomingBuildChecker'
-
 // self executing function to avoid polluting the global namespace
 import {TrackingProvider} from './src/services/tracking/TrackingProvider'
 import {IJaenConfig} from './src/types'
+import AdminToolbarContainer from './src/ui/AdminToolbar'
+import {SnekFinder} from './src/withSnekFinder'
 
 export const wrapRootElement: GatsbyBrowser['wrapRootElement'] = ({
   element

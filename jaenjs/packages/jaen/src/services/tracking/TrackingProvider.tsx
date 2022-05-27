@@ -2,14 +2,17 @@ import FingerprintJS from '@fingerprintjs/fingerprintjs'
 import {Analytics, AnalyticsInstance} from 'analytics'
 import {PageProps} from 'gatsby'
 import React, {useEffect} from 'react'
-import 'vanilla-cookieconsent/dist/cookieconsent.css'
-import 'vanilla-cookieconsent/dist/cookieconsent.js'
+import 'vanilla-cookieconsent/src/cookieconsent.css'
+import 'vanilla-cookieconsent/src/cookieconsent.js'
 import analyticsPluginSnekScore from './analyticsPluginSnekScore'
+
+const cc = (window as any).initCookieConsent()
 
 const TrackingContext = React.createContext<
   | {
       analytics: AnalyticsInstance
       consentLevel: string[]
+      cookieconsent: any
     }
   | undefined
 >(undefined)
@@ -62,7 +65,6 @@ export const TrackingProvider: React.FC<{
   }, [consentLevel])
 
   React.useEffect(() => {
-    const cc = (window as any).initCookieConsent()
     cc.run({
       current_lang: 'en',
       autoclear_cookies: true, // default: false
@@ -72,7 +74,7 @@ export const TrackingProvider: React.FC<{
 
       // auto_language: null,                     // default: null; could also be 'browser' or 'document'
       // autorun: true,                           // default: true
-      // delay: 0,                                // default: 0
+      delay: 100, // default: 0
       // force_consent: false,
       // hide_from_bots: false,                   // default: false
       // remove_cookie_tables: false              // default: false
@@ -107,12 +109,14 @@ export const TrackingProvider: React.FC<{
 
       onChange: function (cookie: any, changed_preferences: any) {
         console.log('onChange fired ...')
+
+        setConsentLevel(cookie.level)
       },
 
       languages: {
         en: {
           consent_modal: {
-            title: ' We use cookies! ',
+            title: '🍪 We use cookies! ',
             description:
               'Hi, this website uses essential cookies to ensure its proper operation and tracking cookies to understand how you interact with it. The latter will be set only after consent. <button type="button" data-cc="c-settings" class="cc-link">Let me choose</button>',
             primary_btn: {
@@ -125,7 +129,7 @@ export const TrackingProvider: React.FC<{
             }
           },
           settings_modal: {
-            title: 'sds',
+            title: 'Jaen Cookie Consent',
             save_settings_btn: 'Save settings',
             accept_all_btn: 'Accept all',
             reject_all_btn: 'Reject all',
@@ -161,7 +165,21 @@ export const TrackingProvider: React.FC<{
                   enabled: false,
                   readonly: false
                 },
-                cookie_table: []
+                cookie_table: [
+                  {
+                    col1: '^_ga',
+                    col2: 'google.com',
+                    col3: '2 years',
+                    col4: 'description ...',
+                    is_regex: true
+                  },
+                  {
+                    col1: '_gid',
+                    col2: 'google.com',
+                    col3: '1 day',
+                    col4: 'description ...'
+                  }
+                ]
               },
               {
                 title: 'Advertisement and Targeting cookies',
@@ -176,7 +194,7 @@ export const TrackingProvider: React.FC<{
               {
                 title: 'More information',
                 description:
-                  'For any queries in relation to my policy on cookies and your choices, please <a class="cc-link" href="https://orestbida.com/contact">contact me</a>.'
+                  'For any queries in relation to my policy on cookies and your choices, please <a class="cc-link" href="https://snek.at/contact">contact us</a>.'
               }
             ]
           }
@@ -197,7 +215,8 @@ export const TrackingProvider: React.FC<{
     <TrackingContext.Provider
       value={{
         analytics,
-        consentLevel
+        consentLevel,
+        cookieconsent: cc
       }}>
       {children}
     </TrackingContext.Provider>
@@ -214,12 +233,15 @@ export const useAnalytics = () => {
   return context.analytics
 }
 
-export const useConsentLevel = () => {
+export const useCookieConsent = () => {
   const context = React.useContext(TrackingContext)
 
   if (context === undefined) {
     throw new Error('useConsentLevel must be used within a AnalyticsProvider')
   }
 
-  return context.consentLevel
+  return {
+    consentLevel: context.consentLevel,
+    cookieconsent: context.cookieconsent
+  }
 }
