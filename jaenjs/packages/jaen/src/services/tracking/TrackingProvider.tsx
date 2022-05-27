@@ -1,7 +1,7 @@
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
 import {Analytics, AnalyticsInstance} from 'analytics'
 import {PageProps} from 'gatsby'
-import React, {useEffect} from 'react'
+import React from 'react'
 import 'vanilla-cookieconsent/src/cookieconsent.css'
 import 'vanilla-cookieconsent/src/cookieconsent.js'
 import analyticsPluginSnekScore from './analyticsPluginSnekScore'
@@ -198,12 +198,97 @@ export const TrackingProvider: React.FC<{
               }
             ]
           }
+        },
+        de: {
+          consent_modal: {
+            title: '🍪 Wir verwenden Cookies! ',
+            description:
+              'Hallo, diese Website verwendet essentielle Cookies, um ihren ordnungsgemäßen Betrieb zu gewährleisten, und Tracking-Cookies, um zu verstehen, wie Sie damit interagieren. Letztere werden erst nach Zustimmung gesetzt. <button type="button" data-cc="c-settings" class="cc-link">Lass mich wählen</button>',
+            primary_btn: {
+              text: 'Alle akzeptieren',
+              role: 'accept_all' // 'accept_selected' or 'accept_all'
+            },
+            secondary_btn: {
+              text: 'Alle ablehnen',
+              role: 'accept_necessary' // 'settings' or 'accept_necessary'
+            }
+          },
+          settings_modal: {
+            title: 'Jaen Cookie-Zustimmung',
+            save_settings_btn: 'Einstellungen speichern',
+            accept_all_btn: 'Alle akzeptieren',
+            reject_all_btn: 'Alle ablehnen',
+            close_btn_label: 'Schließen',
+            cookie_table_headers: [
+              {col1: 'Name'},
+              {col2: 'Domain'},
+              {col3: 'Ablaufzeit'},
+              {col4: 'Beschreibung'}
+            ],
+            blocks: [
+              {
+                title: 'Cookie-Nutzung 📢',
+                description:
+                  'Ich verwende Cookies, um die grundlegenden Funktionen der Website sicherzustellen und Ihr Online-Erlebnis zu verbessern. Sie können für jede Kategorie wählen, ob Sie sich jederzeit an- oder abmelden möchten. Weitere Einzelheiten zu Cookies und anderen sensiblen Daten finden Sie in der vollständigen <a href="#" class="cc-link">Datenschutzerklärung</a>.'
+              },
+              {
+                title: 'Unbedingt erforderliche Cookies',
+                description:
+                  'Diese Cookies sind für das reibungslose Funktionieren meiner Website unerlässlich. Ohne diese Cookies würde die Website nicht richtig funktionieren',
+                toggle: {
+                  value: 'necessary',
+                  enabled: true,
+                  readonly: true // cookie categories with readonly=true are all treated as "necessary cookies"
+                }
+              },
+              {
+                title: 'Performance- and Analyse-Cookies',
+                description:
+                  'Diese Cookies ermöglichen es der Website, sich an die Entscheidungen zu erinnern, die Sie in der Vergangenheit getroffen haben',
+                toggle: {
+                  value: 'analytics', // there are no default categories => you specify them
+                  enabled: false,
+                  readonly: false
+                },
+                cookie_table: [
+                  {
+                    col1: '^_ga',
+                    col2: 'google.com',
+                    col3: '2 years',
+                    col4: 'description ...',
+                    is_regex: true
+                  },
+                  {
+                    col1: '_gid',
+                    col2: 'google.com',
+                    col3: '1 day',
+                    col4: 'description ...'
+                  }
+                ]
+              },
+              {
+                title: 'Werbe- und Targeting-Cookies',
+                description:
+                  'Diese Cookies sammeln Informationen darüber, wie Sie die Website nutzen, welche Seiten Sie besucht und auf welche Links Sie geklickt haben. Alle Daten sind anonymisiert und können nicht dazu verwendet werden, Sie zu identifizieren',
+                toggle: {
+                  value: 'targeting',
+                  enabled: false,
+                  readonly: false
+                }
+              },
+              {
+                title: 'Mehr Informationen',
+                description:
+                  'Bei Fragen zu meiner Richtlinie zu Cookies und Ihren Auswahlmöglichkeiten kontaktieren Sie uns bitte <a class="cc-link" href="https://snek.at/contact"></a>.'
+              }
+            ]
+          }
         }
       }
     })
   }, [])
 
-  useEffect(() => {
+  React.useEffect(() => {
     let timeout = setTimeout(() => analytics.page(), 2000)
 
     return () => {
