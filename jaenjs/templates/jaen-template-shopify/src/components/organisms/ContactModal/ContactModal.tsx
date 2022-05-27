@@ -1,24 +1,21 @@
-import React from 'react'
-import {Button, IconButton} from '@chakra-ui/button'
+import {Button} from '@chakra-ui/button'
+import {Checkbox} from '@chakra-ui/checkbox'
+import {FormControl, FormErrorMessage, FormLabel} from '@chakra-ui/form-control'
 import {Input} from '@chakra-ui/input'
-import {Text, Box, Heading, Flex} from '@chakra-ui/layout'
+import {Box, Flex, Text} from '@chakra-ui/layout'
 import {
   Modal,
-  ModalContent,
-  ModalOverlay,
-  ModalHeader,
+  ModalBody,
   ModalCloseButton,
-  ModalBody
+  ModalContent,
+  ModalHeader,
+  ModalOverlay
 } from '@chakra-ui/modal'
-import {useToast} from '@chakra-ui/toast'
-import {FormControl, FormErrorMessage, FormLabel} from '@chakra-ui/form-control'
-import {Checkbox} from '@chakra-ui/checkbox'
 import {Textarea} from '@chakra-ui/textarea'
-
+import {useToast} from '@chakra-ui/toast'
+import React from 'react'
 import {useForm} from 'react-hook-form'
 import {sendEmail} from '../../../services/sendMail'
-import * as styles from './styles'
-
 
 export interface ContactModalProps {
   isOpen: boolean

@@ -1,8 +1,11 @@
+import {useAnalytics} from '@jaenjs/jaen'
 import {navigate} from 'gatsby'
 import React from 'react'
 import usersAuth from '../snek-functions/usersAuth'
 
 export const useUserAuth = () => {
+  const analytics = useAnalytics()
+
   const [user, setUser] = React.useState<{
     id: string
     fullName: string
@@ -24,6 +27,11 @@ export const useUserAuth = () => {
       if (auth) {
         localStorage.setItem('user', JSON.stringify(auth))
         setUser(auth)
+
+        analytics.identify(auth.id, {
+          fullName: auth.fullName,
+          email: auth.email
+        })
 
         // simulate soft refresh
         navigate(0)

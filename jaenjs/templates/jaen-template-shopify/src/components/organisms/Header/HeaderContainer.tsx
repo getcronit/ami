@@ -1,10 +1,10 @@
+import {useDisclosure} from '@chakra-ui/react'
 import {SearchProvider, useProductSearch} from '@snek-at/gatsby-theme-shopify'
 import React from 'react'
 import {useFlatMenu} from '../../../hooks/menu'
-import {Header} from './Header'
-import {AuthModal} from '../AuthModal'
-import {useDisclosure} from '@chakra-ui/react'
 import {useUserAuth} from '../../../services/useUserAuth'
+import {AuthModal} from '../AuthModal'
+import {Header} from './Header'
 
 export interface HeaderContainerProps {
   path: string

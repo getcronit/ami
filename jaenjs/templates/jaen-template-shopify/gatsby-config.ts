@@ -1,9 +1,7 @@
-import type {GatsbyConfig} from 'gatsby'
-
-import {site} from './jaen-data/internal.json'
-
 import dotenv from 'dotenv'
+import type {GatsbyConfig} from 'gatsby'
 import path from 'path'
+import {site} from './jaen-data/internal.json'
 
 dotenv.config()
 
@@ -40,7 +38,8 @@ const config: GatsbyConfig = {
     {
       resolve: '@jaenjs/jaen',
       options: {
-        jaenProjectId: 1337
+        jaenProjectId: 1337,
+        snekAnalyticsId: 'SA-AGT2022-1'
       }
     },
     '@chakra-ui/gatsby-plugin',
