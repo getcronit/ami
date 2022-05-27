@@ -1,4 +1,4 @@
-import {makeFn} from '@snek-at/functions'
+import {fn} from './factory'
 
 interface User {
   id: string
@@ -15,7 +15,7 @@ const PROJECT_ID = parseInt(process.env.PROJECT_ID || '') || 2
 const SHEET_NAME = 'snek-functions-users'
 const SHEET_FILE_NAME = 'snek-functions-users.json'
 
-const usersAdd = makeFn<
+const usersAdd = fn<
   {
     email: string
     password: string

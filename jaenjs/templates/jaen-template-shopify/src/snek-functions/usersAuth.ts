@@ -1,4 +1,4 @@
-import {makeFn} from '@snek-at/functions'
+import {fn} from './factory'
 
 type Sheet = Array<{
   id: string
@@ -12,7 +12,7 @@ const PROJECT_ID = parseInt(process.env.PROJECT_ID || '') || 2
 const SHEETS_TOKEN = process.env.SHEETS_TOKEN
 const SHEET_NAME = 'snek-functions-users'
 
-const usersAuth = makeFn<
+const usersAuth = fn<
   {email: string; password: string},
   | {
       id: string
@@ -61,7 +61,6 @@ const usersAuth = makeFn<
       }
     } catch (e) {
       throw e
-      throw new Error(`Sheet ${SHEET_NAME} does not exist`)
     }
 
     return false
