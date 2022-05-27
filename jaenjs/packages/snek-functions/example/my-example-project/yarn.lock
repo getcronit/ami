@@ -8,9 +8,9 @@
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
 "@snek-at/functions@*":
-  version "0.0.27"
-  resolved "https://registry.yarnpkg.com/@snek-at/functions/-/functions-0.0.27.tgz#44810090c2ff2bd590fa42dd5fb66c13dfc0a247"
-  integrity sha512-3PgNMkelS6XetdjnZpRJa77gb3Ue0Nfen3+9MhT6mFAgLWwOKeHmj+msG/l77M/U7MjlnkcoPEBenmYMny+mfA==
+  version "0.0.31"
+  resolved "https://registry.yarnpkg.com/@snek-at/functions/-/functions-0.0.31.tgz#27d9dd680a6a66003d93c7c11af204a3c6eef416"
+  integrity sha512-3mvxcFQCWDS74QST9vdZIns5J0939uQdbxowy/d9+ZfRZwq4Bfnxvem3ApRfeb+zYwxzo+9IBZr7v5BwXg9xNQ==
   dependencies:
     "@snek-at/snek-api-client" "*"
     "@swc/core" "^1.2.183"
@@ -364,7 +364,7 @@ commander@^9.2.0:
 concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
-  integrity sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
+  integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
 configstore@^5.0.1:
   version "5.0.1"
@@ -1118,9 +1118,9 @@ object-assign@^4:
   integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
 
 object-inspect@^1.9.0:
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/object-inspect/-/object-inspect-1.12.1.tgz#28a661153bad7e470e4b01479ef1cb91ce511191"
-  integrity sha512-Y/jF6vnvEtOPGiKD1+q+X0CiUYRQtEHp89MLLUJ7TUivtH8Ugn2+3A7Rynqk7BRsAoqeOQWnFnjpDrKSxDgIGA==
+  version "1.12.2"
+  resolved "https://registry.yarnpkg.com/object-inspect/-/object-inspect-1.12.2.tgz#c0641f26394532f28ab8d796ab954e43c009a8ea"
+  integrity sha512-z+cPxW0QGUp0mcqcsgQyLVRDoXFQbXOwBaqyF7VIgI4TWNQsDHrBpUQslRmIfAoYWdYzs6UlKJtB2XJpTaNSpQ==
 
 on-finished@2.4.1:
   version "2.4.1"

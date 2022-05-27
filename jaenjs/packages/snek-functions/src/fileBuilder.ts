@@ -1,6 +1,7 @@
 import {transformFile} from '@swc/core'
 import fs from 'fs'
 import path from 'path'
+import {TEMPLATE_FILES} from './init/files.js'
 
 export const buildFile = async (filePath: string, outputFilePath: string) => {
   const extname = path.extname(filePath)
@@ -37,24 +38,42 @@ export const buildFolder = async (
   } catch {}
 
   for (const file of await fs.promises.readdir(folderPath)) {
-    // continue if not .js or .ts file
-    if (!['.js', '.ts'].includes(path.extname(file))) {
-      continue
-    }
-
-    // `app.js` is the main file for the serverless app, so we don't want to
-    // build it because we only want to build the functions
-    if (['app.js'].includes(file)) {
-      continue
-    }
-
     const filePath = path.resolve(folderPath, file)
     const outputFilePath = path.resolve(outputFolderPath, file)
 
-    try {
-      await buildFile(filePath, outputFilePath)
-    } catch (err) {
-      console.warn(`Can't build file ${filePath}`, err)
+    // check if javascript or typescript file
+    if (/\.js$/.test(file) || /\.ts$/.test(file)) {
+      // `app.js` is the main file for the serverless app, so we don't want to
+      // build it because we only want to build the functions
+      if (['app.js'].includes(file)) {
+        continue
+      }
+
+      try {
+        await buildFile(filePath, outputFilePath)
+      } catch (err) {
+        console.warn(`Can't build file ${filePath}`, err)
+      }
+    } else {
+      // exclude template files from copying that are not js or ts files
+      if (TEMPLATE_FILES.some(({name}) => name === file)) {
+        continue
+      }
+
+      // exculude node_modules, dist, yarn.lock, and package-lock.json
+      if (
+        ['node_modules', 'dist', 'yarn.lock', 'package-lock.json'].includes(
+          file
+        )
+      ) {
+        continue
+      }
+
+      try {
+        await fs.promises.copyFile(filePath, outputFilePath)
+      } catch (err) {
+        console.warn(`Can't copy file ${filePath}`, err)
+      }
     }
   }
 }
