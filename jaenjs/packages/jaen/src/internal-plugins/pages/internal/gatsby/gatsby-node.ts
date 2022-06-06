@@ -1,12 +1,13 @@
-import {convertToSlug} from '../../../../utils/helper'
+import fs from 'fs'
 import {GatsbyNode as GatsbyNodeType} from 'gatsby'
+import 'isomorphic-fetch'
+import path from 'path'
 import {getJaenDataForPlugin} from '../../../../services/migration/get-jaen-data-for-plugin'
+import {convertToSlug} from '../../../../utils/helper'
 import {IJaenPage, IPagesMigrationBase} from '../../types'
 import {processPage} from '../services/imaProcess'
 import {generateOriginPath} from '../services/path'
 import {sourceTemplates} from './gatsby-config'
-
-import 'isomorphic-fetch'
 
 const GatsbyNode: GatsbyNodeType = {}
 
@@ -190,13 +191,11 @@ GatsbyNode.createPages = async ({actions, graphql, reporter}) => {
   const {allTemplate, allJaenPage} = result.data
 
   allJaenPage.nodes.forEach(node => {
-    const {slug} = node
     const {template} = node
+    const pagePath = generateOriginPath(allJaenPage.nodes, node)
 
     if (template) {
-      const path = generateOriginPath(allJaenPage.nodes, node)
-
-      if (!path) {
+      if (!pagePath) {
         reporter.panicOnBuild(`Error while generating path for page ${node.id}`)
         return
       }
@@ -212,13 +211,26 @@ GatsbyNode.createPages = async ({actions, graphql, reporter}) => {
       }
 
       createPage({
-        path: path,
+        path: pagePath,
         component,
         context: {
           jaenPageId: node.id
         }
       })
     }
+
+    // Create a json file for the page in the public folder
+
+    const fileName = pagePath === '/' ? 'index' : pagePath
+
+    const outputPath = path.join('./public', `${fileName}.json`)
+    const outputDir = path.dirname(outputPath)
+
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir)
+    }
+
+    fs.writeFileSync(outputPath, JSON.stringify(node))
   })
 
   // Dynamic routing pages
