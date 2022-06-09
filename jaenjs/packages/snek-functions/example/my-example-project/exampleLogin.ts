@@ -1,12 +1,12 @@
-import { fn } from "./factory";
+import {fn} from './factory'
 
-const exampleLogin = fn<{ username: string; password: string }, boolean>(
-  async (args) => {
-    return args.username === "admin" && args.password === "admin";
+const exampleLogin = fn<{username: string; password: string}, boolean>(
+  async args => {
+    return args.username === 'admin' && args.password === 'admin'
   },
   {
-    name: "exampleLogin",
+    name: 'exampleLogin'
   }
-);
+)
 
-export default exampleLogin;
+export default exampleLogin

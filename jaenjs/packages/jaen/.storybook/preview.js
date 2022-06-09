@@ -1,4 +1,5 @@
 import {action} from '@storybook/addon-actions'
+import theme from '../src/newui/theme'
 
 // Gatsby's Link overrides:
 // Gatsby Link calls the `enqueue` & `hovering` methods on the global variable ___loader.
@@ -17,7 +18,9 @@ window.___navigate = pathname => {
 }
 
 export const parameters = {
-  chakra: {},
+  chakra: {
+    theme
+  },
   actions: {argTypesRegex: '^on[A-Z].*'},
   controls: {
     matchers: {
