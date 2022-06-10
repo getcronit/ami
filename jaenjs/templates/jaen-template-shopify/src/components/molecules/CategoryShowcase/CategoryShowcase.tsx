@@ -1,13 +1,79 @@
 import React from 'react'
 import {Button} from '@chakra-ui/button'
-import {Box, Center, Flex, HStack, Text} from '@chakra-ui/layout'
+import {
+  Box,
+  BoxProps,
+  Center,
+  Flex,
+  SimpleGrid,
+  Text
+} from '@chakra-ui/layout'
 import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
 import {useBreakpointValue} from '@chakra-ui/media-query'
+import {AnimatePresence, motion} from 'framer-motion'
 import {Link as GatsbyLink} from 'gatsby'
 
-import {CategoryTab} from '../CategoryTab'
+import {ProductGrid} from '../ProductGrid'
 import {getThemeColor} from '../../../common/utils'
 import * as style from './style'
+
+export interface CategoryTabProps {
+  products: ShopifyProduct[]
+  direction: string
+  visible: string
+  prefixPath: string
+}
+
+const TabBox = motion<BoxProps>(Box)
+
+const variants = {
+  enter: (direction: string) => {
+    return {
+      position: 'absolute',
+      y: direction === 'right' ? 75 : -75,
+      opacity: 0
+    }
+  },
+  center: {
+    position: 'relative',
+    opacity: 1,
+    y: 0
+  },
+  exit: (direction: string) => {
+    return {
+      position: 'absolute',
+      display: 'none',
+      y: direction === 'right' ? -75 : 75,
+      opacity: 0
+    }
+  }
+}
+
+export const CategoryTab = ({
+  products,
+  direction,
+  visible,
+  prefixPath
+}: CategoryTabProps) => {
+  return (
+    <AnimatePresence exitBeforeEnter custom={direction}>
+      {visible === 'visible' && (
+        <TabBox
+          position="relative"
+          key={visible}
+          custom={direction}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          px={2}
+          transition={{duration: 0.15}}>
+          <ProductGrid products={products} spacing="5" columns={{base: 2, sm: 2, md: 3, xl: 6}} />
+        </TabBox>
+      )}
+    </AnimatePresence>
+  )
+}
 
 interface Tab {
   [category: string]: {
@@ -88,18 +154,15 @@ export const CategoryShowcase = ({
         </Flex>
         <Box w="100%" borderColor="border" borderBottom="1px" display={{base: 'none', md: 'block'}} />
       </Flex>
-      
       <Box
         justifyContent="center"
         alignContent="center"
-        p={{md: '6', lg: '10'}}
+        px={{md: '6', lg: '10'}}
         pl={{base: '0', lg: '10'}}
-        minH={{base: '1010px', md: '700px', lg: '390px'}}
-        pb="20"
+        pt="7"
+        pb="12"
         bg="primary"
-        border="1px"
-        borderColor="border"
-        borderTop="none"
+        overflow="hidden"
         borderBottomRadius="5px"
         borderTopRightRadius={{md: '5px'}}>
         {tabsList.map(([titel, collection], index) => {

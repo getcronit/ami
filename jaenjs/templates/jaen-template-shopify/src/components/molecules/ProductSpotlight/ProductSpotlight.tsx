@@ -144,7 +144,7 @@ export const ProductSpotlight = ({products}: ProductshowcaseProps) => {
                     initial={{opacity: 0, x: 300}}
                     animate={{opacity: 1, x: 0}}
                     transition={{duration: 0.25, delay: 0.33}}>
-                    <Box mt={{base: '-2', md: '0'}}>
+                    <Box display={{base: "none", lg: "block"}} mt={{base: '-2', md: '0'}}>
                       <Text
                         fontWeight="bold"
                         fontSize={{base: '20', md: '4vw', lg: '2vw'}}

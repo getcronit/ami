@@ -19,6 +19,7 @@ import * as style from './style'
 
 
 export interface ReviewItem {
+  id: string
   sourceImage: string
   source: string
   rating: number
@@ -42,6 +43,7 @@ export interface ReviewProps {
 export const Review = ({anchor, heading, googleReviews, bg}: ReviewProps) => {
   const reviewsForSlider = googleReviews.map((review: ReviewItem) => (
     <ReviewCard
+      reviewId={review.id}
       reviewImage={review.sourceImage}
       reviewName={review.source}
       reviewRating={review.rating}

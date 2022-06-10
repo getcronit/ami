@@ -92,7 +92,7 @@ export const ProductCard = ({
           className="pcard"
           position="relative"
           cursor="pointer"
-          bg={useColorModeValue('white', 'gray.700')}
+          bg="primary"
           px={{base: '1', md: '2', lg: '3'}}
           py="5"
           // h={'full'}
@@ -123,7 +123,7 @@ export const ProductCard = ({
               </>
             </AspectRatio>
 
-            {product.media.map((media, index) => (
+            {product.media.slice(0, 4).map((media, index) => (
               <Box key={index}>
                 {index !== 0 && (
                   <Box>
@@ -187,7 +187,7 @@ export const ProductCard = ({
               boxSize={'full'}
               py="0.5rem"
               px="1">
-              {product.media.map((m, index) => (
+              {product.media.slice(0, 4).map((m, index) => (
                 <label htmlFor={'imgbox-' + cardId + '-' + index} key={index}>
                   <Box
                     transform="scale(0.97)"

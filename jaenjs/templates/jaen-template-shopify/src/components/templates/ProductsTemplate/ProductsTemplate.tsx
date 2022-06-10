@@ -223,7 +223,7 @@ export const Header = (props: {
         position={'sticky'}
         top="0"
         alignSelf={'flex-start'}
-        zIndex="1"
+        zIndex="100"
         bg={useColorModeValue('white', 'gray.700')}>
         <Flex>
           {!props.disableFilter && (

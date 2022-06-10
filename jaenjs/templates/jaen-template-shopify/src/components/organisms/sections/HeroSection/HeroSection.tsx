@@ -81,7 +81,7 @@ export const Hero = ({
           <CategoryShowcase tabs={tabs} latestProducts={latestProducts} />
           <Flex
             mt="8"
-            direction={{base: 'column-reverse', lg: 'row'}}
+            direction={{base: 'column-reverse', xl: 'row'}}
             width="full"
             justifyContent="center"
             alignContent="center">

@@ -45,17 +45,16 @@ export const FeaturedPartner = ({
 }: FeaturedPartnerProps) => {
   return (
     <Box position={'relative'}>
-      <Text
-        fontSize="calc(20em + 3vw)"
-        fontWeight="bold"
-        top="10%"
-        left="10%"
-        position="absolute"
-        color="background"
-        style={{WebkitTextStroke: `1px ${getThemeColor('stroke')}`}}
-        display={{ base: 'none', '2xl': 'block' }}>
-        <span>Si vis pacem para bellum</span>
-      </Text>
+      <Box position="absolute" pl="calc(4em + 3.5vw)" pt="10%" h="100%" w="100%" overflow="hidden">
+        <Text
+          fontSize="calc(20em + 3vw)"
+          fontWeight="bold"
+          color="background"
+          style={{WebkitTextStroke: `1px ${getThemeColor('stroke')}`}}
+          display={{ base: 'none', xl: 'block' }}>
+          <span>Si vis pacem para bellum</span>
+        </Text>
+      </Box>
       <FeaturedProducts
         anchor={featuredAnchor}
         heading={featuredHeading}
