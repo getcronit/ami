@@ -118,7 +118,10 @@ PagesTab.args = {
       datePublished: '2020-01-01',
       isBlogPost: false
     },
-    template: 'BlogPage'
+    template: 'BlogPage',
+    jaenFields: {},
+    jaenFiles: [],
+    chapters: {}
   }),
   onItemDoubleClick: () => alert('double clicked')
 }

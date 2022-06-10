@@ -27,7 +27,7 @@
     "@snek-at/functions": "*",
     "electron": "^16.0.2",
     "framer-motion": "^4",
-    "gatsby": "^4.2.0",
+    "gatsby": "^4.15.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hook-form": "^7.31.1",

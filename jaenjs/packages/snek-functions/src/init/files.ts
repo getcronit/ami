@@ -15,11 +15,21 @@ export async function handler(event, context) {
 `
 }
 
+export const factory = {
+  name: 'factory.ts',
+  content: `import {makeFn} from '@snek-at/functions'
+
+export const fn = makeFn({
+  url: 'https://<your-snek-functions-url>'
+})
+`
+}
+
 export const exampleLoginFn = {
   name: 'exampleLogin.ts',
-  content: `import { makeFn } from "@snek-at/functions";
+  content: `import { fn } from "./factory";
 
-const exampleLogin = makeFn<{ username: string; password: string }, boolean>(
+const exampleLogin = fn<{ username: string; password: string }, boolean>(
   async (args) => {
     return args.username === "admin" && args.password === "admin";
   },
@@ -130,6 +140,7 @@ functions:
 
 export const TEMPLATE_FILES = [
   app,
+  factory,
   exampleLoginFn,
   packageJson,
   dockerfile,

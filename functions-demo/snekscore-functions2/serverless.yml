@@ -1,0 +1,33 @@
+service: snek-functions-graphql-helix-express
+frameworkVersion: '3'
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-ifelse
+
+custom:
+  isOffline: ${env:IS_OFFLINE, "false"}
+  serverlessIfElse:
+    - If: '"${self:custom.isOffline}" != "true"'
+      Exclude:
+        - functions.endpoint.handler
+      ElseExclude:
+        - functions.endpoint.image
+
+provider:
+  name: aws
+  region: eu-central-1
+
+  ecr:
+    images:
+      appimage:
+        path: ./
+
+functions:
+  endpoint:
+    image: appimage
+    handler: app.handler
+    events:
+      - httpApi:
+          path: '*'
+          method: '*'

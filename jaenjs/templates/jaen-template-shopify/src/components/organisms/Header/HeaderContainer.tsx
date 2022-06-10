@@ -1,10 +1,11 @@
+import {useDisclosure} from '@chakra-ui/react'
+import {useAnalytics} from '@jaenjs/jaen'
 import {SearchProvider, useProductSearch} from '@snek-at/gatsby-theme-shopify'
 import React from 'react'
 import {useFlatMenu} from '../../../hooks/menu'
-import {Header} from './Header'
-import {AuthModal} from '../AuthModal'
-import {useDisclosure} from '@chakra-ui/react'
 import {useUserAuth} from '../../../services/useUserAuth'
+import {AuthModal} from '../AuthModal'
+import {Header} from './Header'
 
 export interface HeaderContainerProps {
   path: string
@@ -13,15 +14,24 @@ export interface HeaderContainerProps {
 export const HeaderContainer = ({path}: HeaderContainerProps) => {
   const menu = useFlatMenu()
 
-  const [searchTerm, setSearchTerm] =
-    React.useState<string | undefined>(undefined)
-
-  const searched = useProductSearch({
-    count: 15,
-    filters: {
-      searchTerm
-    }
+  const search = useProductSearch({
+    options: {
+      count: 15
+    },
+    persistData: false
   })
+
+  const analytics = useAnalytics()
+
+  const onSearch = (searchTerm: string) => {
+    search.onChangeFilter({
+      searchTerm
+    })
+
+    analytics.track('search', {
+      searchTerm
+    })
+  }
 
   const authDisclosure = useDisclosure()
 
@@ -39,8 +49,8 @@ export const HeaderContainer = ({path}: HeaderContainerProps) => {
       <Header
         links={menu}
         path={path}
-        onSearch={setSearchTerm}
-        searchResultProducts={searched.products}
+        onSearch={onSearch}
+        searchResultProducts={search.products}
         auth={{
           isLoggedIn: !!user,
           onUserClick: authDisclosure.onOpen,

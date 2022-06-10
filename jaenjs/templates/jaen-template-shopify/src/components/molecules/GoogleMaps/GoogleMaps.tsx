@@ -1,20 +1,19 @@
+import {Box, BoxProps, Heading, Link, Text} from '@chakra-ui/react'
+import {useCookieConsent} from '@jaenjs/jaen'
 import React from 'react'
-import {Box, Heading, Text, Link, BoxProps} from '@chakra-ui/react'
-import {useCookieState} from '../../../services/cookiemodal'
 
 export interface GoogleMapsProps extends BoxProps {
   src: string
 }
 
 export const GoogleMaps = ({src, ...props}: GoogleMapsProps) => {
-  const cookieState = useCookieState()
+  const {consentLevel, cookieconsent} = useCookieConsent()
 
   const handleAccept = () => {
-    cookieState.updateCookie('analytics', true)
-    cookieState.accept(true)
+    cookieconsent.accept(['analytics'])
   }
 
-  if (!cookieState.cookie.analytics) {
+  if (!consentLevel.includes('analytics')) {
     return (
       <Box bg="gray.200">
         <Heading as="h1" size="xl">
@@ -45,4 +44,3 @@ export const GoogleMaps = ({src, ...props}: GoogleMapsProps) => {
     </Box>
   )
 }
-

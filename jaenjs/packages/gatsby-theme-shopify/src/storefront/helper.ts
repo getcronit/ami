@@ -27,6 +27,7 @@ export interface ProductSearchFilters {
 }
 
 export const buildProductSearchQuery = (filters: ProductSearchFilters) => {
+  console.log('buildProductSearchQuery', filters)
   const processedTags: {
     grouped: {[key: string]: string[]}
     ungrouped: string[]
@@ -132,7 +133,8 @@ export const buildProductSearchQuery = (filters: ProductSearchFilters) => {
 
 function arrayify(value: any) {
   if (!value) {
-    return []
+    return undefined
+    //return []
   }
   if (!Array.isArray(value)) {
     return [value]
@@ -147,6 +149,7 @@ function arrayify(value: any) {
 export function getValuesFromQuery(query: string | object) {
   const isClient = typeof query === 'string'
   const {
+    mt: mainTag,
     q: searchTerm,
     s: sortKey,
     x: maxPrice,
@@ -156,6 +159,7 @@ export function getValuesFromQuery(query: string | object) {
     v
   } = isClient ? (queryString.parse(query) as any) : (query as any)
   return {
+    mainTag,
     searchTerm,
     sortKey,
     maxPrice,

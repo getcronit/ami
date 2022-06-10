@@ -1,4 +1,4 @@
-import {makeFn} from '@snek-at/functions'
+import {fn} from './factory'
 
 interface User {
   id: string
@@ -16,7 +16,7 @@ type Sheet = Array<User>
 const PROJECT_ID = parseInt(process.env.PROJECT_ID || '') || 2
 const SHEET_NAME = 'snek-functions-users'
 
-const usersGet = makeFn<void, ReducedUser[]>(
+const usersGet = fn<void, ReducedUser[]>(
   async (args, snekApi) => {
     console.log('args', args)
 

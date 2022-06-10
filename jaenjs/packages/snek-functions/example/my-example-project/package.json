@@ -1,12 +1,15 @@
 {
-  "name": "my-example-project",
+  "name": "snek-functions",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "scripts": {
-    "develop": "concurrently -i --kill-others \"watch .''\" \"yarn --cwd ./src/functions/ start\""
-  },
+  "private": true,
+  "type": "module",
+  "description": "Generated with `snek-functions init -f functions`",
+  "author": "snek-at",
   "dependencies": {
-    "@snek-at/functions": "^0.0.14"
+    "@snek-at/functions": "*"
+  },
+  "scripts": {
+    "start": "IS_OFFLINE=true nodemon --watch dist --exec sls offline",
+    "deploy": "sls deploy"
   }
 }

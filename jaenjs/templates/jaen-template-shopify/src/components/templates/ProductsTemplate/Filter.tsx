@@ -87,9 +87,16 @@ export const Header = (props: {
 const PriceRangeFilter = (props: {
   minPrice: number
   maxPrice: number
+  activeMinPrice?: number
+  activeMaxPrice?: number
   onPriceChange: (min: number, max: number) => void
 }) => {
-  const [value, setValue] = React.useState([props.minPrice, props.maxPrice])
+  const defaultValue: [number, number] = [
+    props.activeMinPrice || props.minPrice,
+    props.activeMaxPrice || props.maxPrice
+  ]
+
+  const [value, setValue] = React.useState<[number, number]>(defaultValue)
 
   const handlePriceChange = (value: [number, number]) => {
     setValue(value)
@@ -105,6 +112,7 @@ const PriceRangeFilter = (props: {
         <RangeSlider
           min={props.minPrice}
           max={props.maxPrice}
+          defaultValue={defaultValue}
           value={value}
           onChange={handlePriceChange}
           onChangeEnd={value => props.onPriceChange(value[0], value[1])}>

@@ -10,7 +10,7 @@
   "scripts": {
     "develop": "concurrently --kill-others \"gatsby develop --port 8001\" \"yarn --cwd ./src/snek-functions start\"",
     "start": "gatsby develop",
-    "build": "gatsby build",
+    "gbuild": "gatsby build",
     "build:incremental": "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --log-pages",
     "deploy": "gatsby build && cp CNAME public/ && gh-pages -d public",
     "deploy:incremental": "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build && cp CNAME public/ && gh-pages -d public",

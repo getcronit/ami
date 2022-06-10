@@ -1,14 +1,16 @@
+import {useAnalytics} from '@jaenjs/jaen'
 import {navigate} from 'gatsby'
 import React from 'react'
 import usersAuth from '../snek-functions/usersAuth'
 
 export const useUserAuth = () => {
-  const [user, setUser] =
-    React.useState<{
-      id: string
-      fullName: string
-      email: string
-    } | null>(null)
+  const analytics = useAnalytics()
+
+  const [user, setUser] = React.useState<{
+    id: string
+    fullName: string
+    email: string
+  } | null>(null)
 
   React.useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user') || 'null')
@@ -26,6 +28,11 @@ export const useUserAuth = () => {
         localStorage.setItem('user', JSON.stringify(auth))
         setUser(auth)
 
+        analytics.identify(auth.id, {
+          fullName: auth.fullName,
+          email: auth.email
+        })
+
         // simulate soft refresh
         navigate(0)
       }
@@ -42,8 +49,6 @@ export const useUserAuth = () => {
     // simulate soft refresh
     navigate(0)
   }, [])
-
-  console.log('user', user)
 
   return {user, onLogin, onLogout}
 }

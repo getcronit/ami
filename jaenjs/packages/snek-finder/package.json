@@ -1,6 +1,6 @@
 {
   "name": "@jaenjs/snek-finder",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-beta.9",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

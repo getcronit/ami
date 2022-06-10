@@ -1,3 +1,4 @@
+//@ts-ignore
 import FilerobotImageEditor from 'filerobot-image-editor'
 import 'tui-image-editor/dist/tui-image-editor.css'
 

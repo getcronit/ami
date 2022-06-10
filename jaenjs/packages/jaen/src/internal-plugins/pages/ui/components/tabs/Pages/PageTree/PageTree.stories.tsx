@@ -103,7 +103,7 @@ export const Primary = Template.bind({})
 
 Primary.args = {
   items: treeExample,
-  defaultSelection: '1-1',
+  selection: '1-1',
   templates: [
     {
       name: 'page',

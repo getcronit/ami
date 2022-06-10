@@ -12,7 +12,6 @@ import {AccountSwitcher} from './AccountSwitcher'
 import {AdminToolbar} from './components/AdminToolbar'
 import JaenActivationButton from './components/JaenActivationButton'
 import {DiscardButton, EditButton} from '../internal-plugins/pages/ui/toolbar'
-import isMobile from 'is-mobile'
 import React from 'react'
 import {useIncomingBuildChecker} from '../services/IncomingBuildChecker'
 import {IncomingBuildBanner} from './components/IncomingBuildBanner'
@@ -42,16 +41,10 @@ const AdminToolbarContainer = withRedux(() => {
   const navigate = useNavigate()
 
   const handleJaenActivation = () => {
-    if (isMobile()) {
-      if (typeof window !== 'undefined') {
-        window.scrollTo({top: 0, behavior: 'smooth'})
-      }
+    if (isAuthenticated) {
+      navigate('/admin/')
     } else {
-      if (isAuthenticated) {
-        navigate('/admin/')
-      } else {
-        navigate('/admin/login')
-      }
+      navigate('/admin/login')
     }
   }
 

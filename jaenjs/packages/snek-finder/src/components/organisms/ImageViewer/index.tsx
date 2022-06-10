@@ -7,6 +7,7 @@ import {
   Flex,
   HStack,
   IconButton,
+  Image,
   Portal,
   Spacer,
   Text,
@@ -104,13 +105,14 @@ const ImageViewer: React.FC<ImageViewerProps> = props => {
                     </HStack>
                   </Flex>
                 </HStack>
-                <Box bg="rgba(0,0,0,0.6)" flex="1">
-                  <Center>
-                    <TransformComponent>
-                      <img src={props.src} alt="test" />
-                    </TransformComponent>
-                  </Center>
-                </Box>
+                <Center bg="rgba(0,0,0,0.6)">
+                  <TransformComponent
+                    contentStyle={{
+                      height: '100vh'
+                    }}>
+                    <Image src={props.src} h="100%" />
+                  </TransformComponent>
+                </Center>
               </Flex>
             </>
           )}

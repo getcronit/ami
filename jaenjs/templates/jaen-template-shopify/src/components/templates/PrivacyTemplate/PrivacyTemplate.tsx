@@ -1,12 +1,14 @@
-import {Button, Heading, Text} from '@chakra-ui/react'
+import {Heading, Link, Text} from '@chakra-ui/react'
+import {useCookieConsent} from '@jaenjs/jaen'
 import React from 'react'
-import {CheckCircleIcon, NotAllowedIcon} from '@chakra-ui/icons'
 import {useCookieState} from '../../../services/cookiemodal'
 import {ContainerLayout} from '../../ContainerLayout'
 import {BreadcrumbsBanner} from '../../molecules/BreadcrumbsBanner'
 
 export const PrivacyTemplate = (props: {path: string}) => {
   const cookieSettings = useCookieState()
+
+  const {consentLevel, cookieconsent} = useCookieConsent()
 
   return (
     <>
@@ -143,49 +145,24 @@ export const PrivacyTemplate = (props: {path: string}) => {
           </a>
           .
         </Text>
-        {cookieSettings.accepted ? (
+        {cookieconsent.validCookie('cc_jaen_cookie') ? (
           <>
-            <Text mt="4" mb="2" color="green">
+            <Link
+              mt="4"
+              mb="2"
+              color="green"
+              onClick={() => cookieconsent.showSettings(200)}>
               Sie haben Cookies akzeptiert.
-            </Text>
-            <Text>
-              <CheckCircleIcon fontSize="20px" color="green" mr="2" />
-              Essenziell
-            </Text>
-            {cookieSettings.cookie.marketing ? (
-              <Text>
-                <CheckCircleIcon fontSize="20px" color="green" mr="2" />
-                Marketing
-              </Text>
-            ) : (
-              <Text>
-                <NotAllowedIcon fontSize="20px" color="agt.red" mr="2" />
-                Marketing
-              </Text>
-            )}
-            {cookieSettings.cookie.analytics ? (
-              <Text>
-                <CheckCircleIcon fontSize="20px" color="green" mr="2" />
-                Analytik
-              </Text>
-            ) : (
-              <Text>
-                <NotAllowedIcon fontSize="20px" color="agt.red" mr="2" />
-                Analytik
-              </Text>
-            )}
-            <Button
-              onClick={() => cookieSettings.accept(false)}
-              color="agt.red"
-              size="sm"
-              mt="2">
-              Einwilligung zurückziehen
-            </Button>
+            </Link>
           </>
         ) : (
-          <Text mt="4" mb="2" color="agt.red">
+          <Link
+            mt="4"
+            mb="2"
+            color="agt.red"
+            onClick={() => cookieconsent.showSettings(200)}>
             Sie haben die Cookies nicht akzeptiert.
-          </Text>
+          </Link>
         )}
       </ContainerLayout>
     </>

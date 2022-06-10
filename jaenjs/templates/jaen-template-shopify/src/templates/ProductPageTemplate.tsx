@@ -1,15 +1,14 @@
+import {SEO, useAnalytics} from '@jaenjs/jaen'
+import {
+  getFormattedProductPrices,
+  getProductTags,
+  ProductPageContext,
+  ProductPageData
+} from '@snek-at/gatsby-theme-shopify'
 import {graphql, PageProps} from 'gatsby'
 import React from 'react'
-
-import {SEO} from '@jaenjs/jaen'
-import {
-  ProductPageContext,
-  ProductPageData,
-  getFormattedProductPrices,
-  getProductTags
-} from '@snek-at/gatsby-theme-shopify'
-import {ProductTemplate} from '../components/templates'
 import {Layout} from '../components/Layout'
+import {ProductTemplate} from '../components/templates'
 import {useWishlist} from '../services/wishlist'
 
 const ProductPageTemplate = (
@@ -20,6 +19,8 @@ const ProductPageTemplate = (
   const {wishlist, addToWishlist, removeFromWishlist} = useWishlist()
 
   const isOnWishList = wishlist.some(item => item.id === shopifyProduct.id)
+
+  const analytics = useAnalytics()
 
   console.log(`isOnWishList: ${isOnWishList}`)
 
@@ -34,7 +35,7 @@ const ProductPageTemplate = (
 
       const tags = getProductTags(shopifyProduct)
 
-      addToWishlist({
+      const payload = {
         id,
         handle: shopifyProduct.handle,
         title: shopifyProduct.title,
@@ -46,8 +47,20 @@ const ProductPageTemplate = (
         categoriesString: tags.categoryString,
         tagsString: tags.otherString,
         quantity: 1
+      }
+
+      analytics.track('wishlist-add', {
+        id,
+        handle: shopifyProduct.handle,
+        title: shopifyProduct.title
       })
+
+      addToWishlist(payload)
     } else {
+      analytics.track('wishlist-remove', {
+        id
+      })
+
       removeFromWishlist(id)
     }
   }

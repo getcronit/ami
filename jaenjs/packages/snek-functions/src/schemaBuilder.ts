@@ -42,10 +42,12 @@ const schemaBuilder = async (
         _: unknown,
         args: {fnArgs: any},
         context: {
-          headers: {[key: string]: string}
+          req: Request
         }
       ) => {
-        const headers = context.headers
+        const {req} = context
+
+        const headers: {[key: string]: any} = req.headers
 
         const accessToken = headers[KeyManager.X_SNEK_API_TOKEN]
         const refreshToken = headers[KeyManager.X_SNEK_API_REFRESH_TOKEN]
@@ -60,7 +62,7 @@ const schemaBuilder = async (
 
         snekApi.KeyManager = KeyManager
 
-        const result = await fn.server(args.fnArgs || {}, snekApi)
+        const result = await fn.server(args.fnArgs || {}, snekApi, req)
 
         snekApi.KeyManager.clearTokens()
 

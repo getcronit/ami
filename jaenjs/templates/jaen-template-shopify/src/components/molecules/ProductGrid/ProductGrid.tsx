@@ -26,6 +26,10 @@ export const ProductGrid = ({
 }: ProductGridProps) => {
   const emptyBoxes = gridPadBoxes(products)
 
+  const v = gridProps.columns
+    ? useBreakpointValue(gridProps.columns as any)
+    : 0 || 0
+
   return (
     <>
       {heading && (
@@ -42,13 +46,7 @@ export const ProductGrid = ({
               prefixPath={prefixPath}
               product={item}
               key={index}
-              left={
-                0 ===
-                (index + 1) %
-                  (gridProps.columns
-                    ? useBreakpointValue(gridProps.columns)
-                    : 0)
-              }
+              left={0 === (index + 1) % v}
               borderline
             />
           )

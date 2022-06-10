@@ -13,7 +13,7 @@ export default connectNotification(NotificationBanner, {
     onPageLoad: 1
   },
   advanced: {
-    showUntilXPageViews: 1
+    showUntilXPageViews: 10
   },
   modalProps: {},
   modalContentProps: {
