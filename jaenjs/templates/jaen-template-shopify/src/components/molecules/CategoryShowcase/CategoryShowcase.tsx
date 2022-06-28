@@ -68,7 +68,7 @@ export const CategoryTab = ({
           exit="exit"
           px={2}
           transition={{duration: 0.15}}>
-          <ProductGrid products={products} spacing="5" columns={{base: 2, sm: 2, md: 3, xl: 6}} />
+          <ProductGrid products={products} spacing="5" columns={{base: 2, sm: 2, md: 3, xl: 6}} prefixPath={prefixPath} />
         </TabBox>
       )}
     </AnimatePresence>
