@@ -6,8 +6,6 @@ import 'vanilla-cookieconsent/src/cookieconsent.css'
 import 'vanilla-cookieconsent/src/cookieconsent.js'
 import analyticsPluginSnekScore from './analyticsPluginSnekScore'
 
-const cc = (window as any).initCookieConsent()
-
 const TrackingContext = React.createContext<
   | {
       analytics: AnalyticsInstance
@@ -34,6 +32,12 @@ export const TrackingProvider: React.FC<{
   )
 
   const [consentLevel, setConsentLevel] = React.useState<string[]>([])
+
+  const [cc, setCC] = React.useState<any>(undefined)
+
+  React.useEffect(() => {
+    setCC((window as any).initCookieConsent())
+  })
 
   React.useEffect(() => {
     const load = async () => {
