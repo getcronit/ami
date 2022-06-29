@@ -88,6 +88,7 @@ const SHEETS_TOKEN = process.env.SHEETS_TOKEN
 
 const writeData = fn<WriteData, void>(
   async (args, snekApi, request) => {
+    // @ts-ignore
     const {File} = await import('node-fetch')
 
     let mySheet: Sheet = []
