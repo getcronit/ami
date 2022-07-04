@@ -1,10 +1,8 @@
 import {
-  Avatar,
   Box,
   Button,
   ButtonGroup,
   Center,
-  Checkbox,
   Divider,
   FormControl,
   FormErrorMessage,
@@ -14,7 +12,6 @@ import {
   HStack,
   Image,
   Input,
-  Skeleton,
   Stack,
   StackDivider,
   Text,
@@ -28,14 +25,16 @@ import {HiCloudUpload} from 'react-icons/hi'
 import {FieldGroup} from './FieldGroup'
 import {LanguageSelect} from './LanguageSelect'
 
-import {Controller, useForm} from 'react-hook-form'
-import {ISite} from '../../../types'
 import {useSnekFinder} from '@jaenjs/snek-finder'
+import {Controller, useForm} from 'react-hook-form'
+import {ISite, ISiteMetadata} from '../../../types'
 
-type FormDataType = ISite
+type FormDataType = {
+  siteMetadata: ISiteMetadata
+}
 
 export interface SettingsTabProps {
-  data: FormDataType
+  data: ISite
   onUpdate: (data: FormDataType) => void
 }
 

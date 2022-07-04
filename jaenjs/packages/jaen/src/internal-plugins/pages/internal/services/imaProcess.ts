@@ -1,3 +1,4 @@
+import { Reporter, Store } from 'gatsby'
 import {
   createRemoteFileNode,
   CreateRemoteFileNodeArgs
@@ -8,8 +9,8 @@ export interface IProcessGatbsy {
   createNode: CreateRemoteFileNodeArgs['createNode']
   createNodeId: CreateRemoteFileNodeArgs['createNodeId']
   cache: CreateRemoteFileNodeArgs['cache']
-  store: CreateRemoteFileNodeArgs['store']
-  reporter: CreateRemoteFileNodeArgs['reporter']
+  store: Store
+  reporter: Reporter
 }
 
 export const processPage = async ({
