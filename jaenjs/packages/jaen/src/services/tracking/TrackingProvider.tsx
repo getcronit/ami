@@ -36,10 +36,6 @@ export const TrackingProvider: React.FC<{
   const [cc, setCC] = React.useState<any>(undefined)
 
   React.useEffect(() => {
-    setCC((window as any).initCookieConsent())
-  })
-
-  React.useEffect(() => {
     const load = async () => {
       if (consentLevel.includes('targeting')) {
         // Initialize an agent at application startup.
@@ -69,7 +65,11 @@ export const TrackingProvider: React.FC<{
   }, [consentLevel])
 
   React.useEffect(() => {
-    cc.run({
+    const cookieconsent = (window as any).initCookieConsent()
+
+    setCC(cookieconsent)
+
+    cookieconsent.run({
       current_lang: 'en',
       autoclear_cookies: true, // default: false
       cookie_name: 'cc_jaen_cookie', // default: 'cc_cookie'
@@ -105,16 +105,16 @@ export const TrackingProvider: React.FC<{
         console.log('onFirstAction fired')
       },
 
-      onAccept: function (cookie: {level: React.SetStateAction<string[]>}) {
+      onAccept: function (cookie: {categories: string[]}) {
         console.log('onAccept fired ...', cookie)
 
-        setConsentLevel(cookie.level)
+        setConsentLevel(cookie.categories)
       },
 
       onChange: function (cookie: any, changed_preferences: any) {
         console.log('onChange fired ...')
 
-        setConsentLevel(cookie.level)
+        setConsentLevel(cookie.categories)
       },
 
       languages: {
