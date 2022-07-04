@@ -1,18 +1,58 @@
 import {Actions, Reporter} from 'gatsby'
-import {ColllectionPageContext, ShopifyPageGeneratorQueryData} from '../types'
+import {ColllectionPageContext, ShopifyCollection} from '../types'
 import {
   getCollectionStructure,
   isCollectionSubCollection
 } from '../utils/collection'
 import {getLimitedRelatedProducts} from '../utils/products'
+import {slugify} from '../utils/slugify'
 import {validateCollection} from './validate-collection'
+
+interface BasicCollection {
+  updatedAt: string
+  id: string
+  title: string
+  products: Array<{
+    id: string
+    featuredMedia: {
+      preview: {
+        image: {
+          src: string
+        }
+      }
+    }
+  }>
+}
+
+const buildShopifyCollection = (
+  collection: BasicCollection
+): ShopifyCollection => {
+  const {type, structName} = getCollectionStructure(collection.title)
+
+  if (!type || !structName) {
+    throw new Error(
+      `Collection with ID ${collection.id} has an invalid handle: ${collection.title}`
+    )
+  }
+
+  return {
+    title: collection.title,
+    handle: slugify(collection.title),
+    productsCount: collection.products.length,
+    description: '',
+    collageImages: collection.products.map(
+      product => product.featuredMedia.preview.image.src
+    ),
+    image: null
+  }
+}
 
 interface CreateCollectionPages {
   createPage: Actions['createPage']
   createRedirect: Actions['createRedirect']
   reporter: Reporter
   data: {
-    allShopifyCollection: ShopifyPageGeneratorQueryData['allShopifyCollection']
+    collections: BasicCollection[]
     template: string
   }
 }
@@ -23,16 +63,17 @@ export const createCollectionPages = async ({
   reporter,
   data
 }: CreateCollectionPages) => {
-  const {allShopifyCollection, template} = data
+  const {collections, template} = data
 
-  reporter.info(
-    `Creating pages for ${allShopifyCollection.totalCount} collections`
-  )
+  reporter.info(`Creating pages for ${collections.length} collections`)
 
-  for (const collection of allShopifyCollection.nodes) {
+  for (const collection of collections) {
     const isValid = await validateCollection({
       reporter,
-      data: {collection}
+      data: {
+        id: collection.id,
+        title: collection.title
+      }
     })
 
     if (isValid) {
@@ -40,7 +81,7 @@ export const createCollectionPages = async ({
 
       const collectionPagePath = path
 
-      const subCollections = allShopifyCollection.nodes.filter(subCollection =>
+      const subCollections = collections.filter(subCollection =>
         isCollectionSubCollection(collection.title, subCollection.title)
       )
 
@@ -57,7 +98,11 @@ export const createCollectionPages = async ({
           context: {
             skipJaenPage: true,
             collectionId: collection.id,
+            shopifyCollection: buildShopifyCollection(collection),
             subCollectionIds: subCollections.map(sub => sub.id),
+            shopifySubCollections: {
+              nodes: subCollections.map(buildShopifyCollection)
+            },
             relatedProductIds: limitedRelatedProducts
           }
         })
@@ -80,8 +125,6 @@ export const createCollectionPages = async ({
       }
     }
 
-    reporter.success(
-      `Created ${allShopifyCollection.totalCount} collection pages`
-    )
+    reporter.success(`Created ${collections.length} collection pages`)
   }
 }

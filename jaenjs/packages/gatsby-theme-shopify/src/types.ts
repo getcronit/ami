@@ -4,7 +4,7 @@ export interface NodeArray<T> {
   nodes: T[]
 }
 
-export interface ShopifyPageGeneratorQueryData {
+export interface ShopifyGeneratorProductQueryData {
   allShopifyProduct: {
     tags: string[]
     vendors: Array<string>
@@ -16,7 +16,20 @@ export interface ShopifyPageGeneratorQueryData {
       id: string
       handle: string
       updatedAt: string
-      collections: Array<{
+      featuredMedia: {
+        preview: {
+          image: {
+            src: string
+          }
+        }
+      }
+      variants: Array<{
+        price: number
+      }>
+      tags: string[]
+      vendor: string
+      productType: string
+      collections?: Array<{
         title: string
         products: Array<{
           id: string
@@ -25,6 +38,9 @@ export interface ShopifyPageGeneratorQueryData {
     }>
     allProductIds: Array<string>
   }
+}
+
+export interface ShopifyGeneratorCollectionQueryData {
   allShopifyCollection: {
     totalCount: number
     nodes: Array<{
@@ -34,6 +50,13 @@ export interface ShopifyPageGeneratorQueryData {
       updatedAt: string
       products: Array<{
         id: string
+        featuredMedia: {
+          preview: {
+            image: {
+              src: string
+            }
+          }
+        }
         variants: Array<{
           price: number
         }>
@@ -67,7 +90,20 @@ export interface ProductsPageContext extends ExcludeJaenPage {
 
 export interface ColllectionPageContext extends ExcludeJaenPage {
   collectionId: string
+  shopifyCollection: ShopifyCollection
   subCollectionIds: Array<string>
+  shopifySubCollections: NodeArray<{
+    title: string
+    handle: string
+    productsCount: number
+    description: string
+    image: {
+      src: string
+      gatsbyImageData?: IGatsbyImageData
+      altText: string | null
+    } | null
+    collageImages?: string[]
+  }>
   relatedProductIds: Array<string>
 }
 
@@ -119,9 +155,10 @@ export interface ShopifyCollection {
   description: string
   image: {
     src: string
-    gatsbyImageData: IGatsbyImageData
+    gatsbyImageData?: IGatsbyImageData
     altText: string | null
   } | null
+  collageImages?: string[]
 }
 
 export interface ProductPageData {

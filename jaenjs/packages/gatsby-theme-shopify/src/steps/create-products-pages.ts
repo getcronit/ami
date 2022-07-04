@@ -1,6 +1,6 @@
 import {Actions, Reporter} from 'gatsby'
 import {PRODUCTS_PAGE_PRODUCTS_PER_PAGE_LIMIT} from '../constants'
-import {ShopifyPageGeneratorQueryData, ProductsPageContext} from '../types'
+import {ProductsPageContext, ShopifyGeneratorProductQueryData} from '../types'
 import {
   cleanProductTypes,
   cleanVendors,
@@ -9,12 +9,25 @@ import {
 } from '../utils/collection'
 import {validateCollection} from './validate-collection'
 
+type Collections = Array<{
+  id: string
+  title: string
+  products: Array<{
+    variants: Array<{
+      price: number
+    }>
+    tags: string[]
+    vendor: string
+    productType: string
+  }>
+}>
+
 interface CreateProductsPages {
   createPage: Actions['createPage']
   reporter: Reporter
   data: {
-    allShopifyProduct: ShopifyPageGeneratorQueryData['allShopifyProduct']
-    allShopifyCollection: ShopifyPageGeneratorQueryData['allShopifyCollection']
+    allShopifyProduct: ShopifyGeneratorProductQueryData['allShopifyProduct']
+    collections: Collections
     template: string
   }
 }
@@ -23,35 +36,37 @@ const processCollections = async (
   createPage: Actions['createPage'],
   reporter: Reporter,
   data: {
-    allShopifyCollection: ShopifyPageGeneratorQueryData['allShopifyCollection']
+    collections: Collections
     template: string
   }
 ) => {
-  const {allShopifyCollection, template} = data
+  const {collections, template} = data
 
-  reporter.info(
-    `Creating pages for ${allShopifyCollection.totalCount} collections`
-  )
+  reporter.info(`Creating pages for ${collections.length} collections`)
 
-  for (const collection of allShopifyCollection.nodes) {
-    const {path, structName} = getCollectionStructure(collection.title)
+  for (const {id, title, products} of collections) {
+    const {path, structName} = getCollectionStructure(title)
 
     const isValid = await validateCollection({
       reporter,
-      data: {collection}
+      data: {
+        id,
+        title,
+        handle: path
+      }
     })
 
     if (isValid) {
       const collectionProductsPagePath = `${path}/products`
 
       const maxPrice = Math.max(
-        ...collection.products.map(product =>
+        ...products.map(product =>
           Math.max(...product.variants.map(variant => variant.price))
         )
       )
 
       const minPrice = Math.min(
-        ...collection.products.map(product =>
+        ...products.map(product =>
           Math.min(...product.variants.map(variant => variant.price))
         )
       )
@@ -59,17 +74,17 @@ const processCollections = async (
       const implicitTags = [`Kategorie:${structName}`]
 
       const uniqueTags = [
-        ...new Set(collection.products.map(product => product.tags).flat())
+        ...new Set(products.map(product => product.tags).flat())
       ]
 
-      const tags = filterCollectionRelevantTags(uniqueTags, collection.title)
+      const tags = filterCollectionRelevantTags(uniqueTags, title)
 
       const vendors = cleanVendors([
-        ...new Set(collection.products.map(product => product.vendor))
+        ...new Set(products.map(product => product.vendor))
       ])
 
       const productTypes = cleanProductTypes([
-        ...new Set(collection.products.map(product => product.productType))
+        ...new Set(products.map(product => product.productType))
       ])
 
       createPage<ProductsPageContext>({
@@ -77,7 +92,7 @@ const processCollections = async (
         component: template,
         context: {
           skipJaenPage: true,
-          collectionId: collection.id,
+          collectionId: id,
           totalProductsPerPage: PRODUCTS_PAGE_PRODUCTS_PER_PAGE_LIMIT,
           maxPrice,
           minPrice,
@@ -96,7 +111,7 @@ export const createProductsPages = async ({
   reporter,
   data
 }: CreateProductsPages) => {
-  const {allShopifyCollection, allShopifyProduct, template} = data
+  const {collections, allShopifyProduct, template} = data
 
   reporter.info(
     `Creating shop pages with ${PRODUCTS_PAGE_PRODUCTS_PER_PAGE_LIMIT} initial products`
@@ -121,9 +136,12 @@ export const createProductsPages = async ({
     }
   })
 
-  await processCollections(createPage, reporter, data)
+  await processCollections(createPage, reporter, {
+    collections,
+    template
+  })
 
   reporter.success(
-    `Created products pages for ${allShopifyCollection.totalCount} collections`
+    `Created products pages for ${collections.length} collections`
   )
 }

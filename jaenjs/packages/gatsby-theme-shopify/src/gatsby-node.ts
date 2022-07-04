@@ -1,18 +1,29 @@
 import type {GatsbyNode} from 'gatsby'
-import {graphql} from 'gatsby'
-
 import {createCollectionPages} from './steps/create-collection-pages'
+
 import {createProductPages} from './steps/create-product-pages'
 import {createProductsPages} from './steps/create-products-pages'
-import {ShopifyPageGeneratorQueryData} from './types'
+import {
+  ShopifyGeneratorCollectionQueryData,
+  ShopifyGeneratorProductQueryData
+} from './types'
+import {getShopifyEnv} from './utils/env'
+
+const shopifyEnv = getShopifyEnv()
 
 export const createPages: GatsbyNode['createPages'] = async function (
   {actions, graphql, reporter},
   pluginOptions
 ) {
+  const {createPage, createRedirect} = actions
+
   const productPageTemplate = pluginOptions.productPageTemplate as string
   const collectionPageTemplate = pluginOptions.collectionPageTemplate as string
   const productsPageTemplate = pluginOptions.productsPageTemplate as string
+
+  const shouldProcessCollections = shopifyEnv.shopifyConnections?.includes(
+    'collections'
+  )
 
   if (
     !productPageTemplate ||
@@ -29,7 +40,10 @@ export const createPages: GatsbyNode['createPages'] = async function (
     return
   }
 
-  const {data} = await graphql<ShopifyPageGeneratorQueryData>(`
+  const {
+    data: productData,
+    errors
+  } = await graphql<ShopifyGeneratorProductQueryData>(`
     query ShopifyPageGeneratorQuery {
       allShopifyProduct {
         tags: distinct(field: tags)
@@ -42,43 +56,43 @@ export const createPages: GatsbyNode['createPages'] = async function (
           id
           handle
           updatedAt
-          collections {
-            title
-            products {
-              id
+          featuredMedia {
+            preview {
+              image {
+                src
+              }
             }
           }
+          variants {
+            price
+          }
+          tags
+          vendor
+          productType
+          ${
+            shouldProcessCollections
+              ? `
+            collections {
+              title
+              products {
+                id
+              }
+            }
+          `
+              : ''
+          }
+         
         }
         allProductIds: distinct(field: id)
-      }
-      allShopifyCollection {
-        totalCount
-        nodes {
-          id
-          title
-          handle
-          updatedAt
-          products {
-            id
-            variants {
-              price
-            }
-            tags
-            vendor
-            productType
-          }
-        }
       }
     }
   `)
 
-  const {createPage, createRedirect} = actions
-
-  if (!data) {
+  if (!productData) {
     reporter.info(
       `
         The createPages function in gatsby-theme-shopify/gatsby-node.ts
-        is not being called because no data was return from the GraphQL query.
+        is not being called because no productData was return from the GraphQL query.
         `
     )
     return
@@ -88,28 +102,122 @@ export const createPages: GatsbyNode['createPages'] = async function (
     createPage,
     reporter,
     data: {
-      allShopifyProduct: data.allShopifyProduct,
+      allShopifyProduct: productData.allShopifyProduct,
       template: productPageTemplate
     }
   })
 
-  await createProductsPages({
-    createPage,
-    reporter,
-    data: {
-      allShopifyProduct: data.allShopifyProduct,
-      allShopifyCollection: data.allShopifyCollection,
-      template: productsPageTemplate
-    }
-  })
+  let allShopifyCollection:
+    | ShopifyGeneratorCollectionQueryData['allShopifyCollection']
+    | undefined = undefined
 
-  await createCollectionPages({
-    createPage,
-    createRedirect,
-    reporter,
-    data: {
-      allShopifyCollection: data.allShopifyCollection,
-      template: collectionPageTemplate
+  if (shouldProcessCollections) {
+    const shopifyCollectionQuery = await graphql<ShopifyGeneratorCollectionQueryData>(`
+      query ShopifyPageGeneratorQuery {
+        allShopifyCollection {
+          totalCount
+          nodes {
+            id
+            title
+            handle
+            updatedAt
+            products {
+              id
+              featuredMedia {
+                preview {
+                  image {
+                    src
+                  }
+                }
+              }
+              variants {
+                price
+              }
+              tags
+              vendor
+              productType
+            }
+          }
+        }
+      }
+    `)
+
+    if (shopifyCollectionQuery.errors) {
+      reporter.panic(
+        `
+        The createPages function in gatsby-theme-shopify/gatsby-node.ts
+        is not being called because the query for collections failed.
+        `
+      )
+      return
     }
-  })
+
+    const data = shopifyCollectionQuery?.data?.allShopifyCollection
+
+    if (data) {
+      allShopifyCollection = data
+
+      await createCollectionPages({
+        createPage,
+        createRedirect,
+        reporter,
+        data: {
+          collections: allShopifyCollection.nodes,
+          template: collectionPageTemplate
+        }
+      })
+
+      await createProductsPages({
+        createPage,
+        reporter,
+        data: {
+          allShopifyProduct: productData.allShopifyProduct,
+          collections: allShopifyCollection.nodes,
+          template: productsPageTemplate
+        }
+      })
+    }
+  } else {
+    reporter.info(
+      `
+      The shopifyConnections option does not include collections.
+      Therefore the collection pages will be created based on the product tags.
+        `
+    )
+
+    const collectionTags = productData.allShopifyProduct.tags
+      .filter(tag => tag.startsWith('Kategorie:'))
+      .map(tag => {
+        const products = productData.allShopifyProduct.nodes.filter(product =>
+          product.tags.includes(tag)
+        )
+
+        return {
+          id: tag,
+          updatedAt: products.length.toString(),
+          title: tag,
+          products
+        }
+      })
+
+    await createCollectionPages({
+      createPage,
+      createRedirect,
+      reporter,
+      data: {
+        collections: collectionTags,
+        template: collectionPageTemplate
+      }
+    })
+
+    await createProductsPages({
+      createPage,
+      reporter,
+      data: {
+        allShopifyProduct: productData.allShopifyProduct,
+        collections: collectionTags,
+        template: productsPageTemplate
+      }
+    })
+  }
 }

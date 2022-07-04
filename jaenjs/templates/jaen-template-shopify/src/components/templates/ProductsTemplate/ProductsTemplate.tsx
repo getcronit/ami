@@ -11,7 +11,6 @@ import {
   Select,
   Spacer,
   Spinner,
-  Tag,
   useColorModeValue,
   useDisclosure,
   useMediaQuery
@@ -20,16 +19,15 @@ import {FaFilter} from '@react-icons/all-files/fa/FaFilter'
 import {FaSort} from '@react-icons/all-files/fa/FaSort'
 import {
   ProductsPageContext,
-  ProductsPageData,
   ShopifyProduct
 } from '@snek-at/gatsby-theme-shopify'
 import React from 'react'
-import {BreadcrumbsBanner} from '../../molecules/BreadcrumbsBanner'
 import {ContainerLayout} from '../../ContainerLayout'
+import {BreadcrumbsBanner} from '../../molecules/BreadcrumbsBanner'
 import {ProductGrid} from '../../molecules/ProductGrid'
 import {Filter} from './Filter'
 
-export interface ProductsTemplateProps extends ProductsPageData {
+export interface ProductsTemplateProps {
   path: string
   products: ShopifyProduct[]
   filters: {

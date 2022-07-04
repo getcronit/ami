@@ -1,29 +1,24 @@
 import {
   AspectRatio,
   Box,
-  Text,
-  Heading,
   Link,
   SimpleGrid,
-  Tag,
-  VStack,
-  Container,
-  Flex
+  Text,
+  VStack
 } from '@chakra-ui/react'
 import {
   CollectionPageData,
-  getCollectionStructure,
-  ShopifyCollection
+  getCollectionStructure
 } from '@snek-at/gatsby-theme-shopify'
-import {Slider} from '@snek-at/uikit'
 import {Link as GatsbyLink} from 'gatsby'
 import {GatsbyImage, IGatsbyImageData} from 'gatsby-plugin-image'
+
 import React from 'react'
-import {BreadcrumbsBanner} from '../../molecules/BreadcrumbsBanner'
-import {ProductCard} from '../../molecules/ProductCard'
-import {ProductSlider} from '../../molecules/ProductSlider'
-import {ContainerLayout} from '../../ContainerLayout'
+import {ReactPhotoCollage} from 'react-photo-collage'
 import {gridPadBoxes} from '../../../common/utils'
+import {ContainerLayout} from '../../ContainerLayout'
+import {BreadcrumbsBanner} from '../../molecules/BreadcrumbsBanner'
+import {ProductSlider} from '../../molecules/ProductSlider'
 
 const getCollectionName = (title: string) =>
   getCollectionStructure(title).name || 'No collection title'
@@ -55,6 +50,7 @@ export const CollectionTemplate = ({
             <CollectionCard
               path="products"
               image={shopifyCollection.image}
+              collageImages={shopifyCollection.collageImages}
               name="Alle Produkte anzeigen"
             />
             {subCollections.nodes.map((subCollection, index) => {
@@ -69,6 +65,7 @@ export const CollectionTemplate = ({
                   path={path || 'products'}
                   image={subCollection.image}
                   name={name || 'No collection title'}
+                  collageImages={subCollection.collageImages}
                   productsCount={subCollection.productsCount}
                 />
               )
@@ -89,9 +86,11 @@ export const CollectionTemplate = ({
 interface CollectionCardProps {
   path: string
   image: {
+    src: string
     altText: string | null
-    gatsbyImageData: IGatsbyImageData
+    gatsbyImageData?: IGatsbyImageData
   } | null
+  collageImages?: string[]
   name: string
   productsCount?: number
 }
@@ -99,6 +98,7 @@ interface CollectionCardProps {
 const CollectionCard = ({
   path,
   image,
+  collageImages,
   name,
   productsCount
 }: CollectionCardProps) => {
@@ -119,17 +119,46 @@ const CollectionCard = ({
       }}>
       <AspectRatio ratio={1}>
         <VStack>
-          {image && (
-            <GatsbyImage
-              alt={image.altText || name}
-              image={image.gatsbyImageData}
-              style={{
-                minHeight: '100%',
-                minWidth: '100%',
-                objectFit: 'cover',
-                objectPosition: 'center'
-              }}
+          {collageImages ? (
+            <ReactPhotoCollage
+              width="900px"
+              height={['450px', '450px']}
+              layout={[1, 4]}
+              photos={collageImages.map(image => ({
+                source: image
+              }))}
+              showNumOfRemainingPhotos
             />
+          ) : (
+            <>
+              {image ? (
+                <GatsbyImage
+                  alt={image.altText || name}
+                  image={
+                    image.gatsbyImageData || {
+                      images: {
+                        sources: [],
+                        fallback: {
+                          src: image.src,
+                          sizes: '(min-width: 900px) 900px, 100vw'
+                        }
+                      },
+                      layout: 'constrained',
+                      width: 900,
+                      height: 900
+                    }
+                  }
+                  style={{
+                    minHeight: '100%',
+                    minWidth: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center'
+                  }}
+                />
+              ) : (
+                'no image'
+              )}
+            </>
           )}
         </VStack>
       </AspectRatio>

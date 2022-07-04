@@ -10,6 +10,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
     allShopifyProduct: {
       nodes: Array<{
         id: string
+        tags: string[]
       }>
     }
   }>(`
@@ -17,12 +18,16 @@ export const createPages: GatsbyNode['createPages'] = async ({
       allShopifyProduct {
         nodes {
           id
+          tags
         }
       }
     }
   `)
 
-  const featuredProducts = shuffle(data.allShopifyProduct.nodes, 29072003)
+  const featuredProducts = shuffle(
+    data?.allShopifyProduct?.nodes || [],
+    29072003
+  )
   const featuredProductIds = featuredProducts.slice(0, 12).map(({id}) => id)
 
   // cache the featured product ids

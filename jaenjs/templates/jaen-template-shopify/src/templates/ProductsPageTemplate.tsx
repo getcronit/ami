@@ -6,7 +6,7 @@ import {
   SearchProvider,
   useProductSearch
 } from '@snek-at/gatsby-theme-shopify'
-import {graphql, PageProps} from 'gatsby'
+import {PageProps} from 'gatsby'
 import React from 'react'
 import {Layout} from '../components/Layout'
 import {ProductsTemplate} from '../components/templates'
@@ -69,7 +69,7 @@ const ProductsPageTemplate = (
   }
 
   const buildProductsPageMeta = () => {
-    const collection = props.data.collection
+    const collectionTitle = props.pageContext.collectionId
 
     let title = 'Sortiment'
     let description =
@@ -81,23 +81,18 @@ const ProductsPageTemplate = (
       ' | Tags: ' +
       tags.join(', ')
 
-    if (collection) {
-      const struct = getCollectionStructure(collection.title)
+    if (collectionTitle) {
+      const struct = getCollectionStructure(collectionTitle)
 
       if (struct.name) {
         title = struct.name
-        description +=
-          ' | Kategorie: ' +
-          title +
-          ' | Beschreibung: ' +
-          collection.description
+        description += ' | Kategorie: ' + title
       }
     }
 
     return {
       title,
-      description,
-      image: collection?.image?.src
+      description
     }
   }
 
@@ -107,7 +102,6 @@ const ProductsPageTemplate = (
       <Layout path={props.path}>
         <ProductsTemplate
           path={props.path}
-          collection={props.data.collection}
           products={search.products}
           isFetching={search.isFetching}
           fetchNextPage={search.fetchNextPage}
@@ -140,11 +134,3 @@ export default (
     <ProductsPageTemplate {...props} />
   </SearchProvider>
 )
-
-export const query = graphql`
-  query($collectionId: String) {
-    shopifyCollection(id: {eq: $collectionId}) {
-      ...shopifyCollectionData
-    }
-  }
-`

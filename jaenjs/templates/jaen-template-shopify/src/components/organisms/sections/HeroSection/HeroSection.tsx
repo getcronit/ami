@@ -1,23 +1,19 @@
-import React from 'react'
-import {Container, Box, Flex} from '@chakra-ui/react'
-import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
-import {Field, connectSection} from '@jaenjs/jaen'
+import {Box, Container, Flex} from '@chakra-ui/react'
+import {connectSection, Field} from '@jaenjs/jaen'
 import {
   getCollectionStructure,
-  ShopifyCollection
+  getProductTags,
+  ShopifyProduct
 } from '@snek-at/gatsby-theme-shopify'
+import React from 'react'
 
+import {AccessorieShowcase} from '../../../molecules/AccessorieShowcase'
 import {BulletShowcase} from '../../../molecules/BulletShowcase'
 import {CategoryShowcase} from '../../../molecules/CategoryShowcase'
-import {AccessorieShowcase} from '../../../molecules/AccessorieShowcase'
-import {ProductSpotlight} from '../../../molecules/ProductSpotlight'
 import {ParallaxHero} from '../../../molecules/ParallaxHero'
+import {ProductSpotlight} from '../../../molecules/ProductSpotlight'
 
-export interface CategoryProduct extends ShopifyProduct {
-  collections: Array<{
-    title: string
-  }>
-}
+export interface CategoryProduct extends ShopifyProduct {}
 
 export interface HeroSectionProps {
   name: string
@@ -31,7 +27,7 @@ export interface HeroSectionProps {
 export interface HeroProps {
   anchor?: string
   latestProducts: ShopifyProduct[]
-  categoryProducts: CategoryProduct[]
+  categoryProducts: ShopifyProduct[]
   spotlightProducts: ShopifyProduct[]
   noScroll?: boolean
 }
@@ -56,13 +52,15 @@ export const Hero = ({
   const tabs: Tabs = {}
 
   categoryProducts.forEach(node => {
-    node.collections.forEach(c => {
-      const {name, path} = getCollectionStructure(c.title)
+    const tags = getProductTags(node)
 
-      if (!tabs[c.title]) {
-        tabs[c.title] = {items: [], name: name || c.title, path: path}
+    tags.categoryTags.forEach(title => {
+      const {name, path} = getCollectionStructure(title)
+
+      if (!tabs[title]) {
+        tabs[title] = {items: [], name: name || title, path: path}
       }
-      tabs[c.title].items.push(node)
+      tabs[title].items.push(node)
     })
   })
 

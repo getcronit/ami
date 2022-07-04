@@ -59,6 +59,7 @@ const config: GatsbyConfig = {
         collectionPageTemplate: path.resolve(
           'src/templates/CollectionPageTemplate.tsx'
         ),
+
         productsPageTemplate: path.resolve(
           'src/templates/ProductsPageTemplate.tsx'
         )

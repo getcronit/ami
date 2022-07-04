@@ -1,23 +1,14 @@
-import React, {ReactNode} from 'react'
-import {
-  Container,
-  SimpleGrid,
-  Center,
-  Box,
-  Heading,
-  Text,
-  Divider
-} from '@chakra-ui/layout'
-import {useColorModeValue} from '@chakra-ui/react'
-import {Link as GatsbyLink, navigate} from 'gatsby'
 import {Button} from '@chakra-ui/button'
+import {Box, Center, Container, Divider, Heading} from '@chakra-ui/layout'
+import {connectSection, Field} from '@jaenjs/jaen'
 import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
-import {Field, connectSection} from '@jaenjs/jaen'
+import {Link as GatsbyLink} from 'gatsby'
+import React, {ReactNode} from 'react'
 
-import {ProductGrid} from '../../../molecules/ProductGrid'
-import {Bullet} from '../../../atoms/Bullet'
-import {StickyStrokeLogo} from '../../../molecules/StickyStrokeLogo'
 import {getThemeColor} from '../../../../common/utils'
+import {Bullet} from '../../../atoms/Bullet'
+import {ProductGrid} from '../../../molecules/ProductGrid'
+import {StickyStrokeLogo} from '../../../molecules/StickyStrokeLogo'
 import * as style from './style'
 
 export interface FeaturedProductsSectionProps {
@@ -31,7 +22,7 @@ export interface FeaturedProductsSectionProps {
 export interface FeaturedProductsProps {
   anchor?: string
   featuredProducts: ShopifyProduct[]
-  productsPagePath?: string
+  productsPagePath: string
   heading: ReactNode
 }
 
@@ -70,6 +61,7 @@ export const FeaturedProducts = ({
             <Bullet color="agt.red" w="unset" fontSize="xl" mt="5" mb="10" />
           </Box>
           <ProductGrid
+            prefixPath={productsPagePath}
             products={featuredProducts}
             spacing="5"
             columns={{base: 2, md: 3, xl: 4}}

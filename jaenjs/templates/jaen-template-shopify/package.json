@@ -39,6 +39,7 @@
     "react-dom": "^17.0.1",
     "react-hook-form": "^7.30.0",
     "react-magnetic-di": "^2.2.8",
+    "react-photo-collage": "^1.0.9",
     "react-scroll": "^1.8.7",
     "react-scrollspy": "^3.4.3",
     "sb": "^6.5.3"

@@ -1,16 +1,17 @@
 import type {GatsbyConfig} from 'gatsby'
-import dotenv from 'dotenv'
+import {getShopifyEnv} from './utils/env'
 
-dotenv.config()
+const shopifyEnv = getShopifyEnv()
 
 const config: GatsbyConfig = {
   plugins: [
     {
       resolve: 'gatsby-source-shopify',
       options: {
-        password: process.env.SHOPIFY_APP_PASSWORD,
-        storeUrl: process.env.GATSBY_MYSHOPIFY_URL,
-        shopifyConnections: ['collections']
+        password: shopifyEnv.password,
+        storeUrl: shopifyEnv.storeUrl,
+        shopifyConnections: shopifyEnv.shopifyConnections,
+        salesChannel: 'gatsby'
       }
     },
     'gatsby-plugin-image'

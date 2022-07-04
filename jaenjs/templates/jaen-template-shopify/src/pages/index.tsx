@@ -1,16 +1,11 @@
-import * as React from 'react'
+import {connectPage} from '@jaenjs/jaen'
 import {GoogleReview} from '@snek-at/gatsby-plugin-scaleserp'
 import {ShopifyProduct} from '@snek-at/gatsby-theme-shopify'
 import {graphql, PageProps} from 'gatsby'
-import {connectPage} from '@jaenjs/jaen'
+import * as React from 'react'
 
 import {Layout} from '../components/Layout'
 import {HomeTemplate} from '../components/templates'
-import {
-  FeaturedProductsSection,
-  HeroSection,
-  ReviewSection
-} from '../components/organisms/sections'
 
 interface IndexPageData {
   googleReviews: {
@@ -20,13 +15,7 @@ interface IndexPageData {
     nodes: ShopifyProduct[]
   }
   categoryShowcase: {
-    nodes: Array<
-      ShopifyProduct & {
-        collections: Array<{
-          title: string
-        }>
-      }
-    >
+    nodes: Array<ShopifyProduct>
   }
   latestProducts: {
     nodes: ShopifyProduct[]
@@ -52,7 +41,7 @@ const IndexPage = (props: PageProps<IndexPageData>) => {
         }}
         featuredProductsSection={{
           name: 'featured',
-          displayName: 'Empfoheln',
+          displayName: 'Empfehlungen',
           featuredProducts: props.data.featuredProducts.nodes
         }}
         partnerSection={{
@@ -115,15 +104,11 @@ export const query = graphql`
     }
     categoryShowcase: allShopifyProduct(
       filter: {
-        collections: {
+        metafields: {
           elemMatch: {
-            metafields: {
-              elemMatch: {
-                key: {eq: "show"}
-                namespace: {eq: "showcase"}
-                value: {eq: "true"}
-              }
-            }
+            key: {eq: "show"}
+            namespace: {eq: "showcase"}
+            value: {eq: "true"}
           }
         }
       }
@@ -131,9 +116,6 @@ export const query = graphql`
     ) {
       nodes {
         ...shopifyProductData
-        collections {
-          title
-        }
       }
     }
     latestProducts: allShopifyProduct(
