@@ -1,5 +1,5 @@
+import {ComponentMeta, ComponentStory} from '@storybook/react'
 import React from 'react'
-import {ComponentStory, ComponentMeta} from '@storybook/react'
 import {CategoryTab} from '../CategoryTab'
 import data from './data'
 
@@ -30,5 +30,5 @@ Default.args = {
   visible: 'visible',
   products: data.products,
   direction: 'row',
-  prefixPath: "/produkte/"
+  prefixPath: '/products/'
 }

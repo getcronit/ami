@@ -1,24 +1,23 @@
-import React from 'react'
 import {
-  Flex,
-  useColorModeValue,
-  Text,
-  Box,
-  Spacer,
-  Badge,
-  VStack,
-  BoxProps,
   AspectRatio,
-  Link,
-  HStack
+  Badge,
+  Box,
+  BoxProps,
+  Flex,
+  HStack,
+  Spacer,
+  Text,
+  useColorModeValue,
+  VStack
 } from '@chakra-ui/react'
-import {Link as GatsbyLink} from 'gatsby'
 import {
   getFormattedProductPrices,
   getProductTags,
   ShopifyProduct
 } from '@snek-at/gatsby-theme-shopify'
+import {Link as GatsbyLink} from 'gatsby'
 import {GatsbyImage, IGatsbyImageData} from 'gatsby-plugin-image'
+import React from 'react'
 import {
   calculateTextColorForBackgroundColor,
   uuidv1
@@ -88,129 +87,127 @@ export const ProductCard = ({
         base: 'center',
         md: 'left'
       }}>
+      <Box
+        className="pcard"
+        position="relative"
+        cursor="pointer"
+        bg="primary"
+        px={{base: '1', md: '2', lg: '3'}}
+        py="5"
+        // h={'full'}
+        minH={'full'}
+        borderRadius="5px"
+        // boxShadow="lg"
+        // border="1px"
+        // borderColor="border"
+        // mt="3"
+      >
+        <Box position="relative">
+          <AspectRatio ratio={10 / 9}>
+            <>
+              <input
+                type="radio"
+                className="radioimg"
+                name={'imgbox-' + cardId}
+                id={'imgbox-' + cardId + '-' + 0}
+                key={0}
+                ref={el => (radioRef.current[0] = el)}
+                readOnly
+                checked></input>
+              <ImageBoxWithTags
+                image={product.featuredMedia?.image}
+                tags={coloredBadges}
+                className="main"
+              />
+            </>
+          </AspectRatio>
+
+          {product.media.slice(0, 4).map((media, index) => (
+            <Box key={index}>
+              {index !== 0 && (
+                <Box>
+                  <input
+                    type="radio"
+                    className="radioimg"
+                    name={'imgbox-' + cardId}
+                    id={'imgbox-' + cardId + '-' + index}
+                    ref={el => (radioRef.current[index] = el)}
+                  />
+                  <ImageBoxWithTags
+                    image={media.image}
+                    tags={coloredBadges}
+                    className="preview"
+                  />
+                </Box>
+              )}
+            </Box>
+          ))}
+        </Box>
+
+        <Text fontSize="sm" isTruncated>
+          {tags.otherString}
+        </Text>
+        <Text fontWeight="semibold">{product.title}</Text>
+        <ProductPrices prices={prices} />
+        {taxable && (
+          <Text fontSize="xs" color="gray.600" textAlign={'center'}>
+            inkl. MwSt.
+          </Text>
+        )}
+        <Spacer
+          position="absolute"
+          className="bspacer"
+          w="0"
+          h="100%"
+          top="0"
+          borderLeft="1px"
+          borderColor="border"
+          transform="scale(0.97)"
+        />
         <Box
-          className="pcard"
-          position="relative"
+          className="borderline"
           cursor="pointer"
-          bg="primary"
+          bg={useColorModeValue('white', 'gray.700')}
           px={{base: '1', md: '2', lg: '3'}}
           py="5"
           // h={'full'}
-          minH={'full'}
+          // minH={'full'}
           borderRadius="5px"
-          // boxShadow="lg"
-          // border="1px"
-          // borderColor="border"
-          // mt="3"
-        >
-          <Box position="relative">
-            <AspectRatio ratio={10 / 9}>
-              <>
-                <input
-                  type="radio"
-                  className="radioimg"
-                  name={'imgbox-' + cardId}
-                  id={'imgbox-' + cardId + '-' + 0}
-                  key={0}
-                  ref={el => (radioRef.current[0] = el)}
-                  readOnly
-                  checked></input>
-                <ImageBoxWithTags
-                  image={product.featuredMedia?.image}
-                  tags={coloredBadges}
-                  className="main"
-                />
-              </>
-            </AspectRatio>
-
-            {product.media.slice(0, 4).map((media, index) => (
-              <Box key={index}>
-                {index !== 0 && (
-                  <Box>
-                    <input
-                      type="radio"
-                      className="radioimg"
-                      name={'imgbox-' + cardId}
-                      id={'imgbox-' + cardId + '-' + index}
-                      ref={el => (radioRef.current[index] = el)}
-                    />
-                    <ImageBoxWithTags
-                      image={media.image}
-                      tags={coloredBadges}
-                      className="preview"
-                    />
-                  </Box>
-                )}
-              </Box>
-            ))}
-          </Box>
-
-          <Text fontSize="sm" isTruncated>
-            {tags.otherString}
-          </Text>
-          <Text fontWeight="semibold">{product.title}</Text>
-          <ProductPrices prices={prices} />
-          {taxable && (
-            <Text fontSize="xs" color="gray.600" textAlign={'center'}>
-              inkl. MwSt.
-            </Text>
-          )}
-          <Spacer
+          border="1px"
+          borderColor="border"
+          _hover={{
+            before: {borderColor: 'agt.red'},
+            _after: {borderColor: 'agt.red'}
+          }}>
+          <VStack
+            className="imgline"
             position="absolute"
-            className="bspacer"
-            w="0"
-            h="100%"
-            top="0"
-            borderLeft="1px"
-            borderColor="border"
-            transform="scale(0.97)"
-          />
-          <Box
-            className="borderline"
-            cursor="pointer"
-            bg={useColorModeValue('white', 'gray.700')}
-            px={{base: '1', md: '2', lg: '3'}}
-            py="5"
-            // h={'full'}
-            // minH={'full'}
-            borderRadius="5px"
-            border="1px"
-            borderColor="border"
-            _hover={{
-              before: {borderColor: 'agt.red'},
-              _after: {borderColor: 'agt.red'}
-            }}>
-            <VStack
-              className="imgline"
-              position="absolute"
-              opacity="0"
-              boxSize={'full'}
-              py="0.5rem"
-              px="1">
-              {product.media.slice(0, 4).map((m, index) => (
-                <label htmlFor={'imgbox-' + cardId + '-' + index} key={index}>
-                  <Box
-                    transform="scale(0.97)"
-                    borderBottom="1px"
-                    borderColor="border"
-                    py="1"
-                    _hover={{borderColor: 'agt.red'}}
-                    onMouseOver={() =>
-                      (radioRef.current[index]!.checked = true)
-                    }
-                    onMouseLeave={() => (radioRef.current[0]!.checked = true)}>
-                    <GatsbyImage
-                      onDragStart={e => e.preventDefault()}
-                      draggable="false"
-                      image={m.image.gatsbyImageData}
-                      alt={m.image.altText || ''}
-                    />
-                  </Box>
-                </label>
-              ))}
-            </VStack>
-          </Box>
+            opacity="0"
+            boxSize={'full'}
+            py="0.5rem"
+            px="1">
+            {product.media.slice(0, 4).map((m, index) => (
+              <label htmlFor={'imgbox-' + cardId + '-' + index} key={index}>
+                <Box
+                  transform="scale(0.97)"
+                  borderBottom="1px"
+                  borderColor="border"
+                  py="1"
+                  _hover={{borderColor: 'agt.red'}}
+                  onMouseOver={() => (radioRef.current[index]!.checked = true)}
+                  onMouseLeave={() => (radioRef.current[0]!.checked = true)}>
+                  <GatsbyImage
+                    onDragStart={e => e.preventDefault()}
+                    draggable="false"
+                    image={m.image.gatsbyImageData}
+                    alt={m.image.altText || ''}
+                  />
+                </Box>
+              </label>
+            ))}
+          </VStack>
         </Box>
+      </Box>
     </VStack>
   )
 }
@@ -229,7 +226,7 @@ function ImageBoxWithTags(
 
   return (
     <Box overflow="hidden" position="relative" {...props}>
-      {image && (
+      {image ? (
         <GatsbyImage
           onDragStart={e => e.preventDefault()}
           draggable="false"
@@ -242,6 +239,8 @@ function ImageBoxWithTags(
             objectPosition: 'center'
           }}
         />
+      ) : (
+        'no image'
       )}
       <Flex position="absolute" top="0" left="0" right="0" p={2}>
         {tags.map((tag, index) => (

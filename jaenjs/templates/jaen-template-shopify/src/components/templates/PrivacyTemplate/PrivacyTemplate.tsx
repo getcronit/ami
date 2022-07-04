@@ -145,7 +145,7 @@ export const PrivacyTemplate = (props: {path: string}) => {
           </a>
           .
         </Text>
-        {cookieconsent.validCookie('cc_jaen_cookie') ? (
+        {cookieconsent?.validCookie('cc_jaen_cookie') ? (
           <>
             <Link
               mt="4"

@@ -1,21 +1,13 @@
-import React from 'react'
 import {Button} from '@chakra-ui/button'
+import {Box, BoxProps, Circle, Flex, FlexProps, Text} from '@chakra-ui/layout'
 import {
-  Box,
-  BoxProps,
-  Circle,
-  Flex,
-  Text,
-  FlexProps,
-  VStack
-} from '@chakra-ui/layout'
-import {AnimatePresence, motion} from 'framer-motion'
-import {GatsbyImage} from 'gatsby-plugin-image'
-import {navigate} from 'gatsby'
-import {
-  ShopifyProduct,
-  getFormattedProductPrices
+  getFormattedProductPrices,
+  ShopifyProduct
 } from '@snek-at/gatsby-theme-shopify'
+import {AnimatePresence, motion} from 'framer-motion'
+import {navigate} from 'gatsby'
+import {GatsbyImage} from 'gatsby-plugin-image'
+import React from 'react'
 
 import {flipImage} from './style'
 
@@ -144,7 +136,9 @@ export const ProductSpotlight = ({products}: ProductshowcaseProps) => {
                     initial={{opacity: 0, x: 300}}
                     animate={{opacity: 1, x: 0}}
                     transition={{duration: 0.25, delay: 0.33}}>
-                    <Box display={{base: "none", lg: "block"}} mt={{base: '-2', md: '0'}}>
+                    <Box
+                      display={{base: 'none', lg: 'block'}}
+                      mt={{base: '-2', md: '0'}}>
                       <Text
                         fontWeight="bold"
                         fontSize={{base: '20', md: '4vw', lg: '2vw'}}
@@ -165,7 +159,7 @@ export const ProductSpotlight = ({products}: ProductshowcaseProps) => {
                       bg="agt.blue"
                       _hover={{bg: 'white', color: 'black'}}
                       variant="solid"
-                      onClick={() => navigate(`/produkte/${weapon.handle}`)}>
+                      onClick={() => navigate(`/products/${weapon.handle}`)}>
                       Mehr davon
                     </Button>
                   </DescriptionBox>

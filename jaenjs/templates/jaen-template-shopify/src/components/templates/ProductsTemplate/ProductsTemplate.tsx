@@ -12,8 +12,7 @@ import {
   Spacer,
   Spinner,
   useColorModeValue,
-  useDisclosure,
-  useMediaQuery
+  useDisclosure
 } from '@chakra-ui/react'
 import {FaFilter} from '@react-icons/all-files/fa/FaFilter'
 import {FaSort} from '@react-icons/all-files/fa/FaSort'
@@ -47,7 +46,6 @@ export interface ProductsTemplateProps {
 
 export const ProductsTemplate = (props: ProductsTemplateProps) => {
   const mobile = useDisclosure()
-  const [isDesktop] = useMediaQuery('(min-width: 1268px)')
 
   const gridRef = React.useRef<HTMLDivElement>(null)
 
@@ -135,7 +133,6 @@ export const ProductsTemplate = (props: ProductsTemplateProps) => {
       <BreadcrumbsBanner title="Produkte" path={props.path} />
       <ContainerLayout>
         <Header
-          isMobile={!isDesktop}
           onMobileFilterClick={mobile.onToggle}
           sortOptions={props.sortOptions}
           onSortChange={props.onSortChange}
@@ -144,28 +141,26 @@ export const ProductsTemplate = (props: ProductsTemplateProps) => {
         <Flex>
           {!disableFilter && (
             <>
-              {!isDesktop ? (
-                <Drawer
-                  isOpen={mobile.isOpen}
-                  onClose={mobile.onClose}
-                  placement="left"
-                  blockScrollOnMount={false}>
-                  <DrawerContent p="4">
-                    <Heading as="h3" mb="4">
-                      Filter
-                    </Heading>
-                    {filter}
-                  </DrawerContent>
-                </Drawer>
-              ) : (
-                <Box
-                  w="30%"
-                  position={'sticky'}
-                  top="12"
-                  alignSelf={'flex-start'}>
+              <Drawer
+                isOpen={mobile.isOpen}
+                onClose={mobile.onClose}
+                placement="left"
+                blockScrollOnMount={false}>
+                <DrawerContent p="4">
+                  <Heading as="h3" mb="4">
+                    Filter
+                  </Heading>
                   {filter}
-                </Box>
-              )}
+                </DrawerContent>
+              </Drawer>
+              <Box
+                display={['none', 'none', 'none', 'block']}
+                w="30%"
+                position={'sticky'}
+                top="12"
+                alignSelf={'flex-start'}>
+                {filter}
+              </Box>
             </>
           )}
 
@@ -196,7 +191,6 @@ export const ProductsTemplate = (props: ProductsTemplateProps) => {
 export const Header = (props: {
   sortOptions: Array<string>
   onSortChange: (option: string) => void
-  isMobile?: boolean
   onMobileFilterClick?: () => void
   disableFilter?: boolean
 }) => {
@@ -207,27 +201,26 @@ export const Header = (props: {
         position={'sticky'}
         top="0"
         alignSelf={'flex-start'}
-        zIndex="100"
+        zIndex="2"
         bg={useColorModeValue('white', 'gray.700')}>
         <Flex>
           {!props.disableFilter && (
             <>
-              {props.isMobile ? (
-                <Button
-                  variant="unstyled"
-                  leftIcon={<Icon as={FaFilter} />}
-                  onClick={props.onMobileFilterClick}>
-                  Filter
-                </Button>
-              ) : (
-                <Button
-                  leftIcon={<Icon as={FaFilter} />}
-                  variant="unstyled"
-                  cursor={'default'}
-                  _focus={{boxShadow: 'none'}}>
-                  Filter
-                </Button>
-              )}
+              <Button
+                display={['block', 'block', 'block', 'none']}
+                variant="unstyled"
+                leftIcon={<Icon as={FaFilter} />}
+                onClick={props.onMobileFilterClick}>
+                Filter
+              </Button>
+              <Button
+                display={['none', 'none', 'none', 'block']}
+                leftIcon={<Icon as={FaFilter} />}
+                variant="unstyled"
+                cursor={'default'}
+                _focus={{boxShadow: 'none'}}>
+                Filter
+              </Button>
             </>
           )}
 

@@ -1,16 +1,16 @@
+import queryString from 'query-string'
+import React from 'react'
+import {useQuery} from 'urql'
+import {ShopifyProduct} from '../types'
+import {removeEmpty} from '../utils/removeEmpty'
 import {
   buildProductSearchQuery,
   getValuesFromQuery,
   ProductSearchFilters,
   transformProductSearchResultData
 } from './helper'
-import React from 'react'
-import {useQuery} from 'urql'
-import queryString from 'query-string'
 import {StorefrontProductsQuery} from './queries'
-import {ShopifyProduct} from '../types'
 import {StorefrontSearchData} from './types'
-import {removeEmpty} from '../utils/removeEmpty'
 
 export interface ProductSearchCursor {
   before: string | null
@@ -39,14 +39,14 @@ export const useProductSearch = ({
   persistData?: boolean
 }) => {
   const defaultQuery = React.useMemo<ProductSearchQuery>(() => {
-    if (!persistData) {
+    if (!persistData || typeof window === 'undefined') {
       return {
         filters: {},
         options: {}
       }
     }
 
-    const url = new URL(window.location.href)
+    const url = new URL(window.location.href).search
 
     const values = getValuesFromQuery(url.search)
 
@@ -174,8 +174,9 @@ export const useProductSearch = ({
 
   React.useEffect(() => {
     if (result?.data?.products?.edges) {
-      const transformedProducts = transformProductSearchResultData(result.data)
-        .nodes
+      const transformedProducts = transformProductSearchResultData(
+        result.data
+      ).nodes
 
       console.log('new products', transformedProducts)
 
