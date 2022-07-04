@@ -2,7 +2,7 @@ import {Box, Flex} from '@chakra-ui/react'
 import {GatsbyBrowser} from 'gatsby'
 import {IncomingBuildCheckerProvider} from './src/services/IncomingBuildChecker'
 // self executing function to avoid polluting the global namespace
-import {TrackingProvider} from './src/services/tracking/TrackingProvider'
+import {AnalyticsProvider} from './src/services/tracking/AnalyticsProvider'
 import {IJaenConfig} from './src/types'
 import AdminToolbarContainer from './src/ui/AdminToolbar'
 import {SnekFinder} from './src/withSnekFinder'
@@ -19,7 +19,7 @@ export const wrapPageElement: GatsbyBrowser['wrapPageElement'] = (
 ) => {
   const pathname = window.location.pathname
 
-  const options = (pluginOptions as unknown) as IJaenConfig
+  const options = pluginOptions as unknown as IJaenConfig
 
   let inner = (
     <Flex direction={'column'}>
@@ -36,11 +36,11 @@ export const wrapPageElement: GatsbyBrowser['wrapPageElement'] = (
 
   if (options.snekAnalyticsId) {
     return (
-      <TrackingProvider
+      <AnalyticsProvider
         pageProps={props}
         snekAnalyticsId={options.snekAnalyticsId}>
         {inner}
-      </TrackingProvider>
+      </AnalyticsProvider>
     )
   }
 

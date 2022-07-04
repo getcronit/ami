@@ -6,28 +6,24 @@ import 'vanilla-cookieconsent/src/cookieconsent.css'
 import 'vanilla-cookieconsent/src/cookieconsent.js'
 import analyticsPluginSnekScore from './analyticsPluginSnekScore'
 
-const TrackingContext = React.createContext<
-  | {
-      analytics: AnalyticsInstance
-      consentLevel: string[]
-      cookieconsent: any
-    }
-  | undefined
->(undefined)
+const AnalyticsContext =
+  React.createContext<
+    | {
+        analytics: AnalyticsInstance
+        consentLevel: string[]
+        cookieconsent: any
+      }
+    | undefined
+  >(undefined)
 
-export const TrackingProvider: React.FC<{
+export const AnalyticsProvider: React.FC<{
   pageProps: PageProps
   snekAnalyticsId: string
 }> = ({children, pageProps, snekAnalyticsId}) => {
   const [analytics, setAnalytics] = React.useState<AnalyticsInstance>(
     Analytics({
       app: 'jaen',
-      debug: true,
-      plugins: [
-        analyticsPluginSnekScore({
-          snekAnalyticsId
-        })
-      ]
+      debug: true
     })
   )
 
@@ -54,6 +50,18 @@ export const TrackingProvider: React.FC<{
               analyticsPluginSnekScore({
                 snekAnalyticsId,
                 fingerprint: result.visitorId
+              })
+            ]
+          })
+        )
+      } else {
+        setAnalytics(
+          Analytics({
+            app: 'jaen',
+            debug: true,
+            plugins: [
+              analyticsPluginSnekScore({
+                snekAnalyticsId
               })
             ]
           })
@@ -293,7 +301,7 @@ export const TrackingProvider: React.FC<{
   }, [])
 
   React.useEffect(() => {
-    let timeout = setTimeout(() => analytics.page(), 2000)
+    let timeout = setTimeout(() => analytics?.page(), 2000)
 
     return () => {
       clearTimeout(timeout)
@@ -301,19 +309,19 @@ export const TrackingProvider: React.FC<{
   }, [pageProps.location, analytics])
 
   return (
-    <TrackingContext.Provider
+    <AnalyticsContext.Provider
       value={{
         analytics,
         consentLevel,
         cookieconsent: cc
       }}>
       {children}
-    </TrackingContext.Provider>
+    </AnalyticsContext.Provider>
   )
 }
 
 export const useAnalytics = () => {
-  const context = React.useContext(TrackingContext)
+  const context = React.useContext(AnalyticsContext)
 
   if (context === undefined) {
     throw new Error('useAnalytics must be used within a AnalyticsProvider')
@@ -323,7 +331,7 @@ export const useAnalytics = () => {
 }
 
 export const useCookieConsent = () => {
-  const context = React.useContext(TrackingContext)
+  const context = React.useContext(AnalyticsContext)
 
   if (context === undefined) {
     throw new Error('useConsentLevel must be used within a AnalyticsProvider')

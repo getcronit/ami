@@ -1,1 +1,1 @@
-export {useAnalytics, useCookieConsent} from './TrackingProvider'
+export {useAnalytics, useCookieConsent} from './AnalyticsProvider'

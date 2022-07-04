@@ -1,14 +1,21 @@
-import AdminToolbarContainer from './src/ui/AdminToolbar'
+import {Box, Flex} from '@chakra-ui/react'
 import {GatsbySSR} from 'gatsby'
-import {Flex, Box} from '@chakra-ui/react'
 import {IncomingBuildCheckerProvider} from './src/services/IncomingBuildChecker'
+import {AnalyticsProvider} from './src/services/tracking/AnalyticsProvider'
+import {IJaenConfig} from './src/types'
+import AdminToolbarContainer from './src/ui/AdminToolbar'
 
 export const wrapRootElement: GatsbySSR['wrapRootElement'] = ({element}) => {
   return <IncomingBuildCheckerProvider>{element}</IncomingBuildCheckerProvider>
 }
 
-export const wrapPageElement: GatsbySSR['wrapPageElement'] = ({element}) => {
-  return (
+export const wrapPageElement: GatsbySSR['wrapPageElement'] = (
+  {element, props},
+  pluginOptions
+) => {
+  const options = pluginOptions as unknown as IJaenConfig
+
+  const inner = (
     <Flex direction={'column'}>
       <Box pos="sticky" top="0" zIndex={'banner'}>
         <AdminToolbarContainer />
@@ -17,4 +24,16 @@ export const wrapPageElement: GatsbySSR['wrapPageElement'] = ({element}) => {
       <Box>{element}</Box>
     </Flex>
   )
+
+  if (options.snekAnalyticsId) {
+    return (
+      <AnalyticsProvider
+        pageProps={props}
+        snekAnalyticsId={options.snekAnalyticsId}>
+        {inner}
+      </AnalyticsProvider>
+    )
+  }
+
+  return inner
 }

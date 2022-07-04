@@ -42,14 +42,14 @@ export interface PagePayload extends Payload {
   }
 }
 
-const getIp = (async () => {
-  return await (await fetch('https://ip-api.io/json/')).json()
-})()
-
 export default function analyticsPluginSnekScore(userConfig: {
   snekAnalyticsId: string
   fingerprint?: string
 }): AnalyticsPlugin {
+  const getIp = (async () => {
+    return await (await fetch('https://ip-api.io/json/')).json()
+  })()
+
   // return object for analytics to use
   return {
     /* All plugins require a name */
@@ -58,18 +58,7 @@ export default function analyticsPluginSnekScore(userConfig: {
     config: {},
     initialize: () => {},
     page: async ({payload}: {payload: PagePayload}) => {
-      // call provider specific page tracking
-
-      console.log('page', payload)
-
-      const ip = await getIp
-
-      writeData({
-        snekAnalyticsId: userConfig.snekAnalyticsId,
-        payload,
-        ip,
-        fingerprint: userConfig.fingerprint
-      })
+      return
     },
     track: async ({payload}: {payload: TrackPayload}) => {
       // call provider specific event tracking
