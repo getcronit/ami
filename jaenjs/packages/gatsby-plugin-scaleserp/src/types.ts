@@ -15,6 +15,7 @@ export interface ScaleserpReview {
 }
 
 export interface GoogleReview {
+  id: string
   rating: number
   position: number
   body: string
