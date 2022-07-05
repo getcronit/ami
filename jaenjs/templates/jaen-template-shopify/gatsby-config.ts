@@ -38,8 +38,7 @@ const config: GatsbyConfig = {
     {
       resolve: '@jaenjs/jaen',
       options: {
-        jaenProjectId: 3,
-        snekAnalyticsId: 'SA-AGT2022-1'
+        jaenProjectId: 3
       }
     },
     '@chakra-ui/gatsby-plugin',

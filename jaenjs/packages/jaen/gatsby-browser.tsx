@@ -19,7 +19,7 @@ export const wrapPageElement: GatsbyBrowser['wrapPageElement'] = (
 ) => {
   const pathname = window.location.pathname
 
-  const options = pluginOptions as unknown as IJaenConfig
+  const options = (pluginOptions as unknown) as IJaenConfig
 
   let inner = (
     <Flex direction={'column'}>
@@ -34,15 +34,11 @@ export const wrapPageElement: GatsbyBrowser['wrapPageElement'] = (
     inner = <SnekFinder>{element}</SnekFinder>
   }
 
-  if (options.snekAnalyticsId) {
-    return (
-      <AnalyticsProvider
-        pageProps={props}
-        snekAnalyticsId={options.snekAnalyticsId}>
-        {inner}
-      </AnalyticsProvider>
-    )
-  }
-
-  return inner
+  return (
+    <AnalyticsProvider
+      pageProps={props}
+      snekAnalyticsId={options.snekAnalyticsId}>
+      {inner}
+    </AnalyticsProvider>
+  )
 }

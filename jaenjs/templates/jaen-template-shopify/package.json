@@ -25,7 +25,7 @@
     "@chakra-ui/react": "^1.8.8",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "@jaenjs/jaen": "^3.0.0-beta.53",
+    "@jaenjs/jaen": "^3.0.0-beta.54",
     "@react-icons/all-files": "^4.1.0",
     "@snek-at/functions": "*",
     "@snek-at/gatsby-plugin-scaleserp": "^1.0.3",

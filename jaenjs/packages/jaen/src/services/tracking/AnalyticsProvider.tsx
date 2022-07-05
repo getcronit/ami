@@ -6,19 +6,18 @@ import 'vanilla-cookieconsent/src/cookieconsent.css'
 import 'vanilla-cookieconsent/src/cookieconsent.js'
 import analyticsPluginSnekScore from './analyticsPluginSnekScore'
 
-const AnalyticsContext =
-  React.createContext<
-    | {
-        analytics: AnalyticsInstance
-        consentLevel: string[]
-        cookieconsent: any
-      }
-    | undefined
-  >(undefined)
+const AnalyticsContext = React.createContext<
+  | {
+      analytics: AnalyticsInstance
+      consentLevel: string[]
+      cookieconsent: any
+    }
+  | undefined
+>(undefined)
 
 export const AnalyticsProvider: React.FC<{
   pageProps: PageProps
-  snekAnalyticsId: string
+  snekAnalyticsId?: string
 }> = ({children, pageProps, snekAnalyticsId}) => {
   const [analytics, setAnalytics] = React.useState<AnalyticsInstance>(
     Analytics({
@@ -33,39 +32,41 @@ export const AnalyticsProvider: React.FC<{
 
   React.useEffect(() => {
     const load = async () => {
-      if (consentLevel.includes('targeting')) {
-        // Initialize an agent at application startup.
-        const fpPromise = FingerprintJS.load({
-          monitoring: false
-        })
-
-        const fp = await fpPromise
-        const result = await fp.get()
-
-        setAnalytics(
-          Analytics({
-            app: 'jaen',
-            debug: true,
-            plugins: [
-              analyticsPluginSnekScore({
-                snekAnalyticsId,
-                fingerprint: result.visitorId
-              })
-            ]
+      if (snekAnalyticsId) {
+        if (consentLevel.includes('targeting')) {
+          // Initialize an agent at application startup.
+          const fpPromise = FingerprintJS.load({
+            monitoring: false
           })
-        )
-      } else {
-        setAnalytics(
-          Analytics({
-            app: 'jaen',
-            debug: true,
-            plugins: [
-              analyticsPluginSnekScore({
-                snekAnalyticsId
-              })
-            ]
-          })
-        )
+
+          const fp = await fpPromise
+          const result = await fp.get()
+
+          setAnalytics(
+            Analytics({
+              app: 'jaen',
+              debug: true,
+              plugins: [
+                analyticsPluginSnekScore({
+                  snekAnalyticsId,
+                  fingerprint: result.visitorId
+                })
+              ]
+            })
+          )
+        } else {
+          setAnalytics(
+            Analytics({
+              app: 'jaen',
+              debug: true,
+              plugins: [
+                analyticsPluginSnekScore({
+                  snekAnalyticsId
+                })
+              ]
+            })
+          )
+        }
       }
     }
 

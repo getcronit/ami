@@ -13,7 +13,7 @@ export const wrapPageElement: GatsbySSR['wrapPageElement'] = (
   {element, props},
   pluginOptions
 ) => {
-  const options = pluginOptions as unknown as IJaenConfig
+  const options = (pluginOptions as unknown) as IJaenConfig
 
   const inner = (
     <Flex direction={'column'}>
@@ -25,15 +25,11 @@ export const wrapPageElement: GatsbySSR['wrapPageElement'] = (
     </Flex>
   )
 
-  if (options.snekAnalyticsId) {
-    return (
-      <AnalyticsProvider
-        pageProps={props}
-        snekAnalyticsId={options.snekAnalyticsId}>
-        {inner}
-      </AnalyticsProvider>
-    )
-  }
-
-  return inner
+  return (
+    <AnalyticsProvider
+      pageProps={props}
+      snekAnalyticsId={options.snekAnalyticsId}>
+      {inner}
+    </AnalyticsProvider>
+  )
 }
