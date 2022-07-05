@@ -7,7 +7,7 @@ import {BulletStyle} from './style'
 
 export interface BulletShowcaseProps {}
 
-const COLLECTION_MUNITION_PATH = '/collection/munition'
+const COLLECTION_MUNITION_PATH = '/collections/munition'
 
 const Bullet = (props: {icon: JSX.Element; caliber: string}) => {
   return (
