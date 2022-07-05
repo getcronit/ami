@@ -112,6 +112,9 @@ jobs:
       - name: Yarn Install
         # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsrun
         run: yarn install --pure-lockfile
+        
+      - name: Yarn Install Github Pages
+        run: yarn install gh-pages
 
       # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsid
       - name: Configure GitHub Authentication 🔧
