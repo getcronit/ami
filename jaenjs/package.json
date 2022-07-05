@@ -75,8 +75,7 @@
     ],
     "packages": [
       "examples/*",
-      "packages/*",
-      "templates/*"
+      "packages/*"
     ]
   },
   "dependencies": {
