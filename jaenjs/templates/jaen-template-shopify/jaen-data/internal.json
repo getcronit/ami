@@ -13,5 +13,11 @@
       }
     }
   },
-  "migrationHistory": []
+  "migrationHistory": [
+    {
+      "createdAt": "2022-07-05T09:13:32.559Z",
+      "fileUrl": "https://osg.snek.at/storage/BQACAgQAAxkDAAIQtmLEAAFfrnw13zx_98DQK6JvJwWeLQACuAwAAscmIFLAOjkRYQLzqCkE"
+    }
+  ],
+  "finderUrl": "https://osg.snek.at/storage/BQACAgQAAxkDAAIQtWLEAAFfuh-a3pI5dqPbl_Xy4sVXFQACtwwAAscmIFJGBaiBZ5d2UCkE"
 }
