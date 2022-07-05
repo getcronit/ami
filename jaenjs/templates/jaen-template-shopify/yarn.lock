@@ -4043,10 +4043,10 @@
   dependencies:
     gatsby "^4.12.1"
 
-"@snek-at/gatsby-theme-shopify@^1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@snek-at/gatsby-theme-shopify/-/gatsby-theme-shopify-1.6.0.tgz#4323ffc451b4520b7165ffda0800007cf6e7f80a"
-  integrity sha512-gK2dnMzlhufoTX5jeWjpEa0nQ2ZVvIMnasTM5XvCYMrle+tC6NjvxV8fVbve/mKBZUoxQKLeDwT8qf0KJMlVPg==
+"@snek-at/gatsby-theme-shopify@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@snek-at/gatsby-theme-shopify/-/gatsby-theme-shopify-1.6.1.tgz#ab5aef062fa213de50498d0b0a25f306a11875b7"
+  integrity sha512-HuSTusc6RNVr3cf6wJD0Lej3f/yql3IcVsAx24HP2XK1wPU3gQfZf386lJNkEwtlBBTnWKOSFAiWf1dAswsq/Q==
   dependencies:
     gatsby "^4.12.1"
     gatsby-plugin-image "^2.12.1"
