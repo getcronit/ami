@@ -5,6 +5,7 @@ import {
   BoxProps,
   Flex,
   HStack,
+  Image,
   Spacer,
   Text,
   useColorModeValue,
@@ -224,18 +225,21 @@ function ImageBoxWithTags(
   // Box with image as background and tags on bottom
   const {image, tags} = props
 
+  console.log(image)
   return (
     <Box overflow="hidden" position="relative" {...props}>
       {image ? (
-        <GatsbyImage
+        <Image
           onDragStart={e => e.preventDefault()}
           draggable="false"
-          image={image.gatsbyImageData}
+          src={image.gatsbyImageData.images.fallback?.src}
+          sizes={image.gatsbyImageData.images.fallback?.sizes}
+          srcSet={image.gatsbyImageData.images.fallback?.srcSet}
           alt={image.altText || '-'}
           style={{
             height: '100%',
             width: '100%',
-            objectFit: 'contain',
+            objectFit: 'cover',
             objectPosition: 'center'
           }}
         />
