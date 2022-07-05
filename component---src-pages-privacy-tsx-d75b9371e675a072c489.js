@@ -1,0 +1,2 @@
+"use strict";(self.__LOADABLE_LOADED_CHUNKS__=self.__LOADABLE_LOADED_CHUNKS__||[]).push([[831],{14622:function(_,a,e){e.r(a);var s=e(6134),t=e(42781),A=e(64731),L=e(85893);const c=(0,A.connectPage)((({path:_})=>(0,L.jsx)(t.A,{path:_,children:(0,L.jsx)(s.rp,{path:_})})),{displayName:"LegalPage"});a.default=c}}]);
+//# sourceMappingURL=component---src-pages-privacy-tsx-d75b9371e675a072c489.js.map

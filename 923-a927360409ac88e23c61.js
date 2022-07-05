@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkvienna_hotels=self.webpackChunkvienna_hotels||[]).push([[923],{68923:function(e,n,r){r.r(n),r.d(n,{FilesContainer:function(){return s}});var t=r(3013),i=r(95751),u=r(88837),s=function(){var e=(0,i.useSnekFinder)({mode:"browser"});return(0,u.tZ)(t.Box,{h:"75vh",children:e.finderElement})};n.default=s}}]);
-//# sourceMappingURL=923-a927360409ac88e23c61.js.map

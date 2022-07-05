@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkvienna_hotels=self.webpackChunkvienna_hotels||[]).push([[13],{84527:function(t,n,e){e.d(n,{AV3:function(){return r}});var a=e(5566);function r(t){return(0,a.w_)({tag:"svg",attr:{fill:"currentColor",viewBox:"0 0 16 16"},child:[{tag:"path",attr:{d:"m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"}}]})(t)}}}]);
-//# sourceMappingURL=0c428ae2-3706966f7a48e034ece2.js.map
