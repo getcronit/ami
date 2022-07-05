@@ -182,9 +182,9 @@ export const transformProductSearchResultData = (
               id: variant.id,
               taxable: true,
               sku: variant.sku,
-              price: variant.price ? parseInt(variant.price) : Infinity,
+              price: variant.price ? parseFloat(variant.price) : Infinity,
               compareAtPrice: variant.compareAtPrice
-                ? parseInt(variant.compareAtPrice)
+                ? parseFloat(variant.compareAtPrice)
                 : null
             }
           }),
