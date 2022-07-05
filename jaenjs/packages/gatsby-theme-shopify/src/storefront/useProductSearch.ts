@@ -46,9 +46,7 @@ export const useProductSearch = ({
       }
     }
 
-    const url = new URL(window.location.href).search
-
-    const values = getValuesFromQuery(url.search)
+    const values = getValuesFromQuery(new URL(window.location.href).search)
 
     // validate if values are valid
 
@@ -173,10 +171,18 @@ export const useProductSearch = ({
   const [products, setProducts] = React.useState<ShopifyProduct[]>([])
 
   React.useEffect(() => {
+    setCursors({
+      before: null,
+      after: null
+    })
+    setProducts([])
+    console.log('reset')
+  }, [filters, options.reverse, options.sortKey, options.count])
+
+  React.useEffect(() => {
     if (result?.data?.products?.edges) {
-      const transformedProducts = transformProductSearchResultData(
-        result.data
-      ).nodes
+      const transformedProducts = transformProductSearchResultData(result.data)
+        .nodes
 
       console.log('new products', transformedProducts)
 
@@ -185,15 +191,6 @@ export const useProductSearch = ({
       })
     }
   }, [result.data?.products.edges])
-
-  React.useEffect(() => {
-    setCursors({
-      before: null,
-      after: null
-    })
-    setProducts([])
-    console.log('reset')
-  }, [filters, options.reverse, options.sortKey, options.count])
 
   const isFetching = result?.fetching
   const hasNextPage = result?.data?.products?.pageInfo?.hasNextPage ?? false
