@@ -1,13 +1,9 @@
 {
   "name": "@snek-at/gatsby-theme-shopify",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
-  "files": [
-    "dist",
-    "gatsby-*.js"
-  ],
   "dependencies": {
     "gatsby": "^4.12.1",
     "gatsby-plugin-image": "^2.12.1",

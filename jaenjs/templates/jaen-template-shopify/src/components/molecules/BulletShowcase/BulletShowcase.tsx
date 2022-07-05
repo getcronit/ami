@@ -16,7 +16,9 @@ const Bullet = (props: {icon: JSX.Element; caliber: string}) => {
       className="bullet"
       onClick={() =>
         navigate(
-          `${COLLECTION_MUNITION_PATH}/products?t=Kaliber%3A${props.caliber}`
+          `${COLLECTION_MUNITION_PATH}/products/?t=Kaliber:${encodeURIComponent(
+            props.caliber
+          )}`
         )
       }>
       {props.icon}
@@ -50,7 +52,7 @@ export const BulletShowcase = ({}: BulletShowcaseProps) => (
               <path d="M33.0964 179.6679H31.9953v-38.466h-.5142v-.621h.4345v-2.2245h-.4345v-.8087h.4345v-2.2244h-.4345v-.8088h.4345V132.29h-.4345v-4.4775a11.6778 11.6778 0 0 0-2.6931-6.0107c-1.7863-2.2858-3.3846-2.0318-3.3846-2.0318H22.5965s-1.5983-.254-3.3845 2.0318a11.6772 11.6772 0 0 0-2.6932 6.0107V132.29h-.5942v2.2243h.594v.8088h-.5942v2.2244h.5942v.8087h-.5942v2.2245h.5942v.621h-.5144v38.466H14.9033c-.7977.4973-1.1659 1.2867-.9819 1.5473.1139.161 1.2274 1.5472 1.2274 1.5472h7.996L24 182.3237l.8556.4387h7.9955s1.1137-1.3862 1.2273-1.5472C34.2623 180.9546 33.8941 180.165 33.0964 179.6679Z"></path>
             </svg>
           }
-          caliber=".22 LR"
+          caliber=".22 lr"
         />
         <Bullet
           icon={

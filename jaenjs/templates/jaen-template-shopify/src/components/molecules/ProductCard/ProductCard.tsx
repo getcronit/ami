@@ -225,7 +225,6 @@ function ImageBoxWithTags(
   // Box with image as background and tags on bottom
   const {image, tags} = props
 
-  console.log(image)
   return (
     <Box overflow="hidden" position="relative" {...props}>
       {image ? (

@@ -95,8 +95,8 @@ export const ProductsTemplate = (props: ProductsTemplateProps) => {
     props.filters.productTypes.length > 0
 
   const hasPriceFilter = !!(
-    props.filters.minPrice &&
-    props.filters.maxPrice &&
+    props.filters.minPrice !== null &&
+    props.filters.maxPrice !== null &&
     props.filters.minPrice !== props.filters.maxPrice
   )
 
