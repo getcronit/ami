@@ -16,7 +16,7 @@ const Bullet = (props: {icon: JSX.Element; caliber: string}) => {
       className="bullet"
       onClick={() =>
         navigate(
-          `${COLLECTION_MUNITION_PATH}/products?t=Kaliber:${props.caliber}`
+          `${COLLECTION_MUNITION_PATH}/products?t=Kaliber%3A${props.caliber}`
         )
       }>
       {props.icon}
