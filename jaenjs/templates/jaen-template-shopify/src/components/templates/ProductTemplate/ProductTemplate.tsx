@@ -323,7 +323,18 @@ const ImageThumbnailWrapItem = (props: {
         bg: useColorModeValue('gray.300', 'gray.800')
       }}
       transition="ease-out">
-      <GatsbyImage image={gatsbyImageData} alt={altText || 'Product image '} />
+      <GatsbyImage
+        onDragStart={e => e.preventDefault()}
+        draggable="false"
+        image={gatsbyImageData}
+        alt={altText || 'Product image '}
+        style={{
+          height: '100%',
+          width: '100%',
+          objectFit: 'contain',
+          objectPosition: 'center'
+        }}
+      />
     </WrapItem>
   )
 }
@@ -351,6 +362,7 @@ const ImageSlider = (props: {
         </Box>
       </AspectRatio>
       <Wrap
+        overflow={'hidden'}
         bg={useColorModeValue('gray.200', 'gray.700')}
         spacing={0}
         justify="center">

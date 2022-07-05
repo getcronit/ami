@@ -122,7 +122,7 @@ export const ProductCard = ({
             </>
           </AspectRatio>
 
-          {product.media.slice(0, 4).map((media, index) => (
+          {product.media.slice(0, 3).map((media, index) => (
             <Box key={index}>
               {index !== 0 && (
                 <Box>
@@ -186,7 +186,7 @@ export const ProductCard = ({
             boxSize={'full'}
             py="0.5rem"
             px="1">
-            {product.media.slice(0, 4).map((m, index) => (
+            {product.media.slice(0, 3).map((m, index) => (
               <label htmlFor={'imgbox-' + cardId + '-' + index} key={index}>
                 <Box
                   transform="scale(0.97)"
