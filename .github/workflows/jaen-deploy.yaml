@@ -51,7 +51,7 @@ jobs:
     defaults:
       run:
         # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#
-        working-directory: ${{ github.event.client_payload.cwd }}
+        working-directory: ${{ github.event.client_payload.cwd || '.' }}
 
     # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idsteps
     steps:
