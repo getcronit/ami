@@ -136,7 +136,6 @@ jobs:
           yarn deploy:incremental
           # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsenv
         env:
-        env:
           SCALE_SERP_APIKEY: ${{ secrets.SCALE_SERP_APIKEY }}
           SCALE_SERP_GOOGLE_PLACE_ID: ${{ secrets.SCALE_SERP_GOOGLE_PLACE_ID }}
           GATSBY_MYSHOPIFY_URL: ${{ secrets.GATSBY_MYSHOPIFY_URL }}
