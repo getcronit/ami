@@ -1,5 +1,6 @@
 import {transformFile} from '@swc/core'
 import fs from 'fs'
+import minimatch from 'minimatch'
 import path from 'path'
 import {TEMPLATE_FILES} from './init/files.js'
 
@@ -26,7 +27,8 @@ export const buildFile = async (filePath: string, outputFilePath: string) => {
 
 export const buildFolder = async (
   folderPath: string,
-  outputFolderPath: string
+  outputFolderPath: string,
+  originFolderPath: string = folderPath
 ) => {
   // clear output folder if it exists else create it
   try {
@@ -57,20 +59,41 @@ export const buildFolder = async (
     } else {
       // exclude template files from copying that are not js or ts files
       if (TEMPLATE_FILES.some(({name}) => name === file)) {
+        console.log(`skip copying ${filePath}`)
         continue
       }
 
-      // exculude node_modules, dist, yarn.lock, and package-lock.json
-      if (
-        ['node_modules', 'dist', 'yarn.lock', 'package-lock.json'].includes(
-          file
-        )
-      ) {
+      // skip if node_modules or dist folder because we don't want to copy those
+      if (file === 'node_modules' || file === 'dist') {
         continue
+      }
+
+      // read content of .dockerignore files if exists and skip its content
+      const dockerignorePath = path.resolve(originFolderPath, '.dockerignore')
+
+      if (fs.existsSync(dockerignorePath)) {
+        const dockerignoreContent = fs.readFileSync(dockerignorePath, 'utf8')
+        const globs = dockerignoreContent.split('\n')
+
+        const skip = globs.some(glob =>
+          minimatch(path.relative(originFolderPath, filePath), glob)
+        )
+
+        if (skip) {
+          console.log(`skip copying ${filePath}`)
+          continue
+        }
       }
 
       try {
-        await fs.promises.copyFile(filePath, outputFilePath)
+        // check if file is a directory
+        const stats = await fs.promises.stat(filePath)
+        if (stats.isDirectory()) {
+          console.log(`Should create folder ${outputFilePath}`)
+          await buildFolder(filePath, outputFilePath, originFolderPath)
+        } else {
+          await fs.promises.cp(filePath, outputFilePath)
+        }
       } catch (err) {
         console.warn(`Can't copy file ${filePath}`, err)
       }

@@ -8,6 +8,13 @@
   "dependencies": {
     "@snek-at/functions": "*"
   },
+  "devDependencies": {
+    "nodemon": "^2.0.19",
+    "patch-package": "^6.4.7",
+    "serverless": "^3.19.0",
+    "serverless-offline": "^8.8.0",
+    "serverless-plugin-ifelse": "^1.0.7"
+  },
   "scripts": {
     "start": "IS_OFFLINE=true nodemon --watch dist --exec sls offline",
     "deploy": "sls deploy"

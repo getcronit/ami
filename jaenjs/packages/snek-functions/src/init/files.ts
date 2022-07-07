@@ -54,6 +54,13 @@ export const packageJson = {
   "dependencies": {
     "@snek-at/functions": "*"
   },
+  "devDependencies": {
+    "nodemon": "^2.0.19",
+    "patch-package": "^6.4.7",
+    "serverless": "^3.19.0",
+    "serverless-offline": "^8.8.0",
+    "serverless-plugin-ifelse": "^1.0.7"
+  },
   "scripts": {
     "start": "IS_OFFLINE=true nodemon --watch dist --exec sls offline",
     "deploy": "sls deploy"
@@ -138,11 +145,44 @@ functions:
 `
 }
 
+//> Workaround for the lack of esm support of serverless framework
+export const patchesServerlessOffline = {
+  name: 'patches/serverless-offline+8.8.0.patch',
+  content: `
+  diff --git a/node_modules/serverless-offline/dist/lambda/handler-runner/in-process-runner/InProcessRunner.js b/node_modules/serverless-offline/dist/lambda/handler-runner/in-process-runner/InProcessRunner.js
+  index 25b42ad..0d33ac9 100644
+  --- a/node_modules/serverless-offline/dist/lambda/handler-runner/in-process-runner/InProcessRunner.js
+  +++ b/node_modules/serverless-offline/dist/lambda/handler-runner/in-process-runner/InProcessRunner.js
+  @@ -163,7 +163,7 @@ class InProcessRunner {
+   
+       const {
+         [_classPrivateFieldLooseBase(this, _handlerName)[_handlerName]]: handler
+  -    } = await Promise.resolve(\`\${_classPrivateFieldLooseBase(this, _handlerPath)[_handlerPath]}\`).then(s => _interopRequireWildcard(require(s)));
+  +    } = await Promise.resolve(\`\${_classPrivateFieldLooseBase(this, _handlerPath)[_handlerPath]}\`).then(s => import(\`\${s}.js\`));
+   
+       if (typeof handler !== 'function') {
+         throw new Error(\`offline: handler '\${_classPrivateFieldLooseBase(this, _handlerName)[_handlerName]}' in \${_classPrivateFieldLooseBase(this, _handlerPath)[_handlerPath]} is not a function\`);
+  `
+}
+
+export const dockerIgnore = {
+  name: '.dockerignore',
+  content: `
+.git
+node_modules
+*Dockerfile*
+yarn.lock
+package-lock.json
+`
+}
+
 export const TEMPLATE_FILES = [
   app,
   factory,
   exampleLoginFn,
   packageJson,
   dockerfile,
-  serverlessYml
+  serverlessYml,
+  patchesServerlessOffline,
+  dockerIgnore
 ]

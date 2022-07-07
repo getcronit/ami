@@ -1,17 +1,34 @@
+import fsp from 'fs/promises'
+import path from 'path'
+
 export async function importFresh(modulePath: string) {
-  const cacheBustingModulePath = `${modulePath}?update=${Date.now()}`;
-  return (await import(cacheBustingModulePath)).default;
+  const cacheBustingModulePath = `${modulePath}?update=${Date.now()}`
+  return (await import(cacheBustingModulePath)).default
 }
 
-export function stringify(obj_from_json: { [x: string]: any }): any {
-  if (typeof obj_from_json !== "object" || Array.isArray(obj_from_json)) {
+export function stringify(obj_from_json: {[x: string]: any}): any {
+  if (typeof obj_from_json !== 'object' || Array.isArray(obj_from_json)) {
     // not an object, stringify using native function
-    return JSON.stringify(obj_from_json);
+    return JSON.stringify(obj_from_json)
   }
   // Implements recursive object serialization according to JSON spec
   // but without quotes around the keys.
   let props = Object.keys(obj_from_json)
-    .map((key) => `${key}:${stringify(obj_from_json[key])}`)
-    .join(",");
-  return `{${props}}`;
+    .map(key => `${key}:${stringify(obj_from_json[key])}`)
+    .join(',')
+  return `{${props}}`
+}
+
+export async function copyDir(src: string, dest: string) {
+  const entries = await fsp.readdir(src, {withFileTypes: true})
+  await fsp.mkdir(dest)
+  for (let entry of entries) {
+    const srcPath = path.join(src, entry.name)
+    const destPath = path.join(dest, entry.name)
+    if (entry.isDirectory()) {
+      await copyDir(srcPath, destPath)
+    } else {
+      await fsp.copyFile(srcPath, destPath)
+    }
+  }
 }
