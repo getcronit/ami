@@ -1,5 +1,8 @@
 import {AnalyticsPlugin} from 'analytics'
-import writeData from '../../snekscore-functions/writeData'
+
+const writeData = (data: any) => {
+  console.log(`Not implemented yet! Debug: writeData: ${JSON.stringify(data)}`)
+}
 
 export interface Payload {
   type: string
