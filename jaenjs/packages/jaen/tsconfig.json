@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": ".",
+    "rootDir": "src",
     "baseUrl": ".",
     "outDir": "dist",
     "paths": {}
@@ -16,7 +16,7 @@
     }
   },
 
-  "include": ["**/*", "./tsconfig.json"],
+  "include": ["src/**/*"],
   "typeRoots": ["./@types", "../../node_modules"],
   "references": [{"path": "../snek-finder"}]
 }

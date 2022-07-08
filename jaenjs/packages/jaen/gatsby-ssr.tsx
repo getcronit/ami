@@ -1,5 +1,6 @@
 import {Box, Flex} from '@chakra-ui/react'
 import {GatsbySSR} from 'gatsby'
+import React from 'react'
 import {IncomingBuildCheckerProvider} from './src/services/IncomingBuildChecker'
 import {AnalyticsProvider} from './src/services/tracking/AnalyticsProvider'
 import {IJaenConfig} from './src/types'
@@ -13,7 +14,7 @@ export const wrapPageElement: GatsbySSR['wrapPageElement'] = (
   {element, props},
   pluginOptions
 ) => {
-  const options = (pluginOptions as unknown) as IJaenConfig
+  const options = pluginOptions as unknown as IJaenConfig
 
   const inner = (
     <Flex direction={'column'}>

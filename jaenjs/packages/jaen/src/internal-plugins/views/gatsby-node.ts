@@ -1,10 +1,11 @@
-import {GatsbyNode as GatsbyNodeType} from 'gatsby'
+import {GatsbyNode} from 'gatsby'
 
 import {sourceViews} from './gatsby-config'
 
-const GatsbyNode: GatsbyNodeType = {}
-
-GatsbyNode.onCreateWebpackConfig = ({plugins, actions}) => {
+export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
+  plugins,
+  actions
+}) => {
   actions.setWebpackConfig({
     plugins: [
       plugins.define({
@@ -13,5 +14,3 @@ GatsbyNode.onCreateWebpackConfig = ({plugins, actions}) => {
     ]
   })
 }
-
-export default GatsbyNode

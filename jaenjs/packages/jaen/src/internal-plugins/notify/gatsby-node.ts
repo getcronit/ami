@@ -1,13 +1,14 @@
-import {GatsbyNode as GatsbyNodeType} from 'gatsby'
-import {getJaenDataForPlugin} from '../../../services/migration/get-jaen-data-for-plugin'
-import {INotification, INotificationsMigrationBase} from '../types'
+import {GatsbyNode} from 'gatsby'
+import {getJaenDataForPlugin} from '../../services/migration/get-jaen-data-for-plugin'
 import {sourceNotifications} from './gatsby-config'
+import {INotification, INotificationsMigrationBase} from './types'
 
 import 'isomorphic-fetch'
 
-const GatsbyNode: GatsbyNodeType = {}
-
-GatsbyNode.onCreateWebpackConfig = ({plugins, actions}) => {
+export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
+  plugins,
+  actions
+}) => {
   actions.setWebpackConfig({
     plugins: [
       plugins.define({
@@ -17,17 +18,21 @@ GatsbyNode.onCreateWebpackConfig = ({plugins, actions}) => {
   })
 }
 
-GatsbyNode.createSchemaCustomization = ({actions}) => {
-  actions.createTypes(`
+export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] =
+  ({actions}) => {
+    actions.createTypes(`
     type JaenNotification implements Node {
       id: ID!
       jaenFields: JSON
       active: Boolean
     }
     `)
-}
+  }
 
-GatsbyNode.sourceNodes = async ({actions, createContentDigest}) => {
+export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
+  actions,
+  createContentDigest
+}) => {
   const {createNode} = actions
 
   let notifications = await getJaenDataForPlugin<INotificationsMigrationBase>(
@@ -53,5 +58,3 @@ GatsbyNode.sourceNodes = async ({actions, createContentDigest}) => {
     createNode(node)
   }
 }
-
-export default GatsbyNode

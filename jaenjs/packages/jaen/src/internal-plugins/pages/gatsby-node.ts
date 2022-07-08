@@ -1,17 +1,15 @@
 import fs from 'fs'
-import {GatsbyNode as GatsbyNodeType} from 'gatsby'
+import {GatsbyNode} from 'gatsby'
 import 'isomorphic-fetch'
 import path from 'path'
-import {getJaenDataForPlugin} from '../../../../services/migration/get-jaen-data-for-plugin'
-import {convertToSlug} from '../../../../utils/helper'
-import {IJaenPage, IPagesMigrationBase} from '../../types'
-import {processPage} from '../services/imaProcess'
-import {generateOriginPath} from '../services/path'
+import {getJaenDataForPlugin} from '../../services/migration/get-jaen-data-for-plugin'
+import {convertToSlug} from '../../utils/helper'
 import {sourceTemplates} from './gatsby-config'
+import {processPage} from './internal/services/imaProcess'
+import {generateOriginPath} from './internal/services/path'
+import {IJaenPage, IPagesMigrationBase} from './types'
 
-const GatsbyNode: GatsbyNodeType = {}
-
-GatsbyNode.onCreateWebpackConfig = ({
+export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
   plugins,
   actions,
   loaders,
@@ -49,8 +47,9 @@ GatsbyNode.onCreateWebpackConfig = ({
   }
 }
 
-GatsbyNode.createSchemaCustomization = ({actions}) => {
-  actions.createTypes(`
+export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] =
+  ({actions}) => {
+    actions.createTypes(`
     type JaenPage implements Node {
       id: ID!
       slug: String!
@@ -76,9 +75,9 @@ GatsbyNode.createSchemaCustomization = ({actions}) => {
       isBlogPost: Boolean
     }
     `)
-}
+  }
 
-GatsbyNode.sourceNodes = async ({
+export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
   actions,
   createNodeId,
   createContentDigest,
@@ -95,9 +94,9 @@ GatsbyNode.sourceNodes = async ({
   const hashes = []
 
   for (const [id, page] of Object.entries(pages)) {
-    const jaenPage = ((await (
+    const jaenPage = (await (
       await fetch(page.context.fileUrl)
-    ).json()) as unknown) as IJaenPage
+    ).json()) as unknown as IJaenPage
 
     await processPage({
       page: jaenPage,
@@ -135,7 +134,11 @@ GatsbyNode.sourceNodes = async ({
   //> Fetch template files and proccess them
 }
 
-GatsbyNode.createPages = async ({actions, graphql, reporter}) => {
+export const createPages: GatsbyNode['createPages'] = async ({
+  actions,
+  graphql,
+  reporter
+}) => {
   const {createPage} = actions
 
   interface QueryData {
@@ -200,8 +203,9 @@ GatsbyNode.createPages = async ({actions, graphql, reporter}) => {
         return
       }
 
-      const component = allTemplate.nodes.find(e => e.name === template)
-        ?.absolutePath
+      const component = allTemplate.nodes.find(
+        e => e.name === template
+      )?.absolutePath
 
       if (!component) {
         reporter.panicOnBuild(
@@ -240,12 +244,14 @@ GatsbyNode.createPages = async ({actions, graphql, reporter}) => {
   createPage({
     path: '/_',
     matchPath: '/_/*',
-    component: require.resolve('../services/routing/pages/_.tsx'),
+    component: require.resolve(
+      '../../../src/internal-plugins/pages/internal/services/routing/pages/_.tsx'
+    ),
     context: {}
   })
 }
 
-GatsbyNode.onCreatePage = ({
+export const onCreatePage: GatsbyNode['onCreatePage'] = ({
   actions,
   page,
   createNodeId,
@@ -312,5 +318,3 @@ GatsbyNode.onCreatePage = ({
   deletePage(page)
   createPage(stepPage)
 }
-
-export default GatsbyNode

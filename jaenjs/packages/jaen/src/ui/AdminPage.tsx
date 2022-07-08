@@ -2,30 +2,30 @@ import {useAppSelector, withRedux} from '../redux'
 
 import {
   HashRouter,
-  Routes,
-  Route,
   Navigate,
   Outlet,
+  Route,
+  Routes,
   useNavigate
 } from 'react-router-dom'
 
-import AdminPageLoading from './components/AdminPageLoading'
-import AdminToolbarContainer from './AdminToolbar'
-import {SEO} from '../internal-plugins/pages'
-import PagesTab from '../internal-plugins/pages/ui/tabs/Pages'
-import FilesTab from '../internal-plugins/pages/ui/tabs/Files'
+import {Circle, GlobalStyle, LightMode} from '@chakra-ui/react'
+import React from 'react'
 import NotifyTab from '../internal-plugins/notify/ui/components/tabs/Notify'
+import {SEO} from '../internal-plugins/pages'
+import FilesTab from '../internal-plugins/pages/ui/tabs/Files'
+import PagesTab from '../internal-plugins/pages/ui/tabs/Pages'
+import {useViews, withBaseView} from '../internal-plugins/views/services/view'
+import AdminToolbarContainer from './AdminToolbar'
+import AdminPageLoading from './components/AdminPageLoading'
+import AdminPageShell, {UIProps} from './components/AdminPageShell'
 import DashboardTab from './DashboardTab'
 import SettingsTab from './SettingsTab'
-import {useViews, withBaseView} from '../internal-plugins/views/services/view'
-import React from 'react'
-import AdminPageShell, {UIProps} from './components/AdminPageShell'
-import {Circle, GlobalStyle, LightMode} from '@chakra-ui/react'
 
+import {BiNotification} from '@react-icons/all-files/bi/BiNotification'
+import {BsFiles} from '@react-icons/all-files/bs/BsFiles'
 import {BsHouse} from '@react-icons/all-files/bs/BsHouse'
 import {FaPager} from '@react-icons/all-files/fa/FaPager'
-import {BsFiles} from '@react-icons/all-files/bs/BsFiles'
-import {BiNotification} from '@react-icons/all-files/bi/BiNotification'
 import {navigate, PageProps} from 'gatsby'
 
 const buildViews = (

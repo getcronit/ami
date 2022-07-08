@@ -1,9 +1,8 @@
-import {IJaenPage} from '../../../../pages/types'
-import {graphql} from 'gatsby'
 import React from 'react'
+import {isAuthenticated} from '../../../../../utils/hooks/isAuthenticated'
+import {IJaenPage} from '../../../../pages/types'
 import {store, useAppDispatch, withRedux} from '../../redux'
 import {internalActions} from '../../redux/slices'
-import {isAuthenticated} from '../../../../../utils/hooks/isAuthenticated'
 
 export interface JaenPageProviderProps {
   jaenPage: {
@@ -15,9 +14,8 @@ export interface JaenPageProviderProps {
 
 export interface JaenPageContext extends JaenPageProviderProps {}
 
-export const JaenPageContext = React.createContext<JaenPageContext | undefined>(
-  undefined
-)
+export const JaenPageContext =
+  React.createContext<JaenPageContext | undefined>(undefined)
 
 const UnregisterFieldsHelper = withRedux(() => {
   const {jaenPage} = useJaenPageContext()
@@ -70,65 +68,6 @@ export const useJaenPageContext = () => {
 
   return context
 }
-
-/**
- * @type {Fragment}
- *
- * @example
- * ```
- * export const query = graphql`
- *  query ($jaenPageId: String!) {
- *   ...JaenPageQuery
- *  }
- * `
- * ```
- */
-export const JaenPageQuery = graphql`
-  fragment JaenPageQuery on Query {
-    jaenPage(id: {eq: $jaenPageId}) {
-      ...JaenPageData
-    }
-  }
-`
-
-/**
- * @type {Fragment}
- *
- * @example
- * ```
- * export const query = graphql`
- *  query ($jaenPageId: String!) {
- *   jaenPage(id: {eq: $jaenPageId}) {
- *    ...JaenPageData
- *    }
- *  }
- * `
- * ```
- */
-export const JaenPageData = graphql`
-  fragment JaenPageData on JaenPage {
-    id
-    slug
-    jaenFields
-    jaenPageMetadata {
-      title
-      isBlogPost
-      image
-      description
-      datePublished
-      canonical
-    }
-    jaenFiles {
-      file {
-        id
-        childImageSharp {
-          gatsbyImageData(placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
-        }
-      }
-    }
-    chapters
-  }
-`
 
 export interface UsePageIndexProps {
   /**

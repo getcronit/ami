@@ -1,15 +1,13 @@
+import {GatsbyNode} from 'gatsby'
+import {IJaenDataInternal} from '../services/jaen-data/internal'
 import {getJaenDataForPlugin} from '../services/migration/get-jaen-data-for-plugin'
 import {IJaenConfig} from '../types'
-import {GatsbyNode as GatsbyNodeType} from 'gatsby'
-import {IJaenDataInternal} from '../services/jaen-data/internal'
 
-const GatsbyNode: GatsbyNodeType = {}
-
-GatsbyNode.onCreateWebpackConfig = (
+export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = (
   {plugins, actions, loaders, stage, getNodesByType},
   pluginOptions
 ) => {
-  const options = (pluginOptions as unknown) as IJaenConfig
+  const options = pluginOptions as unknown as IJaenConfig
 
   actions.setWebpackConfig({
     plugins: [
@@ -36,7 +34,10 @@ GatsbyNode.onCreateWebpackConfig = (
   })
 }
 
-GatsbyNode.createSchemaCustomization = ({actions, schema}) => {
+export const createSchemaCustomization: GatsbyNode['onCreateWebpackConfig'] = ({
+  actions,
+  schema
+}) => {
   actions.createTypes(`
     type Site implements Node {
       siteMetadata: JSON
@@ -54,7 +55,7 @@ GatsbyNode.createSchemaCustomization = ({actions, schema}) => {
   `)
 }
 
-GatsbyNode.sourceNodes = async ({
+export const sourceNodes: GatsbyNode['onCreateWebpackConfig'] = async ({
   actions,
   createNodeId,
   createContentDigest
@@ -78,22 +79,24 @@ GatsbyNode.sourceNodes = async ({
   createNode(internalNode)
 }
 
-GatsbyNode.createPages = async ({actions, graphql, reporter}) => {
+export const createPages: GatsbyNode['onCreateWebpackConfig'] = async ({
+  actions,
+  graphql,
+  reporter
+}) => {
   const {createPage} = actions
 
   createPage({
     path: '/admin',
     // matchPath to ignore trailing slash
     matchPath: '/admin/*',
-    component: require.resolve('../ui/LoadedAdminPage.tsx'),
+    component: require.resolve('../../src/ui/LoadedAdminPage.tsx'),
     context: {}
   })
 
   createPage({
     path: '/admin/login',
-    component: require.resolve('../ui/LoginPage.tsx'),
+    component: require.resolve('../../src/ui/LoginPage.tsx'),
     context: {}
   })
 }
-
-export default GatsbyNode
