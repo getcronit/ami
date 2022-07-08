@@ -17,6 +17,7 @@
   },
   "scripts": {
     "start": "IS_OFFLINE=true nodemon --watch dist --exec sls offline",
-    "deploy": "sls deploy"
+    "deploy": "sls deploy",
+    "postinstall": "patch-package"
   }
 }

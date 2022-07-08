@@ -63,7 +63,8 @@ export const packageJson = {
   },
   "scripts": {
     "start": "IS_OFFLINE=true nodemon --watch dist --exec sls offline",
-    "deploy": "sls deploy"
+    "deploy": "sls deploy",
+    "postinstall": "patch-package"
   }
 }
 `
@@ -148,21 +149,19 @@ functions:
 //> Workaround for the lack of esm support of serverless framework
 export const patchesServerlessOffline = {
   name: 'patches/serverless-offline+8.8.0.patch',
-  content: `
-  diff --git a/node_modules/serverless-offline/dist/lambda/handler-runner/in-process-runner/InProcessRunner.js b/node_modules/serverless-offline/dist/lambda/handler-runner/in-process-runner/InProcessRunner.js
-  index 25b42ad..0d33ac9 100644
-  --- a/node_modules/serverless-offline/dist/lambda/handler-runner/in-process-runner/InProcessRunner.js
-  +++ b/node_modules/serverless-offline/dist/lambda/handler-runner/in-process-runner/InProcessRunner.js
-  @@ -163,7 +163,7 @@ class InProcessRunner {
-   
-       const {
-         [_classPrivateFieldLooseBase(this, _handlerName)[_handlerName]]: handler
-  -    } = await Promise.resolve(\`\${_classPrivateFieldLooseBase(this, _handlerPath)[_handlerPath]}\`).then(s => _interopRequireWildcard(require(s)));
-  +    } = await Promise.resolve(\`\${_classPrivateFieldLooseBase(this, _handlerPath)[_handlerPath]}\`).then(s => import(\`\${s}.js\`));
-   
-       if (typeof handler !== 'function') {
-         throw new Error(\`offline: handler '\${_classPrivateFieldLooseBase(this, _handlerName)[_handlerName]}' in \${_classPrivateFieldLooseBase(this, _handlerPath)[_handlerPath]} is not a function\`);
-  `
+  content: `diff --git a/node_modules/serverless-offline/dist/lambda/handler-runner/in-process-runner/InProcessRunner.js b/node_modules/serverless-offline/dist/lambda/handler-runner/in-process-runner/InProcessRunner.js
+index 25b42ad..0d33ac9 100644
+--- a/node_modules/serverless-offline/dist/lambda/handler-runner/in-process-runner/InProcessRunner.js
++++ b/node_modules/serverless-offline/dist/lambda/handler-runner/in-process-runner/InProcessRunner.js
+@@ -163,7 +163,7 @@ class InProcessRunner {
+
+     const {
+       [_classPrivateFieldLooseBase(this, _handlerName)[_handlerName]]: handler
+-    } = await Promise.resolve(\`\${_classPrivateFieldLooseBase(this, _handlerPath)[_handlerPath]}\`).then(s => _interopRequireWildcard(require(s)));
++    } = await Promise.resolve(\`\${_classPrivateFieldLooseBase(this, _handlerPath)[_handlerPath]}\`).then(s => import(\`\${s}.js\`));
+
+     if (typeof handler !== 'function') {
+       throw new Error(\`offline: handler '\${_classPrivateFieldLooseBase(this, _handlerName)[_handlerName]}' in \${_classPrivateFieldLooseBase(this, _handlerPath)[_handlerPath]} is not a function\`);`
 }
 
 export const dockerIgnore = {
