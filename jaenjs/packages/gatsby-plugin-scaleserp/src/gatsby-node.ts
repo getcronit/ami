@@ -1,14 +1,14 @@
 import type {GatsbyNode} from 'gatsby'
+import {PLUGIN_NAME} from './constants'
 import {fetchReviews} from './fetchReviews'
 import {ScaleserpReview} from './types'
 
 const GOOGLE_REVIEW_NODE_TYPE = 'GoogleReview'
 
-export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] = ({
-  actions
-}) => {
-  const {createTypes} = actions
-  const typeDefs = `
+export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] =
+  ({actions}) => {
+    const {createTypes} = actions
+    const typeDefs = `
     type GoogleReview implements Node @dontInfer {
       rating: Int
       position: Int
@@ -20,8 +20,8 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
     }
   `
 
-  createTypes(typeDefs)
-}
+    createTypes(typeDefs)
+  }
 
 export const sourceNodes: GatsbyNode['sourceNodes'] = async (
   {actions, cache, reporter, createNodeId, createContentDigest},
@@ -46,7 +46,11 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async (
     try {
       obj.data = await performFetch()
     } catch (e) {
-      reporter.info(`Failed to fetch reviews from ScaleSerp API`)
+      reporter.error(
+        `Failed to fetch reviews from ScaleSerp API`,
+        e as Error,
+        PLUGIN_NAME
+      )
     }
   } else if (Date.now() > obj.lastChecked + twentyFourHoursInMilliseconds) {
     reporter.info(
