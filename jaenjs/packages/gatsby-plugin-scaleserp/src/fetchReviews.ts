@@ -16,8 +16,6 @@ const request = async (params: {
       throw new Error(`Error fetching results from ScaleSerp API: ${error}`)
     })
 
-  if (!response || !response.data)
-    throw new Error(`Error fetching results from ScaleSerp API:`)
   return response
 }
 
@@ -54,7 +52,9 @@ export const fetchReviews = async (creds: {
       next_page_token: string
     }
     place_reviews_results: ScaleserpReview[]
-  } = await (await request(params)).data
+  } = await (
+    await request(params)
+  ).data
 
   const reviewsSlice2: ScaleserpReview[] = await (
     await request({
