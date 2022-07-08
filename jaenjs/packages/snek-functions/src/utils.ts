@@ -1,6 +1,3 @@
-import fsp from 'fs/promises'
-import path from 'path'
-
 export async function importFresh(modulePath: string) {
   const cacheBustingModulePath = `${modulePath}?update=${Date.now()}`
   return (await import(cacheBustingModulePath)).default
@@ -17,18 +14,4 @@ export function stringify(obj_from_json: {[x: string]: any}): any {
     .map(key => `${key}:${stringify(obj_from_json[key])}`)
     .join(',')
   return `{${props}}`
-}
-
-export async function copyDir(src: string, dest: string) {
-  const entries = await fsp.readdir(src, {withFileTypes: true})
-  await fsp.mkdir(dest)
-  for (let entry of entries) {
-    const srcPath = path.join(src, entry.name)
-    const destPath = path.join(dest, entry.name)
-    if (entry.isDirectory()) {
-      await copyDir(srcPath, destPath)
-    } else {
-      await fsp.copyFile(srcPath, destPath)
-    }
-  }
 }
