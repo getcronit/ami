@@ -7,6 +7,10 @@
 # https://help.github.com/en/articles/workflow-syntax-for-github-actions#name
 name: Deploy Jaen
 
+concurrency: 
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 # https://help.github.com/en/articles/workflow-syntax-for-github-actions#on
 on:
   # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_call
