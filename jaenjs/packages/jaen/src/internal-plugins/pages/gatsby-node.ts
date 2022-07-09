@@ -119,7 +119,7 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
       id,
       template: jaenPage.template || null,
       parent: jaenPage.parent ? jaenPage.parent.id : null,
-      children: jaenPage.children.map(child => child.id),
+      children: jaenPage.children?.map(child => child.id) || [],
       internal: {
         type: 'JaenPage',
         content: JSON.stringify(jaenPage),
