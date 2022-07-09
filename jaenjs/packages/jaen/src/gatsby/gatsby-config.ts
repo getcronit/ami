@@ -1,5 +1,5 @@
-import {readFile} from '../services/jaen-data/internal'
 import {GatsbyConfig as GatsbyConfigType} from 'gatsby'
+import {readFile} from '../services/jaen-data/internal'
 
 const internalJaenData = readFile()
 

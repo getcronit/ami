@@ -6,8 +6,8 @@ export const wrapPageElement: GatsbyBrowser['wrapPageElement'] = ({
   props
 }) => {
   return (
-      <NotificationsLoader pageProps={props}>
-        <>{element}</>
-      </NotificationsLoader>
+    <NotificationsLoader pageProps={props}>
+      <>{element}</>
+    </NotificationsLoader>
   )
 }

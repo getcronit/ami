@@ -47,9 +47,10 @@ export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
   }
 }
 
-export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] =
-  ({actions}) => {
-    actions.createTypes(`
+export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] = ({
+  actions
+}) => {
+  actions.createTypes(`
     type JaenPage implements Node {
       id: ID!
       slug: String!
@@ -75,7 +76,7 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
       isBlogPost: Boolean
     }
     `)
-  }
+}
 
 export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
   actions,
@@ -94,9 +95,9 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
   const hashes = []
 
   for (const [id, page] of Object.entries(pages)) {
-    const jaenPage = (await (
+    const jaenPage = ((await (
       await fetch(page.context.fileUrl)
-    ).json()) as unknown as IJaenPage
+    ).json()) as unknown) as IJaenPage
 
     await processPage({
       page: jaenPage,
@@ -203,9 +204,8 @@ export const createPages: GatsbyNode['createPages'] = async ({
         return
       }
 
-      const component = allTemplate.nodes.find(
-        e => e.name === template
-      )?.absolutePath
+      const component = allTemplate.nodes.find(e => e.name === template)
+        ?.absolutePath
 
       if (!component) {
         reporter.panicOnBuild(
