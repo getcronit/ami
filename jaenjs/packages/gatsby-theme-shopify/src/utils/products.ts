@@ -5,7 +5,7 @@ import {getPseudoRandom} from './pseudoRandom'
 
 export const getLimitedRelatedProducts = (
   productIds: Array<string>,
-  seed: string
+  seedDate: string
 ) => {
   const limitedRelatedProducts: Array<string> = []
 
@@ -13,7 +13,7 @@ export const getLimitedRelatedProducts = (
     // if there are less than 12 products, use all products
     limitedRelatedProducts.push(...productIds)
   } else {
-    const random = getPseudoRandom(new Date(seed).getTime())
+    const random = getPseudoRandom(new Date(seedDate).getTime())
     const randomIndex = Math.floor(random * productIds.length)
 
     // pick 12 products from the collection starting at the random index

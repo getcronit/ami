@@ -194,7 +194,7 @@ export const createPages: GatsbyNode['createPages'] = async function (
 
         return {
           id: tag,
-          updatedAt: products.length.toString(),
+          updatedAt: new Date(29072003 + products.length).toISOString(),
           title: tag,
           products
         }
