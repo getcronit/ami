@@ -5,7 +5,7 @@ export interface TempalteFile {
 
 export const app = {
   name: 'app.js',
-  content: `import getServerlessApp from '@snek-at/functions/dist/getServerlessApp.js'
+  content: `import getServerlessApp from '@snek-at/functions/dist/server/getServerlessApp.js'
 
 export async function handler(event, context) {
   return await getServerlessApp({

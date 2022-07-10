@@ -1,4 +1,4 @@
-import getServerlessApp from '@snek-at/functions/dist/getServerlessApp.js'
+import getServerlessApp from '@snek-at/functions/dist/server/getServerlessApp.js'
 
 export async function handler(event, context) {
   return await getServerlessApp({
