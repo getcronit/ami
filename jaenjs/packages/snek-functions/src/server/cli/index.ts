@@ -1,14 +1,17 @@
 #!/usr/bin/env -S node
 
 import {Command} from 'commander'
+import fs from 'fs'
 import * as commands from './commands/index.js'
 
 const program = new Command()
 
+const psjon = JSON.parse(fs.readFileSync('package.json', 'utf8'))
+
 program
   .name('snek-functions')
   .description('Snek Functions CLI')
-  .version('0.1.0')
+  .version(psjon.version)
 
 program
   .command('server')

@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import {importFresh} from '../utils.js'
+import {importFresh} from '../../utils.js'
 
 export const loadPaths = async (absolutePath: string): Promise<string[]> => {
   try {

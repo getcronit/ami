@@ -1,17 +1,17 @@
-import express from 'express'
 import cors from 'cors'
+import express from 'express'
 import {
   getGraphQLParameters,
   processRequest,
   renderGraphiQL,
-  shouldRenderGraphiQL,
-  sendResult
+  sendResult,
+  shouldRenderGraphiQL
 } from 'graphql-helix'
 
-import schemaBuilder from './schemaBuilder.js'
+import {GraphQLSchema} from 'graphql'
 import {buildFolder} from './fileBuilder.js'
 import loadModules from './loader/index.js'
-import {GraphQLSchema} from 'graphql'
+import schemaBuilder from './schemaBuilder.js'
 
 export interface AppOptions {
   functions: string

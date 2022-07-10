@@ -1,7 +1,7 @@
-import {SnekApi, KeyManager} from '@snek-at/snek-api-client'
+import {KeyManager, SnekApi} from '@snek-at/snek-api-client'
 
+import {SnekFunction} from '../types.js'
 import {stringify} from '../utils.js'
-import {SnekFunction} from './types.js'
 
 export const makeFn = ({url}: {url: string}) => <FunctionArgs, FunctionReturn>(
   snekFunction: (

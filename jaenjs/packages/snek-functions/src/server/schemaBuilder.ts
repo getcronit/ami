@@ -1,12 +1,12 @@
+import {KeyManager, snekApi} from '@snek-at/snek-api-client'
 import {
   GraphQLObjectType,
+  GraphQLScalarType,
   GraphQLSchema,
-  GraphQLString,
-  GraphQLScalarType
+  GraphQLString
 } from 'graphql'
-import {KeyManager, snekApi} from '@snek-at/snek-api-client'
 
-import {SnekFunction} from './functions/index.js'
+import {SnekFunction} from '../types.js'
 
 const functionData = new GraphQLScalarType({
   name: 'FunctionData',

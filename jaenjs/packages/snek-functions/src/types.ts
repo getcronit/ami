@@ -1,4 +1,4 @@
-import type {SnekApi} from '@snek-at/snek-api-client'
+import {SnekApi} from '@snek-at/snek-api-client'
 
 export type SnekFunction<FunctionArgs, FunctionReturn> = {
   (args: FunctionArgs): Promise<FunctionReturn>

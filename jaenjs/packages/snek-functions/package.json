@@ -6,12 +6,12 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "bin": {
-    "snek-functions": "./dist/cli/index.js"
+    "snek-functions": "./dist/server/cli/index.js"
   },
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "cli": "node dist/cli/index.js",
+    "cli": "node dist/server/cli/index.js",
     "example-init": "yarn cli init -f example/my-example-project/src/functions",
     "example-build": "yarn cli build -f example/my-example-project/src/functions",
     "example-server": "yarn cli server -f example/my-example-project/src/functions --watch"
