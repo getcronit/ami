@@ -33,17 +33,18 @@ export const getApp = async (options: AppOptions) => {
       persistent: true
     })
 
-    const dstPath = `${options.functions}/dist`
+    const srcPath = `${options.functions}/src`
+    const distPath = `${options.functions}/dist`
 
-    await buildFolder(options.functions, dstPath)
+    await buildFolder(srcPath, distPath)
 
-    schema = await loadSchema(dstPath)
+    schema = await loadSchema(distPath)
 
     watcher.on('all', async (event, path) => {
       console.log('rebuilding schema', event, path)
-      await buildFolder(options.functions, dstPath)
+      await buildFolder(srcPath, distPath)
 
-      schema = await loadSchema(dstPath)
+      schema = await loadSchema(distPath)
     })
   } else {
     schema = await loadSchema(options.functions)

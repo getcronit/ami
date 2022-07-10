@@ -16,7 +16,7 @@ export async function handler(event, context) {
 }
 
 export const factory = {
-  name: 'factory.ts',
+  name: 'src/factory.ts',
   content: `import {makeFn} from '@snek-at/functions'
 
 export const fn = makeFn({
@@ -26,7 +26,7 @@ export const fn = makeFn({
 }
 
 export const exampleLoginFn = {
-  name: 'exampleLogin.ts',
+  name: 'src/exampleLogin.ts',
   content: `import { fn } from "./factory";
 
 const exampleLogin = fn<{ username: string; password: string }, boolean>(
@@ -97,7 +97,7 @@ COPY ./ \${SNEK_FUNCTIONS_BUILD_DIR}/
 WORKDIR \${SNEK_FUNCTIONS_BUILD_DIR}
 
 RUN npm install
-RUN npx snek-functions build --functions-path .
+RUN npx snek-functions build --functions-path ./src
 # Copy the built functions to the lambda function
 RUN cp -r dist node_modules \${LAMBDA_TASK_ROOT}
 

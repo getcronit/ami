@@ -1,8 +1,6 @@
 import {transformFile} from '@swc/core'
 import fs from 'fs'
-import minimatch from 'minimatch'
 import path from 'path'
-import {TEMPLATE_FILES} from './init/files.js'
 
 export const buildFile = async (filePath: string, outputFilePath: string) => {
   const extname = path.extname(filePath)
@@ -40,59 +38,30 @@ export const buildFolder = async (
   } catch {}
 
   for (const file of await fs.promises.readdir(folderPath)) {
-    const filePath = path.resolve(folderPath, file)
-    const outputFilePath = path.resolve(outputFolderPath, file)
+    const fullPath = path.join(folderPath, file)
+    const lstat = await fs.promises.lstat(fullPath)
 
-    // check if javascript or typescript file
-    if (/\.js$/.test(file) || /\.ts$/.test(file)) {
-      // `app.js` is the main file for the serverless app, so we don't want to
-      // build it because we only want to build the functions
-      if (['app.js'].includes(file)) {
-        continue
-      }
+    const isDirectory = lstat.isDirectory()
 
-      try {
-        await buildFile(filePath, outputFilePath)
-      } catch (err) {
-        console.warn(`Can't build file ${filePath}`, err)
-      }
+    if (isDirectory) {
+      await buildFolder(
+        fullPath,
+        path.join(outputFolderPath, file),
+        originFolderPath
+      )
     } else {
-      // exclude template files from copying that are not js or ts files
-      if (TEMPLATE_FILES.some(({name}) => name === file)) {
-        continue
-      }
+      const filePath = path.resolve(folderPath, file)
+      const outputFilePath = path.join(outputFolderPath, file)
 
-      // skip if node_modules or dist folder because we don't want to copy those
-      if (file === 'node_modules' || file === 'dist') {
-        continue
-      }
-
-      // read content of .dockerignore files if exists and skip its content
-      const dockerignorePath = path.resolve(originFolderPath, '.dockerignore')
-
-      if (fs.existsSync(dockerignorePath)) {
-        const dockerignoreContent = fs.readFileSync(dockerignorePath, 'utf8')
-        const globs = dockerignoreContent.split('\n')
-
-        const skip = globs.some(glob =>
-          minimatch(path.relative(originFolderPath, filePath), glob)
-        )
-
-        if (skip) {
-          continue
-        }
-      }
-
-      try {
-        // check if file is a directory
-        const stats = await fs.promises.stat(filePath)
-        if (stats.isDirectory()) {
-          await buildFolder(filePath, outputFilePath, originFolderPath)
-        } else {
+      // Build only .ts and .js files
+      if (fullPath.endsWith('.ts') || fullPath.endsWith('.js')) {
+        await buildFile(fullPath, outputFilePath)
+      } else {
+        try {
           await fs.promises.cp(filePath, outputFilePath)
+        } catch {
+          console.warn(`Could not copy ${filePath} to ${outputFilePath}`)
         }
-      } catch (err) {
-        console.warn(`Can't copy file ${filePath}`, err)
       }
     }
   }

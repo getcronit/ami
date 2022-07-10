@@ -1,4 +1,4 @@
-FROM nikolaik/python-nodejs:python3.9-nodejs18-slim
+FROM node:16
 
 ENV LAMBDA_TASK_ROOT=/var/task
 ENV SNEK_FUNCTIONS_BUILD_DIR=/tmp/snek-functions
@@ -13,7 +13,7 @@ COPY --from=amazon/aws-lambda-nodejs:latest /etc/pki/tls/certs/ca-bundle.crt /et
 # Override /bin/sh because some scripts are only compatible with the amazon version
 COPY --from=amazon/aws-lambda-nodejs:latest /bin/sh /bin/sh
 
-RUN cp /usr/bin/node /var/lang/bin/node
+RUN cp /usr/local/bin/node /var/lang/bin/node
 
 # Add static files from . to task root
 COPY package.json app.js ${LAMBDA_TASK_ROOT}/
@@ -23,7 +23,7 @@ COPY ./ ${SNEK_FUNCTIONS_BUILD_DIR}/
 WORKDIR ${SNEK_FUNCTIONS_BUILD_DIR}
 
 RUN npm install
-RUN npx snek-functions build --functions-path .
+RUN npx snek-functions build --functions-path ./src
 # Copy the built functions to the lambda function
 RUN cp -r dist node_modules ${LAMBDA_TASK_ROOT}
 
