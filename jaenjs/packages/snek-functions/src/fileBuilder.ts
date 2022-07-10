@@ -59,7 +59,6 @@ export const buildFolder = async (
     } else {
       // exclude template files from copying that are not js or ts files
       if (TEMPLATE_FILES.some(({name}) => name === file)) {
-        console.log(`skip copying ${filePath}`)
         continue
       }
 
@@ -80,7 +79,6 @@ export const buildFolder = async (
         )
 
         if (skip) {
-          console.log(`skip copying ${filePath}`)
           continue
         }
       }
@@ -89,7 +87,6 @@ export const buildFolder = async (
         // check if file is a directory
         const stats = await fs.promises.stat(filePath)
         if (stats.isDirectory()) {
-          console.log(`Should create folder ${outputFilePath}`)
           await buildFolder(filePath, outputFilePath, originFolderPath)
         } else {
           await fs.promises.cp(filePath, outputFilePath)
