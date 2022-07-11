@@ -74,8 +74,12 @@ export const dockerfile = {
   name: 'Dockerfile',
   content: `FROM node:16
 
-ENV LAMBDA_TASK_ROOT=/var/task
-ENV SNEK_FUNCTIONS_BUILD_DIR=/tmp/snek-functions
+LABEL description="This container serves as an entry point for our future Snek Function projects."
+LABEL org.opencontainers.image.source="https://github.com/snek-at/origin"
+LABEL maintainer="team@snek.at"
+
+ENV LAMBDA_TASK_ROOT=/var/task \
+    SNEK_FUNCTIONS_BUILD_DIR=/tmp/snek-functions
 
 WORKDIR \${LAMBDA_TASK_ROOT}
 
@@ -87,24 +91,60 @@ COPY --from=amazon/aws-lambda-nodejs:latest /etc/pki/tls/certs/ca-bundle.crt /et
 # Override /bin/sh because some scripts are only compatible with the amazon version
 COPY --from=amazon/aws-lambda-nodejs:latest /bin/sh /bin/sh
 
-RUN cp /usr/local/bin/node /var/lang/bin/node
-
 # Add static files from . to task root
-COPY package.json app.js \${LAMBDA_TASK_ROOT}/
+COPY package.json app.js entrypoint.sh \${LAMBDA_TASK_ROOT}/
 # Copy all files form the . to the build dir
 COPY ./ \${SNEK_FUNCTIONS_BUILD_DIR}/
 
+RUN chmod +x entrypoint.sh
+
 WORKDIR \${SNEK_FUNCTIONS_BUILD_DIR}
 
-RUN npm install
-RUN npx snek-functions build --functions-path ./src
-# Copy the built functions to the lambda function
-RUN cp -r dist node_modules \${LAMBDA_TASK_ROOT}
+RUN ln -s /usr/local/bin/node /var/lang/bin/node ;\
+    npm install ;\
+    npx snek-functions build --functions-path . ;\
+    # Copy the built functions to the lambda function
+    cp -r dist node_modules \${LAMBDA_TASK_ROOT}
 
 WORKDIR \${LAMBDA_TASK_ROOT}
 
-ENTRYPOINT [ "./lambda-entrypoint.sh" ]
-CMD [ "app.handler" ]
+ENTRYPOINT [ "./entrypoint.sh" ]
+
+# Start in serverless mode
+#CMD [ "app.handler" ]
+`
+}
+
+export const entrypoint = {
+  name: 'entrypoint.sh',
+  content: `#!/bin/sh
+
+if [ $# -ne 1 ]; then
+  echo "Start in continuous mode" 1>&2
+  exec yarn snek-functions server -f $LAMBDA_TASK_ROOT/dist
+fi
+export _HANDLER="$1"
+
+RUNTIME_ENTRYPOINT=/var/runtime/bootstrap
+if [ -z "\${AWS_LAMBDA_RUNTIME_API}" ]; then
+  exec /usr/local/bin/aws-lambda-rie $RUNTIME_ENTRYPOINT
+else
+  exec $RUNTIME_ENTRYPOINT
+fi
+`
+}
+
+export const dockercompose = {
+  name: 'docker-compose.yml',
+  content: `version: '3.1'
+
+services:
+
+#> Snek Function
+  app:
+    build: .
+    ports:
+      - "3000:4000/tcp"
 `
 }
 
@@ -137,7 +177,10 @@ provider:
 
 functions:
   endpoint:
-    image: appimage
+    image:
+      name: appimage
+      command:
+        - app.handler
     handler: app.handler
     events:
       - httpApi:
@@ -181,6 +224,8 @@ export const TEMPLATE_FILES = [
   exampleLoginFn,
   packageJson,
   dockerfile,
+  entrypoint,
+  dockercompose,
   serverlessYml,
   patchesServerlessOffline,
   dockerIgnore

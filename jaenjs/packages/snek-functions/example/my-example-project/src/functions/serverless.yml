@@ -25,7 +25,10 @@ provider:
 
 functions:
   endpoint:
-    image: appimage
+    image:
+      name: appimage
+      command:
+        - app.handler
     handler: app.handler
     events:
       - httpApi:
