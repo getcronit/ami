@@ -24,8 +24,8 @@ export interface JaenImageData {
   objectFit?: CSSProperties['objectFit']
   objectPosition?: CSSProperties['objectPosition']
   layout: Layout
-  width: number
-  height: number
+  width?: number
+  height?: number
   gatsbyImage?: IGatsbyImageData
   internalImageUrl?: string | null // not set after build
 }

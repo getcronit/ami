@@ -42,8 +42,8 @@ const ImageField = connectField<
     jaenField,
     imgStyle,
     imgClassName,
-    width = 300,
-    height = 300,
+    width,
+    height,
     layout = 'constrained'
   }) => {
     const value = {
