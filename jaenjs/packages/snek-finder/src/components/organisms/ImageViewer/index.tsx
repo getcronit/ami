@@ -17,16 +17,28 @@ import {FaSearchMinus} from '@react-icons/all-files/fa/FaSearchMinus'
 import {FaSearchPlus} from '@react-icons/all-files/fa/FaSearchPlus'
 import {useState} from 'react'
 import {TransformComponent, TransformWrapper} from 'react-zoom-pan-pinch'
+import SnekStudio from '../../molecules/SnekStudio'
 
 export type ImageViewerProps = {
-  onClose: () => void
-  onOpenStudio: () => void
   src: string
+  name: string
+  onClose: () => void
+  onUpdate: (data: {blob: Blob; dataURL: string; fileName?: string}) => void
 }
 
 const ImageViewer: React.FC<ImageViewerProps> = props => {
   const bg = useColorModeValue('white', 'gray.600')
   const borderColor = useColorModeValue('gray.100', '#FFFFFF14')
+
+  const [isSnekStudioOpen, setIsSnekStudioOpen] = useState(false)
+
+  const handleOpenSnekStudio = () => {
+    setIsSnekStudioOpen(true)
+  }
+
+  const handleCloseSnekStudio = () => {
+    setIsSnekStudioOpen(false)
+  }
 
   const [scale, setScale] = useState(1)
 
@@ -63,56 +75,77 @@ const ImageViewer: React.FC<ImageViewerProps> = props => {
                   <Flex width="100%">
                     <Spacer />
                     <HStack>
-                      <Button onClick={props.onOpenStudio}>Snek Studio</Button>
-                      <Divider orientation="vertical" />
-                      <Text
-                        fontSize="xs"
-                        minW={35}
-                        textAlign="center"
-                        userSelect="none">
-                        {Math.round(scale * 100)}%
-                      </Text>
-                      <IconButton
-                        aria-label="a"
-                        icon={<FaSearchPlus />}
-                        opacity={scale === 8 ? 0.5 : 1}
-                        // onClick={() => onSetScale(1)}
-                        onClick={() => {
-                          zoomIn()
-                          if (scale + 0.2 > 8) {
-                            setScale(8)
-                          } else {
-                            setScale(scale + 0.2)
-                          }
-                        }}
-                      />
-                      <IconButton
-                        aria-label="a"
-                        icon={<FaSearchMinus />}
-                        opacity={scale === 0.5 ? 0.5 : 1}
-                        // onClick={() => onSetScale(0)}
-                        onClick={() => {
-                          zoomOut()
+                      {!isSnekStudioOpen && (
+                        <>
+                          <Button onClick={handleOpenSnekStudio}>
+                            Edit with Snek Studio
+                          </Button>
+                          <Divider orientation="vertical" />
+                          <Text
+                            fontSize="xs"
+                            minW={35}
+                            textAlign="center"
+                            userSelect="none">
+                            {Math.round(scale * 100)}%
+                          </Text>
+                          <IconButton
+                            aria-label="a"
+                            icon={<FaSearchPlus />}
+                            opacity={scale === 8 ? 0.5 : 1}
+                            // onClick={() => onSetScale(1)}
+                            onClick={() => {
+                              zoomIn()
+                              if (scale + 0.2 > 8) {
+                                setScale(8)
+                              } else {
+                                setScale(scale + 0.2)
+                              }
+                            }}
+                          />
+                          <IconButton
+                            aria-label="a"
+                            icon={<FaSearchMinus />}
+                            opacity={scale === 0.5 ? 0.5 : 1}
+                            // onClick={() => onSetScale(0)}
+                            onClick={() => {
+                              zoomOut()
 
-                          if (scale - 0.2 < 0.5) {
-                            setScale(0.5)
-                          } else {
-                            setScale(scale - 0.2)
-                          }
-                        }}
-                      />
+                              if (scale - 0.2 < 0.5) {
+                                setScale(0.5)
+                              } else {
+                                setScale(scale - 0.2)
+                              }
+                            }}
+                          />
+                        </>
+                      )}
+
                       <CloseButton onClick={props.onClose} />
                     </HStack>
                   </Flex>
                 </HStack>
-                <Center bg="rgba(0,0,0,0.6)">
-                  <TransformComponent
-                    contentStyle={{
-                      height: '100vh'
-                    }}>
-                    <Image src={props.src} h="100%" />
-                  </TransformComponent>
-                </Center>
+                {isSnekStudioOpen ? (
+                  <SnekStudio
+                    src={props.src}
+                    name={props.name}
+                    isOpen={isSnekStudioOpen}
+                    onComplete={async (blob, dataURL, fileName) => {
+                      if (blob && dataURL) {
+                        props.onUpdate({blob, dataURL, fileName})
+                      }
+                    }}
+                    shouldClose={handleCloseSnekStudio}
+                  />
+                ) : (
+                  <Center bg="rgba(0,0,0,0.6)">
+                    <TransformComponent
+                      contentStyle={{
+                        height: '100vh'
+                      }}>
+                      <Image src={props.src} h="100%" />
+                    </TransformComponent>
+                  </Center>
+                )}
               </Flex>
             </>
           )}

@@ -1,18 +1,12 @@
-import {useToast} from '@chakra-ui/react'
-import update from 'immutability-helper'
 import * as React from 'react'
-import {Backend} from './backends/backend'
-import {uuidv4} from './common/uuid'
+
 import Finder from './components/organisms/Finder'
 import {
   FinderFileItem,
   FinderFolderItem,
-  FinderMode,
-  MimeType
+  FinderMode
 } from './components/organisms/Finder/types'
 import ImageViewer from './components/organisms/ImageViewer'
-import PdfViewer from './components/organisms/PdfViewer'
-import SnekStudio from './components/organisms/SnekStudio'
 import {useSnekFinderContext} from './SnekFinderProvider'
 
 export interface IUseSnekFinderArgs {
@@ -62,11 +56,10 @@ export const useSnekFinder = ({
     fn()
   }, [isSelectorOpen])
 
-  const [openFile, setOpenFile] =
-    React.useState<{
-      fileId: string
-      previewType: 'IMAGE_VIEWER' | 'PDF_VIEWER' | 'SNEK_STUDIO'
-    } | null>(null)
+  const [openFile, setOpenFile] = React.useState<{
+    fileId: string
+    previewType: 'IMAGE_VIEWER' | 'PDF_VIEWER'
+  } | null>(null)
 
   const openedFileItem = React.useMemo(() => {
     if (!openFile) {
@@ -141,26 +134,30 @@ export const useSnekFinder = ({
           {openFile.previewType === 'IMAGE_VIEWER' && (
             <ImageViewer
               src={openedFileItem.src}
-              onOpenStudio={() => {
-                setOpenFile({...openFile, previewType: 'SNEK_STUDIO'})
-              }}
-              onClose={() => setOpenFile(null)}
-            />
-          )}
-          {openFile.previewType === 'PDF_VIEWER' && (
-            <PdfViewer
-              src={openedFileItem.src}
-              overlay
-              toolbar
-              onClose={() => setOpenFile(null)}
-            />
-          )}
-          {openFile.previewType === 'SNEK_STUDIO' && (
-            <SnekStudio
-              src={openedFileItem.src}
-              onComplete={async (blob, dataURL) => {
+              name={openedFileItem.name}
+              onUpdate={async ({blob, dataURL, fileName}) => {
                 const fileId = openFile.fileId
-                setData(update(data, {[fileId]: {src: {$set: dataURL}}}))
+
+                setData(data => {
+                  if (fileName) {
+                    return {
+                      ...data,
+                      [fileId]: {
+                        ...data[fileId],
+                        src: dataURL,
+                        name: fileName
+                      }
+                    }
+                  } else {
+                    return {
+                      ...data,
+                      [fileId]: {
+                        ...data[fileId],
+                        src: dataURL
+                      }
+                    }
+                  }
+                })
 
                 // upload blob to backend
                 if (blob) {
@@ -168,20 +165,32 @@ export const useSnekFinder = ({
                     new File([blob], openedFileItem.name)
                   )
 
-                  const newData = update(data, {
-                    [fileId]: {src: {$set: url}}
+                  setData(data => {
+                    const newData = {
+                      ...data,
+                      [fileId]: {
+                        ...data[fileId],
+                        src: url
+                      }
+                    }
+
+                    backend.writeIndex(newData)
+
+                    return newData
                   })
-
-                  setData(newData)
-
-                  backend.writeIndex(newData)
                 }
               }}
-              onClose={() =>
-                setOpenFile({...openFile, previewType: 'IMAGE_VIEWER'})
-              }
+              onClose={() => setOpenFile(null)}
             />
           )}
+          {/* {openFile.previewType === 'PDF_VIEWER' && (
+            <PdfViewer
+              src={openedFileItem.src}
+              overlay
+              toolbar
+              onClose={() => setOpenFile(null)}
+            />
+          )} */}
         </>
       )}
       {!(mode === 'selector' && !isSelectorOpen) && (

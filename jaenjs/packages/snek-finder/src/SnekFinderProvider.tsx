@@ -13,8 +13,9 @@ interface ISnekFinderContext extends ISnekFinderProviderProps {
   rootFileId: string
 }
 
-const SnekFinderContext =
-  React.createContext<ISnekFinderContext | undefined>(undefined)
+const SnekFinderContext = React.createContext<ISnekFinderContext | undefined>(
+  undefined
+)
 
 const defaultInitData: FinderData = {
   'ae4b3bf8-6ed2-4ac6-bf18-722321af298c': {
@@ -59,8 +60,6 @@ export const SnekFinderProvider: React.FC<ISnekFinderProviderProps> = ({
   })
 
   rootFileId = rootFileId || 'ae4b3bf8-6ed2-4ac6-bf18-722321af298c'
-
-  console.log('SnekFinderProvider3333', initData)
 
   return (
     <SnekFinderContext.Provider
