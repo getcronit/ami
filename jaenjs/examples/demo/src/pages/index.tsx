@@ -84,10 +84,30 @@ export const query = graphql`
         ...JaenSectionFields
         items {
           ...JaenSectionItemFields
+          image: jaenFile {
+            id
+            childImageSharp {
+              gatsbyImageData(
+                placeholder: BLURRED
+                formats: [AUTO, WEBP, AVIF]
+                height: 200
+              )
+            }
+          }
           sections {
             ...JaenSectionFields
             items {
               ...JaenSectionItemFields
+              image: jaenFile {
+                id
+                childImageSharp {
+                  gatsbyImageData(
+                    placeholder: BLURRED
+                    formats: [AUTO, WEBP, AVIF]
+                    height: 200
+                  )
+                }
+              }
               sections {
                 ...JaenSectionFields
                 items {
