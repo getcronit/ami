@@ -1,9 +1,10 @@
-import { Reporter, Store } from 'gatsby'
+import {Reporter, Store} from 'gatsby'
+import {IGatsbyImageData} from 'gatsby-plugin-image'
 import {
   createRemoteFileNode,
   CreateRemoteFileNodeArgs
 } from 'gatsby-source-filesystem'
-import {IJaenPage} from '../../types'
+import {IJaenFields, IJaenPage, IJaenSection} from '../../types'
 
 export interface IProcessGatbsy {
   createNode: CreateRemoteFileNodeArgs['createNode']
@@ -21,7 +22,7 @@ export const processPage = async ({
   if (page.jaenFields) {
     for (const [type, field] of Object.entries(page.jaenFields)) {
       await processIMAtoNodes({
-        page,
+        node: page,
         type,
         field,
         ...rest
@@ -29,69 +30,97 @@ export const processPage = async ({
     }
   }
 
-  // process jaenFields of chapter if not null
-  if (page.chapters) {
-    for (const chapter of Object.values(page.chapters)) {
-      for (const section of Object.values(chapter.sections)) {
-        if (section.jaenFields) {
-          for (const [type, field] of Object.entries(section.jaenFields)) {
-            await processIMAtoNodes({
-              page,
-              type,
-              field,
-              ...rest
-            })
-          }
-        }
-      }
-    }
-  }
+  await processSections({
+    sections: page.sections || [],
+    ...rest
+  })
 
   // @ts-ignore
   page.jaenFiles = page.jaenFiles || []
 }
 
+export const processSections = async ({
+  sections,
+  ...rest
+}: {sections: IJaenSection[]} & IProcessGatbsy): Promise<void> => {
+  // process jaenFields of page if not null
+
+  for (const section of sections) {
+    for (const item of section.items) {
+      if (item.jaenFields) {
+        for (const [type, field] of Object.entries(item.jaenFields)) {
+          await processIMAtoNodes({
+            node: item,
+            type,
+            field,
+            ...rest
+          })
+        }
+      }
+
+      await processSections({
+        sections: item.sections || [],
+        ...rest
+      })
+    }
+  }
+}
+
 export interface IProcessIMAtoNodes extends IProcessGatbsy {
-  page: IJaenPage
+  node: {
+    id: string
+    jaenFields: IJaenFields
+    jaenFiles: Array<{
+      id: string
+      childImageSharp: {
+        gatsbyImageData: IGatsbyImageData
+      }
+    }>
+  }
   type: string
   field: NonNullable<IJaenPage['jaenFields']>['string']
 }
 
 export const processIMAtoNodes = async ({
-  page,
+  node,
   type,
   field,
   ...rest
 }: IProcessIMAtoNodes): Promise<void> => {
   switch (type) {
     case 'IMA:ImageField':
-      for (const [name, value] of Object.entries(field)) {
+      for (const [name, v] of Object.entries(field)) {
+        console.log(`Processing IMA:ImageField: ${name}`)
+        console.log(v)
         try {
-          const {internalImageUrl} = value as {internalImageUrl: string}
+          if (v.value) {
+            const {internalImageUrl} = v.value as {internalImageUrl: string}
 
-          if (internalImageUrl) {
-            let fileNode = await createRemoteFileNode({
-              url: internalImageUrl,
-              parentNodeId: page.id,
-              ...rest
-            })
+            console.log(
+              `Processing IMA:ImageField: ${name} ${internalImageUrl}`
+            )
 
-            const fileNodeId = fileNode.id
+            if (internalImageUrl) {
+              let fileNode = await createRemoteFileNode({
+                url: internalImageUrl,
+                parentNodeId: node.id,
+                ...rest
+              })
 
-            value.imageId = fileNode.id
+              const fileNodeId = fileNode.id
 
-            if (!page.jaenFiles) {
-              page.jaenFiles = []
-            }
+              v.value.imageId = fileNode.id
 
-            // @ts-ignore
-            page.jaenFiles.push({
+              if (!node.jaenFiles) {
+                node.jaenFiles = []
+              }
+
               // @ts-ignore
-              file___NODE: fileNodeId
-            })
+              node.jaenFiles.push(fileNodeId)
+            }
           }
         } catch (error) {
-          console.error(`${name} is not a valid IMA field`)
+          console.error(`${name} is not a valid IMA field`, error)
         }
       }
 

@@ -1,9 +1,10 @@
-import {omitSingle} from '../../../../../utils/helper'
 import {combineReducers, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {v4 as uuidv4} from 'uuid'
-import {IJaenPage, JaenFieldsOrderEntry} from '../../../types'
+import {IJaenPage, JaenSectionPath} from '../../../types'
+import {findSection, insertSectionIntoTree} from '../../../utils'
 import {generatePagePaths} from '../../services/path'
-import {IJaenSection, IJaenSectionWithId, IJaenState} from '../types'
+import {JaenSectionType} from '../../services/section'
+import {IJaenState} from '../types'
 
 export const initialState: IJaenState = {
   status: {
@@ -11,6 +12,7 @@ export const initialState: IJaenState = {
   },
   pages: {
     lastAddedNodeId: undefined,
+    registeredPageFields: {},
     nodes: {}
   },
   routing: {
@@ -144,12 +146,13 @@ const pagesSlice = createSlice({
       state,
       action: PayloadAction<{
         pageId: string
-        chapterName: string
-        sectionName: string
-        between: [IJaenSectionWithId | null, IJaenSectionWithId | null]
+        // The larger the index, the more nested the section
+        path: JaenSectionPath
+        sectionItemType: string
+        between: [string | null, string | null]
       }>
     ) {
-      const {pageId, chapterName, sectionName, between} = action.payload
+      const {pageId, path, sectionItemType, between} = action.payload
 
       // Create the page if not found
       state.nodes[pageId] = {
@@ -158,99 +161,26 @@ const pagesSlice = createSlice({
       }
 
       const page = state.nodes[pageId]
+      const sections = page.sections || []
 
-      page.chapters = page.chapters || {}
+      console.log(
+        'section_add',
+        JSON.parse(JSON.stringify(sections)),
+        path,
+        between,
+        sectionItemType
+      )
 
-      if (!page.chapters[chapterName]?.sections) {
-        // @ts-ignore - This is a hack to ignore the fact that no head or tail pointer is defined
-        page.chapters[chapterName] = {
-          sections: {}
+      const s = insertSectionIntoTree(sections, path, {
+        between,
+        sectionItemData: {
+          type: sectionItemType
         }
-      }
+      })
 
-      const chapter = page.chapters[chapterName]
+      console.log('s', s)
 
-      // Generate a new id in the pattern of `JaenSection {uuid}`
-      const sectionId = `JaenSection ${uuidv4()}`
-
-      const [prev, next] = between
-
-      if (!prev && !next) {
-        // If the before and after are not defined, add the section without changing
-        // the pointers of other sections
-
-        chapter.sections = {
-          ...chapter.sections,
-          [sectionId]: {
-            name: sectionName,
-            ptrPrev: null,
-            ptrNext: null,
-            jaenFields: null
-          }
-        }
-
-        // Set head and tail pointers
-        chapter.ptrHead = sectionId
-        chapter.ptrTail = sectionId
-      } else if (prev && !next) {
-        // If the after is defined, add the section before the after
-        chapter.sections = {
-          ...chapter.sections,
-          [sectionId]: {
-            name: sectionName,
-            ptrPrev: prev.id,
-            ptrNext: null,
-            jaenFields: null
-          },
-          [prev.id]: {
-            ...chapter.sections[prev.id],
-            ptrNext: sectionId
-          }
-        }
-
-        // Set head and tail pointers
-        chapter.ptrTail = sectionId
-      } else if (!prev && next) {
-        // If the before is defined, add the section after the before
-
-        chapter.sections = {
-          ...chapter.sections,
-          [sectionId]: {
-            name: sectionName,
-            ptrPrev: null,
-            ptrNext: next.id,
-            jaenFields: null
-          },
-          [next.id]: {
-            ...chapter.sections[next.id],
-            ptrPrev: sectionId
-          }
-        }
-
-        // Set head and tail pointers
-        chapter.ptrHead = sectionId
-      } else if (prev && next) {
-        // cannot use else here because of the null check
-        // If both before and after are defined, add the section between the before and after
-
-        chapter.sections = {
-          ...chapter.sections,
-          [sectionId]: {
-            name: sectionName,
-            ptrPrev: prev.id,
-            ptrNext: next.id,
-            jaenFields: null
-          },
-          [prev.id]: {
-            ...chapter.sections[prev.id],
-            ptrNext: sectionId
-          },
-          [next.id]: {
-            ...chapter.sections[next.id],
-            ptrPrev: sectionId
-          }
-        }
-      }
+      page.sections = sections
 
       return state
     },
@@ -258,12 +188,12 @@ const pagesSlice = createSlice({
       state,
       action: PayloadAction<{
         pageId: string
-        chapterName: string
+        path: JaenSectionPath
         sectionId: string
-        between: [IJaenSectionWithId | null, IJaenSectionWithId | null]
+        between: [string | null, string | null]
       }>
     ) {
-      const {pageId, chapterName, sectionId, between} = action.payload
+      const {pageId, path, sectionId, between} = action.payload
 
       // find the page
       // Create the page if not found
@@ -273,92 +203,54 @@ const pagesSlice = createSlice({
       }
 
       const page = state.nodes[pageId]
+      const sections = page.sections || []
 
-      page.chapters = page.chapters || {}
+      insertSectionIntoTree(sections, path, {
+        between,
+        sectionId,
+        shouldDelete: true
+      })
 
-      if (!page.chapters[chapterName]?.sections) {
-        // @ts-ignore - This is a hack to ignore the fact that no head or tail pointer is defined
-        page.chapters[chapterName] = {
-          sections: {}
-        }
-      }
-
-      const chapter = page.chapters[chapterName]
-
-      // Remove the section from the chapter
-      chapter.sections = {
-        ...chapter.sections,
-        [sectionId]: {
-          ...chapter.sections[sectionId],
-          deleted: true
-        }
-      }
-
-      //> It is required to rearrange the pointers of the between sections
-      let [prev, next] = between
-
-      const prevWithoutId = prev && (omitSingle('id', prev) as IJaenSection)
-      const nextWithoutId = next && (omitSingle('id', next) as IJaenSection)
-
-      if (prev && !next) {
-        // If next is not defined:
-        // - set the prev section's next pointer to null
-        // - set the tail pointer to the prev section's id
-
-        chapter.sections = {
-          ...chapter.sections,
-          [prev.id]: {
-            ...chapter.sections[prev.id],
-            ...prevWithoutId,
-            ptrNext: null
-          }
-        }
-
-        chapter.ptrTail = prev.id
-      } else if (!prev && next) {
-        // If prev is not defined:
-        // - set the next section's prev pointer to null
-        // - set the head pointer to the next section's id
-
-        chapter.sections = {
-          ...chapter.sections,
-          [next.id]: {
-            ...chapter.sections[next.id],
-            ...nextWithoutId,
-            ptrPrev: null
-          }
-        }
-
-        chapter.ptrHead = next.id
-      } else if (prev && next) {
-        // If both prev and next are defined:
-        // - set the prev section's next pointer to the next section's id
-        // - set the next section's prev pointer to the prev section's id
-
-        chapter.sections = {
-          ...chapter.sections,
-          [prev.id]: {
-            ...chapter.sections[prev.id],
-            ...prevWithoutId,
-            ptrNext: next.id
-          },
-          [next.id]: {
-            ...chapter.sections[next.id],
-            ...nextWithoutId,
-            ptrPrev: prev.id
-          }
-        }
-      } else {
-        // If both prev and next are not defined:
-        // - set the head and tail pointers to null
-
-        chapter.ptrHead = null
-        chapter.ptrTail = null
-      }
+      page.sections = sections
 
       return state
     },
 
+    section_register(
+      state,
+      action: PayloadAction<{
+        pageId: string
+        path: JaenSectionPath
+        props?: object
+      }>
+    ) {
+      const {pageId, path, props} = action.payload
+
+      const position = state.registeredPageFields[pageId] || 0
+
+      // find the page
+      // Create the page if not found
+      state.nodes[pageId] = {
+        ...state.nodes[pageId],
+        children: state.nodes[pageId]?.children || []
+      }
+
+      const page = state.nodes[pageId]
+      const sections = page.sections || []
+
+      const section = findSection(sections, path)
+
+      if (section) {
+        section.position = position
+        section.props = props
+      }
+
+      page.sections = sections
+
+      state.registeredPageFields[pageId] = position + 1
+
+      return state
+    },
     page_unregisterFields(
       state,
       action: PayloadAction<{
@@ -367,58 +259,73 @@ const pagesSlice = createSlice({
     ) {
       const {pageId} = action.payload
 
-      console.log('dispatching unregister for ', pageId)
-
-      state.nodes[pageId] = {
-        ...state.nodes[pageId],
-        children: state.nodes[pageId]?.children || [],
-        jaenFieldsOrder: []
+      state.registeredPageFields = {
+        ...state.registeredPageFields,
+        [pageId]: 0
       }
     },
 
     field_register(
       state,
-      action: PayloadAction<
-        {
-          pageId: string
-        } & JaenFieldsOrderEntry
-      >
+      action: PayloadAction<{
+        pageId: string
+        fieldType: string
+        fieldName: string
+        section?: JaenSectionType
+        props: object
+      }>
     ) {
-      const {pageId, ...rest} = action.payload
+      const {pageId, section, fieldType, fieldName, props} = action.payload
 
-      console.log('dispatching field_register for ', pageId)
+      const position = state.registeredPageFields[pageId] || 0
 
       // find the page
       // Create the page if not found
       state.nodes[pageId] = {
         ...state.nodes[pageId],
         children: state.nodes[pageId]?.children || [],
-        jaenFieldsOrder: (state.nodes[pageId]?.jaenFieldsOrder || []).concat([
-          rest
-        ])
+        sections: state.nodes[pageId]?.sections || []
       }
 
-      // remove duplicates
-      state.nodes[pageId].jaenFieldsOrder = state.nodes[
-        pageId
-      ].jaenFieldsOrder!.filter(
-        (entry, index, self) =>
-          index ===
-          self.findIndex(
-            t =>
-              t.name == entry.name &&
-              t.type == entry.type &&
-              t.chapter?.name == entry.chapter?.name &&
-              t.chapter?.sectionId == entry.chapter?.sectionId
-          )
-      )
+      const page = state.nodes[pageId]
+
+      if (section) {
+        const sections = page.sections || []
+
+        insertSectionIntoTree(sections, section.path, {
+          sectionId: section.id,
+          sectionItemData: {
+            // @ts-ignore
+            jaenFields: {
+              [fieldType]: {
+                [fieldName]: {
+                  position,
+                  props
+                }
+              }
+            }
+          }
+        })
+      } else {
+        page.jaenFields = page.jaenFields || {}
+        page.jaenFields[fieldType] = {
+          ...page.jaenFields[fieldType],
+          [fieldName]: {
+            ...page.jaenFields[fieldType]?.[fieldName],
+            position,
+            props
+          }
+        }
+      }
+
+      state.registeredPageFields[pageId] = position + 1
     },
 
     field_write(
       state,
       action: PayloadAction<{
         pageId: string
-        section?: {chapterName: string; sectionId: string}
+        section?: JaenSectionType
         fieldType: string
         fieldName: string
         value: any
@@ -438,36 +345,28 @@ const pagesSlice = createSlice({
       // If the page is found, add the field
 
       if (section) {
-        page.chapters = page.chapters || {}
+        const sections = page.sections || []
 
-        if (!page.chapters[section.chapterName]?.sections) {
-          // @ts-ignore - This is a hack to ignore the fact that no head or tail pointer is defined
-          page.chapters[section.chapterName] = {
-            sections: {}
+        insertSectionIntoTree(sections, section.path, {
+          sectionId: section.id,
+          sectionItemData: {
+            jaenFields: {
+              [fieldType]: {
+                [fieldName]: {
+                  value
+                }
+              }
+            }
           }
-        }
-
-        const chapter = page.chapters[section.chapterName]
-
-        if (!chapter.sections[section.sectionId]?.jaenFields) {
-          chapter.sections[section.sectionId] = {
-            ...chapter.sections[section.sectionId],
-            jaenFields: {}
-          }
-        }
-
-        const sectionFields = chapter.sections[section.sectionId].jaenFields
-
-        // @ts-ignore
-        sectionFields[fieldType] = {
-          ...sectionFields?.[fieldType],
-          [fieldName]: value
-        }
+        })
       } else {
         page.jaenFields = page.jaenFields || {}
         page.jaenFields[fieldType] = {
           ...page.jaenFields[fieldType],
-          [fieldName]: value
+          [fieldName]: {
+            ...page.jaenFields[fieldType]?.[fieldName],
+            value
+          }
         }
       }
 

@@ -3,6 +3,7 @@ import {IGatsbyImageData} from 'gatsby-plugin-image'
 import {IBaseEntity} from '../../index'
 
 import {useField} from './internal/services/field'
+import {JaenSectionType} from './internal/services/section'
 
 export interface IJaenTemplate {
   name: string
@@ -14,15 +15,15 @@ export interface IJaenTemplate {
   isRootTemplate?: boolean
 }
 
-export type JaenFieldsOrderEntry = {
-  type: string
-  name: string
-  chapter?: {
-    name: string
-    sectionId: string
+export type IJaenFields = {
+  [type: string]: {
+    [name: string]: {
+      position?: number
+      props?: object
+      value: any
+    }
   }
-  props: any
-}
+} | null
 
 export interface IJaenPage {
   id: string
@@ -35,42 +36,20 @@ export interface IJaenPage {
     datePublished?: string
     canonical?: string
   }
-  jaenFields: {
-    [type: string]: {
-      [name: string]: any
-    }
-  } | null
+  jaenFields: IJaenFields
   jaenFiles: {
-    file: {
-      id: string
-      childImageSharp: {
-        gatsbyImageData: IGatsbyImageData
-      }
+    id: string
+    childImageSharp: {
+      gatsbyImageData: IGatsbyImageData
     }
   }[]
   parent: {
     id: string
   } | null
   children: Array<{id: string} & Partial<IJaenPage>>
-  chapters: {
-    [chapterName: string]: {
-      ptrHead: string | null
-      ptrTail: string | null
-      sections: {
-        [uuid: string]: {
-          name: string
-          ptrNext: string | null
-          ptrPrev: string | null
-          jaenFields: {
-            [type: string]: {
-              [name: string]: any
-            }
-          } | null
-          deleted?: true
-        }
-      }
-    }
-  } | null
+  sections: IJaenSection[]
+  [customFieldName: string]: any
+
   /**
    * Unique identifier of the page component name (e.g. `JaenPageHome`).
    * - Must be unique across all pages.
@@ -79,7 +58,40 @@ export interface IJaenPage {
   template: string | null
   deleted?: boolean
   excludedFromIndex?: boolean
-  jaenFieldsOrder?: Array<JaenFieldsOrderEntry>
+}
+
+export interface IJaenSection {
+  fieldName: string
+  items: IJaenSectionItem[]
+  ptrHead: string | null
+  ptrTail: string | null
+  position?: number
+  props?: object
+}
+
+export type IJaenSectionItem = {
+  [customFieldName: string]: any
+  id: string
+  type: string
+  ptrPrev: string | null
+  ptrNext: string | null
+  jaenFields: IJaenFields
+  jaenFiles: Array<{
+    id: string
+    childImageSharp: {
+      gatsbyImageData: IGatsbyImageData
+    }
+  }>
+
+  sections?: IJaenSection[]
+
+  deleted?: true
+}
+
+export type JaenSectionPath = JaenSectionType['path']
+
+export type SectionItemId = {
+  id: string
 }
 
 export type IJaenPages = {
@@ -112,16 +124,5 @@ export interface IFormProps<Values> {
     value: string
   ) => string | undefined
 }
-
-export interface IFieldRegistryEntry {
-  name: string
-  type: string
-  chapter?: {
-    name: string
-    sectionId: string
-  }
-}
-
-export type IFieldRegistry = IFieldRegistryEntry[]
 
 export type AdminWidgetProps = ReturnType<typeof useField>

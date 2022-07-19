@@ -1,17 +1,16 @@
 import React from 'react'
-import {cleanObject} from '../../utils/helper'
 import {IJaenConnection} from '../../types'
-import {useAppDispatch, useAppSelector, withRedux} from './internal/redux'
-import {internalActions} from './internal/redux/slices'
+import {cleanObject} from '../../utils/helper'
+import {isAuthenticated} from '../../utils/hooks/isAuthenticated'
+import {withRedux} from './internal/redux'
 import {useField} from './internal/services/field/hooks'
-import {JaenPageProvider, useJaenPageContext} from './internal/services/page'
+import {JaenPageProvider} from './internal/services/page'
 import SEO from './internal/services/page/SEO'
 import {
   SectionOptionsContext,
   useJaenSectionContext
 } from './internal/services/section'
-import {IJaenPage, IJaenPageProps} from './types'
-import {isAuthenticated} from '../../utils/hooks/isAuthenticated'
+import {IJaenPageProps} from './types'
 /**
  * @function connectPage Connects a gatsby page with Jaen.
  *
@@ -128,6 +127,14 @@ export const connectSection = <P extends {}>(
   options: {displayName: string; name: string}
 ) => {
   const MyComp: IJaenConnection<P, typeof options> = props => {
+    const section = useJaenSectionContext()
+
+    React.useEffect(() => {
+      if (isAuthenticated() && section) {
+        // clean up props to prevent circular reference, react items or other issues in redux store / local storage
+        section.register(cleanObject(props))
+      }
+    }, [])
     return (
       <SectionOptionsContext.Provider value={options}>
         <Component {...props} />

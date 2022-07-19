@@ -1,7 +1,7 @@
-import {JaenPageProvider} from '../../internal/services/page'
 import {ComponentMeta, Story} from '@storybook/react'
 import React from 'react'
 import Component from '.'
+import {JaenPageProvider} from '../../internal/services/page'
 import {EditButton} from '../../ui/toolbar'
 
 export default {
@@ -25,7 +25,9 @@ export default {
           },
           jaenFields: {
             'IMA:TextField': {
-              'rich-text-field-1': '<p>this is a stored rtf value</p>'
+              'rich-text-field-1': {
+                value: '<p>this is a stored rtf value</p>'
+              }
             }
           },
           chapters: {},

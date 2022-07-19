@@ -1,6 +1,6 @@
 import {IJaenPage} from '../../types'
 
-type PageNode = {
+export type PageNode = {
   id: string
   slug: string
   parent: {

@@ -14,8 +14,9 @@ export interface JaenPageProviderProps {
 
 export interface JaenPageContext extends JaenPageProviderProps {}
 
-export const JaenPageContext =
-  React.createContext<JaenPageContext | undefined>(undefined)
+export const JaenPageContext = React.createContext<JaenPageContext | undefined>(
+  undefined
+)
 
 const UnregisterFieldsHelper = withRedux(() => {
   const {jaenPage} = useJaenPageContext()

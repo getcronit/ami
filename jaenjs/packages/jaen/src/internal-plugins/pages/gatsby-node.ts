@@ -6,8 +6,8 @@ import {getJaenDataForPlugin} from '../../services/migration/get-jaen-data-for-p
 import {convertToSlug} from '../../utils/helper'
 import {sourceTemplates} from './gatsby-config'
 import {processPage} from './internal/services/imaProcess'
-import {generateOriginPath} from './internal/services/path'
-import {IJaenPage, IPagesMigrationBase} from './types'
+import {generateOriginPath, PageNode} from './internal/services/path'
+import {IJaenFields, IJaenPage, IPagesMigrationBase} from './types'
 
 export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
   plugins,
@@ -48,24 +48,93 @@ export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
 }
 
 export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] = ({
-  actions
+  actions,
+  reporter
 }) => {
+  actions.createFieldExtension({
+    name: 'file',
+    args: {},
+    extend(options: any, prevFieldConfig: any) {
+      return {
+        args: {},
+        resolve(
+          source: {
+            name: string
+            jaenFiles: any[]
+            jaenFields: IJaenFields
+            headPtr: string
+            tailPtr: string
+          },
+          args: any,
+          context: any,
+          info: any
+        ) {
+          const fieldName = info.fieldName
+          const fieldPathKey = info.path.key
+
+          // Throw a error if the fieldKey is the same as the fieldName
+          // this is to ensure that the fieldKey is set to the correct fieldName
+          // of the IMA:ImageField.
+          if (fieldPathKey === info.fieldName) {
+            throw new Error(
+              `The fieldKey ${fieldPathKey} is the same as the fieldName ${fieldName}, please set the fieldKey to the correct fieldName of an ImageField.`
+            )
+          }
+
+          const imageId =
+            source.jaenFields?.['IMA:ImageField']?.[fieldPathKey]?.value
+              ?.imageId
+
+          const node = context.nodeModel.getNodeById({
+            id: imageId,
+            type: 'File'
+          })
+
+          return node
+        }
+      }
+    }
+  })
+
   actions.createTypes(`
     type JaenPage implements Node {
       id: ID!
       slug: String!
       jaenPageMetadata: JaenPageMetadata!
       jaenFields: JSON
-      chapters: JSON
+      jaenFile: File @file
+      jaenFiles: [File] @link
+
+      sections: [JaenSection!]!
+
       template: String
-      jaenFiles: [JaenFile!]!
       excludedFromIndex: Boolean
-      jaenFieldsOrder: JSON
     }
 
-    type JaenFile {
-      file: File! @link(from: "file___NODE")
+    type JaenSection {
+      fieldName: String!
+      items: [JaenSectionItem!]!
+      ptrHead: String
+      ptrTail: String
     }
+
+    type JaenSectionItem {
+      id: ID!
+      type: String!
+      ptrPrev: String
+      ptrNext: String
+      jaenFields: JSON
+      jaenFiles: [File] @link
+      jaenFile: File @file
+
+      sections: [JaenSection!]!
+    }
+
+    type JaenSectionPath {
+      fieldName: String!
+      sectionId: String
+    }
+
 
     type JaenPageMetadata {
       title: String!
@@ -91,8 +160,6 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
   reporter.info('Starting create pages')
 
   let pages = await getJaenDataForPlugin<IPagesMigrationBase>('JaenPages@0.0.1')
-
-  const hashes = []
 
   for (const [id, page] of Object.entries(pages)) {
     const jaenPage = ((await (
@@ -150,7 +217,11 @@ export const createPages: GatsbyNode['createPages'] = async ({
       }>
     }
     allJaenPage: {
-      nodes: Array<IJaenPage>
+      nodes: Array<
+        PageNode & {
+          template: string
+        }
+      >
     }
   }
 
@@ -167,20 +238,10 @@ export const createPages: GatsbyNode['createPages'] = async ({
       allJaenPage {
         nodes {
           id
+          slug
           parent {
             id
           }
-          slug
-          jaenPageMetadata {
-            title
-            description
-            image
-            canonical
-            datePublished
-            isBlogPost
-          }
-          jaenFields
-          chapters
           template
         }
       }
@@ -188,7 +249,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
   `)
 
   if (result.errors || !result.data) {
-    reporter.panicOnBuild(`Error while running GraphQL query.`)
+    reporter.panicOnBuild(`Error while running GraphQL query. ${result.errors}`)
     return
   }
 
@@ -294,7 +355,7 @@ export const onCreatePage: GatsbyNode['onCreatePage'] = ({
           },
           jaenFields: null,
           jaenFiles: [],
-          chapters: {},
+          sections: [],
           template: null
         }
 
@@ -318,3 +379,121 @@ export const onCreatePage: GatsbyNode['onCreatePage'] = ({
   deletePage(page)
   createPage(stepPage)
 }
+
+// export const onCreatePage: GatsbyNode['onCreatePage'] = async ({
+//   page,
+//   actions,
+//   getNode,
+//   createNodeId,
+//   createContentDigest
+// }) => {
+//   const {createNode} = actions
+
+//   const slugifiedPath = convertToSlug(page.path)
+
+//   const jaenPage: IJaenPage = {
+//     id: createNodeId(`JaenPage ${page.path}`),
+//     slug: slugifiedPath,
+//     parent: null,
+//     children: [],
+//     jaenPageMetadata: {
+//       title: page.path,
+//       description: '',
+//       image: '',
+//       canonical: '',
+//       datePublished: '',
+//       isBlogPost: false
+//     },
+//     jaenFields: null,
+//     jaenFiles: [
+//       {
+//         id: '622f4dfc-0606-5555-8293-51c335d6bc79',
+//         childImageSharp: {
+//           gatsbyImageData: {
+//             layout: 'constrained',
+//             backgroundColor: '#c8c8c8',
+//             images: {
+//               fallback: {
+//                 src: '/static/76ee411a4ec6dfc676c58e0f1e849d72/66a6c/photo-1518791841217-8f162f1e1131.jpg',
+//                 srcSet:
+//                   '/static/76ee411a4ec6dfc676c58e0f1e849d72/a83d8/photo-1518791841217-8f162f1e1131.jpg 750w,\n/static/76ee411a4ec6dfc676c58e0f1e849d72/66a6c/photo-1518791841217-8f162f1e1131.jpg 800w',
+//                 sizes: '(min-width: 800px) 800px, 100vw'
+//               },
+//               sources: [
+//                 {
+//                   srcSet:
+//                     '/static/76ee411a4ec6dfc676c58e0f1e849d72/80567/photo-1518791841217-8f162f1e1131.webp 750w,\n/static/76ee411a4ec6dfc676c58e0f1e849d72/1668a/photo-1518791841217-8f162f1e1131.webp 800w',
+//                   type: 'image/webp',
+//                   sizes: '(min-width: 800px) 800px, 100vw'
+//                 }
+//               ]
+//             },
+//             width: 800,
+//             height: 533
+//           }
+//         }
+//       }
+//     ],
+//     sections: [
+//       {
+//         fieldName: 'body',
+//         ptrHead: null,
+//         ptrTail: null,
+//         items: [
+//           {
+//             id: '1',
+//             jaenFields: null,
+//             jaenFiles: [],
+//             ptrNext: null,
+//             ptrPrev: null,
+//             sections: [
+//               {
+//                 fieldName: 'subbody',
+//                 ptrHead: null,
+//                 ptrTail: null,
+//                 items: [
+//                   {
+//                     id: '1',
+//                     jaenFields: null,
+//                     jaenFiles: [],
+//                     ptrNext: null,
+//                     ptrPrev: null,
+//                     sections: []
+//                   }
+//                 ]
+//               }
+//             ],
+//             body: {
+//               id: '2',
+//               jaenFields: null,
+//               jaenFiles: [],
+//               ptrNext: null,
+//               ptrPrev: null,
+//               sections: []
+//             }
+//           }
+//         ]
+//       }
+//     ],
+//     body: {
+//       id: '1',
+//       jaenFields: null,
+//       jaenFiles: [],
+//       ptrNext: null,
+//       ptrPrev: null,
+//       sections: []
+//     },
+//     template: null
+//   }
+
+//   createNode({
+//     ...jaenPage,
+//     parent: null,
+//     children: [],
+//     internal: {
+//       type: 'JaenPage',
+//       content: JSON.stringify(jaenPage),
+//       contentDigest: createContentDigest(jaenPage)
+//     }
+//   })
+// }

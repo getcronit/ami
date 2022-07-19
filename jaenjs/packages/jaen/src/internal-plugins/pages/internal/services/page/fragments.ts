@@ -20,13 +20,73 @@ export const fragments = graphql`
       canonical
     }
     jaenFiles {
-      file {
-        id
-        childImageSharp {
-          gatsbyImageData(placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+      id
+      childImageSharp {
+        gatsbyImageData(placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+      }
+    }
+    sections {
+      ...JaenSectionRecursive
+    }
+  }
+
+  fragment JaenSectionRecursive on JaenSection {
+    ...JaenSectionFields
+    items {
+      ...JaenSectionItemFields
+      sections {
+        ...JaenSectionFields
+        items {
+          ...JaenSectionItemFields
+          sections {
+            ...JaenSectionFields
+            items {
+              ...JaenSectionItemFields
+              sections {
+                ...JaenSectionFields
+                items {
+                  ...JaenSectionItemFields
+                  sections {
+                    ...JaenSectionFields
+                    items {
+                      ...JaenSectionItemFields
+                      sections {
+                        ...JaenSectionFields
+                        items {
+                          ...JaenSectionItemFields
+                          sections {
+                            ...JaenSectionFields
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
-    chapters
+  }
+
+  fragment JaenSectionFields on JaenSection {
+    fieldName
+    ptrHead
+    ptrTail
+  }
+
+  fragment JaenSectionItemFields on JaenSectionItem {
+    id
+    type
+    ptrPrev
+    ptrNext
+    jaenFields
+    jaenFiles {
+      id
+      childImageSharp {
+        gatsbyImageData(placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+      }
+    }
   }
 `

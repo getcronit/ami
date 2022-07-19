@@ -92,10 +92,19 @@ export const JaenImage = (props: JaenImageProps) => {
     const isLoaded = Boolean(props.image.internalImageUrl)
 
     const img = (
-      <Image
+      <GatsbyImage
         {...imgElementProps}
-        src={props.image.internalImageUrl!}
-        fallback={<></>}
+        image={{
+          images: {
+            sources: [],
+            fallback: {
+              src: props.image.internalImageUrl!
+            }
+          },
+          layout: props.image.layout,
+          width: props.image.width || 500,
+          height: props.image.height || 500
+        }}
       />
     )
 

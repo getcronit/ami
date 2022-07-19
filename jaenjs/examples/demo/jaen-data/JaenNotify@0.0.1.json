@@ -1,18 +1,1 @@
-{
-  "CookieModal.tsx": {
-    "context": {
-      "createdAt": "2022-02-14T13:24:35.484Z",
-      "fileUrl": "https://osg.snek.at/storage/BQACAgQAAxkDAAIGUmIKWBPNzgzkRgTHHC1ikat53H4uAAJzCwACfI5RUNNe_fHg9ZKEIwQ"
-    },
-    "migrations": [
-      {
-        "createdAt": "2022-02-06T12:06:23.663Z",
-        "fileUrl": "https://osg.snek.at/storage/BQACAgQAAxkDAAIFtWH_ub9EUGflUuJ0Vy4tbyojKTQsAAJNDAACVmcAAVDF1I0zMf1kWyME"
-      },
-      {
-        "createdAt": "2022-02-14T13:24:35.484Z",
-        "fileUrl": "https://osg.snek.at/storage/BQACAgQAAxkDAAIGUmIKWBPNzgzkRgTHHC1ikat53H4uAAJzCwACfI5RUNNe_fHg9ZKEIwQ"
-      }
-    ]
-  }
-}
+{}

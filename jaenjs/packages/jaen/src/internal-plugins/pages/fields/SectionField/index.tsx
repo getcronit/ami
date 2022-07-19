@@ -1,21 +1,22 @@
 import {Box, Skeleton} from '@chakra-ui/react'
+import deepmerge from 'deepmerge'
+import * as React from 'react'
+import {ISectionConnection} from '../../index'
 import {useAppDispatch, useAppSelector, withRedux} from '../../internal/redux'
 import {internalActions} from '../../internal/redux/slices'
-import {IJaenSection, IJaenSectionWithId} from '../../internal/redux/types'
 import {useJaenPageContext} from '../../internal/services/page'
 import {
   JaenSectionProvider,
   useJaenSectionContext
 } from '../../internal/services/section'
-import deepmerge from 'deepmerge'
-import * as React from 'react'
-import {ISectionConnection} from '../../index'
+import {IJaenSectionItem} from '../../types'
+import {findSection} from '../../utils'
 import {SectionAddPopover, SectionManagePopover} from './components/popovers'
 
 type SectionPropsCallback = (args: {
   count: number
   totalSections: number
-  section: IJaenSectionWithId
+  section: IJaenSectionItem
 }) => {[key: string]: any}
 
 export interface SectionFieldProps {
@@ -40,9 +41,10 @@ const SectionField = ({
 }: SectionFieldProps) => {
   const jaenSection = useJaenSectionContext()
 
-  if (jaenSection) {
-    name = `${jaenSection.chapterName}.${name}`
-  }
+  const sectionPath = (jaenSection?.path || []).concat({
+    fieldName: name,
+    sectionId: jaenSection?.id
+  })
 
   const dispatch = useAppDispatch()
 
@@ -76,10 +78,14 @@ const SectionField = ({
     )
   }
 
-  const staticChapter = jaenPage?.chapters?.[name]
+  const staticSection = findSection(jaenPage.sections || [], sectionPath)
 
-  const dynamicChapter = useAppSelector(
-    state => state.internal.pages.nodes[jaenPage.id]?.chapters?.[name],
+  const dynamicSection = useAppSelector(
+    state =>
+      findSection(
+        state.internal.pages.nodes[jaenPage.id]?.sections || [],
+        sectionPath
+      ),
     (l, r) => {
       if (!l && !r) {
         return true
@@ -90,16 +96,18 @@ const SectionField = ({
       }
 
       const shouldUpdate =
-        JSON.stringify(Object.keys(l.sections)) !==
-        JSON.stringify(Object.keys(r.sections))
+        JSON.stringify(Object.keys(l.items)) !==
+        JSON.stringify(Object.keys(r.items))
 
       if (shouldUpdate) {
         return false
       }
 
-      for (const key in l.sections) {
-        // TODO: check if the section is deleted
-        if (l.sections[key].deleted !== r.sections[key].deleted) {
+      for (let i = 0; i < l.items.length; i++) {
+        const lItem = l.items[i]
+        const rItem = r.items[i]
+
+        if (lItem.deleted || rItem.deleted) {
           return false
         }
       }
@@ -108,26 +116,69 @@ const SectionField = ({
     }
   )
 
-  const chapter = deepmerge(staticChapter || {}, dynamicChapter || {})
+  const section = React.useMemo(() => {
+    const mergedSection = deepmerge(staticSection || {}, dynamicSection || {}, {
+      arrayMerge: (target, source, options) => {
+        const destination = target.slice()
 
-  const totalSections = React.useMemo(
-    () =>
-      Object.keys(chapter.sections || {})
-        .map(key => chapter.sections[key])
-        .filter(section => !section.deleted).length,
-    [chapter.sections]
-  )
+        source.forEach((item, index) => {
+          if (typeof destination[index] === 'undefined') {
+            // @ts-ignore
+            destination[index] = options?.cloneUnlessOtherwiseSpecified(
+              item,
+              options
+            )
+            // @ts-ignore
+          } else if (options.isMergeableObject(item)) {
+            destination[index] = deepmerge(target[index], item, options)
+          } else if (target.indexOf(item) === -1) {
+            destination.push(item)
+          }
+        })
+        return destination
+      }
+    })
+
+    const sectionItemsDict: {
+      [id: string]: IJaenSectionItem
+    } = {}
+
+    mergedSection?.items?.forEach(item => {
+      sectionItemsDict[item.id] = item
+    })
+
+    const orderedSectionItems: IJaenSectionItem[] = []
+
+    let ptrHead = mergedSection?.ptrHead
+
+    while (ptrHead) {
+      const item = sectionItemsDict[ptrHead]
+
+      if (!item) {
+        throw new Error(`ptrHead ${ptrHead} is not found in section items!`)
+      }
+
+      if (item.deleted) {
+        continue
+      }
+
+      orderedSectionItems.push(item)
+
+      ptrHead = item.ptrNext
+    }
+
+    mergedSection.items = orderedSectionItems
+
+    return mergedSection
+  }, [staticSection, dynamicSection])
 
   const handleSectionAdd = React.useCallback(
-    (
-      sectionName: string,
-      between: [IJaenSectionWithId | null, IJaenSectionWithId | null]
-    ) => {
+    (sectionItemType: string, between: [string | null, string | null]) => {
       dispatch(
         internalActions.section_add({
           pageId: jaenPage.id,
-          chapterName: name,
-          sectionName,
+          sectionItemType,
+          path: sectionPath,
           between
         })
       )
@@ -137,50 +188,25 @@ const SectionField = ({
 
   const handleSectionAppend = React.useCallback(
     (sectionName: string, id: string, ptrNext: string | null) => {
-      handleSectionAdd(sectionName, [
-        {
-          ...chapter.sections[id],
-          id
-        },
-        ptrNext
-          ? {
-              ...chapter.sections[ptrNext],
-              id: ptrNext
-            }
-          : null
-      ])
+      handleSectionAdd(sectionName, [id, ptrNext || null])
     },
-    [chapter.sections]
+    []
   )
 
   const handleSectionPrepend = React.useCallback(
     (sectionName: string, id: string, ptrPrev: string | null) => {
-      handleSectionAdd(sectionName, [
-        ptrPrev
-          ? {
-              ...chapter.sections[ptrPrev],
-              id: ptrPrev
-            }
-          : null,
-        {
-          ...chapter.sections[id],
-          id
-        }
-      ])
+      handleSectionAdd(sectionName, [ptrPrev || null, id])
     },
-    [chapter.sections]
+    []
   )
 
   const handleSectionDelete = React.useCallback(
-    (
-      id: string,
-      between: [IJaenSectionWithId | null, IJaenSectionWithId | null]
-    ) => {
+    (id: string, between: [string | null, string | null]) => {
       dispatch(
         internalActions.section_remove({
           pageId: jaenPage.id,
           sectionId: id,
-          chapterName: name,
+          path: sectionPath,
           between
         })
       )
@@ -197,123 +223,83 @@ const SectionField = ({
     [sections]
   )
 
-  const renderedSections = () => {
-    const rendered: Array<JSX.Element> = []
+  const Wrapper = rest.as || Box
 
-    let ptrHead = chapter.ptrHead
+  return (
+    <Wrapper {...rest.props} className={rest.className} style={rest.style}>
+      {isEditing && !section.ptrHead && section.items.length === 0 ? (
+        <SectionAddPopover
+          key={`${section.ptrHead}-add-popover`}
+          disabled={false}
+          header={
+            <>
+              Add to <strong>{displayName}</strong>
+            </>
+          }
+          sections={sectionsOptions}
+          onSelect={name => handleSectionAdd(name, [null, null])}>
+          <Box>
+            <Skeleton h="100" />
+          </Box>
+        </SectionAddPopover>
+      ) : (
+        section.items.map((item, index) => {
+          const {Component, options} = sectionsDict[item.type]
 
-    if (isEditing) {
-      if (!ptrHead || totalSections === 0) {
-        return (
-          <SectionAddPopover
-            key={`${ptrHead}-add-popover`}
-            disabled={false}
-            header={
-              <>
-                Add to <strong>{displayName}</strong>
-              </>
-            }
-            sections={sectionsOptions}
-            onSelect={name => handleSectionAdd(name, [null, null])}>
-            <Box>
-              <Skeleton h="100" />
-            </Box>
-          </SectionAddPopover>
-        )
-      }
-    }
-
-    while (ptrHead) {
-      const section: IJaenSection | undefined = chapter.sections[ptrHead]
-      if (sectionsDict[section.name]) {
-        const {Component, options} = sectionsDict[section.name]
-
-        const sectionId = ptrHead
-
-        const trigger = (
-          <JaenSectionProvider
-            key={ptrHead}
-            chapterName={name}
-            sectionId={sectionId}>
-            <Component />
-          </JaenSectionProvider>
-        )
-
-        const SectionWrapper = rest.sectionAs || Box
-
-        const sectionProps =
-          typeof rest.sectionProps === 'function'
-            ? rest.sectionProps({
-                count: rendered.length + 1,
-                totalSections: totalSections,
-                section: {
-                  ...section,
-                  id: sectionId
-                }
-              })
-            : rest.sectionProps
-
-        if (isEditing) {
-          rendered.push(
-            <SectionWrapper
-              key={`${sectionId}-manage-popover`}
-              {...sectionProps}
-              className={rest.sectionClassName}
-              style={rest.sectionStyle}>
-              <SectionManagePopover
-                key={sectionId}
-                sections={sectionsOptions}
-                id={sectionId}
-                ptrPrev={section.ptrPrev}
-                ptrNext={section.ptrNext}
-                header={options.displayName}
-                disabled={false}
-                onAppend={handleSectionAppend}
-                onPrepend={handleSectionPrepend}
-                onDelete={(id, ptrPrev, ptrNext) =>
-                  handleSectionDelete(id, [
-                    ptrPrev
-                      ? {
-                          ...chapter.sections[ptrPrev],
-                          id: ptrPrev
-                        }
-                      : null,
-                    ptrNext
-                      ? {
-                          ...chapter.sections[ptrNext],
-                          id: ptrNext
-                        }
-                      : null
-                  ])
-                }
-                trigger={trigger}
-              />
-            </SectionWrapper>
+          const trigger = (
+            <JaenSectionProvider key={item.id} path={sectionPath} id={item.id}>
+              <Component />
+            </JaenSectionProvider>
           )
-        } else {
-          rendered.push(
+
+          const SectionWrapper = rest.sectionAs || Box
+
+          const sectionProps =
+            typeof rest.sectionProps === 'function'
+              ? rest.sectionProps({
+                  count: index + 1,
+                  totalSections: section.items.length,
+                  section: item
+                })
+              : rest.sectionProps
+
+          if (isEditing) {
+            return (
+              <SectionWrapper
+                key={`${item.id}-manage-popover`}
+                {...sectionProps}
+                className={rest.sectionClassName}
+                style={rest.sectionStyle}>
+                <SectionManagePopover
+                  key={item.id}
+                  sections={sectionsOptions}
+                  id={item.id}
+                  ptrPrev={item.ptrPrev}
+                  ptrNext={item.ptrNext}
+                  header={options.displayName}
+                  disabled={false}
+                  onAppend={handleSectionAppend}
+                  onPrepend={handleSectionPrepend}
+                  onDelete={(id, ptrPrev, ptrNext) =>
+                    handleSectionDelete(id, [ptrPrev || null, ptrNext || null])
+                  }
+                  trigger={trigger}
+                />
+              </SectionWrapper>
+            )
+          }
+
+          return (
             <SectionWrapper
-              key={`${sectionId}-section`}
+              key={`${item.id}-section`}
               {...sectionProps}
               className={rest.sectionClassName}
               style={rest.sectionStyle}>
               {trigger}
             </SectionWrapper>
           )
-        }
-      }
-
-      ptrHead = section.ptrNext
-    }
-
-    return rendered
-  }
-
-  const Wrapper = rest.as || Box
-
-  return (
-    <Wrapper {...rest.props} className={rest.className} style={rest.style}>
-      {renderedSections()}
+        })
+      )}
     </Wrapper>
   )
 }

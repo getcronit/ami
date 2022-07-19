@@ -1,6 +1,6 @@
-import {withSnekFinder} from '../../../../../../withSnekFinder'
 import {ComponentMeta, Story} from '@storybook/react'
 import React from 'react'
+import {withSnekFinder} from '../../../../../../withSnekFinder'
 
 import Component from '.'
 
@@ -121,7 +121,7 @@ PagesTab.args = {
     template: 'BlogPage',
     jaenFields: {},
     jaenFiles: [],
-    chapters: {}
+    sections: []
   }),
   onItemDoubleClick: () => alert('double clicked')
 }

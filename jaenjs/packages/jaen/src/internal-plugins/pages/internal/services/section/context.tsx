@@ -1,8 +1,14 @@
 import * as React from 'react'
+import {useAppDispatch} from '../../redux'
+import {internalActions} from '../../redux/slices'
+import {useJaenPageContext} from '../page'
 
 export type JaenSectionType = {
-  chapterName: string
-  sectionId: string
+  id: string
+  path: Array<{
+    fieldName: string
+    sectionId?: string
+  }>
 }
 
 export const SectionOptionsContext = React.createContext<
@@ -10,19 +16,39 @@ export const SectionOptionsContext = React.createContext<
 >(undefined)
 
 export const JaenSectionContext = React.createContext<
-  JaenSectionType | undefined
+  | (JaenSectionType & {
+      register: (props: object) => void
+    })
+  | undefined
 >(undefined)
 
 export const JaenSectionProvider: React.FC<JaenSectionType> = ({
   children,
-  chapterName,
-  sectionId
+  path,
+  id
 }) => {
+  const {jaenPage} = useJaenPageContext()
+  const dispatch = useAppDispatch()
+
+  const register = React.useCallback(
+    (props: object) => {
+      dispatch(
+        internalActions.section_register({
+          pageId: jaenPage.id,
+          path,
+          props
+        })
+      )
+    },
+    [dispatch, jaenPage.id]
+  )
+
   return (
     <JaenSectionContext.Provider
       value={{
-        chapterName: chapterName,
-        sectionId: sectionId
+        path,
+        id,
+        register
       }}>
       {children}
     </JaenSectionContext.Provider>

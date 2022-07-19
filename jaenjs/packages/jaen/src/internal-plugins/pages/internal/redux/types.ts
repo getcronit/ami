@@ -1,4 +1,4 @@
-import {IJaenPage} from '../../types'
+import {IJaenPage, IJaenSection} from '../../types'
 
 export interface IJaenState {
   status: {
@@ -6,6 +6,9 @@ export interface IJaenState {
   }
   pages: {
     lastAddedNodeId?: string
+    registeredPageFields: {
+      [uuid: string]: number
+    }
     nodes: {
       [uuid: string]: Partial<IJaenPage>
     }
@@ -21,9 +24,6 @@ export interface IJaenState {
 }
 
 //> Other types
-export type IJaenSection = NonNullable<
-  IJaenPage['chapters']
->[string]['sections'][string]
 
 export type IJaenSectionWithId = IJaenSection & {
   id: string

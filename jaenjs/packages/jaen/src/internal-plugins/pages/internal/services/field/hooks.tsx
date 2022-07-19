@@ -1,9 +1,10 @@
 import React from 'react'
 import {IJaenPage} from '../../../types'
+import {findSection} from '../../../utils'
 import {store, useAppDispatch} from '../../redux'
 import {internalActions} from '../../redux/slices'
 import {useJaenPageContext} from '../page'
-import {JaenSectionType, useJaenSectionContext} from '../section'
+import {useJaenSectionContext} from '../section'
 
 export const useField = <IValue extends {}>(name: string, type: string) => {
   const {jaenPage} = useJaenPageContext()
@@ -27,12 +28,13 @@ export const useField = <IValue extends {}>(name: string, type: string) => {
       if (!sectionContext) {
         fields = page.jaenFields
       } else {
-        const {chapterName, sectionId} = sectionContext
-
-        fields = page.chapters?.[chapterName]?.sections[sectionId]?.jaenFields
+        fields = findSection(
+          page.sections || [],
+          sectionContext.path
+        )?.items.find(({id}) => id === sectionContext.id)?.jaenFields
       }
 
-      return fields?.[type]?.[name]
+      return fields?.[type]?.[name]?.value
     }
   }
 
@@ -101,7 +103,12 @@ export const useField = <IValue extends {}>(name: string, type: string) => {
       dispatch(
         internalActions.field_write({
           pageId: jaenPage.id,
-          section: sectionContext,
+          section: sectionContext
+            ? {
+                path: sectionContext.path,
+                id: sectionContext.id
+              }
+            : undefined,
           fieldType: type,
           fieldName: name,
           value: newValue
@@ -112,16 +119,16 @@ export const useField = <IValue extends {}>(name: string, type: string) => {
   )
 
   const register = React.useCallback(
-    (props: any) => {
+    (props: object) => {
       dispatch(
         internalActions.field_register({
           pageId: jaenPage.id,
-          type,
-          name,
-          chapter: sectionContext
+          fieldType: type,
+          fieldName: name,
+          section: sectionContext
             ? {
-                name: sectionContext.chapterName,
-                sectionId: sectionContext.sectionId
+                path: sectionContext.path,
+                id: sectionContext.id
               }
             : undefined,
           props

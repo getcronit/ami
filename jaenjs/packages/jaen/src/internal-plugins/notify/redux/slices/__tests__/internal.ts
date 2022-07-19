@@ -146,7 +146,7 @@ describe('notifications', () => {
         .advanced
     ).toEqual({
       'notification-id': {
-        pageViews: 200
+        pageViews: 1
       }
     })
   })

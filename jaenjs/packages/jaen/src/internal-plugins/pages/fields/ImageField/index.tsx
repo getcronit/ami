@@ -1,4 +1,7 @@
+import {Box, Button, Center, HStack, Image, Stack, Text} from '@chakra-ui/react'
+import {useSnekFinder} from '@jaenjs/snek-finder'
 import {IGatsbyImageData} from 'gatsby-plugin-image'
+import {HiCloudUpload} from 'react-icons/hi'
 import {connectField} from '../../index'
 import {
   JaenImage,
@@ -7,19 +10,6 @@ import {
   StaticImageElementType
 } from './JaenImage'
 import {useJaenPageImage} from './useJaenPageImage'
-import loadable from '@loadable/component'
-import {
-  Stack,
-  Avatar,
-  Box,
-  HStack,
-  Button,
-  Text,
-  Image,
-  Center
-} from '@chakra-ui/react'
-import {HiCloudUpload} from 'react-icons/hi'
-import {useSnekFinder} from '@jaenjs/snek-finder'
 
 export interface ImageFieldData extends JaenImageData {
   imageId?: string
@@ -66,7 +56,7 @@ const ImageField = connectField<
         )
       }
 
-      gatsbyImage = useJaenPageImage({id: imageId})
+      gatsbyImage = useJaenPageImage({id: imageId, byFieldName: jaenField.name})
     }
 
     const handleUpdateValue = (data: Partial<ImageFieldData>) => {

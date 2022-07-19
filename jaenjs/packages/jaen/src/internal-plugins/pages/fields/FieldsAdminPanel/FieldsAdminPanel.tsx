@@ -1,5 +1,4 @@
 import {
-  Badge,
   Box,
   Button,
   ButtonGroup,
@@ -9,21 +8,16 @@ import {
   Heading,
   Stack,
   Text,
-  useToast,
-  VStack
+  useToast
 } from '@chakra-ui/react'
-import {AddIcon} from '@chakra-ui/icons'
+import {Control, Controller, useForm} from 'react-hook-form'
+import {FieldOptions, JaenFieldProps} from '../../connectors'
+import {Field} from '../../index'
+import {useAppDispatch} from '../../internal/redux'
+import {internalActions} from '../../internal/redux/slices'
 import {useField} from '../../internal/services/field'
 import {usePageFieldsRegister} from '../../internal/services/page/hooks'
-import {Field} from '../../index'
-import {FieldOptions, JaenFieldProps} from '../../connectors'
-import {JaenFieldsOrderEntry} from '../../types'
-import {Control, Controller, useForm} from 'react-hook-form'
 import {JaenSectionProvider} from '../../internal/services/section'
-import {internalActions} from '../../internal/redux/slices'
-import {useAppDispatch} from '../../internal/redux'
-import {Chapter, transformFields} from './transformer'
-import {DividerWithText} from '../../../../ui/components/AdminLogin/DividerWithText'
 
 const FormField = ({
   name,
@@ -96,29 +90,29 @@ const FormField = ({
   )
 }
 
-const ChapterFormField = ({
-  chapter,
+const SectionFormField = ({
+  section,
   control
 }: {
-  chapter: Chapter
+  section: Section
   control: Control
 }) => {
   return (
     <Box m={1} p={2} borderLeft={'4px'} borderColor="teal">
-      <Heading>{chapter.name}</Heading>
+      <Heading>{section.path.at(-1)?.fieldName}</Heading>
       <Stack divider={<Divider />} spacing={8}>
-        {chapter.sections.map((section, index) => {
+        {section.items.map((sectionItem, index) => {
           return (
             <JaenSectionProvider
-              chapterName={chapter.name}
-              sectionId={section.id}
-              key={section.id}>
+              key={index}
+              path={section.path}
+              id={sectionItem.id}>
               <Stack
                 m={1}
                 p={2}
                 divider={<Divider variant="dashed" />}
                 spacing={6}>
-                {section.fields.map((field, index) => {
+                {sectionItem.fields.map((field, index) => {
                   if (field.__type === 'field') {
                     return (
                       <FormField
@@ -131,9 +125,9 @@ const ChapterFormField = ({
                     )
                   }
 
-                  if (field.__type === 'chapter') {
+                  if (field.__type === 'section') {
                     return (
-                      <ChapterFormField chapter={field} control={control} />
+                      <SectionFormField section={field} control={control} />
                     )
                   }
 
@@ -171,21 +165,16 @@ const FieldsAdminPanel = (props: {jaenPageId: string}) => {
 
     const onSubmit = (values: FormValues) => {
       for (let i = 0; i < registerdFields.length; i++) {
-        const {name, type, chapter} = registerdFields[i]
+        const {fieldName, fieldType, section} = registerdFields[i]
         const value = values[i]
 
         if (value) {
           dispatch(
             internalActions.field_write({
               pageId: props.jaenPageId,
-              section: chapter
-                ? {
-                    chapterName: chapter.name,
-                    sectionId: chapter.sectionId
-                  }
-                : undefined,
-              fieldType: type,
-              fieldName: name,
+              section,
+              fieldType,
+              fieldName,
               value
             })
           )
@@ -202,8 +191,6 @@ const FieldsAdminPanel = (props: {jaenPageId: string}) => {
         isClosable: true
       })
     }
-
-    const transformed = transformFields(registerdFields)
 
     return (
       <Box p={1}>
@@ -223,8 +210,8 @@ const FieldsAdminPanel = (props: {jaenPageId: string}) => {
                 )
               }
 
-              if (field.__type === 'chapter') {
-                return <ChapterFormField chapter={field} control={control} />
+              if (field.__type === 'section') {
+                return <SectionFormField section={field} control={control} />
               }
 
               return null
@@ -241,7 +228,11 @@ const FieldsAdminPanel = (props: {jaenPageId: string}) => {
     )
   }
 
-  return <Panel />
+  return (
+    <Box p={1}>
+      <Text fontSize="lg">Currently not implemented</Text>
+    </Box>
+  )
 }
 
 export default FieldsAdminPanel

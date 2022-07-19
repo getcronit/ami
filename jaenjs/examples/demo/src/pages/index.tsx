@@ -1,30 +1,117 @@
-import {connectPage, useAnalytics} from '@jaenjs/jaen'
+import {Box} from '@chakra-ui/react'
+import {connectPage, connectSection, Field} from '@jaenjs/jaen'
 import {graphql} from 'gatsby'
-import * as React from 'react'
-import {Footer, Hero, Navbar} from '../components'
+import {StaticImage} from 'gatsby-plugin-image'
 
-// markup
-const IndexPage: React.FC = () => {
-  //const {toggleHideUI, hideUI} = useJaenCoreContext()
+const CardSection = connectSection(
+  () => {
+    return (
+      <Box bg="gray.100" w="100%" p={4}>
+        <Field.Text name="email" defaultValue={'test@test.com'} />
+        <Field.Section
+          name="biiiideeee"
+          displayName="Card section"
+          sections={[CardSection]}
+        />
+        <Field.Image
+          name="image"
+          height={500}
+          width={500}
+          defaultValue={
+            <StaticImage
+              alt="a"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png"
+            />
+          }
+        />
+      </Box>
+    )
+  },
+  {
+    displayName: 'CardSection',
+    name: 'CardSection'
+  }
+)
 
-  const analytics = useAnalytics()
+const BiddeCardSection = connectSection(
+  () => {
+    return (
+      <Box bg="tomato" w="100%" p={4} color="white">
+        <Field.Text name="email" defaultValue={'test@test.com'} />
+      </Box>
+    )
+  },
+  {
+    displayName: 'BiddeCardSection',
+    name: 'BiddeCardSection'
+  }
+)
 
+const IndexPage = () => {
   return (
     <>
-      <Navbar />
-      <Hero />
-
-      <Footer />
+      <Field.Text name="email" defaultValue={'test@test.com'} />
+      <Field.Section
+        name="cardSection"
+        displayName="Card section"
+        sections={[CardSection]}
+      />
     </>
   )
 }
 
 export default connectPage(IndexPage, {
-  displayName: 'IndexPage'
+  displayName: 'Index Page'
 })
 
 export const query = graphql`
   query($jaenPageId: String!) {
-    ...JaenPageQuery
+    jaenPage(id: {eq: $jaenPageId}) {
+      id
+      slug
+      jaenFields
+      jaenPageMetadata {
+        title
+        isBlogPost
+        image
+        description
+        datePublished
+        canonical
+      }
+      jaenFiles {
+        id
+        childImageSharp {
+          gatsbyImageData(placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+        }
+      }
+      sections {
+        ...JaenSectionFields
+        items {
+          ...JaenSectionItemFields
+          sections {
+            ...JaenSectionFields
+            items {
+              ...JaenSectionItemFields
+              sections {
+                ...JaenSectionFields
+                items {
+                  ...JaenSectionItemFields
+                  image: jaenFile {
+                    id
+                    childImageSharp {
+                      gatsbyImageData(
+                        placeholder: BLURRED
+                        formats: [AUTO, WEBP, AVIF]
+                        height: 200
+                      )
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 `

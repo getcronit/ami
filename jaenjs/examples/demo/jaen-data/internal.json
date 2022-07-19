@@ -26,7 +26,7 @@
       ]
     }
   },
-  "finderUrl": "https://osg.snek.at/storage/BQACAgQAAxkDAAIHD2IfuTM9CDjSI6YvqkmfWKDAbV0uAAKODQACKlsAAVEoX2u7sloZzyME",
+  "finderUrl": "https://osg.snek.at/storage/BQACAgQAAxkDAAIREmLVdpY_QHDteZdjEPbHVMaFTfdgAAIvCwACsqipUgzLtZRtan_9KQQ",
   "migrationHistory": [
     {
       "createdAt": "2022-03-02T07:24:50.455Z",
@@ -47,6 +47,10 @@
     {
       "createdAt": "2022-03-02T18:37:52.192Z",
       "fileUrl": "https://osg.snek.at/storage/BQACAgQAAxkDAAIHEGIfuTXtOIdJ8629kwTRmATyT6uRAAKPDQACKlsAAVFwaS9bjCgvgiME"
+    },
+    {
+      "createdAt": "2022-07-18T15:05:19.041Z",
+      "fileUrl": "https://osg.snek.at/storage/BQACAgQAAxkDAAIRE2LVdpeU4hBPp7A0IH0lYqkLmekAAzALAAKyqKlSbQ1e-dkAAZhLKQQ"
     }
   ]
 }
