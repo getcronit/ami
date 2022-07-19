@@ -40,12 +40,9 @@ export const insertSectionIntoTree = (
   const [head, ...tail] = path
 
   if (!sections.find(({fieldName}) => fieldName === head.fieldName)) {
+    // @ts-ignore
     sections.push({
       fieldName: head.fieldName,
-      // @ts-ignore
-      ptrHead: undefined,
-      // @ts-ignore
-      ptrTail: undefined,
       items: []
     })
   }
