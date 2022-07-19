@@ -1,7 +1,6 @@
 import {Box} from '@chakra-ui/react'
 import {connectPage, connectSection, Field} from '@jaenjs/jaen'
 import {graphql} from 'gatsby'
-import {StaticImage} from 'gatsby-plugin-image'
 
 const CardSection = connectSection(
   () => {
@@ -13,17 +12,14 @@ const CardSection = connectSection(
           displayName="Card section"
           sections={[CardSection]}
         />
-        <Field.Image
-          name="image"
-          height={500}
-          width={500}
-          defaultValue={
-            <StaticImage
-              alt="a"
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png"
-            />
-          }
-        />
+        <Box width={500} height={500}>
+          <Field.Image
+            name="image"
+            defaultValue={
+              'https://www.rollingstone.com/wp-content/uploads/2018/06/emilia-clarke-61e260e9-daef-4fb0-9c91-05fcdadd680a.jpg'
+            }
+          />
+        </Box>
       </Box>
     )
   },

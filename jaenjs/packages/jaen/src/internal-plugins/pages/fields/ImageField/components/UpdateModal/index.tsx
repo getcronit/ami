@@ -17,15 +17,15 @@ import {
   Textarea,
   useToast
 } from '@chakra-ui/react'
-import {useSnekFinder} from '@jaenjs/snek-finder'
+import { useSnekFinder } from '@jaenjs/snek-finder'
 import * as React from 'react'
-import {useForm} from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
-type FormData = {
+type FormData = Partial<{
   image: string
   title: string
   description: string
-}
+}>
 
 export interface UpdateModalProps {
   isOpen: boolean

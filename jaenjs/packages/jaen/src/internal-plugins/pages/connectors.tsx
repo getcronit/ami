@@ -156,14 +156,15 @@ export interface JaenFieldProps<IDefaultValue> {
   className?: string
 }
 
-export interface FieldOptions<IValue, IProps = {}> {
+export interface FieldOptions<IValue, IDefaultValue, IProps = {}> {
   fieldType: string
   getAdminWidget?: (
     props: {
       field: {
-        defaultValue: IValue
+        defaultValue: IDefaultValue
         value: IValue
         onChange: (value: IValue) => void
+        name: string
       }
     } & IProps
   ) => JSX.Element
@@ -193,7 +194,7 @@ export const connectField = <IValue, IDefaultValue = IValue, P = {}>(
       }
     }
   >,
-  options: FieldOptions<IValue, P>
+  options: FieldOptions<IValue, IDefaultValue, P>
 ) => {
   const MyComp: IJaenConnection<
     P & JaenFieldProps<IDefaultValue>,

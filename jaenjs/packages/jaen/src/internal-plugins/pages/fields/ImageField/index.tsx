@@ -1,94 +1,82 @@
-import {Box, Button, Center, HStack, Image, Stack, Text} from '@chakra-ui/react'
-import {useSnekFinder} from '@jaenjs/snek-finder'
-import {IGatsbyImageData} from 'gatsby-plugin-image'
-import {HiCloudUpload} from 'react-icons/hi'
-import {connectField} from '../../index'
 import {
-  JaenImage,
-  JaenImageData,
-  JaenImageProps,
-  StaticImageElementType
-} from './JaenImage'
+  Box,
+  BoxProps,
+  Button,
+  Center,
+  HStack,
+  Image,
+  Stack,
+  Text,
+  useDisclosure
+} from '@chakra-ui/react'
+import {useSnekFinder} from '@jaenjs/snek-finder'
+import {GatsbyImage, getSrc, IGatsbyImageData} from 'gatsby-plugin-image'
+import React, {CSSProperties, ReactEventHandler} from 'react'
+import {HiCloudUpload} from 'react-icons/hi'
+import {withSnekFinder} from '../../../../withSnekFinder'
+import {connectField} from '../../index'
+import UpdateModal from './components/UpdateModal'
 import {useJaenPageImage} from './useJaenPageImage'
 
-export interface ImageFieldData extends JaenImageData {
-  imageId?: string
+export interface ImageFieldProps {
+  alt?: string
+  className?: string
+  style?: CSSProperties
+  imgClassName?: string
+  imgStyle?: CSSProperties
+  backgroundColor?: string
+  objectFit?: CSSProperties['objectFit']
+  objectPosition?: CSSProperties['objectPosition']
+  onLoad?: (props: {wasCached: boolean}) => void
+  onError?: ReactEventHandler<HTMLImageElement>
+  onStartLoad?: (props: {wasCached: boolean}) => void
 }
 
-export type ImageFieldProps = Partial<
-  Pick<ImageFieldData, 'width' | 'height' | 'layout'>
-> &
-  Pick<
-    JaenImageProps,
-    'imgClassName' | 'imgStyle' | 'onError' | 'onLoad' | 'onStartLoad'
-  >
+export interface JaenImageFieldData {
+  title?: string
+  alt?: string
+  imageId?: string
+  internalImageUrl?: string | null
+}
 
 const ImageField = connectField<
-  ImageFieldData,
-  StaticImageElementType | null,
+  JaenImageFieldData,
+  string | undefined,
   ImageFieldProps
 >(
-  ({
-    jaenField,
-    imgStyle,
-    imgClassName,
-    width,
-    height,
-    layout = 'constrained'
-  }) => {
+  ({jaenField, children, ...props}) => {
+    const gatsbyImage = useJaenPageImage({
+      id: jaenField?.staticValue?.imageId as string,
+      byFieldName: jaenField.name
+    })
+
     const value = {
       ...jaenField.staticValue,
       ...jaenField.value,
-      internalImageUrl: jaenField?.value?.internalImageUrl
+      internalImageUrl: jaenField.value?.internalImageUrl
     }
 
-    let gatsbyImage: IGatsbyImageData | undefined
+    console.log(jaenField.staticValue?.internalImageUrl)
 
-    if (jaenField.staticValue) {
-      // If staticValue is defined, the imageId must also be defined,
-      // otherwise throw an error.
-
-      const {imageId} = jaenField.staticValue
-
-      if (!imageId) {
-        throw new Error(
-          'staticValue is defined, but staticValue.imageId is not. This is not allowed.'
-        )
-      }
-
-      gatsbyImage = useJaenPageImage({id: imageId, byFieldName: jaenField.name})
-    }
-
-    const handleUpdateValue = (data: Partial<ImageFieldData>) => {
-      jaenField.onUpdateValue({
-        layout, // ?
-        width, // ?
-        height, // ?
-        title: data.title || 'Jaen Image', // ?
-        alt: data.alt || 'Jaen Image', // ?
-        ...value,
-        ...data
-      })
+    const imageFieldProps = {
+      alt: value.alt || 'Image',
+      title: value.title || 'Image',
+      style: {
+        width: '100%',
+        height: '100%',
+        ...jaenField.style
+      },
+      ...props
     }
 
     return (
       <JaenImage
         isEditing={jaenField.isEditing}
-        image={{
-          title: value.title || 'A Jaen Image',
-          alt: value.alt || 'A Jaen Image',
-          internalImageUrl: value.internalImageUrl,
-          layout: value.layout || layout,
-          width,
-          height,
-          gatsbyImage
-        }}
-        className={jaenField.className}
-        style={jaenField.style}
-        imgClassName={imgClassName}
-        imgStyle={imgStyle}
-        defaultStaticImageElement={jaenField.defaultValue}
-        onUpdateValue={handleUpdateValue}
+        imageFieldProps={imageFieldProps}
+        internalImageUrl={value.internalImageUrl}
+        defaultImageUrl={jaenField.defaultValue}
+        imageData={gatsbyImage}
+        handleUpdateImage={jaenField.onUpdateValue}
       />
     )
   },
@@ -108,9 +96,14 @@ const ImageField = connectField<
       const handleImageRemove = () => {
         field.onChange({
           ...field.value,
-          internalImageUrl: undefined
+          internalImageUrl: null
         })
       }
+
+      const gatsbyImage = useJaenPageImage({
+        id: field?.value?.imageId as string,
+        byFieldName: field.name
+      })
 
       return (
         <>
@@ -124,9 +117,8 @@ const ImageField = connectField<
                 boxSize={'100%'}
                 src={
                   field.value?.internalImageUrl ||
-                  field.value?.gatsbyImage?.placeholder?.fallback ||
-                  field.defaultValue?.internalImageUrl ||
-                  field.defaultValue?.gatsbyImage?.placeholder?.fallback
+                  gatsbyImage?.placeholder?.fallback ||
+                  field.defaultValue
                 }
                 fallback={
                   <Center boxSize={'100%'}>
@@ -159,5 +151,166 @@ const ImageField = connectField<
     }
   }
 )
+
+interface JJaenImageProps {
+  isEditing: boolean
+  imageFieldProps: ImageFieldProps & {
+    alt: string
+    title: string
+    style: CSSProperties
+  }
+  imageData: IGatsbyImageData | undefined
+  internalImageUrl: string | null | undefined
+  defaultImageUrl: string | undefined
+  handleUpdateImage: (imageData: {
+    internalImageUrl: JJaenImageProps['internalImageUrl']
+    alt?: string
+    title?: string
+  }) => void
+}
+
+const InteractiveWrapper: React.FC<{
+  style: CSSProperties
+  updateable: boolean
+  imageData?: Partial<{
+    alt: string
+    title: string
+    url: string
+  }>
+  handleUpdateImage: JJaenImageProps['handleUpdateImage']
+}> = withSnekFinder(props => {
+  const updateDisclosure = useDisclosure()
+  const finder = useSnekFinder({
+    mode: 'selector',
+    onSelect: ({src, name, description}) => {
+      props.handleUpdateImage({
+        internalImageUrl: src,
+        title: name,
+        alt: description
+      })
+    }
+  })
+
+  const boxProps: BoxProps = {
+    style: props.style,
+    cursor: 'pointer',
+    boxShadow: '0 0 0 2.5px #4fd1c5 !important',
+    onClick: () => {
+      if (props.updateable) {
+        updateDisclosure.onOpen()
+      } else {
+        finder.toggleSelector()
+      }
+    }
+  }
+
+  console.log('imageData', props.imageData)
+
+  return (
+    <Box {...boxProps}>
+      {finder.finderElement}
+      <UpdateModal
+        {...updateDisclosure}
+        data={{
+          image: props.imageData?.url,
+          description: props.imageData?.alt,
+          title: props.imageData?.title
+        }}
+        onUpdate={({image: internalImageUrl, description: alt, title}) => {
+          props.handleUpdateImage({
+            internalImageUrl,
+            alt,
+            title
+          })
+        }}
+        onDelete={() => props.handleUpdateImage({internalImageUrl: null})}
+      />
+      {props.children}
+    </Box>
+  )
+})
+
+const JaenImage = (props: JJaenImageProps) => {
+  const {
+    isEditing,
+    imageFieldProps,
+    imageData,
+    internalImageUrl,
+    defaultImageUrl
+  } = props
+
+  let imageElement
+
+  if (internalImageUrl) {
+    imageElement = (
+      <GatsbyImage
+        {...imageFieldProps}
+        // @ts-ignore
+        image={{
+          images: {
+            sources: [],
+            fallback: {
+              src: internalImageUrl!
+            }
+          }
+        }}
+      />
+    )
+  } else {
+    if (imageData && internalImageUrl !== null) {
+      imageElement = <GatsbyImage {...imageFieldProps} image={imageData} />
+    }
+
+    if (!imageElement) {
+      if (defaultImageUrl) {
+        imageElement = (
+          <GatsbyImage
+            {...imageFieldProps}
+            // @ts-ignore
+            image={{
+              images: {
+                sources: [],
+                fallback: {
+                  src: defaultImageUrl
+                }
+              }
+            }}
+          />
+        )
+      } else {
+        imageElement = (
+          <Center
+            style={imageFieldProps.style}
+            backgroundImage="linear-gradient(to left, #c8d9ff 50%, transparent 50%)"
+            backgroundSize="4px 100%">
+            <Text color="gray.600" fontSize="sm">
+              No image
+            </Text>
+          </Center>
+        )
+      }
+    }
+  }
+
+  if (isEditing) {
+    return (
+      <InteractiveWrapper
+        updateable={
+          internalImageUrl !== null && (!!internalImageUrl || !!imageData)
+        }
+        imageData={{
+          alt: imageFieldProps.alt,
+          title: imageFieldProps.title,
+          url: internalImageUrl || (imageData ? getSrc(imageData!) : '')
+        }}
+        style={imageFieldProps.style}
+        handleUpdateImage={props.handleUpdateImage}>
+        {imageElement}
+      </InteractiveWrapper>
+    )
+  }
+
+  return <Box style={imageFieldProps.style}>{imageElement}</Box>
+}
 
 export default ImageField
