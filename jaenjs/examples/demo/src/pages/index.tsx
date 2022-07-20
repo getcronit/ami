@@ -12,13 +12,8 @@ const CardSection = connectSection(
           displayName="Card section"
           sections={[CardSection]}
         />
-        <Box width={500} height={500}>
-          <Field.Image
-            name="image"
-            defaultValue={
-              'https://www.rollingstone.com/wp-content/uploads/2018/06/emilia-clarke-61e260e9-daef-4fb0-9c91-05fcdadd680a.jpg'
-            }
-          />
+        <Box width={1000} height={100}>
+          <Field.Image name="image" defaultValue={undefined} />
         </Box>
       </Box>
     )
