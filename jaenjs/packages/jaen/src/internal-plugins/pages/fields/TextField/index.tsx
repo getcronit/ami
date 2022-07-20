@@ -1,15 +1,6 @@
-import {
-  Box,
-  BoxProps,
-  Editable,
-  EditablePreview,
-  EditableInput,
-  EditableTextarea,
-  Textarea
-} from '@chakra-ui/react'
+import {Box, BoxProps, Textarea} from '@chakra-ui/react'
 import Editor from '../../../../shared/Editor'
 import {connectField} from '../../index'
-import {AdminWidgetProps} from '../../types'
 
 const TextField = connectField<
   string,
@@ -39,8 +30,6 @@ const TextField = connectField<
   {
     fieldType: 'IMA:TextField',
     getAdminWidget: ({field}) => {
-      console.log('field', field)
-
       return (
         <Textarea
           placeholder="Enter text"

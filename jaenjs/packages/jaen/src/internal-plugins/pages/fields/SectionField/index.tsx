@@ -1,7 +1,7 @@
 import {Box, Skeleton} from '@chakra-ui/react'
 import deepmerge from 'deepmerge'
 import * as React from 'react'
-import {ISectionConnection} from '../../index'
+import {ISectionConnection, ISectionOptions} from '../../index'
 import {useAppDispatch, useAppSelector, withRedux} from '../../internal/redux'
 import {internalActions} from '../../internal/redux/slices'
 import {useJaenPageContext} from '../../internal/services/page'
@@ -9,7 +9,7 @@ import {
   JaenSectionProvider,
   useJaenSectionContext
 } from '../../internal/services/section'
-import {IJaenSectionItem} from '../../types'
+import {IJaenSectionItem, JaenSectionPath} from '../../types'
 import {findSection} from '../../utils'
 import {SectionAddPopover, SectionManagePopover} from './components/popovers'
 
@@ -41,34 +41,40 @@ const SectionField = ({
 }: SectionFieldProps) => {
   const jaenSection = useJaenSectionContext()
 
-  const sectionPath = (jaenSection?.path || []).concat({
-    fieldName: name,
-    sectionId: jaenSection?.id
-  })
+  const sectionPath = React.useMemo(
+    () =>
+      (jaenSection?.path || []).concat({
+        fieldName: name,
+        sectionId: jaenSection?.id
+      }),
+    []
+  )
 
   const dispatch = useAppDispatch()
 
   const isEditing = useAppSelector(state => state.internal.status.isEditing)
 
   // sections to dictionary with key as section name
-  const sectionsDict = sections.reduce<
-    Record<
-      string,
-      {
-        Component: ISectionConnection
-        options: {displayName: string; name: string}
-      }
-    >
-  >(
-    (acc, Section) => ({
-      ...acc,
-      [Section.options.name]: {
-        Component: Section,
-        options: Section.options
-      }
-    }),
-    {}
-  )
+  const sectionsDict = React.useMemo(() => {
+    return sections.reduce<
+      Record<
+        string,
+        {
+          Component: ISectionConnection
+          options: {displayName: string; name: string}
+        }
+      >
+    >(
+      (acc, Section) => ({
+        ...acc,
+        [Section.options.name]: {
+          Component: Section,
+          options: Section.options
+        }
+      }),
+      {}
+    )
+  }, [sections])
 
   const {jaenPage} = useJaenPageContext()
 
@@ -78,7 +84,10 @@ const SectionField = ({
     )
   }
 
-  const staticSection = findSection(jaenPage.sections || [], sectionPath)
+  const staticSection = React.useMemo(
+    () => findSection(jaenPage.sections || [], sectionPath),
+    [jaenPage.sections, sectionPath]
+  )
 
   const dynamicSection = useAppSelector(
     state =>
@@ -118,24 +127,31 @@ const SectionField = ({
 
   const section = React.useMemo(() => {
     const mergedSection = deepmerge(staticSection || {}, dynamicSection || {}, {
-      arrayMerge: (target, source, options) => {
-        const destination = target.slice()
+      arrayMerge: (target: any[], source: any[], options: any) => {
+        if (target.every(item => item.id) && source.every(item => item.id)) {
+          const len = Math.max(target.length, source.length)
+          const result = []
 
-        source.forEach((item, index) => {
-          if (typeof destination[index] === 'undefined') {
-            // @ts-ignore
-            destination[index] = options?.cloneUnlessOtherwiseSpecified(
-              item,
-              options
-            )
-            // @ts-ignore
-          } else if (options.isMergeableObject(item)) {
-            destination[index] = deepmerge(target[index], item, options)
-          } else if (target.indexOf(item) === -1) {
-            destination.push(item)
+          for (let i = 0; i < len; i++) {
+            let targetItem = target[i]
+            let sourceItem = source[i]
+
+            if (targetItem?.id !== sourceItem?.id) {
+              if (targetItem?.id) {
+                sourceItem = source.find(item => item.id === targetItem.id)
+              }
+              if (sourceItem?.id) {
+                targetItem = target.find(item => item.id === sourceItem.id)
+              }
+            }
+
+            result.push(deepmerge(targetItem || {}, sourceItem || {}, options))
           }
-        })
-        return destination
+
+          return result
+        }
+
+        return []
       }
     })
 
@@ -151,20 +167,24 @@ const SectionField = ({
 
     let ptrHead = mergedSection?.ptrHead
 
-    while (ptrHead) {
+    let i = 0
+
+    while (ptrHead && i < 50) {
       const item = sectionItemsDict[ptrHead]
 
       if (!item) {
         throw new Error(`ptrHead ${ptrHead} is not found in section items!`)
       }
 
+      i++
+
+      ptrHead = item.ptrNext
+
       if (item.deleted) {
         continue
       }
 
       orderedSectionItems.push(item)
-
-      ptrHead = item.ptrNext
     }
 
     mergedSection.items = orderedSectionItems
@@ -201,13 +221,13 @@ const SectionField = ({
   )
 
   const handleSectionDelete = React.useCallback(
-    (id: string, between: [string | null, string | null]) => {
+    (id: string, ptrPrev: string | null, ptrNext: string | null) => {
       dispatch(
         internalActions.section_remove({
           pageId: jaenPage.id,
           sectionId: id,
           path: sectionPath,
-          between
+          between: [ptrPrev, ptrNext]
         })
       )
     },
@@ -227,7 +247,7 @@ const SectionField = ({
 
   return (
     <Wrapper {...rest.props} className={rest.className} style={rest.style}>
-      {isEditing && !section.ptrHead && section.items.length === 0 ? (
+      {isEditing && section.items.length === 0 ? (
         <SectionAddPopover
           key={`${section.ptrHead}-add-popover`}
           disabled={false}
@@ -243,65 +263,92 @@ const SectionField = ({
           </Box>
         </SectionAddPopover>
       ) : (
-        section.items.map((item, index) => {
-          const {Component, options} = sectionsDict[item.type]
+        <>
+          {section.items.map((item, index) => {
+            const {Component: Section, options} = sectionsDict[item.type]
 
-          const trigger = (
-            <JaenSectionProvider key={item.id} path={sectionPath} id={item.id}>
-              <Component />
-            </JaenSectionProvider>
-          )
-
-          const SectionWrapper = rest.sectionAs || Box
-
-          const sectionProps =
-            typeof rest.sectionProps === 'function'
-              ? rest.sectionProps({
-                  count: index + 1,
-                  totalSections: section.items.length,
-                  section: item
-                })
-              : rest.sectionProps
-
-          if (isEditing) {
             return (
-              <SectionWrapper
-                key={`${item.id}-manage-popover`}
-                {...sectionProps}
-                className={rest.sectionClassName}
-                style={rest.sectionStyle}>
-                <SectionManagePopover
-                  key={item.id}
-                  sections={sectionsOptions}
-                  id={item.id}
-                  ptrPrev={item.ptrPrev}
-                  ptrNext={item.ptrNext}
-                  header={options.displayName}
-                  disabled={false}
-                  onAppend={handleSectionAppend}
-                  onPrepend={handleSectionPrepend}
-                  onDelete={(id, ptrPrev, ptrNext) =>
-                    handleSectionDelete(id, [ptrPrev || null, ptrNext || null])
-                  }
-                  trigger={trigger}
-                />
-              </SectionWrapper>
+              <LazySectionManagement
+                key={item.id}
+                isEditing={isEditing}
+                sectionPath={sectionPath}
+                Component={Section}
+                options={options}
+                allOptions={sectionsOptions}
+                itemId={item.id}
+                itemPtrPrev={item.ptrPrev}
+                itemPtrNext={item.ptrNext}
+                onAppend={handleSectionAppend}
+                onPrepend={handleSectionPrepend}
+                onDelete={handleSectionDelete}
+              />
             )
-          }
-
-          return (
-            <SectionWrapper
-              key={`${item.id}-section`}
-              {...sectionProps}
-              className={rest.sectionClassName}
-              style={rest.sectionStyle}>
-              {trigger}
-            </SectionWrapper>
-          )
-        })
+          })}
+        </>
       )}
     </Wrapper>
   )
 }
+
+const LazySectionManagement = React.memo(
+  (props: {
+    isEditing: boolean
+    sectionPath: JaenSectionPath
+    Component: ISectionConnection
+    options: ISectionOptions
+    allOptions: ISectionOptions[]
+
+    itemId: string
+    itemPtrPrev: string | null
+    itemPtrNext: string | null
+
+    onDelete: (
+      id: string,
+      ptrPrev: string | null,
+      ptrNext: string | null
+    ) => void
+    onAppend: (sectionName: string, id: string, ptrNext: string | null) => void
+    onPrepend: (sectionName: string, id: string, ptrPrev: string | null) => void
+  }) => {
+    const [isLocalEditing, setIsLocalEditing] = React.useState(false)
+
+    React.useEffect(() => {
+      if (isLocalEditing === true && props.isEditing === false) {
+        setIsLocalEditing(props.isEditing)
+      }
+    }, [props.isEditing])
+
+    const handleMouseEnter = () => {
+      if (isLocalEditing === false && props.isEditing === true) {
+        setIsLocalEditing(true)
+      }
+    }
+
+    const item = (
+      <JaenSectionProvider
+        path={props.sectionPath}
+        id={props.itemId}
+        Component={props.Component}
+      />
+    )
+
+    return (
+      <Box onMouseOver={handleMouseEnter}>
+        <SectionManagePopover
+          trigger={item}
+          sections={props.allOptions}
+          disabled={!props.isEditing}
+          id={props.itemId}
+          ptrPrev={props.itemPtrPrev}
+          ptrNext={props.itemPtrNext}
+          header={props.options.displayName}
+          onAppend={props.onAppend}
+          onPrepend={props.onPrepend}
+          onDelete={props.onDelete}
+        />
+      </Box>
+    )
+  }
+)
 
 export default withRedux(SectionField)

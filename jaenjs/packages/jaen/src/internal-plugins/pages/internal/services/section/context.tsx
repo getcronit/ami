@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {ISectionConnection} from '../../../connectors'
 import {useAppDispatch} from '../../redux'
 import {internalActions} from '../../redux/slices'
 import {useJaenPageContext} from '../page'
@@ -9,6 +10,7 @@ export type JaenSectionType = {
     fieldName: string
     sectionId?: string
   }>
+  Component: ISectionConnection
 }
 
 export const SectionOptionsContext = React.createContext<
@@ -22,38 +24,37 @@ export const JaenSectionContext = React.createContext<
   | undefined
 >(undefined)
 
-export const JaenSectionProvider: React.FC<JaenSectionType> = ({
-  children,
-  path,
-  id
-}) => {
-  const {jaenPage} = useJaenPageContext()
-  const dispatch = useAppDispatch()
+export const JaenSectionProvider = React.memo<JaenSectionType>(
+  ({path, id, Component}) => {
+    const {jaenPage} = useJaenPageContext()
+    const dispatch = useAppDispatch()
 
-  const register = React.useCallback(
-    (props: object) => {
-      dispatch(
-        internalActions.section_register({
-          pageId: jaenPage.id,
+    const register = React.useCallback(
+      (props: object) => {
+        dispatch(
+          internalActions.section_register({
+            pageId: jaenPage.id,
+            path,
+            props
+          })
+        )
+      },
+      [dispatch, jaenPage.id]
+    )
+
+    return (
+      <JaenSectionContext.Provider
+        value={{
           path,
-          props
-        })
-      )
-    },
-    [dispatch, jaenPage.id]
-  )
-
-  return (
-    <JaenSectionContext.Provider
-      value={{
-        path,
-        id,
-        register
-      }}>
-      {children}
-    </JaenSectionContext.Provider>
-  )
-}
+          id,
+          Component,
+          register
+        }}>
+        <Component />
+      </JaenSectionContext.Provider>
+    )
+  }
+)
 
 /**
  * Access the JaenSectionContext.

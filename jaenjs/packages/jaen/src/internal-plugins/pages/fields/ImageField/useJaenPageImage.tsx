@@ -1,7 +1,7 @@
-import {getImage, IGatsbyImageData} from 'gatsby-plugin-image'
-import {useJaenPageContext} from '../../internal/services/page'
-import {useJaenSectionContext} from '../../internal/services/section'
-import {findSection} from '../../utils'
+import { getImage, IGatsbyImageData } from 'gatsby-plugin-image'
+import { useJaenPageContext } from '../../internal/services/page'
+import { useJaenSectionContext } from '../../internal/services/section'
+import { findSection } from '../../utils'
 
 export function useJaenPageImage(options: {
   id: string
@@ -18,8 +18,6 @@ export function useJaenPageImage(options: {
     const section = findSection(jaenPage.sections || [], sectionContext.path)
 
     const item = section?.items.find(({id}) => id === sectionContext.id)
-
-    console.log('useJaenPageImage item', item)
 
     if (item) {
       if (byFieldName) {
@@ -40,7 +38,6 @@ export function useJaenPageImage(options: {
     }
   }
 
-  console.log('file', file)
 
   if (file) {
     return getImage(file.childImageSharp.gatsbyImageData)

@@ -163,22 +163,12 @@ const pagesSlice = createSlice({
       const page = state.nodes[pageId]
       const sections = page.sections || []
 
-      console.log(
-        'section_add',
-        JSON.parse(JSON.stringify(sections)),
-        path,
-        between,
-        sectionItemType
-      )
-
-      const s = insertSectionIntoTree(sections, path, {
+      insertSectionIntoTree(sections, path, {
         between,
         sectionItemData: {
           type: sectionItemType
         }
       })
-
-      console.log('s', s)
 
       page.sections = sections
 
@@ -241,13 +231,13 @@ const pagesSlice = createSlice({
       const section = findSection(sections, path)
 
       if (section) {
-        section.position = position
+        //section.position = position
         section.props = props
       }
 
       page.sections = sections
 
-      state.registeredPageFields[pageId] = position + 1
+      //state.registeredPageFields[pageId] = position + 1
 
       return state
     },
@@ -299,7 +289,7 @@ const pagesSlice = createSlice({
             jaenFields: {
               [fieldType]: {
                 [fieldName]: {
-                  position,
+                  position: undefined,
                   props
                 }
               }
@@ -312,13 +302,13 @@ const pagesSlice = createSlice({
           ...page.jaenFields[fieldType],
           [fieldName]: {
             ...page.jaenFields[fieldType]?.[fieldName],
-            position,
+            position: undefined,
             props
           }
         }
       }
 
-      state.registeredPageFields[pageId] = position + 1
+      // state.registeredPageFields[pageId] = position + 1
     },
 
     field_write(

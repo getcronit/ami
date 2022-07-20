@@ -47,8 +47,6 @@ export const insertSectionIntoTree = (
     })
   }
 
-  console.log(sections)
-
   for (const section of sections) {
     if (section.fieldName === head.fieldName) {
       if (tail.length === 0) {
@@ -197,7 +195,6 @@ export const insertSectionIntoTree = (
       }
 
       let item = section.items.find(({id}) => id === tail[0]?.sectionId)
-      console.log(item)
 
       if (!item) {
         item = {
@@ -218,7 +215,8 @@ export const insertSectionIntoTree = (
 
 export const findSection = (
   sections: IJaenSection[],
-  path: JaenSectionPath
+  path: JaenSectionPath,
+  i = 0
 ): IJaenSection | null => {
   const [head, ...tail] = path
 
@@ -231,7 +229,7 @@ export const findSection = (
       for (const item of section.items) {
         if (item.id === tail[0].sectionId) {
           if (item.sections) {
-            return findSection(item.sections, tail)
+            return findSection(item.sections, tail, i + 1)
           }
         }
       }

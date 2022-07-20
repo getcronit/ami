@@ -111,17 +111,17 @@ export const AnalyticsProvider: React.FC<{
       },
 
       onFirstAction: function () {
-        console.log('onFirstAction fired')
+        // console.log('onFirstAction fired')
       },
 
       onAccept: function (cookie: {categories: string[]}) {
-        console.log('onAccept fired ...', cookie)
+        // console.log('onAccept fired ...', cookie)
 
         setConsentLevel(cookie.categories)
       },
 
       onChange: function (cookie: any, changed_preferences: any) {
-        console.log('onChange fired ...')
+        // console.log('onChange fired ...')
 
         setConsentLevel(cookie.categories)
       },

@@ -90,15 +90,9 @@ export const processIMAtoNodes = async ({
   switch (type) {
     case 'IMA:ImageField':
       for (const [name, v] of Object.entries(field)) {
-        console.log(`Processing IMA:ImageField: ${name}`)
-        console.log(v)
         try {
           if (v.value) {
             const {internalImageUrl} = v.value as {internalImageUrl: string}
-
-            console.log(
-              `Processing IMA:ImageField: ${name} ${internalImageUrl}`
-            )
 
             if (internalImageUrl) {
               let fileNode = await createRemoteFileNode({

@@ -117,6 +117,8 @@ export type ITemplateOptions = {
 }
 export type ITemplateConnection = ReturnType<typeof connectTemplate>
 
+export type ISectionOptions = {displayName: string; name: string}
+
 /**
  * @function connectSection Connects a section with Jaen.
  *
@@ -124,7 +126,7 @@ export type ITemplateConnection = ReturnType<typeof connectTemplate>
  */
 export const connectSection = <P extends {}>(
   Component: React.ComponentType<P>,
-  options: {displayName: string; name: string}
+  options: ISectionOptions
 ) => {
   const MyComp: IJaenConnection<P, typeof options> = props => {
     const section = useJaenSectionContext()
@@ -132,7 +134,7 @@ export const connectSection = <P extends {}>(
     React.useEffect(() => {
       if (isAuthenticated() && section) {
         // clean up props to prevent circular reference, react items or other issues in redux store / local storage
-        section.register(cleanObject(props))
+        //section.register(cleanObject(props))
       }
     }, [])
     return (
@@ -232,7 +234,7 @@ export const connectField = <IValue, IDefaultValue = IValue, P = {}>(
 
   MyComp.options = options
 
-  return MyComp
+  return React.memo(MyComp)
 }
 
 export type IFieldConnection = ReturnType<typeof connectField>

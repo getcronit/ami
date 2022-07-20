@@ -15,8 +15,8 @@ import {
   Select,
   useDisclosure
 } from '@chakra-ui/react'
-import {ISectionConnection} from '../../../../../connectors'
 import * as React from 'react'
+import {ISectionConnection} from '../../../../../connectors'
 
 export type Props = {
   trigger: React.ReactNode
@@ -52,14 +52,11 @@ const SectionManagePopover = React.memo<Props>(
 
     const [sectionName, setSectionName] = React.useState(sections[0].name)
 
-    let closing = false
-
-    if (disabled) {
-      return <>{trigger}</>
-    }
-
     return (
-      <Popover trigger="hover" closeOnBlur={false}>
+      <Popover
+        trigger="hover"
+        closeOnBlur={false}
+        isOpen={disabled ? false : undefined}>
         <PopoverTrigger>
           <Box
             transition={'box-shadow 0.3s ease-in-out'}

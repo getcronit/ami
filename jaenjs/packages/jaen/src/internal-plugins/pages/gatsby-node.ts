@@ -195,8 +195,6 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
     }
 
     createNode(node)
-
-    console.log(id)
   }
 
   //> Fetch template files and proccess them

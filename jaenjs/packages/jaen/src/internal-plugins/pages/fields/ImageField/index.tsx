@@ -204,8 +204,6 @@ const InteractiveWrapper: React.FC<{
     }
   }
 
-  console.log('imageData', props.imageData)
-
   return (
     <Box {...boxProps}>
       {finder.finderElement}

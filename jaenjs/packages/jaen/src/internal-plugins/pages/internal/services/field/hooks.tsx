@@ -98,8 +98,6 @@ export const useField = <IValue extends {}>(name: string, type: string) => {
 
   const write = React.useCallback(
     (newValue: IValue | null) => {
-      console.log('write', newValue)
-
       dispatch(
         internalActions.field_write({
           pageId: jaenPage.id,

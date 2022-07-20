@@ -67,7 +67,6 @@ const FormField = ({
         name={`${index}`}
         render={({field: {value, onChange}}) => {
           const onChangeValue = (value: any) => {
-            console.log('onChangeValue', value)
             onChange(value)
           }
 
