@@ -41,12 +41,7 @@ export const useSnekFinder = ({
 
       const newData = index || initData
 
-      console.log('newData', newData)
-      console.log('data', data)
-
       const isDataDifferent = JSON.stringify(newData) !== JSON.stringify(data)
-
-      console.log('isDataDifferent 11111', isDataDifferent)
 
       if (isDataDifferent) {
         setData(newData)
