@@ -1,5 +1,6 @@
 import deepmerge from 'deepmerge'
 import {v4 as uuidv4} from 'uuid'
+import {deepmergeArrayIdMerge} from '../../utils/helper'
 import {IJaenSection, IJaenSectionItem, JaenSectionPath} from './types'
 
 export const updateItem = <T>(
@@ -16,7 +17,9 @@ export const updateItem = <T>(
       ...newData
     })
   } else {
-    items[index] = deepmerge(items[index], newData)
+    items[index] = deepmerge(items[index], newData, {
+      arrayMerge: deepmergeArrayIdMerge
+    })
   }
 
   return items

@@ -4,6 +4,7 @@ import {downloadMigrationURL, JAEN_STATIC_DATA_DIR} from '.'
 import * as internalJaenData from '../jaen-data/internal'
 
 import deepmerge from 'deepmerge'
+import {deepmergeArrayIdMerge} from '../../utils/helper'
 import {migrationPlugins} from './plugins'
 
 export const runMigration = async (migrationUrl: string) => {
@@ -19,8 +20,20 @@ export const runMigration = async (migrationUrl: string) => {
         if (pluginName === 'jaen') {
           const data = internalJaenData.readFile()
           const merged = deepmerge(data, entity, {
-            arrayMerge: (destinationArray, sourceArray) => sourceArray
+            arrayMerge: deepmergeArrayIdMerge
           })
+
+          // write to log file
+          const filePath = `${JAEN_STATIC_DATA_DIR}/log.json`
+
+          fs.writeFileSync(
+            filePath,
+            JSON.stringify({
+              merged,
+              data,
+              entity
+            })
+          )
 
           merged.migrationHistory.push({
             createdAt: new Date().toISOString(),

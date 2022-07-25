@@ -185,6 +185,7 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
       slug: jaenPage.slug || convertToSlug(path),
       id,
       template: jaenPage.template || null,
+      sections: jaenPage.sections || [],
       parent: jaenPage.parent ? jaenPage.parent.id : null,
       children: jaenPage.children?.map(child => child.id) || [],
       internal: {
@@ -193,6 +194,9 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
         contentDigest: createContentDigest(jaenPage)
       }
     }
+
+    console.log(`Creating node for ${path}`)
+    console.log(node)
 
     createNode(node)
   }

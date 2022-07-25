@@ -4,26 +4,12 @@ import {
   Flex,
   Spacer,
   Stack,
-  useColorModeValue as mode,
-  Text,
-  Button
+  useColorModeValue as mode
 } from '@chakra-ui/react'
+import {BiBuoy} from '@react-icons/all-files/bi/BiBuoy'
+import {BiCog} from '@react-icons/all-files/bi/BiCog'
 import * as React from 'react'
-import {
-  BiBuoy,
-  BiCog,
-  BiCommentAdd,
-  BiCreditCard,
-  BiEnvelope,
-  BiHome,
-  BiNews,
-  BiPurchaseTagAlt,
-  BiRecycle,
-  BiRedo,
-  BiUserCircle,
-  BiWallet
-} from 'react-icons/bi'
-import {JaenLogo} from './icons'
+
 import {NavGroup} from './NavGroup'
 import {NavItem} from './NavItem'
 

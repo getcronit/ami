@@ -8,12 +8,13 @@ import {
   InputGroup,
   InputProps,
   InputRightElement,
+  useColorModeValue as mode,
   useDisclosure,
-  useMergeRefs,
-  useColorModeValue as mode
+  useMergeRefs
 } from '@chakra-ui/react'
+import {HiEye} from '@react-icons/all-files/hi/HiEye'
+import {HiEyeOff} from '@react-icons/all-files/hi/HiEyeOff'
 import * as React from 'react'
-import {HiEye, HiEyeOff} from 'react-icons/hi'
 
 export const PasswordField = React.forwardRef<HTMLInputElement, InputProps>(
   (props, ref) => {

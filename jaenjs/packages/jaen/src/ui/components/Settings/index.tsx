@@ -20,8 +20,9 @@ import {
   useToast,
   VStack
 } from '@chakra-ui/react'
+import {HiCloudUpload} from '@react-icons/all-files/hi/HiCloudUpload'
 import * as React from 'react'
-import {HiCloudUpload} from 'react-icons/hi'
+
 import {FieldGroup} from './FieldGroup'
 import {LanguageSelect} from './LanguageSelect'
 

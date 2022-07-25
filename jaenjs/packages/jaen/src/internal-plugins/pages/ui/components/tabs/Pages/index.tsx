@@ -1,22 +1,19 @@
 import {AddIcon, DeleteIcon, ViewIcon} from '@chakra-ui/icons'
 import {
+  Box,
   Button,
   ButtonGroup,
-  IconButton,
-  Box,
   Divider,
-  Flex,
-  Text,
   HStack,
-  VStack,
+  IconButton,
   Stack
 } from '@chakra-ui/react'
+import {FaGlobeEurope} from '@react-icons/all-files/fa/FaGlobeEurope'
 import * as React from 'react'
-import {ContentValues, PageContent} from './PageContent'
-import PageTree, {PageTreeProps} from './PageTree'
 import {JaenPageProvider} from '../../../../internal/services/page'
 import {IJaenPage} from '../../../../types'
-import {FaGlobeEurope} from 'react-icons/fa'
+import {ContentValues, PageContent} from './PageContent'
+import PageTree, {PageTreeProps} from './PageTree'
 
 export interface PagesTabProps extends PageTreeProps {
   getPage: (id: string) => IJaenPage | null

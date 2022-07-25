@@ -1,23 +1,16 @@
-import {
-  Box,
-  Flex,
-  Icon,
-  SimpleGrid,
-  Text,
-  useColorModeValue
-} from '@chakra-ui/react'
+import {Box, Icon, SimpleGrid, useColorModeValue} from '@chakra-ui/react'
 import {graphql, useStaticQuery} from 'gatsby'
+import {List} from './components/Dashboard/List/List'
+import {ListItem} from './components/Dashboard/List/ListItem'
 import {Stat} from './components/Dashboard/Stats/Stat'
 import {StatLabel} from './components/Dashboard/Stats/StatLabel'
 import {StatNumber} from './components/Dashboard/Stats/StatNumber'
-import {List} from './components/Dashboard/List/List'
-import {ListItem} from './components/Dashboard/List/ListItem'
 
-import UndrawThoughts from './components/Dashboard/assets/undraw_thoughts_re_3ysu.svg'
-import {FaRocket} from 'react-icons/fa'
-import {useChanges} from '../services/hooks'
+import {FaRocket} from '@react-icons/all-files/fa/FaRocket'
 import {IRemoteFileMigration} from '..'
 import {useAppSelector} from '../redux'
+import {useChanges} from '../services/hooks'
+import UndrawThoughts from './components/Dashboard/assets/undraw_thoughts_re_3ysu.svg'
 
 const useStats = () => {
   try {

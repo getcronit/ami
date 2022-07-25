@@ -48,7 +48,5 @@ const Template: Story<ComponentProps> = args => <Component {...args} />
 
 export const Basic: Story<ComponentProps> = Template.bind({})
 Basic.args = {
-  name: 'image-field',
-  width: 500,
-  height: 300
+  name: 'image-field'
 }

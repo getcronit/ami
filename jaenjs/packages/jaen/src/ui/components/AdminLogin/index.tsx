@@ -1,25 +1,20 @@
 import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
   Box,
   Button,
-  Divider,
   Heading,
   SimpleGrid,
   Text,
   useColorModeValue,
   VisuallyHidden
 } from '@chakra-ui/react'
-import * as React from 'react'
-import {FaHome, FaBook} from 'react-icons/fa'
+import {FaBook} from '@react-icons/all-files/fa/FaBook'
+import {FaHome} from '@react-icons/all-files/fa/FaHome'
+
 import {JaenLogo} from '../icons'
 import {Card} from './Card'
 import {DividerWithText} from './DividerWithText'
 import {Link} from './Link'
 import {LoginForm} from './LoginForm'
-import {Logo} from './Logo'
 
 export interface AdminLoginProps {
   onHomeClick: () => void

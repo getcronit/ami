@@ -1,6 +1,7 @@
-import React from 'react'
 import deepmerge from 'deepmerge'
+import React from 'react'
 
+import {deepmergeArrayIdMerge} from '../../../../../../utils/helper'
 import {IJaenPage} from '../../../../types'
 import {RootState, useAppDeepEqualSelector} from '../../../redux'
 import {useStaticJaenPages} from './useStaticJaenPages'
@@ -44,18 +45,7 @@ const mergeStaticWithStatePages = (
       const p2 = statePages.find(e => e.id === id)
 
       const merged = deepmerge(p1 || {}, p2 || {}, {
-        arrayMerge: (destinationArray, sourceArray) => {
-          // concat arrays of objects without duplicates by id
-          const array = sourceArray
-            .concat(
-              destinationArray.filter(
-                item => sourceArray.findIndex(n => n.id === item.id) === -1
-              )
-            )
-            .filter(item => !item.deleted)
-
-          return array
-        }
+        arrayMerge: deepmergeArrayIdMerge
       })
 
       return merged

@@ -7,7 +7,7 @@ import Tree, {
   TreeItem,
   TreeSourcePosition
 } from '@atlaskit/tree'
-import {AddIcon, DeleteIcon, LockIcon} from '@chakra-ui/icons'
+import {AddIcon, DeleteIcon} from '@chakra-ui/icons'
 import {
   Badge,
   Box,
@@ -20,15 +20,17 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 import styled from '@emotion/styled'
+import {BiListMinus} from '@react-icons/all-files/bi/BiListMinus'
+import {BiListPlus} from '@react-icons/all-files/bi/BiListPlus'
+import {BiListUl} from '@react-icons/all-files/bi/BiListUl'
 import {motion} from 'framer-motion'
 import * as React from 'react'
-import {BiListPlus, BiListMinus, BiListUl} from 'react-icons/bi'
 
+import {HiTemplate} from '@react-icons/all-files/hi/HiTemplate'
 import {IJaenTemplate} from '../../../../../types'
 import {ContextMenu} from '../../../ContextMenu'
 import {CreateValues, PageCreator} from '../PageCreator'
 import {TreeConverter} from './treeconverter'
-import {HiTemplate} from 'react-icons/hi'
 
 export type Items = {
   [id: string]: {

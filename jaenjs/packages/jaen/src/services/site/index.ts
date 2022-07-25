@@ -1,8 +1,9 @@
-import {useAppSelector, withRedux} from '../../redux'
-import {ISite} from '../../types'
 import {graphql, useStaticQuery} from 'gatsby'
+import {useAppSelector} from '../../redux'
+import {ISite} from '../../types'
 
 import deepmerge from 'deepmerge'
+import {deepmergeArrayIdMerge} from '../../utils/helper'
 
 type QueryData = {
   site: ISite
@@ -32,16 +33,6 @@ export const useSite = () => {
   const staticSite = useStaticData()
   const site = useAppSelector(state => state.site)
   return deepmerge(staticSite, site || {}, {
-    arrayMerge: (destinationArray, sourceArray) => {
-      // concat and remove duplicates objects from array
-      const concat = [...destinationArray, ...sourceArray]
-
-      // remove duplicates
-      const unique = concat.filter(
-        (item, index) => concat.indexOf(item) === index
-      )
-
-      return unique
-    }
+    arrayMerge: deepmergeArrayIdMerge
   })
 }

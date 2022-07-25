@@ -4,11 +4,10 @@ import {
   Flex,
   FlexProps,
   HStack,
-  Img,
   useMenuButton
 } from '@chakra-ui/react'
+import {HiSelector} from '@react-icons/all-files/hi/HiSelector'
 import * as React from 'react'
-import {HiSelector} from 'react-icons/hi'
 
 export interface AccountSwitcherButtonProps extends FlexProps {
   name: string

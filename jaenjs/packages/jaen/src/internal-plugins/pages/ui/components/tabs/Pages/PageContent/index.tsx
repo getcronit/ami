@@ -1,29 +1,16 @@
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Avatar,
-  Badge,
   Box,
   Button,
   ButtonGroup,
   Center,
   Checkbox,
-  Divider,
-  Flex,
   FormControl,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
-  Heading,
   HStack,
   Image,
-  Img,
   Input,
-  Skeleton,
-  Spacer,
   Stack,
   Tab,
   TabList,
@@ -34,8 +21,7 @@ import {
   TagLabel,
   Text,
   Textarea,
-  useToast,
-  VStack
+  useToast
 } from '@chakra-ui/react'
 import {useSnekFinder} from '@jaenjs/snek-finder'
 import * as React from 'react'
@@ -44,8 +30,8 @@ import {IFormProps, IJaenTemplate} from '../../../../../types'
 
 import {HiCloudUpload} from '@react-icons/all-files/hi/HiCloudUpload'
 
+import {HiTemplate} from '@react-icons/all-files/hi/HiTemplate'
 import FieldsAdminPanel from '../../../../../fields/FieldsAdminPanel'
-import {HiClock, HiTemplate} from 'react-icons/hi'
 
 export type ContentValues = {
   title: string

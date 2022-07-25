@@ -30,8 +30,10 @@ export const processPage = async ({
     }
   }
 
+  page.sections = page.sections || []
+
   await processSections({
-    sections: page.sections || [],
+    sections: page.sections,
     ...rest
   })
 
@@ -58,8 +60,10 @@ export const processSections = async ({
         }
       }
 
+      item.sections = item.sections || []
+
       await processSections({
-        sections: item.sections || [],
+        sections: item.sections,
         ...rest
       })
     }

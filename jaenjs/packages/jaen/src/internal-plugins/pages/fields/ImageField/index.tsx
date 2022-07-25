@@ -10,9 +10,9 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 import {useSnekFinder} from '@jaenjs/snek-finder'
+import {HiCloudUpload} from '@react-icons/all-files/hi/HiCloudUpload'
 import {GatsbyImage, getSrc, IGatsbyImageData} from 'gatsby-plugin-image'
 import React, {CSSProperties, ReactEventHandler} from 'react'
-import {HiCloudUpload} from 'react-icons/hi'
 import {withSnekFinder} from '../../../../withSnekFinder'
 import {connectField} from '../../index'
 import UpdateModal from './components/UpdateModal'
@@ -55,8 +55,6 @@ const ImageField = connectField<
       ...jaenField.value,
       internalImageUrl: jaenField.value?.internalImageUrl
     }
-
-    console.log(jaenField.staticValue?.internalImageUrl)
 
     const imageFieldProps = {
       alt: value.alt || 'Image',

@@ -1,8 +1,7 @@
 import {Button} from '@chakra-ui/react'
-import {useSite} from '../../services/site'
-import {FiHome} from '@react-icons/all-files/fi/FiHome'
+import {FaEye} from '@react-icons/all-files/fa/FaEye'
 import {Link} from 'gatsby'
-import {FaEye} from 'react-icons/fa'
+import {useSite} from '../../services/site'
 
 export const HomeButton = () => {
   const site = useSite()

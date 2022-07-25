@@ -1,5 +1,8 @@
 import deepmerge from 'deepmerge'
 import update from 'immutability-helper'
+import 'isomorphic-fetch'
+
+import {deepmergeArrayIdMerge} from '../../utils/helper'
 import {nodejsSafeJsonUpload} from '../openStorageGateway'
 import {
   IBaseEntity,
@@ -8,8 +11,6 @@ import {
   IRemoteFileMigration
 } from './types'
 export const JAEN_STATIC_DATA_DIR = './jaen-data'
-
-import 'isomorphic-fetch'
 
 export const downloadMigrationURL = async (
   url: string
@@ -41,6 +42,9 @@ export const updateEntity = async (
 ) => {
   // check if baseEntity is not a empty object
 
+  console.log('baseEntity', baseEntity)
+  console.log('migrationData', migrationData)
+
   if (!baseEntity?.context) {
     const newMigration = await uploadMigration(migrationData)
     return {
@@ -51,18 +55,7 @@ export const updateEntity = async (
     const baseData = await downloadBaseContext(baseEntity)
     // !TODO: Implement merging logic
     const mergedData = deepmerge<any>(baseData, migrationData, {
-      arrayMerge: (destinationArray, sourceArray) => {
-        // concat arrays of objects without duplicates by id
-        const array = sourceArray
-          .concat(
-            destinationArray.filter(
-              item => sourceArray.findIndex(n => n.id === item.id) === -1
-            )
-          )
-          .filter(item => !item.deleted)
-
-        return array
-      }
+      arrayMerge: deepmergeArrayIdMerge
     }) //{...baseData, ...migrationData}
 
     const newMigration = await uploadMigration(mergedData)

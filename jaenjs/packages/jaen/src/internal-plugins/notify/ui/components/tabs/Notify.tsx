@@ -1,3 +1,5 @@
+import {BiNotification} from '@react-icons/all-files/bi/BiNotification'
+import React from 'react'
 import {
   useAppDispatch,
   useAppSelector,
@@ -5,9 +7,7 @@ import {
 } from '../../../../notify/redux'
 import {internalActions} from '../../../../notify/redux/slices'
 import {useNotifications} from '../../../../notify/services/notification/loader'
-import React from 'react'
 import NotifyTableCard from '../NotifyTableCard'
-import {BiNotification} from 'react-icons/bi'
 
 export const NotifyTab: React.FC = withRedux(() => {
   const dispatch = useAppDispatch()

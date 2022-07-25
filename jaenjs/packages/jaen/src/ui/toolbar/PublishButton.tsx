@@ -1,9 +1,9 @@
 import {Button, useDisclosure} from '@chakra-ui/react'
+import {FaRocket} from '@react-icons/all-files/fa/FaRocket'
+import PublishAlert from '../../internal-plugins/pages/ui/components/PublishAlert'
 import {useAppDispatch, withRedux} from '../../redux'
 import {setPublishing} from '../../redux/slices/status'
 import {publishRunner} from '../../services/publish'
-import PublishAlert from '../../internal-plugins/pages/ui/components/PublishAlert'
-import {FaRocket} from 'react-icons/fa'
 
 export const PublishButton = withRedux(() => {
   const dispatch = useAppDispatch()

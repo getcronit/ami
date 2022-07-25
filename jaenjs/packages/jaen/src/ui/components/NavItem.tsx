@@ -1,6 +1,6 @@
 import {Box, HStack} from '@chakra-ui/react'
+import {BsCaretRightFill} from '@react-icons/all-files/bs/BsCaretRightFill'
 import * as React from 'react'
-import {BsCaretRightFill} from 'react-icons/bs'
 
 interface NavItemProps {
   href?: string

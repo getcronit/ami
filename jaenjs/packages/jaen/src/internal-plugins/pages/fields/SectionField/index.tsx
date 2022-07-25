@@ -1,17 +1,18 @@
-import {Box, Skeleton} from '@chakra-ui/react'
+import { Box, Skeleton } from '@chakra-ui/react'
 import deepmerge from 'deepmerge'
 import * as React from 'react'
-import {ISectionConnection, ISectionOptions} from '../../index'
-import {useAppDispatch, useAppSelector, withRedux} from '../../internal/redux'
-import {internalActions} from '../../internal/redux/slices'
-import {useJaenPageContext} from '../../internal/services/page'
+import { deepmergeArrayIdMerge } from '../../../../utils/helper'
+import { ISectionConnection, ISectionOptions } from '../../index'
+import { useAppDispatch, useAppSelector, withRedux } from '../../internal/redux'
+import { internalActions } from '../../internal/redux/slices'
+import { useJaenPageContext } from '../../internal/services/page'
 import {
   JaenSectionProvider,
   useJaenSectionContext
 } from '../../internal/services/section'
-import {IJaenSectionItem, JaenSectionPath} from '../../types'
-import {findSection} from '../../utils'
-import {SectionAddPopover, SectionManagePopover} from './components/popovers'
+import { IJaenSectionItem, JaenSectionPath } from '../../types'
+import { findSection } from '../../utils'
+import { SectionAddPopover, SectionManagePopover } from './components/popovers'
 
 type SectionPropsCallback = (args: {
   count: number
@@ -127,32 +128,7 @@ const SectionField = ({
 
   const section = React.useMemo(() => {
     const mergedSection = deepmerge(staticSection || {}, dynamicSection || {}, {
-      arrayMerge: (target: any[], source: any[], options: any) => {
-        if (target.every(item => item.id) && source.every(item => item.id)) {
-          const len = Math.max(target.length, source.length)
-          const result = []
-
-          for (let i = 0; i < len; i++) {
-            let targetItem = target[i]
-            let sourceItem = source[i]
-
-            if (targetItem?.id !== sourceItem?.id) {
-              if (targetItem?.id) {
-                sourceItem = source.find(item => item.id === targetItem.id)
-              }
-              if (sourceItem?.id) {
-                targetItem = target.find(item => item.id === sourceItem.id)
-              }
-            }
-
-            result.push(deepmerge(targetItem || {}, sourceItem || {}, options))
-          }
-
-          return result
-        }
-
-        return []
-      }
+      arrayMerge: deepmergeArrayIdMerge
     })
 
     const sectionItemsDict: {
@@ -170,6 +146,7 @@ const SectionField = ({
     let i = 0
 
     while (ptrHead && i < 50) {
+      console.log(sectionItemsDict, ptrHead)
       const item = sectionItemsDict[ptrHead]
 
       if (!item) {
@@ -267,21 +244,38 @@ const SectionField = ({
           {section.items.map((item, index) => {
             const {Component: Section, options} = sectionsDict[item.type]
 
+            const SectionWrapper = rest.sectionAs || Box
+
+            const sectionProps =
+              typeof rest.sectionProps === 'function'
+                ? rest.sectionProps({
+                    count: index + 1,
+                    totalSections: section.items.length,
+                    section: item
+                  })
+                : rest.sectionProps
+
             return (
-              <LazySectionManagement
+              <SectionWrapper
                 key={item.id}
-                isEditing={isEditing}
-                sectionPath={sectionPath}
-                Component={Section}
-                options={options}
-                allOptions={sectionsOptions}
-                itemId={item.id}
-                itemPtrPrev={item.ptrPrev}
-                itemPtrNext={item.ptrNext}
-                onAppend={handleSectionAppend}
-                onPrepend={handleSectionPrepend}
-                onDelete={handleSectionDelete}
-              />
+                {...sectionProps}
+                className={rest.sectionClassName}
+                style={rest.sectionStyle}>
+                <LazySectionManagement
+                  key={item.id}
+                  isEditing={isEditing}
+                  sectionPath={sectionPath}
+                  Component={Section}
+                  options={options}
+                  allOptions={sectionsOptions}
+                  itemId={item.id}
+                  itemPtrPrev={item.ptrPrev}
+                  itemPtrNext={item.ptrNext}
+                  onAppend={handleSectionAppend}
+                  onPrepend={handleSectionPrepend}
+                  onDelete={handleSectionDelete}
+                />
+              </SectionWrapper>
             )
           })}
         </>
@@ -310,20 +304,6 @@ const LazySectionManagement = React.memo(
     onAppend: (sectionName: string, id: string, ptrNext: string | null) => void
     onPrepend: (sectionName: string, id: string, ptrPrev: string | null) => void
   }) => {
-    const [isLocalEditing, setIsLocalEditing] = React.useState(false)
-
-    React.useEffect(() => {
-      if (isLocalEditing === true && props.isEditing === false) {
-        setIsLocalEditing(props.isEditing)
-      }
-    }, [props.isEditing])
-
-    const handleMouseEnter = () => {
-      if (isLocalEditing === false && props.isEditing === true) {
-        setIsLocalEditing(true)
-      }
-    }
-
     const item = (
       <JaenSectionProvider
         path={props.sectionPath}
@@ -333,20 +313,18 @@ const LazySectionManagement = React.memo(
     )
 
     return (
-      <Box onMouseOver={handleMouseEnter}>
-        <SectionManagePopover
-          trigger={item}
-          sections={props.allOptions}
-          disabled={!props.isEditing}
-          id={props.itemId}
-          ptrPrev={props.itemPtrPrev}
-          ptrNext={props.itemPtrNext}
-          header={props.options.displayName}
-          onAppend={props.onAppend}
-          onPrepend={props.onPrepend}
-          onDelete={props.onDelete}
-        />
-      </Box>
+      <SectionManagePopover
+        trigger={item}
+        sections={props.allOptions}
+        disabled={!props.isEditing}
+        id={props.itemId}
+        ptrPrev={props.itemPtrPrev}
+        ptrNext={props.itemPtrNext}
+        header={props.options.displayName}
+        onAppend={props.onAppend}
+        onPrepend={props.onPrepend}
+        onDelete={props.onDelete}
+      />
     )
   }
 )

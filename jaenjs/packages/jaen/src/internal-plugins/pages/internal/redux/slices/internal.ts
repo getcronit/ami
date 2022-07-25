@@ -3,7 +3,6 @@ import {v4 as uuidv4} from 'uuid'
 import {IJaenPage, JaenSectionPath} from '../../../types'
 import {findSection, insertSectionIntoTree} from '../../../utils'
 import {generatePagePaths} from '../../services/path'
-import {JaenSectionType} from '../../services/section'
 import {IJaenState} from '../types'
 
 export const initialState: IJaenState = {
@@ -261,7 +260,10 @@ const pagesSlice = createSlice({
         pageId: string
         fieldType: string
         fieldName: string
-        section?: JaenSectionType
+        section?: {
+          path: JaenSectionPath
+          id: string
+        }
         props: object
       }>
     ) {
@@ -315,7 +317,10 @@ const pagesSlice = createSlice({
       state,
       action: PayloadAction<{
         pageId: string
-        section?: JaenSectionType
+        section?: {
+          path: JaenSectionPath
+          id: string
+        }
         fieldType: string
         fieldName: string
         value: any
