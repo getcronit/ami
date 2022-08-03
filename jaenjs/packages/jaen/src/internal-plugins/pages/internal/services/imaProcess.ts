@@ -107,14 +107,14 @@ export const processIMAtoNodes = async ({
 
               const fileNodeId = fileNode.id
 
-              v.value.imageId = fileNode.id
+              v.value.imageId = fileNodeId
 
               if (!node.jaenFiles) {
                 node.jaenFiles = []
+              } else {
+                // @ts-ignore
+                node.jaenFiles.push(fileNodeId)
               }
-
-              // @ts-ignore
-              node.jaenFiles.push(fileNodeId)
             }
           }
         } catch (error) {

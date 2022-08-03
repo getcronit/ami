@@ -1,18 +1,18 @@
-import { Box, Skeleton } from '@chakra-ui/react'
+import {Box, Skeleton} from '@chakra-ui/react'
 import deepmerge from 'deepmerge'
 import * as React from 'react'
-import { deepmergeArrayIdMerge } from '../../../../utils/helper'
-import { ISectionConnection, ISectionOptions } from '../../index'
-import { useAppDispatch, useAppSelector, withRedux } from '../../internal/redux'
-import { internalActions } from '../../internal/redux/slices'
-import { useJaenPageContext } from '../../internal/services/page'
+import {deepmergeArrayIdMerge} from '../../../../utils/helper'
+import {ISectionConnection, ISectionOptions} from '../../index'
+import {useAppDispatch, useAppSelector, withRedux} from '../../internal/redux'
+import {internalActions} from '../../internal/redux/slices'
+import {useJaenPageContext} from '../../internal/services/page'
 import {
   JaenSectionProvider,
   useJaenSectionContext
 } from '../../internal/services/section'
-import { IJaenSectionItem, JaenSectionPath } from '../../types'
-import { findSection } from '../../utils'
-import { SectionAddPopover, SectionManagePopover } from './components/popovers'
+import {IJaenSectionItem, JaenSectionPath} from '../../types'
+import {findSection} from '../../utils'
+import {SectionAddPopover, SectionManagePopover} from './components/popovers'
 
 type SectionPropsCallback = (args: {
   count: number
@@ -146,7 +146,6 @@ const SectionField = ({
     let i = 0
 
     while (ptrHead && i < 50) {
-      console.log(sectionItemsDict, ptrHead)
       const item = sectionItemsDict[ptrHead]
 
       if (!item) {

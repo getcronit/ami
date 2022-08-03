@@ -195,9 +195,6 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
       }
     }
 
-    console.log(`Creating node for ${path}`)
-    console.log(node)
-
     createNode(node)
   }
 

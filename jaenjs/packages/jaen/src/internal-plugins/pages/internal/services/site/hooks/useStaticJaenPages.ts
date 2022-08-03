@@ -1,4 +1,4 @@
-import {useStaticQuery, graphql} from 'gatsby'
+import {graphql, useStaticQuery} from 'gatsby'
 import {IJaenPage} from '../../../../types'
 
 export const useStaticJaenPages = () => {
@@ -34,6 +34,8 @@ export const useStaticJaenPages = () => {
       }
     }
   }
+
+  console.log(`static data useJaenPageTree`, staticData)
 
   return staticData.allJaenPage.nodes
 }

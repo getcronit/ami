@@ -1,8 +1,7 @@
-import {useModalContext} from '@chakra-ui/react'
-import {IJaenPageProps} from '../../../../internal-plugins/pages/types'
 import {graphql, PageProps, useStaticQuery} from 'gatsby'
 import * as React from 'react'
-import {store, useAppDispatch, useAppSelector, withRedux} from '../../redux'
+import {IJaenPageProps} from '../../../../internal-plugins/pages/types'
+import {store, useAppSelector, withRedux} from '../../redux'
 import {IJaenState} from '../../redux/types'
 import {INotification} from '../../types'
 import {INotificationConnection} from './context'
@@ -126,10 +125,11 @@ export const loadNotificationsForPage = (
   )
 
   const allNotificationElement: Array<JSX.Element> = []
+  const dynamicNotifications = store.getState().internal.notifications.nodes
 
   for (const {Component, id, isActive, notification} of notifications) {
     const isDynamicActive: boolean | undefined =
-      store.getState().internal.notifications.nodes?.[id]?.active
+      dynamicNotifications?.[id]?.active
 
     if (isDynamicActive === false) {
       continue
@@ -229,16 +229,17 @@ export const NotificationsLoader: React.FC<{pageProps: PageProps}> = withRedux(
       state => state.internal.notifications.advanced
     )
 
-    const notifications = React.useMemo(
-      () =>
-        loadNotificationsForPage(
-          jaenNotifications,
-          allJaenNotification,
-          pageProps as any,
-          advanced
-        ),
-      [jaenNotifications, pageProps]
-    )
+    const [notifications, setNotifications] = React.useState<JSX.Element[]>([])
+
+    React.useEffect(() => {
+      const ns = loadNotificationsForPage(
+        jaenNotifications,
+        allJaenNotification,
+        pageProps as any,
+        advanced
+      )
+      setNotifications(ns)
+    }, [])
 
     return (
       <>

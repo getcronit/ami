@@ -18,16 +18,17 @@ export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
   })
 }
 
-export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] =
-  ({actions}) => {
-    actions.createTypes(`
+export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] = ({
+  actions
+}) => {
+  actions.createTypes(`
     type JaenNotification implements Node {
       id: ID!
       jaenFields: JSON
       active: Boolean
     }
     `)
-  }
+}
 
 export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
   actions,
@@ -39,13 +40,14 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
     'JaenNotify@0.0.1'
   )
 
-  for (const entity of Object.values(notifications)) {
+  for (const [relativPath, entity] of Object.entries(notifications)) {
     const data = (await ((
       await fetch(entity.context.fileUrl)
     ).json() as unknown)) as INotification
 
     const node = {
       ...data,
+      id: relativPath,
       parent: null,
       children: [],
       internal: {
