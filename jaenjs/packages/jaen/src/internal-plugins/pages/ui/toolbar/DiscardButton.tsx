@@ -1,5 +1,5 @@
-import {Button, useDisclosure} from '@chakra-ui/react'
 import {DeleteIcon} from '@chakra-ui/icons'
+import {Button, useDisclosure} from '@chakra-ui/react'
 import {useAppDispatch, withRedux} from '../../internal/redux'
 import {internalActions} from '../../internal/redux/slices'
 import DiscardAlert from '../components/DiscardAlert'

@@ -1,5 +1,4 @@
 import React from 'react'
-import {useNotificationChanges} from '../internal-plugins/notify/services/hooks'
 import {usePagesChanges} from '../internal-plugins/pages/internal/services/hooks'
 import {store} from '../redux'
 
@@ -31,9 +30,8 @@ const useCoreChanges = () => {
 export const useChanges = () => {
   const coreChanges = useCoreChanges()
   const pagesChanges = usePagesChanges()
-  const notifyChanges = useNotificationChanges()
 
-  const totalChanges = coreChanges + pagesChanges + notifyChanges
+  const totalChanges = coreChanges + pagesChanges
 
-  return {coreChanges, pagesChanges, notifyChanges, totalChanges}
+  return {coreChanges, pagesChanges, totalChanges}
 }

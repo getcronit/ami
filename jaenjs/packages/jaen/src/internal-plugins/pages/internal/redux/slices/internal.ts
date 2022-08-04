@@ -340,9 +340,9 @@ const pagesSlice = createSlice({
       // If the page is found, add the field
 
       if (section) {
-        const sections = page.sections || []
+        page.sections = page.sections || []
 
-        insertSectionIntoTree(sections, section.path, {
+        insertSectionIntoTree(page.sections, section.path, {
           sectionId: section.id,
           sectionItemData: {
             jaenFields: {

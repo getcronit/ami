@@ -1,6 +1,29 @@
-import {IJaenPage} from '../../../pages/types'
 import React from 'react'
+import {IJaenPage} from '../../../pages/types'
 import {store} from '../redux'
+
+export const calculateJaenFieldsTotalChanges = (
+  jaenFields?: IJaenPage['jaenFields'] | null
+) => {
+  let total = 0
+
+  if (!jaenFields) {
+    return total
+  }
+
+  for (const key in jaenFields) {
+    if (jaenFields[key]) {
+      const element = jaenFields[key]
+
+      total +=
+        Object.values(element)
+          .map(e => JSON.stringify(e.value)?.length)
+          .reduce((a, b) => a + b, 0) || 0
+    }
+  }
+
+  return total
+}
 
 export const usePagesChanges = () => {
   const [totalChanges, setTotalChanges] = React.useState(0)
@@ -10,49 +33,35 @@ export const usePagesChanges = () => {
       const allJaenPage = store.getState().internal.pages.nodes
       let total = 0
 
-      const calculateJaenFieldsTotalChanges = (
-        jaenFields?: IJaenPage['jaenFields'] | null
-      ) => {
-        let total = 0
-
-        if (!jaenFields) {
-          return total
-        }
-
-        for (const key in jaenFields) {
-          if (jaenFields[key]) {
-            const element = jaenFields[key]
-
-            total += Object.values(element).length
-          }
-        }
-
-        return total
-      }
+      console.log('calculateTotalChanges allJaenPage', allJaenPage)
 
       for (const pageId in allJaenPage) {
         const page = allJaenPage[pageId]
 
         total += calculateJaenFieldsTotalChanges(page.jaenFields)
 
-        const jaenFiles = page.jaenFiles
-        if (jaenFiles) {
-          total += Object.keys(jaenFiles).length
-        }
+        const iterateSections = (sections: IJaenPage['sections']) => {
+          for (const sectionId in sections) {
+            const section = sections[sectionId]
 
-        for (const chapterId in page.chapters) {
-          const chapter = page.chapters[chapterId]
+            total += 100
 
-          for (const sectionId in chapter.sections) {
-            const section = chapter.sections[sectionId]
+            for (const item of section.items) {
+              const jaenFields = item.jaenFields
+              if (jaenFields) {
+                total += calculateJaenFieldsTotalChanges(item.jaenFields)
+              }
 
-            total += calculateJaenFieldsTotalChanges(section.jaenFields)
-            total++
+              if (item.sections) {
+                iterateSections(item.sections)
+              }
+            }
           }
-          total++
         }
 
-        total++
+        if (page.sections) {
+          iterateSections(page.sections)
+        }
       }
 
       return total
