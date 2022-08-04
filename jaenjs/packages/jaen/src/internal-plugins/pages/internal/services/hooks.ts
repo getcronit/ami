@@ -33,8 +33,6 @@ export const usePagesChanges = () => {
       const allJaenPage = store.getState().internal.pages.nodes
       let total = 0
 
-      console.log('calculateTotalChanges allJaenPage', allJaenPage)
-
       for (const pageId in allJaenPage) {
         const page = allJaenPage[pageId]
 
@@ -43,8 +41,6 @@ export const usePagesChanges = () => {
         const iterateSections = (sections: IJaenPage['sections']) => {
           for (const sectionId in sections) {
             const section = sections[sectionId]
-
-            total += 100
 
             for (const item of section.items) {
               const jaenFields = item.jaenFields
