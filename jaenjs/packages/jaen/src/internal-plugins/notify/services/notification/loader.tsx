@@ -1,7 +1,7 @@
 import {graphql, PageProps, useStaticQuery} from 'gatsby'
 import * as React from 'react'
 import {IJaenPageProps} from '../../../../internal-plugins/pages/types'
-import {store, useAppSelector, withRedux} from '../../redux'
+import {useAppSelector, withRedux} from '../../redux'
 import {IJaenState} from '../../redux/types'
 import {INotification} from '../../types'
 import {INotificationConnection} from './context'
@@ -110,6 +110,7 @@ export const useNotifications = () => {
 export const loadNotificationsForPage = (
   jaenNotifications: QueryData['jaenNotifications'],
   allJaenNotification: QueryData['allJaenNotification'],
+  dynamicNotifications: IJaenState['notifications']['nodes'],
   pageProps: IJaenPageProps,
   stateAdvanced: IJaenState['notifications']['advanced']
 ) => {
@@ -125,7 +126,6 @@ export const loadNotificationsForPage = (
   )
 
   const allNotificationElement: Array<JSX.Element> = []
-  const dynamicNotifications = store.getState().internal.notifications.nodes
 
   for (const {Component, id, isActive, notification} of notifications) {
     const isDynamicActive: boolean | undefined =
@@ -222,30 +222,37 @@ export const loadNotificationsForPage = (
  *      is published.
  */
 export const NotificationsLoader: React.FC<{pageProps: PageProps}> = withRedux(
-  ({children, pageProps}) => {
+  ({pageProps}) => {
     const {jaenNotifications, allJaenNotification} = useStaticData()
 
     const advanced = useAppSelector(
       state => state.internal.notifications.advanced
     )
 
-    const [notifications, setNotifications] = React.useState<JSX.Element[]>([])
+    const dynamicNotifications = useAppSelector(
+      state => state.internal.notifications.nodes
+    )
+
+    const [elements, setElements] = React.useState<JSX.Element[]>([])
 
     React.useEffect(() => {
-      const ns = loadNotificationsForPage(
-        jaenNotifications,
-        allJaenNotification,
-        pageProps as any,
-        advanced
+      setElements(
+        loadNotificationsForPage(
+          jaenNotifications,
+          allJaenNotification,
+          dynamicNotifications,
+          pageProps as any,
+          advanced
+        )
       )
-      setNotifications(ns)
-    }, [])
+    }, [
+      jaenNotifications,
+      allJaenNotification,
+      dynamicNotifications,
+      pageProps,
+      advanced
+    ])
 
-    return (
-      <>
-        <>{notifications}</>
-        {children}
-      </>
-    )
+    return <>{elements}</>
   }
 )
