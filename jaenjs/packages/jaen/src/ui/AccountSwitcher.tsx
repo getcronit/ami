@@ -1,23 +1,22 @@
 import {
+  Box,
+  Circle,
+  HStack,
   Menu,
   MenuDivider,
   MenuItem,
-  MenuItemOption,
   MenuList,
-  MenuOptionGroup,
   Text,
-  Circle,
-  useColorModeValue,
-  HStack,
-  Box
+  useColorModeValue
 } from '@chakra-ui/react'
+import * as React from 'react'
+import {store as storePages} from '../internal-plugins/pages/internal/redux'
+import {internalActions} from '../internal-plugins/pages/internal/redux/slices'
 import {store, useAppDispatch, useAppSelector} from '../redux'
 import {demoLogout, logout} from '../redux/slices/auth'
-import {Link} from 'gatsby'
-import * as React from 'react'
-import {AccountSwitcherButton} from './components/AccountSwitcherButton'
 import {useIncomingBuildChecker} from '../services/IncomingBuildChecker'
 import {useNavigate} from '../utils/hooks/useNavigate'
+import {AccountSwitcherButton} from './components/AccountSwitcherButton'
 
 export const AccountSwitcher = () => {
   const dispatch = useAppDispatch()
@@ -34,7 +33,11 @@ export const AccountSwitcher = () => {
     } else {
       dispatch(logout())
     }
+
+    storePages.dispatch(internalActions.setIsEditing(false))
+    storePages.dispatch(internalActions.discardAllChanges())
   }
+
   const handleHelpClick = React.useCallback(() => {
     if (typeof window !== 'undefined') {
       window.open('https://snek.at/docs/jaen/jaen-admin', '_blank')
