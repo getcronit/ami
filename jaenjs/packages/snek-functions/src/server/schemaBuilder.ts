@@ -6,7 +6,7 @@ import {
   GraphQLString
 } from 'graphql'
 
-import {SnekFunction} from '../types.js'
+import {ServerContext, SnekFunction} from '../types.js'
 
 const functionData = new GraphQLScalarType({
   name: 'FunctionData',
@@ -41,9 +41,7 @@ const schemaBuilder = async (
       resolve: async (
         _: unknown,
         args: {fnArgs: any},
-        context: {
-          req: Request
-        }
+        context: ServerContext
       ) => {
         const {req} = context
 
@@ -62,7 +60,7 @@ const schemaBuilder = async (
 
         snekApi.KeyManager = KeyManager
 
-        const result = await fn.server(args.fnArgs || {}, snekApi, req)
+        const result = await fn.server(args.fnArgs || {}, snekApi, context)
 
         snekApi.KeyManager.clearTokens()
 

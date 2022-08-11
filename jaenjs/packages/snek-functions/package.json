@@ -1,6 +1,6 @@
 {
   "name": "@snek-at/functions",
-  "version": "0.0.39",
+  "version": "0.0.40",
   "main": "dist/client/index.js",
   "browser": "dist/client/index.browser.js",
   "types": "dist/index.d.ts",
@@ -17,6 +17,7 @@
     "example-server": "yarn cli server -f example/my-example-project/src/functions --watch"
   },
   "dependencies": {
+    "@snek-at/functions": "^0.0.40",
     "@snek-at/snek-api-client": "*",
     "@swc/core": "^1.2.183",
     "commander": "^9.2.0",

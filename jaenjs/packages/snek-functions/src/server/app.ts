@@ -80,7 +80,8 @@ export const getApp = async (options: AppOptions) => {
         request,
         schema,
         contextFactory: () => ({
-          req
+          req,
+          res
         })
       })
 

@@ -401,27 +401,6 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.6.0.tgz#3c7c9c46e678feefe7a2e5bb609d3dbd665ffb3f"
   integrity sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==
 
-"@snek-at/functions@*":
-  version "0.0.38"
-  resolved "https://registry.yarnpkg.com/@snek-at/functions/-/functions-0.0.38.tgz#376f02655368993489505fd368f7908ca0a19429"
-  integrity sha512-DyUWaE9yBBx51T7vvKdQlITURPYlrk//qygHHy6u0ZX32VvBMT6MJ6mOj8e1J/nnCY49B+osi934UCW0XeGLEQ==
-  dependencies:
-    "@snek-at/snek-api-client" "*"
-    "@swc/core" "^1.2.183"
-    commander "^9.2.0"
-    cors "^2.8.5"
-    express "^4.18.0"
-    form-data "^4.0.0"
-    graphql "^16.4.0"
-    graphql-helix "^1.12.0"
-    isomorphic-fetch "^3.0.0"
-    minimatch "^5.1.0"
-    node-fetch "^3.2.4"
-    nodemon "^2.0.16"
-    patch-package "^6.4.7"
-    regenerator-runtime "^0.13.9"
-    serverless-http "^3.0.1"
-
 "@snek-at/snek-api-client@*":
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/@snek-at/snek-api-client/-/snek-api-client-0.0.7.tgz#5dc7a0cb03da9be5f0f4fb7c37d2ea458c992981"

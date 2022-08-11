@@ -1,13 +1,13 @@
 import {KeyManager, SnekApi} from '@snek-at/snek-api-client'
 
-import {SnekFunction} from '../types.js'
+import {ServerContext, SnekFunction} from '../types.js'
 import {stringify} from '../utils.js'
 
 export const makeFn = ({url}: {url: string}) => <FunctionArgs, FunctionReturn>(
   snekFunction: (
     args: FunctionArgs,
     snekApi: SnekApi,
-    req: Request
+    context: ServerContext
   ) => Promise<FunctionReturn | null>,
   options: {
     name: string
@@ -44,12 +44,14 @@ export const makeFn = ({url}: {url: string}) => <FunctionArgs, FunctionReturn>(
       const {data, errors} = await res.json()
 
       return {
+        res: res as any,
         data: JSON.parse(data[options.name]),
         errors: errors || []
       }
     } catch (err) {
       console.error(err)
       return {
+        res: undefined,
         data: null,
         errors: [err]
       }
@@ -68,7 +70,7 @@ export const browserMakeFn = (args: {url: string}) => <
   snekFunction: (
     args: FunctionArgs,
     snekApi: SnekApi,
-    req: Request
+    context: ServerContext
   ) => Promise<FunctionReturn | null>,
   options: {
     name: string
