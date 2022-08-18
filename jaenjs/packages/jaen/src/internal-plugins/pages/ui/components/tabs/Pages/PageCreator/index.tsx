@@ -140,11 +140,7 @@ export const PageCreator = ({
               <Input
                 placeholder="Title"
                 {...register('title', {
-                  required: 'This is required',
-                  minLength: {
-                    value: 4,
-                    message: 'Minimum length should be 4'
-                  }
+                  required: 'This is required'
                 })}
               />
               <FormErrorMessage>{errors.title?.message}</FormErrorMessage>
@@ -157,10 +153,6 @@ export const PageCreator = ({
                 placeholder="the-slug"
                 {...register('slug', {
                   required: 'This is required',
-                  minLength: {
-                    value: 4,
-                    message: 'Minimum length should be 4'
-                  },
                   pattern: {
                     value: /^[a-z0-9-]+$/,
                     message:

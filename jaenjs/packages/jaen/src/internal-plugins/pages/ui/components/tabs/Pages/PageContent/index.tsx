@@ -147,11 +147,7 @@ export const PageContent = (props: PageContentProps) => {
                       // id="title"
                       placeholder="Title"
                       {...register('title', {
-                        required: 'This is required',
-                        minLength: {
-                          value: 4,
-                          message: 'Minimum length should be 4'
-                        }
+                        required: 'This is required'
                       })}
                     />
                     <FormErrorMessage>{errors.title?.message}</FormErrorMessage>
@@ -164,10 +160,6 @@ export const PageContent = (props: PageContentProps) => {
                       disabled={!props.template}
                       {...register('slug', {
                         required: 'This is required',
-                        minLength: {
-                          value: 4,
-                          message: 'Minimum length should be 4'
-                        },
                         pattern: {
                           value: /^[a-z0-9-]+$/,
                           message:
