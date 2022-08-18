@@ -2,6 +2,7 @@ import {Box} from '@chakra-ui/react'
 import styled from '@emotion/styled'
 import loadable from '@loadable/component'
 import * as React from 'react'
+import {OSGUploadAdapterPlugin} from './OSGUploadAdapter'
 
 const EditorWrapper = styled(Box)`
   width: 100%;
@@ -74,6 +75,7 @@ const cleanValue = (defaultValue: string, value?: string) => {
   if (v.indexOf('<') === -1) {
     return `<p>${v}</p>`
   }
+
   return v
 }
 
@@ -96,7 +98,8 @@ const Editor: React.FC<EditorProps> = props => {
   const editorConfig: {[key: string]: any} = {
     mediaEmbed: {
       previewsInData: true
-    }
+    },
+    extraPlugins: [OSGUploadAdapterPlugin]
   }
 
   if (props.disableToolbar) {
