@@ -35,9 +35,6 @@ const Dynamic = (props: RouteComponentProps & Partial<PageProps>) => {
     const {templateLoader} = useSiteContext()
 
     React.useEffect(() => {
-      // We can determine if a page has been moved by checking if the path is no longer in the dynamicPaths, if so
-      // we search for the the new path in the dynamicPaths by pageId and redirect to it.
-
       if (!(path in dynamicPaths)) {
         const newPath = Object.keys(dynamicPaths).find(
           path => dynamicPaths[path]?.pageId === pageId

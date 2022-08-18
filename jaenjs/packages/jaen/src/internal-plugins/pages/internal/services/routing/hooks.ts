@@ -1,6 +1,6 @@
-import {useAppSelector} from '../../redux'
 import {navigate} from 'gatsby'
 import React from 'react'
+import {useAppSelector} from '../../redux'
 
 export const useDynamicRedirect = () => {
   const windowPathname =
