@@ -1,14 +1,9 @@
-import {
-  store,
-  useAppDispatch,
-  useAppSelector,
-  withRedux
-} from '../../internal/redux'
+import {navigate} from 'gatsby'
+import * as React from 'react'
+import {useAppDispatch, useAppSelector, withRedux} from '../../internal/redux'
 import {internalActions} from '../../internal/redux/slices'
 import {generateOriginPath} from '../../internal/services/path'
 import {useJaenPageTree, useJaenTemplates} from '../../internal/services/site'
-import {navigate} from 'gatsby'
-import * as React from 'react'
 import PagesTab from '../components/tabs/Pages'
 import {ContentValues} from '../components/tabs/Pages/PageContent'
 import {CreateValues} from '../components/tabs/Pages/PageCreator'
@@ -22,10 +17,15 @@ export const PagesContainer = withRedux(() => {
     state => state.internal.pages.lastAddedNodeId
   )
 
-  let [shouldUpdateDpathsFor, setShouldUpdateDpathsFor] = React.useState<{
-    pageId: string
-    create: boolean
-  } | null>(null)
+  const dynamicPaths = useAppSelector(
+    state => state.internal.routing.dynamicPaths
+  )
+
+  let [shouldUpdateDpathsFor, setShouldUpdateDpathsFor] =
+    React.useState<{
+      pageId: string
+      create: boolean
+    } | null>(null)
 
   React.useEffect(() => {
     if (shouldUpdateDpathsFor) {
@@ -89,7 +89,6 @@ export const PagesContainer = withRedux(() => {
   )
 
   const handlePageDelete = React.useCallback((id: string) => {
-    // shouldUpdateDpathsFor = {pageId: id, create: false}
     setShouldUpdateDpathsFor({pageId: id, create: false})
 
     dispatch(internalActions.page_markForDeletion(id))
@@ -111,7 +110,8 @@ export const PagesContainer = withRedux(() => {
 
   const handlePageUpdate = React.useCallback(
     (id: string, values: ContentValues) => {
-      //setShouldUpdateDpathsFor({pageId: id, create: true})
+      setShouldUpdateDpathsFor({pageId: id, create: true})
+
       dispatch(
         internalActions.page_updateOrCreate({
           id,
@@ -146,8 +146,6 @@ export const PagesContainer = withRedux(() => {
       //   path += '/' + node.slug
       // }
 
-      const dynamicPaths = store.getState()?.internal.routing.dynamicPaths
-
       if (path) {
         if (dynamicPaths && path in dynamicPaths) {
           path = `/_#${path}`
@@ -156,7 +154,7 @@ export const PagesContainer = withRedux(() => {
         navigate(path)
       }
     },
-    [pageTree]
+    [pageTree, dynamicPaths]
   )
 
   const treeItems = React.useMemo(
