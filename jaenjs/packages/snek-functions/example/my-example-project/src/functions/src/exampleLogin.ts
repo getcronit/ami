@@ -20,7 +20,8 @@ const exampleLogin = fn<{username: string; password: string}, boolean>(
     return isAuthenticated
   },
   {
-    name: 'exampleLogin'
+    name: 'exampleLogin',
+    decorators: []
   }
 )
 

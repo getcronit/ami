@@ -60,6 +60,10 @@ const schemaBuilder = async (
 
         snekApi.KeyManager = KeyManager
 
+        for (const decorator of fn.options.decorators) {
+          await decorator(args.fnArgs || {}, snekApi, context)
+        }
+
         const result = await fn.server(args.fnArgs || {}, snekApi, context)
 
         snekApi.KeyManager.clearTokens()
