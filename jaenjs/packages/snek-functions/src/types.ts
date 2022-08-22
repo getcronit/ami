@@ -13,13 +13,15 @@ export type SnekFunction<FunctionArgs, FunctionReturn> = {
     snekApi: SnekApi,
     context: ServerContext
   ) => Promise<FunctionReturn | null>
-  execute: (args: FunctionArgs) => Promise<{
+  execute: (
+    args: FunctionArgs
+  ) => Promise<{
     res: Response | undefined
     data: FunctionReturn
     errors: any[]
   }>
   options: {
     name: string
-    decorators: Array<SnekFunction<FunctionArgs, FunctionReturn>['server']>
+    decorators?: Array<SnekFunction<FunctionArgs, FunctionReturn>['server']>
   }
 }
