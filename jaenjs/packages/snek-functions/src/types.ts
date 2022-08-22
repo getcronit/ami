@@ -22,6 +22,6 @@ export type SnekFunction<FunctionArgs, FunctionReturn> = {
   }>
   options: {
     name: string
-    decorators?: Array<SnekFunction<FunctionArgs, FunctionReturn>['server']>
+    decorators?: Array<SnekFunction<FunctionArgs, void>['server']>
   }
 }
