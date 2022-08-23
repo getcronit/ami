@@ -1,5 +1,5 @@
-import {IAuth} from '../../types'
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
+import {IAuth} from '../../types'
 
 import {IAuthLoginPayload, snekApi} from '@snek-at/snek-api-client'
 
@@ -38,7 +38,7 @@ const authSlice = createSlice({
         isDemo: true,
         email: 'snekman@snek.at',
         full_name: 'Snekman',
-        image_url: 'https://bit.ly/broken-link'
+        image_url: 'http://www.gravatar.com/avatar'
       }
     },
     demoLogout: (state, action) => {
