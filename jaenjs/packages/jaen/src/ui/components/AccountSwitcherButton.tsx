@@ -17,6 +17,7 @@ export interface AccountSwitcherButtonProps extends FlexProps {
 
 export const AccountSwitcherButton: React.FC<AccountSwitcherButtonProps> = ({
   iconRight,
+  imageSrc,
   ...props
 }) => {
   const buttonProps = useMenuButton(props)
@@ -43,12 +44,7 @@ export const AccountSwitcherButton: React.FC<AccountSwitcherButtonProps> = ({
       _active={{bg: 'gray.200'}}
       _focus={{shadow: 'outline'}}>
       <HStack flex="1" spacing="3">
-        <Avatar
-          boxSize={5}
-          rounded="md"
-          objectFit="cover"
-          src={props.imageSrc}
-        />
+        <Avatar boxSize={5} rounded="md" objectFit="cover" src={imageSrc} />
 
         <Box textAlign="start">
           <Box noOfLines={1}>{props.name}</Box>

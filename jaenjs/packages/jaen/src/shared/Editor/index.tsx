@@ -35,7 +35,7 @@ const EditorWrapper = styled(Box)`
     border: none !important;
     overflow: unset !important;
   }
-  .ck.ck-editor__editable_inline > *:first-child {
+  .ck.ck-editor__editable_inline > *:first-of-type {
     margin-top: 0 !important;
   }
 
