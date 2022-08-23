@@ -17,7 +17,6 @@ const internalPlugins = [
 
 GatsbyConfig.plugins = [
   ...internalPlugins,
-  `gatsby-plugin-loadable-components-ssr`,
   {
     resolve: `gatsby-plugin-compile-es6-packages`,
     options: {
@@ -35,7 +34,7 @@ GatsbyConfig.plugins = [
       isUsingColorMode: true
     }
   },
-  'gatsby-plugin-react-helmet',
+  'gatsby-plugin-react-helmet-async',
   {
     resolve: `gatsby-plugin-sharp`,
     options: {

@@ -21,7 +21,7 @@ export type Props = {
   onSelect: (name: string) => void
 }
 
-const SectionAddPopover: React.FC<Props> = ({
+const SectionAddPopover: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   header,
   disabled,

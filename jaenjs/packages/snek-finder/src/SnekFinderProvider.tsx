@@ -27,12 +27,9 @@ const defaultInitData: FinderData = {
   }
 }
 
-export const SnekFinderProvider: React.FC<ISnekFinderProviderProps> = ({
-  backend,
-  initDataLink,
-  rootFileId,
-  children
-}) => {
+export const SnekFinderProvider: React.FC<
+  React.PropsWithChildren<ISnekFinderProviderProps>
+> = ({backend, initDataLink, rootFileId, children}) => {
   const [initData, setInitData] = React.useState<FinderData>(defaultInitData)
 
   React.useEffect(() => {

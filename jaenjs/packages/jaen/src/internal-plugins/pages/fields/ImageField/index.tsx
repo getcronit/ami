@@ -167,16 +167,18 @@ interface JJaenImageProps {
   }) => void
 }
 
-const InteractiveWrapper: React.FC<{
-  style: CSSProperties
-  updateable: boolean
-  imageData?: Partial<{
-    alt: string
-    title: string
-    url: string
+const InteractiveWrapper: React.FC<
+  React.PropsWithChildren<{
+    style: CSSProperties
+    updateable: boolean
+    imageData?: Partial<{
+      alt: string
+      title: string
+      url: string
+    }>
+    handleUpdateImage: JJaenImageProps['handleUpdateImage']
   }>
-  handleUpdateImage: JJaenImageProps['handleUpdateImage']
-}> = withSnekFinder(props => {
+> = withSnekFinder(props => {
   const updateDisclosure = useDisclosure()
   const finder = useSnekFinder({
     mode: 'selector',

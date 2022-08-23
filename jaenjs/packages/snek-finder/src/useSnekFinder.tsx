@@ -75,7 +75,7 @@ export const useSnekFinder = ({
   }, [openFile, data])
 
   const handleDataChange = React.useCallback(
-    async newData => {
+    async (newData: object) => {
       await backend.writeIndex(newData)
     },
     [backend]

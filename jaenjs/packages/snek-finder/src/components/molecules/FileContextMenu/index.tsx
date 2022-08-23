@@ -40,7 +40,7 @@ const FileContextMenu: React.FC<FileContextMenuProps> = props => {
               <Button
                 bg={'transparent'}
                 borderRadius={0}
-                isFullWidth
+                w="full"
                 _focus={{boxShadow: 'none !important'}}
                 _hover={{bg: itemBgColor}}
                 fontWeight="initial"

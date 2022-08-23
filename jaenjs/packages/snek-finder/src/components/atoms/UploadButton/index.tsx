@@ -7,14 +7,14 @@
  * Use of this source code is governed by an EUPL-1.2 license that can be found
  * in the LICENSE file at https://snek.at/license
  */
-import {IconButton, useColorMode} from '@chakra-ui/react'
+import {IconButton} from '@chakra-ui/react'
 import {FaFileUpload} from '@react-icons/all-files/fa/FaFileUpload'
 import React from 'react'
-import {FileRejection, useDropzone} from 'react-dropzone'
+import {Accept, FileRejection, useDropzone} from 'react-dropzone'
 
 export type UploadButtonProps = {
   onUpload(acceptedFiles: File[], rejectedFiles: FileRejection[]): void
-  accept?: string | string[]
+  accept?: Accept
 }
 
 const UploadButton: React.FC<UploadButtonProps> = ({onUpload, accept}) => {

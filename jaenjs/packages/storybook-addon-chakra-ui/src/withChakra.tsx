@@ -6,10 +6,9 @@ import {toBoolean} from './utils'
 
 const theme = extendTheme({})
 
-const ChakraColorModeWrapper: React.FC<{isGlobalDarkmode: boolean}> = ({
-  isGlobalDarkmode,
-  children
-}) => {
+const ChakraColorModeWrapper: React.FC<
+  React.PropsWithChildren<{isGlobalDarkmode: boolean}>
+> = ({isGlobalDarkmode, children}) => {
   const {colorMode, setColorMode} = useColorMode()
 
   useEffect(() => {

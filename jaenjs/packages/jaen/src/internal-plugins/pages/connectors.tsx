@@ -187,14 +187,16 @@ export interface FieldOptions<IValue, IDefaultValue, IProps = {}> {
  */
 export const connectField = <IValue, IDefaultValue = IValue, P = {}>(
   Component: React.ComponentType<
-    P & {
-      jaenField: JaenFieldProps<IDefaultValue> & {
-        staticValue?: IValue
-        value?: IValue
-        isEditing: boolean
-        onUpdateValue: (value: IValue) => void
+    React.PropsWithChildren<
+      P & {
+        jaenField: JaenFieldProps<IDefaultValue> & {
+          staticValue?: IValue
+          value?: IValue
+          isEditing: boolean
+          onUpdateValue: (value: IValue) => void
+        }
       }
-    }
+    >
   >,
   options: FieldOptions<IValue, IDefaultValue, P>
 ) => {

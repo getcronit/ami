@@ -51,7 +51,7 @@ export const AccountSwitcherButton: React.FC<AccountSwitcherButtonProps> = ({
         />
 
         <Box textAlign="start">
-          <Box isTruncated>{props.name}</Box>
+          <Box noOfLines={1}>{props.name}</Box>
         </Box>
       </HStack>
 

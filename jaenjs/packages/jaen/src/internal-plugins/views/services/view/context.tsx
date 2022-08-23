@@ -1,5 +1,5 @@
-import {IJaenConnection} from '../../../../types'
 import * as React from 'react'
+import {IJaenConnection} from '../../../../types'
 
 export type ViewOptions = {
   path: string
@@ -23,7 +23,9 @@ export const useNotificationContext = () => {
 
 export interface ViewProviderProps extends ViewOptions {}
 
-export const ViewProvider: React.FC<ViewProviderProps> = ({children}) => {
+export const ViewProvider: React.FC<
+  React.PropsWithChildren<ViewProviderProps>
+> = ({children}) => {
   return <ViewContext.Provider value={{}}>{children}</ViewContext.Provider>
 }
 

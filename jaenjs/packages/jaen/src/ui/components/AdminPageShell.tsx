@@ -36,7 +36,7 @@ export interface UIProps {
   onHelpClick: () => void
 }
 
-export const AdminPageShell: React.FC<UIProps> = ({
+export const AdminPageShell: React.FC<React.PropsWithChildren<UIProps>> = ({
   toolbar,
   children,
   sidebarItems,

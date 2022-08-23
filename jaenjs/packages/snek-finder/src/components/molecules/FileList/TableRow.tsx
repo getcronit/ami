@@ -1,6 +1,6 @@
-import {Td, Tr, useColorModeValue} from '@chakra-ui/react'
-import {ConnectableElement, useDrag, useDrop} from 'react-dnd'
-import {Row} from 'react-table'
+import { Td, Tr, useColorModeValue } from '@chakra-ui/react'
+import { ConnectableElement, useDrag, useDrop } from 'react-dnd'
+import { Row } from 'react-table'
 
 type TableRowProps = {
   row: Row<object>
@@ -55,11 +55,16 @@ const TableRow: React.FC<TableRowProps> = props => {
       onClick={e => props.onClick(e, props.index)}
       onDoubleClick={e => props.onDoubleClick(e, props.index)}
       onContextMenu={e => props.onContextMenu(e, props.index)}>
-      {props.row.cells.map(cell => (
-        <Td {...cell.getCellProps()} isNumeric={(cell.column as any).isNumeric}>
-          {cell.render('Cell')}
-        </Td>
-      ))}
+      {props.row.cells.map(cell => {
+        const cellElement = cell.render('Cell') as React.ReactNode
+
+        return (
+          <Td {...cell.getCellProps()} isNumeric={(cell.column as any).isNumeric}>
+            {cellElement}
+          </Td>
+        )
+      })
+      }
     </Tr>
   )
 }

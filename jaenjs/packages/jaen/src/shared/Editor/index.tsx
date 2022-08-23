@@ -1,6 +1,5 @@
 import {Box} from '@chakra-ui/react'
 import styled from '@emotion/styled'
-import loadable from '@loadable/component'
 import * as React from 'react'
 import {OSGUploadAdapterPlugin} from './OSGUploadAdapter'
 
@@ -45,10 +44,12 @@ const EditorWrapper = styled(Box)`
   }
 `
 
-//@ts-ignore
-const LoadableCKEditor = loadable(() => import('@ckeditor/ckeditor5-react'), {
-  resolveComponent: (editor: {CKEditor: any}) => editor.CKEditor
-})
+const LoadableCKEditor = React.lazy(() =>
+  // @ts-ignore
+  import('@ckeditor/ckeditor5-react').then(module => ({
+    default: module.CKEditor
+  }))
+)
 
 type EditorProps = {
   defaultValue: string

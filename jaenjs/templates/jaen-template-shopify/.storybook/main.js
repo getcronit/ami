@@ -14,14 +14,6 @@ module.exports = {
   },
   framework: '@storybook/react',
   webpackFinal: async (config, {presets}) => {
-    const webpack = await presets.apply('webpackInstance')
-
-    config.plugins.push(
-      new webpack.DefinePlugin({
-        HAS_REACT_18: JSON.stringify(false)
-      })
-    )
-
     // Transpile Gatsby module because Gatsby and Jaen includes un-transpiled ES6 code.
     config.module.rules[0].exclude = [
       /node_modules\/(?!(gatsby|@jaenjs\/jaen|@jaenjs\/snek-finder)\/)/

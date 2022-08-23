@@ -221,38 +221,38 @@ export const loadNotificationsForPage = (
  *      if you add a new page, the notification will not be shown until the page
  *      is published.
  */
-export const NotificationsLoader: React.FC<{pageProps: PageProps}> = withRedux(
-  ({pageProps}) => {
-    const {jaenNotifications, allJaenNotification} = useStaticData()
+export const NotificationsLoader: React.FC<
+  React.PropsWithChildren<{pageProps: PageProps}>
+> = withRedux(({pageProps}) => {
+  const {jaenNotifications, allJaenNotification} = useStaticData()
 
-    const advanced = useAppSelector(
-      state => state.internal.notifications.advanced
-    )
+  const advanced = useAppSelector(
+    state => state.internal.notifications.advanced
+  )
 
-    const dynamicNotifications = useAppSelector(
-      state => state.internal.notifications.nodes
-    )
+  const dynamicNotifications = useAppSelector(
+    state => state.internal.notifications.nodes
+  )
 
-    const [elements, setElements] = React.useState<JSX.Element[]>([])
+  const [elements, setElements] = React.useState<JSX.Element[]>([])
 
-    React.useEffect(() => {
-      setElements(
-        loadNotificationsForPage(
-          jaenNotifications,
-          allJaenNotification,
-          dynamicNotifications,
-          pageProps as any,
-          advanced
-        )
+  React.useEffect(() => {
+    setElements(
+      loadNotificationsForPage(
+        jaenNotifications,
+        allJaenNotification,
+        dynamicNotifications,
+        pageProps as any,
+        advanced
       )
-    }, [
-      jaenNotifications,
-      allJaenNotification,
-      dynamicNotifications,
-      pageProps,
-      advanced
-    ])
+    )
+  }, [
+    jaenNotifications,
+    allJaenNotification,
+    dynamicNotifications,
+    pageProps,
+    advanced
+  ])
 
-    return <>{elements}</>
-  }
-)
+  return <>{elements}</>
+})

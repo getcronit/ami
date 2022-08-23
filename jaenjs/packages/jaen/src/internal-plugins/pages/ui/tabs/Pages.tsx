@@ -56,7 +56,7 @@ export const PagesContainer = withRedux(() => {
   }, [latestAddedPageId])
 
   const handlePageGet = React.useCallback(
-    id => {
+    (id: string) => {
       let jaenPage = pageTree.find(p => p.id === id)
 
       // TODO: Remove workaround

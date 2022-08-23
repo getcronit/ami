@@ -9,7 +9,9 @@ type DnDBcrmbItemProps = {
   onDnd: (dragIndex: number, dropIndex: string) => void
 }
 
-const DnDBcrmbItem: React.FC<DnDBcrmbItemProps> = props => {
+const DnDBcrmbItem: React.FC<
+  React.PropsWithChildren<DnDBcrmbItemProps>
+> = props => {
   const [, drop] = useDrop({
     accept: DND_FILE_LIST_ITEM_TYPE,
     drop(item: {type: typeof DND_FILE_LIST_ITEM_TYPE; index: number}, monitor) {

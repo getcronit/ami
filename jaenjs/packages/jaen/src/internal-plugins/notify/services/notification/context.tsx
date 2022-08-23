@@ -7,10 +7,10 @@ import {
   ModalProps,
   useDisclosure
 } from '@chakra-ui/react'
-import {IJaenConnection, RequireAtLeastOne} from '../../../../types'
 import {PageProps} from 'gatsby'
 import * as React from 'react'
-import {useAppDispatch, useAppSelector, withRedux} from '../../redux'
+import {IJaenConnection, RequireAtLeastOne} from '../../../../types'
+import {useAppDispatch} from '../../redux'
 import {internalActions} from '../../redux/slices'
 import {INotification} from '../../types'
 
@@ -62,9 +62,11 @@ export interface NotificationProviderProps extends NotificationOptions {
 }
 
 export const NotificationProvider: React.FC<
-  NotificationProviderProps & {
-    editable?: boolean
-  }
+  React.PropsWithChildren<
+    NotificationProviderProps & {
+      editable?: boolean
+    }
+  >
 > = ({
   id,
   notification,

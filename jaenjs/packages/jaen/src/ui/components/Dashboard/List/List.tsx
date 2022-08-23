@@ -1,6 +1,5 @@
 import {Box, Stack, StackProps, Text, useColorModeValue} from '@chakra-ui/react'
 import * as React from 'react'
-import {StatLabel} from '../Stats/StatLabel'
 import {ListItemProps} from './ListItem'
 
 interface ListProps extends StackProps {
@@ -31,7 +30,7 @@ export const List = (props: ListProps) => {
         <Text
           fontSize={'sm'}
           fontWeight="medium"
-          isTruncated
+          noOfLines={1}
           color={useColorModeValue('gray.500', 'gray.400')}
           pb="1">
           {props.label}

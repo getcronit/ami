@@ -1,6 +1,6 @@
-import {withRedux} from '../../redux'
 import React from 'react'
 import {ITemplateConnection} from '../../../connectors'
+import {withRedux} from '../../redux'
 import {useDynamicRedirect} from '../routing/hooks'
 
 export interface ISiteContext {
@@ -11,23 +11,25 @@ export const SiteContext = React.createContext<ISiteContext | undefined>(
   undefined
 )
 
-export const SiteProvider: React.FC<{}> = withRedux(({children}) => {
-  const templateLoader = async (relativePath: string) => {
-    //@ts-ignore
-    return (await import(`${___JAEN_TEMPLATES___}/${relativePath}`)).default
+export const SiteProvider: React.FC<React.PropsWithChildren<{}>> = withRedux(
+  ({children}) => {
+    const templateLoader = async (relativePath: string) => {
+      //@ts-ignore
+      return (await import(`${___JAEN_TEMPLATES___}/${relativePath}`)).default
+    }
+
+    useDynamicRedirect()
+
+    return (
+      <SiteContext.Provider
+        value={{
+          templateLoader
+        }}>
+        {children}
+      </SiteContext.Provider>
+    )
   }
-
-  useDynamicRedirect()
-
-  return (
-    <SiteContext.Provider
-      value={{
-        templateLoader
-      }}>
-      {children}
-    </SiteContext.Provider>
-  )
-})
+)
 
 /**
  * Access the SiteContext.

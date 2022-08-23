@@ -70,15 +70,14 @@ const incomingBuild = () => {
   }
 }
 
-const IncomingBuildCheckerContext =
-  React.createContext<
-    | {
-        isIncomingBuild: boolean
-        isDisabled: boolean
-        onOpenAlert: () => void
-      }
-    | undefined
-  >(undefined)
+const IncomingBuildCheckerContext = React.createContext<
+  | {
+      isIncomingBuild: boolean
+      isDisabled: boolean
+      onOpenAlert: () => void
+    }
+  | undefined
+>(undefined)
 
 export const useIncomingBuildChecker = () => {
   const context = React.useContext(IncomingBuildCheckerContext)
@@ -92,7 +91,9 @@ export const useIncomingBuildChecker = () => {
   return context
 }
 
-export const IncomingBuildCheckerProvider: React.FC = ({children}) => {
+export const IncomingBuildCheckerProvider: React.FC<
+  React.PropsWithChildren<{}>
+> = ({children}) => {
   const {isOpen, onOpen, onClose} = useDisclosure()
 
   const {isIncomingBuild, isDisabled, updateToLatest} = incomingBuild()

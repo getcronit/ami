@@ -34,12 +34,9 @@ const UnregisterFieldsHelper = withRedux(() => {
   return null
 })
 
-export const JaenPageProvider: React.FC<JaenPageProviderProps> = ({
-  children,
-  jaenPage,
-  jaenPages,
-  unregisterFields = true
-}) => {
+export const JaenPageProvider: React.FC<
+  React.PropsWithChildren<JaenPageProviderProps>
+> = ({children, jaenPage, jaenPages, unregisterFields = true}) => {
   return (
     <JaenPageContext.Provider
       value={{

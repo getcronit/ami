@@ -2,6 +2,8 @@ import {Box} from '@chakra-ui/react'
 import {connectPage, connectSection, Field} from '@jaenjs/jaen'
 import {graphql} from 'gatsby'
 
+console.log('HAS_REACT_18', HAS_REACT_18)
+
 const CardSection = connectSection(
   () => {
     return (
@@ -56,7 +58,7 @@ export default connectPage(IndexPage, {
 })
 
 export const query = graphql`
-  query($jaenPageId: String!) {
+  query ($jaenPageId: String!) {
     jaenPage(id: {eq: $jaenPageId}) {
       id
       slug

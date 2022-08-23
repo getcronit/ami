@@ -1,15 +1,16 @@
 import {OSGBackend} from '@jaenjs/snek-finder/src/backends/OSGBackend'
-import loadable from '@loadable/component'
 import {graphql, useStaticQuery} from 'gatsby'
+import React from 'react'
 
-const SnekFinderProvider = loadable(() => import('@jaenjs/snek-finder'), {
-  resolveComponent: components => components.SnekFinderProvider
-})
-
+const SnekFinderProvider = React.lazy(() =>
+  import('@jaenjs/snek-finder').then(module => ({
+    default: module.SnekFinderProvider
+  }))
+)
 
 export const Backend = new OSGBackend('snek-finder-osg-backend-root')
 
-export const SnekFinder: React.FC = ({children}) => {
+export const SnekFinder: React.FC<React.PropsWithChildren> = ({children}) => {
   let finderUrl
 
   try {
@@ -38,7 +39,9 @@ export const SnekFinder: React.FC = ({children}) => {
 }
 
 export const withSnekFinder =
-  <P extends object>(Component: React.ComponentType<P>): React.FC<P> =>
+  <P extends object>(
+    Component: React.ComponentType<React.PropsWithChildren<P>>
+  ): React.FC<React.PropsWithChildren<P>> =>
   props => {
     return (
       <SnekFinder>

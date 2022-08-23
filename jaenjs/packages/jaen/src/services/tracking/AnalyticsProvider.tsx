@@ -6,19 +6,22 @@ import 'vanilla-cookieconsent/src/cookieconsent.css'
 import 'vanilla-cookieconsent/src/cookieconsent.js'
 import analyticsPluginSnekScore from './analyticsPluginSnekScore'
 
-const AnalyticsContext = React.createContext<
-  | {
-      analytics: AnalyticsInstance
-      consentLevel: string[]
-      cookieconsent: any
-    }
-  | undefined
->(undefined)
+const AnalyticsContext =
+  React.createContext<
+    | {
+        analytics: AnalyticsInstance
+        consentLevel: string[]
+        cookieconsent: any
+      }
+    | undefined
+  >(undefined)
 
-export const AnalyticsProvider: React.FC<{
-  pageProps: PageProps
-  snekAnalyticsId?: string
-}> = ({children, pageProps, snekAnalyticsId}) => {
+export const AnalyticsProvider: React.FC<
+  React.PropsWithChildren<{
+    pageProps: PageProps
+    snekAnalyticsId?: string
+  }>
+> = ({children, pageProps, snekAnalyticsId}) => {
   const [analytics, setAnalytics] = React.useState<AnalyticsInstance>(
     Analytics({
       app: 'jaen',

@@ -1,12 +1,11 @@
 import {DeleteIcon} from '@chakra-ui/icons'
-import {Box, Divider} from '@chakra-ui/layout'
+import {Box} from '@chakra-ui/layout'
 import {
   Drawer,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
   DrawerHeader,
-  DrawerOverlay,
   Flex,
   HStack,
   Icon,
@@ -26,11 +25,9 @@ import {FaFile} from '@react-icons/all-files/fa/FaFile'
 import {FaFilePdf} from '@react-icons/all-files/fa/FaFilePdf'
 import {FaFolder} from '@react-icons/all-files/fa/FaFolder'
 import update from 'immutability-helper'
-import React from 'react'
-import {MouseEvent, useEffect, useState} from 'react'
-import {useDropzone, FileRejection} from 'react-dropzone'
+import React, {MouseEvent, useEffect, useState} from 'react'
+import {FileRejection, useDropzone} from 'react-dropzone'
 import {MimeTypes} from '../../../common/mimeTypes'
-import {fileToBase64} from '../../../common/toBase64'
 import {isValidHttpUrl} from '../../../common/url'
 import {uuidv4} from '../../../common/uuid'
 import ContextModal from '../../molecules/ContextModal'
@@ -485,7 +482,7 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
     getInputProps,
     isDragActive,
     isDragAccept,
-    draggedFiles
+    acceptedFiles
   } = useDropzone({
     onDrop: handleUpload,
     maxSize: 5000000
@@ -494,15 +491,15 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
   useEffect(() => {
     if (isDragActive && isDragAccept) {
       toast({
-        title: `Drop to upload ${draggedFiles.length} file${
-          draggedFiles.length > 1 ? 's' : ''
+        title: `Drop to upload ${acceptedFiles.length} file${
+          acceptedFiles.length > 1 ? 's' : ''
         }`,
         status: 'info',
         isClosable: true,
         position: 'bottom-right'
       })
     }
-  }, [isDragActive, isDragAccept, draggedFiles.length])
+  }, [isDragActive, isDragAccept, acceptedFiles.length])
 
   const finderExtras = (
     <>

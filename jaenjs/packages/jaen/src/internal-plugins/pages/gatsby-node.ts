@@ -47,56 +47,54 @@ export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
   }
 }
 
-export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] = ({
-  actions,
-  reporter
-}) => {
-  actions.createFieldExtension({
-    name: 'file',
-    args: {},
-    extend(options: any, prevFieldConfig: any) {
-      return {
-        args: {},
-        resolve(
-          source: {
-            name: string
-            jaenFiles: any[]
-            jaenFields: IJaenFields
-            headPtr: string
-            tailPtr: string
-          },
-          args: any,
-          context: any,
-          info: any
-        ) {
-          const fieldName = info.fieldName
-          const fieldPathKey = info.path.key
+export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] =
+  ({actions, reporter}) => {
+    actions.createFieldExtension({
+      name: 'file',
+      args: {},
+      extend(options: any, prevFieldConfig: any) {
+        return {
+          args: {},
+          resolve(
+            source: {
+              name: string
+              jaenFiles: any[]
+              jaenFields: IJaenFields
+              headPtr: string
+              tailPtr: string
+            },
+            args: any,
+            context: any,
+            info: any
+          ) {
+            const fieldName = info.fieldName
+            const fieldPathKey = info.path.key
 
-          // Throw a error if the fieldKey is the same as the fieldName
-          // this is to ensure that the fieldKey is set to the correct fieldName
-          // of the IMA:ImageField.
-          if (fieldPathKey === info.fieldName) {
-            throw new Error(
-              `The fieldKey ${fieldPathKey} is the same as the fieldName ${fieldName}, please set the fieldKey to the correct fieldName of an ImageField.`
-            )
+            // Throw a error if the fieldKey is the same as the fieldName
+            // this is to ensure that the fieldKey is set to the correct fieldName
+            // of the IMA:ImageField.
+            if (fieldPathKey === info.fieldName) {
+              throw new Error(
+                `The fieldKey ${fieldPathKey} is the same as the fieldName ${fieldName}, please set the fieldKey to the correct fieldName of an ImageField.`
+              )
+            }
+
+            const imageId =
+              source.jaenFields?.['IMA:ImageField']?.[fieldPathKey]?.value
+                ?.imageId
+
+            const node = context.nodeModel.getNodeById({
+              id: imageId,
+              type: 'File'
+            })
+
+            return node
           }
-
-          const imageId =
-            source.jaenFields?.['IMA:ImageField']?.[fieldPathKey]?.value
-              ?.imageId
-
-          const node = context.nodeModel.getNodeById({
-            id: imageId,
-            type: 'File'
-          })
-
-          return node
         }
       }
-    }
-  })
+    })
 
-  actions.createTypes(`
+    actions.createTypes(`
     type JaenPage implements Node {
       id: ID!
       slug: String!
@@ -145,7 +143,7 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
       isBlogPost: Boolean
     }
     `)
-}
+  }
 
 export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
   actions,
@@ -162,9 +160,9 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
   let pages = await getJaenDataForPlugin<IPagesMigrationBase>('JaenPages@0.0.1')
 
   for (const [id, page] of Object.entries(pages)) {
-    const jaenPage = ((await (
+    const jaenPage = (await (
       await fetch(page.context.fileUrl)
-    ).json()) as unknown) as IJaenPage
+    ).json()) as unknown as IJaenPage
 
     await processPage({
       page: jaenPage,
@@ -264,8 +262,9 @@ export const createPages: GatsbyNode['createPages'] = async ({
         return
       }
 
-      const component = allTemplate.nodes.find(e => e.name === template)
-        ?.absolutePath
+      const component = allTemplate.nodes.find(
+        e => e.name === template
+      )?.absolutePath
 
       if (!component) {
         reporter.panicOnBuild(
@@ -332,8 +331,8 @@ export const onCreatePage: GatsbyNode['onCreatePage'] = ({
 
   // Check if the page has a `jaenPageId` in its context.
   // If not it means it's not a JaenPage and we must create one.
-  if (!context.jaenPageId) {
-    if (!context.skipJaenPage) {
+  if (!context?.jaenPageId) {
+    if (!context?.skipJaenPage) {
       const jaenPageId = `JaenPage ${path}`
 
       const slugifiedPath = convertToSlug(path)
