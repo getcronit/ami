@@ -6,8 +6,9 @@ export const wrapPageElement: GatsbySSR['wrapPageElement'] = ({
   props
 }) => {
   return (
-    <NotificationsLoader pageProps={props}>
-      <>{element}</>
-    </NotificationsLoader>
+    <>
+      <NotificationsLoader pageProps={props} />
+      {element}
+    </>
   )
 }
