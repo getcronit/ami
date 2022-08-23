@@ -11,6 +11,8 @@ const SnekFinderProvider = React.lazy(() =>
 export const Backend = new OSGBackend('snek-finder-osg-backend-root')
 
 export const SnekFinder: React.FC<React.PropsWithChildren> = ({children}) => {
+  const isSSR = typeof window === 'undefined'
+
   let finderUrl
 
   try {
@@ -32,20 +34,24 @@ export const SnekFinder: React.FC<React.PropsWithChildren> = ({children}) => {
   }
 
   return (
-    <SnekFinderProvider backend={Backend} initDataLink={finderUrl || undefined}>
-      {children}
-    </SnekFinderProvider>
+    <>
+      {!isSSR && (
+        <SnekFinderProvider
+          backend={Backend}
+          initDataLink={finderUrl || undefined}>
+          {children}
+        </SnekFinderProvider>
+      )}
+    </>
   )
 }
 
-export const withSnekFinder =
-  <P extends object>(
-    Component: React.ComponentType<React.PropsWithChildren<P>>
-  ): React.FC<React.PropsWithChildren<P>> =>
-  props => {
-    return (
-      <SnekFinder>
-        <Component {...props} />
-      </SnekFinder>
-    )
-  }
+export const withSnekFinder = <P extends object>(
+  Component: React.ComponentType<React.PropsWithChildren<P>>
+): React.FC<React.PropsWithChildren<P>> => props => {
+  return (
+    <SnekFinder>
+      <Component {...props} />
+    </SnekFinder>
+  )
+}

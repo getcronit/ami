@@ -5,10 +5,12 @@ import AdminPageLoading from './components/AdminPageLoading'
 const AdminPageShell = React.lazy(() => import('./AdminPage'))
 
 const LoadingAdminPage = (props: PageProps) => {
+  const isSSR = typeof window === 'undefined'
+
   return (
     <React.Suspense
       fallback={<AdminPageLoading heading="Welcome to Jaen Admin" />}>
-      <AdminPageShell {...props} />
+      {!isSSR && <AdminPageShell {...props} />}
     </React.Suspense>
   )
 }
