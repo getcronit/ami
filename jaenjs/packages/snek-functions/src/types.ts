@@ -6,6 +6,11 @@ export type ServerContext = {
   res: express.Response
 }
 
+export type Decorator<FunctionArgs = {}, FunctionReturn = void> = SnekFunction<
+  FunctionArgs,
+  FunctionReturn
+>['server']
+
 export type SnekFunction<FunctionArgs, FunctionReturn> = {
   (args: FunctionArgs): Promise<FunctionReturn>
   server: (
@@ -22,6 +27,6 @@ export type SnekFunction<FunctionArgs, FunctionReturn> = {
   }>
   options: {
     name: string
-    decorators?: Array<SnekFunction<FunctionArgs, void>['server']>
+    decorators?: Array<Decorator<FunctionArgs>>
   }
 }
