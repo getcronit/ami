@@ -3,7 +3,7 @@
   "version": "0.0.45",
   "main": "dist/client/index.js",
   "browser": "dist/client/index.browser.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/client/index.d.ts",
   "type": "module",
   "bin": {
     "snek-functions": "./dist/server/cli/index.js"
