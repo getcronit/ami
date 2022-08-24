@@ -15,3 +15,19 @@ export function stringify(obj_from_json: {[x: string]: any}): any {
     .join(',')
   return `{${props}}`
 }
+
+export const buildGraphqlQueryString = ({
+  name,
+  args
+}: {
+  name: string
+  args: {[x: string]: any}
+}) => {
+  return JSON.stringify({
+    query: `
+      mutation {
+        ${name}(fnArgs: ${stringify(args)})
+      }
+    `
+  })
+}
