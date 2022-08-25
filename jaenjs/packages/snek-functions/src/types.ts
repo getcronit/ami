@@ -6,21 +6,26 @@ export type ServerContext = {
   res: express.Response
 }
 
-export type Decorator<FunctionArgs = {}, FunctionReturn = void> = SnekFunction<
+export type Decorator<FunctionArgs = any, FunctionReturn = void> = SnekFunction<
   FunctionArgs,
   FunctionReturn
 >['server']
 
+type SnekFunctionExecuteArgs<FunctionArgs> = [
+  args?: FunctionArgs,
+  init?: {
+    headers: Record<string, string>
+  }
+]
+
 export type SnekFunction<FunctionArgs, FunctionReturn> = {
-  (args: FunctionArgs): Promise<FunctionReturn>
+  (...args: SnekFunctionExecuteArgs<FunctionArgs>): Promise<FunctionReturn>
   server: (
     args: FunctionArgs,
     snekApi: SnekApi,
     context: ServerContext
   ) => Promise<FunctionReturn | null>
-  execute: (
-    args: FunctionArgs
-  ) => Promise<{
+  execute: (...args: SnekFunctionExecuteArgs<FunctionArgs>) => Promise<{
     res: Response | undefined
     data: FunctionReturn
     errors: any[]
