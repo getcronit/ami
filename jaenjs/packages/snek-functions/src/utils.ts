@@ -1,3 +1,5 @@
+import {execSync} from 'child_process'
+
 export async function importFresh(modulePath: string) {
   const cacheBustingModulePath = `${modulePath}?update=${Date.now()}`
   return (await import(cacheBustingModulePath)).default
@@ -29,5 +31,24 @@ export const buildGraphqlQueryString = ({
         ${name}(fnArgs: ${stringify(args)})
       }
     `
+  })
+}
+
+export function readPackageJson(cwd: string): {
+  [key: string]: any
+} {
+  return JSON.parse(
+    execSync('cat package.json', {
+      cwd
+    }).toString()
+  )
+}
+
+export function writePackageJson(
+  packageJson: {[key: string]: any},
+  rootPath: string
+) {
+  execSync(`echo '${JSON.stringify(packageJson, null, 2)}' > package.json`, {
+    cwd: rootPath
   })
 }

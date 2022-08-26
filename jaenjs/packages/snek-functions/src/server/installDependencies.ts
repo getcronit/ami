@@ -1,4 +1,5 @@
 import {execSync} from 'child_process'
+import {readPackageJson, writePackageJson} from '../utils.js'
 
 export function installDependencies(
   dependencies: string[],
@@ -6,18 +7,8 @@ export function installDependencies(
     cwd: string
   }
 ) {
-  function readPackageJson(): {
-    [key: string]: any
-  } {
-    return JSON.parse(
-      execSync('cat package.json', {
-        cwd: options.cwd
-      }).toString()
-    )
-  }
-
   function addDependencies() {
-    const packageJson = readPackageJson()
+    const packageJson = readPackageJson(options.cwd)
 
     const dependenciesString = dependencies.join(' ')
 
@@ -47,7 +38,7 @@ export function installDependencies(
     sfDependenciesNames: string[],
     sfDependencies: any
   ) {
-    const packageJson = readPackageJson()
+    const packageJson = readPackageJson(options.cwd)
 
     const dependenciesNames = dependencies.map(dependency => {
       // check if dependency contains a version number
@@ -74,10 +65,7 @@ export function installDependencies(
 
     packageJson.sfDependencies = sfDependencies
 
-    // Write package.json
-    execSync(`echo '${JSON.stringify(packageJson, null, 2)}' > package.json`, {
-      cwd: options.cwd
-    })
+    writePackageJson(packageJson, options.cwd)
   }
 
   const {sfDependenciesNames, sfDependencies} = addDependencies()
