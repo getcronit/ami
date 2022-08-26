@@ -6,7 +6,8 @@
   "types": "dist/client/index.d.ts",
   "type": "module",
   "bin": {
-    "snek-functions": "./dist/server/cli/index.js"
+    "snek-functions": "./dist/server/cli/index.js",
+    "sf": "./dist/server/cli/index.js"
   },
   "scripts": {
     "test": "jest",
