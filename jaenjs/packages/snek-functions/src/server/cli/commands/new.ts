@@ -2,7 +2,7 @@ import {generateTemplate} from '../../generateTemplate.js'
 
 export default async (
   rootPath: string,
-  template: string | undefined,
+  template: string,
   options: {
     name: string
   }

@@ -52,7 +52,12 @@ program
   .command('new')
   .description('Initialize a new functions directory')
   .option('-n, --name <name>', 'Name inside package.json', 'my-snek-functions')
-  .arguments('<rootPath> [template]')
+  .argument('<rootPath>')
+  .argument(
+    '[template]',
+    'Template to use',
+    'https://github.com/snek-functions/template.git'
+  )
   .action(commands.new)
 
 program

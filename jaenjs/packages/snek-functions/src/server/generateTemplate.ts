@@ -3,29 +3,19 @@ import {readPackageJson, writePackageJson} from '../utils.js'
 
 export function generateTemplate(
   rootPath: string,
-  template: string | undefined,
+  template: string,
   name: string
 ) {
   if (!rootPath) {
     throw new Error('Missing root path')
   }
 
-  let templateUrl: string
-
   console.log(`Initializing functions directory at ${rootPath}`)
 
-  if (template) {
-    console.log(`Using template ${template}`)
-
-    templateUrl = template
-  } else {
-    templateUrl = 'https://github.com/snek-functions/template.git'
-  }
-
   // Check if templateUrl is a valid url
-  new URL(templateUrl)
+  new URL(template)
 
-  execSync(`git clone -b main ${templateUrl} ${rootPath}`)
+  execSync(`git clone -b main ${template} ${rootPath}`)
 
   // Update package.json name
   updatePackageJson(rootPath, name)
