@@ -1,5 +1,5 @@
 import {execSync, spawnSync} from 'child_process'
-import {readPackageJson, writePackageJson} from '../utils.js'
+import {readPackageJson, writePackageJson} from './utils.js'
 
 export function generateTemplate(
   rootPath: string,
