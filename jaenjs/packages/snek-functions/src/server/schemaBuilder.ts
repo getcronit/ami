@@ -60,6 +60,12 @@ const schemaBuilder = async (
 
         snekApi.KeyManager = KeyManager
 
+        if (fn.globalDecorators) {
+          for (const decorator of fn.globalDecorators) {
+            await decorator(args.fnArgs || {}, snekApi, context)
+          }
+        }
+
         if (fn.options.decorators) {
           for (const decorator of fn.options.decorators) {
             await decorator(args.fnArgs || {}, snekApi, context)

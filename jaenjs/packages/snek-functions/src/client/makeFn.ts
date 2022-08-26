@@ -1,10 +1,19 @@
 import {KeyManager} from '@snek-at/snek-api-client'
 
-import {SnekFunction} from '../types.js'
+import {Decorator, SnekFunction} from '../types.js'
 import {buildGraphqlQueryString} from '../utils.js'
 
+export interface MakeFnOptions {
+  url: string
+  decorators?: Array<{
+    decorator: Decorator
+    includes?: string[]
+    excludes?: string[]
+  }>
+}
+
 export const makeFn =
-  ({url}: {url: string}) =>
+  ({url, decorators}: MakeFnOptions) =>
   <FunctionArgs, FunctionReturn>(
     snekFunction: SnekFunction<FunctionArgs, FunctionReturn>['server'],
     options: SnekFunction<FunctionArgs, FunctionReturn>['options']
@@ -55,6 +64,34 @@ export const makeFn =
     }
 
     fn.server = snekFunction
+
+    if (decorators) {
+      fn.globalDecorators = []
+
+      const shouldSkipDecorator = (
+        decorator: Decorator,
+        includes?: string[],
+        excludes?: string[]
+      ) => {
+        if (includes) {
+          return !includes.includes(decorator.name)
+        } else if (excludes) {
+          return excludes.includes(decorator.name)
+        } else {
+          return false
+        }
+      }
+
+      for (const {
+        decorator,
+        includes: inclds,
+        excludes: exclds
+      } of decorators) {
+        if (!shouldSkipDecorator(decorator, inclds, exclds)) {
+          fn.globalDecorators.push(decorator)
+        }
+      }
+    }
 
     return fn
   }

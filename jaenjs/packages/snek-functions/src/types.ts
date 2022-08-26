@@ -1,4 +1,4 @@
-import {SnekApi} from '@snek-at/snek-api-client'
+import { SnekApi } from '@snek-at/snek-api-client'
 import * as express from 'express'
 
 export type ServerContext = {
@@ -34,4 +34,5 @@ export type SnekFunction<FunctionArgs, FunctionReturn> = {
     name: string
     decorators?: Array<Decorator<FunctionArgs>>
   }
+  globalDecorators?: Array<Decorator<FunctionArgs>>
 }
