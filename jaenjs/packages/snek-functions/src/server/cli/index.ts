@@ -54,5 +54,11 @@ program
   .arguments('<rootPath> [template]')
   .action(commands.new)
 
+program
+  .command('install')
+  .description('Installs dependencies that are ignored by the client')
+  .option('--cwd <path>', 'Path to the functions directory', '.')
+  .arguments('[dependencies...]')
+  .action(commands.install)
 
 program.parse()
