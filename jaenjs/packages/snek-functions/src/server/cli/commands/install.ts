@@ -1,4 +1,4 @@
-import {installDependencies} from '../../installDependencies'
+import {installDependencies} from '../../installDependencies.js'
 
 export default async (
   dependencies: string[],
