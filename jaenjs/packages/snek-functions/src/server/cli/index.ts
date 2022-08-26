@@ -52,6 +52,7 @@ program
   .command('new')
   .description('Initialize a new functions directory')
   .arguments('<rootPath> [template]')
-  .action(commands.init)
+  .action(commands.new)
+
 
 program.parse()
