@@ -51,6 +51,7 @@ program
 program
   .command('new')
   .description('Initialize a new functions directory')
+  .option('-n, --name <name>', 'Name inside package.json', 'my-snek-functions')
   .arguments('<rootPath> [template]')
   .action(commands.new)
 
