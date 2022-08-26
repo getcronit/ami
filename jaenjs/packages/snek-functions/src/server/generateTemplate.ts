@@ -17,14 +17,24 @@ export function generateTemplate(
 
   execSync(`git clone -b main ${template} ${rootPath}`)
 
-  // Update package.json name
   updatePackageJson(rootPath, name)
+
+  resetGit(rootPath)
 
   // yarn install in functions directory
   spawnSync(`yarn`, {
     stdio: 'inherit',
     cwd: rootPath
   })
+}
+
+function resetGit(rootPath: string) {
+  execSync(
+    `rm -rf .git && git init -b main && git add . && git commit -m "Initial commit"`,
+    {
+      cwd: rootPath
+    }
+  )
 }
 
 function updatePackageJson(rootPath: string, name: string) {
