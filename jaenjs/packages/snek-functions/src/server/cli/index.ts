@@ -49,9 +49,9 @@ program
   .action(commands.build)
 
 program
-  .command('init')
+  .command('new')
   .description('Initialize a new functions directory')
-  .option('-f, --functions-path <path>', 'Path to functions directory')
+  .arguments('<rootPath> [template]')
   .action(commands.init)
 
 program.parse()

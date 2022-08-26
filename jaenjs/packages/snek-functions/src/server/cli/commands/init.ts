@@ -1,5 +1,5 @@
-import {initFunctionsDir} from '../../init/index.js'
+import {generateTemplate} from '../../generateTemplate.js'
 
-export default async (options: {functionsPath: string}) => {
-  await initFunctionsDir(options.functionsPath)
+export default async (rootPath: string, template?: string) => {
+  generateTemplate(rootPath, template)
 }
