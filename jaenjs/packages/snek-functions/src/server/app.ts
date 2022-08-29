@@ -11,7 +11,7 @@ import {
 
 import {GraphQLSchema} from 'graphql'
 import {buildFolder} from './fileBuilder.js'
-import loadModules from './loader/index.js'
+import {loadAppJs, loadModules} from './loader/index.js'
 import schemaBuilder from './schemaBuilder.js'
 
 export interface AppOptions {
@@ -24,6 +24,7 @@ export const getApp = async (options: AppOptions) => {
     await schemaBuilder(await loadModules(functionDir))
 
   let schema: GraphQLSchema
+  let functionDistPath = options.functions
 
   if (options.watch) {
     const chokidar = await import('chokidar')
@@ -35,21 +36,23 @@ export const getApp = async (options: AppOptions) => {
     })
 
     const srcPath = `${options.functions}/src`
-    const distPath = `${options.functions}/dist`
+    functionDistPath = `${options.functions}/dist`
 
-    await buildFolder(srcPath, distPath)
+    await buildFolder(srcPath, functionDistPath)
 
-    schema = await loadSchema(distPath)
+    schema = await loadSchema(functionDistPath)
 
     watcher.on('all', async (event, path) => {
       console.log('rebuilding schema', event, path)
-      await buildFolder(srcPath, distPath)
+      await buildFolder(srcPath, functionDistPath)
 
-      schema = await loadSchema(distPath)
+      schema = await loadSchema(functionDistPath)
     })
   } else {
     schema = await loadSchema(options.functions)
   }
+
+  const {configureApp} = await loadAppJs(functionDistPath)
 
   const app = express()
 
@@ -58,6 +61,8 @@ export const getApp = async (options: AppOptions) => {
   app.use(cookieParser())
 
   app.use(express.json())
+
+  configureApp(app)
 
   app.use('/graphql', async (req, res) => {
     // Create a generic Request object that can be consumed by Graphql Helix's API
@@ -96,6 +101,12 @@ export const getApp = async (options: AppOptions) => {
       // See "Advanced Usage" below for more details and customizations available on that layer.
       sendResult(result, res)
     }
+  })
+
+  console.log('configureApp', configureApp.toString())
+
+  app._router.stack.forEach((layer: {handle: {toString: () => any}}) => {
+    console.log(layer.handle.toString())
   })
 
   return app

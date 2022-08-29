@@ -1,6 +1,6 @@
 export async function importFresh(modulePath: string) {
   const cacheBustingModulePath = `${modulePath}?update=${Date.now()}`
-  return (await import(cacheBustingModulePath)).default
+  return await import(cacheBustingModulePath)
 }
 
 export function stringify(obj_from_json: {[x: string]: any}): any {

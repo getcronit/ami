@@ -1,5 +1,7 @@
-import { SnekApi } from '@snek-at/snek-api-client'
+import {SnekApi} from '@snek-at/snek-api-client'
 import * as express from 'express'
+
+export type ConfigureApp = (app: express.Express) => void
 
 export type ServerContext = {
   req: express.Request
