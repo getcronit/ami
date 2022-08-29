@@ -1,1 +1,1 @@
-export {browserMakeFn as makeFn} from './makeFn.js'
+export {browserMakeFn as makeFn} from '../makeFn.js'

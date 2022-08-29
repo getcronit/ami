@@ -1,7 +1,7 @@
 import {KeyManager} from '@snek-at/snek-api-client'
 
-import {Decorator, SnekFunction} from '../types.js'
-import {buildGraphqlQueryString} from '../utils.js'
+import {Decorator, SnekFunction} from './types.js'
+import {buildGraphqlQueryString} from './utils.js'
 
 export interface MakeFnOptions {
   url: string
@@ -25,6 +25,7 @@ export const makeFn =
     }
 
     fn.options = options
+
     fn.execute = async (args, init) => {
       const snekApiHeaders = KeyManager.getHeaders()
 
