@@ -103,11 +103,5 @@ export const getApp = async (options: AppOptions) => {
     }
   })
 
-  console.log('configureApp', configureApp.toString())
-
-  app._router.stack.forEach((layer: {handle: {toString: () => any}}) => {
-    console.log(layer.handle.toString())
-  })
-
   return app
 }
