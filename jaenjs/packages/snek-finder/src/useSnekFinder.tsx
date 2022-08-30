@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import Finder from './components/organisms/Finder'
 import {
+  FinderData,
   FinderFileItem,
   FinderFolderItem,
   FinderMode
@@ -51,10 +52,11 @@ export const useSnekFinder = ({
     fn()
   }, [isSelectorOpen])
 
-  const [openFile, setOpenFile] = React.useState<{
-    fileId: string
-    previewType: 'IMAGE_VIEWER' | 'PDF_VIEWER'
-  } | null>(null)
+  const [openFile, setOpenFile] =
+    React.useState<{
+      fileId: string
+      previewType: 'IMAGE_VIEWER' | 'PDF_VIEWER'
+    } | null>(null)
 
   const openedFileItem = React.useMemo(() => {
     if (!openFile) {
@@ -77,6 +79,8 @@ export const useSnekFinder = ({
   const handleDataChange = React.useCallback(
     async (newData: object) => {
       await backend.writeIndex(newData)
+
+      setData(newData as FinderData)
     },
     [backend]
   )
