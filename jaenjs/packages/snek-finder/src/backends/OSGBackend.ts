@@ -1,7 +1,9 @@
 import {Backend} from './backend'
 
 export class OSGBackend extends Backend {
-  constructor(public indexKey: string = 'snek-finder-osg-backend') {
+  public indexKey: string
+
+  constructor(indexKey: string = 'snek-finder-osg-backend') {
     super()
     this.indexKey = indexKey
   }
