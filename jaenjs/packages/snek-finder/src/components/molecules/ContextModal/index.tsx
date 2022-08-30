@@ -1,6 +1,7 @@
 import {
   Button,
   FormControl,
+  FormErrorMessage,
   Input,
   Modal,
   ModalBody,
@@ -10,7 +11,7 @@ import {
   ModalHeader,
   ModalOverlay
 } from '@chakra-ui/react'
-import {ChangeEvent, useEffect, useState} from 'react'
+import {useForm} from 'react-hook-form'
 
 export type ContextModalProps = {
   isOpen: boolean
@@ -24,15 +25,24 @@ export type ContextModalProps = {
   onCancel: () => void
 }
 
+type FormValues = {
+  input: string
+}
+
 const ContextModal: React.FC<ContextModalProps> = props => {
-  const [inputText, setInputText] = useState<string>(props.inputText || '')
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: {errors, isSubmitting}
+  } = useForm<FormValues>({
+    defaultValues: {
+      input: props.inputText
+    }
+  })
 
-  useEffect(() => {
-    setInputText(props.inputText || '')
-  }, [props.inputText])
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputText(e.target.value)
+  const onSubmit = (data: FormValues) => {
+    props.onFinish(data.input)
   }
 
   return (
@@ -40,29 +50,34 @@ const ContextModal: React.FC<ContextModalProps> = props => {
       <Modal isOpen={props.isOpen} onClose={props.onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{props.title}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl>
-              <Input
-                placeholder={props.inputPlaceholder}
-                value={inputText}
-                onChange={handleInputChange}
-              />
-            </FormControl>
-          </ModalBody>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <ModalHeader>{props.title} test</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <FormControl isInvalid={!!errors.input}>
+                <Input
+                  placeholder={props.inputPlaceholder}
+                  {...register('input', {required: 'Input is required'})}
+                />
+                {errors.input && (
+                  <FormErrorMessage>{errors.input.message}</FormErrorMessage>
+                )}
+              </FormControl>
+            </ModalBody>
 
-          <ModalFooter>
-            <Button
-              colorScheme="blue"
-              mr={3}
-              onClick={() => props.onFinish(inputText)}>
-              {props.finishBtnLabel || 'Save'}
-            </Button>
-            <Button onClick={props.onCancel}>
-              {props.cancelBtnLabel || 'Cancel'}
-            </Button>
-          </ModalFooter>
+            <ModalFooter>
+              <Button
+                colorScheme="blue"
+                mr={3}
+                type="submit"
+                isLoading={isSubmitting}>
+                {props.finishBtnLabel || 'Save'}
+              </Button>
+              <Button onClick={props.onCancel} type="reset">
+                {props.cancelBtnLabel || 'Cancel'}
+              </Button>
+            </ModalFooter>
+          </form>
         </ModalContent>
       </Modal>
     </>
