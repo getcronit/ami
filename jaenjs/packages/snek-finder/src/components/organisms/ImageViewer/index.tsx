@@ -78,7 +78,7 @@ const ImageViewer: React.FC<ImageViewerProps> = props => {
                       {!isSnekStudioOpen && (
                         <>
                           <Button onClick={handleOpenSnekStudio}>
-                            Edit with Snek Studio
+                            Snek Studio
                           </Button>
                           <Divider orientation="vertical" />
                           <Text
