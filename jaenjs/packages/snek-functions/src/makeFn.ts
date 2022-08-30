@@ -44,7 +44,8 @@ export const makeFn =
             args: {
               ...args
             }
-          })
+          }),
+          credentials: 'include'
         })
 
         const {data, errors} = await res.json()
