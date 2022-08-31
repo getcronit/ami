@@ -1,7 +1,3 @@
-import {MimeTypes} from '../../../common/mimeTypes'
-
-export type MimeType = keyof typeof MimeTypes
-
 type BasicItem = {
   name: string
   createdAt: string
@@ -19,7 +15,7 @@ export interface FinderFolderItem extends BasicItem {
 export interface FinderFileItem extends BasicItem {
   src: string
   previewSrc?: string
-  mimeType: MimeType
+  mimeType: string
   size: string
 }
 

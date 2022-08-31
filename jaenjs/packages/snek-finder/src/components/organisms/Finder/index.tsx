@@ -27,7 +27,6 @@ import {FaFolder} from '@react-icons/all-files/fa/FaFolder'
 import update from 'immutability-helper'
 import React, {MouseEvent, useEffect, useState} from 'react'
 import {FileRejection, useDropzone} from 'react-dropzone'
-import {MimeTypes} from '../../../common/mimeTypes'
 import {isValidHttpUrl} from '../../../common/url'
 import {uuidv4} from '../../../common/uuid'
 import ContextModal from '../../molecules/ContextModal'
@@ -38,13 +37,10 @@ import FileInfoBox, {
 } from '../../molecules/FileInfoBox'
 import FileList from '../../molecules/FileList'
 import Toolbar from '../../molecules/Toolbar'
-import {
-  FinderData,
-  FinderFileItem,
-  FinderFolderItem,
-  FinderMode,
-  MimeType
-} from './types'
+import {FinderData, FinderFileItem, FinderFolderItem, FinderMode} from './types'
+
+import {getFileType} from '../../../common/getFileType'
+import {MimeTypes} from '../../../common/mimeTypes'
 
 export type SnekFinderProps = {
   mode?: FinderMode
@@ -83,11 +79,12 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
   >([{index: rootUUID, text: data[rootUUID].name}])
 
   const [selectedFiles, setSelectedFiles] = useState<number[]>([])
-  const [contextMenu, setContextMenu] = useState<{
-    id: number | undefined
-    spawnX: number
-    spawnY: number
-  } | null>(null)
+  const [contextMenu, setContextMenu] =
+    useState<{
+      id: number | undefined
+      spawnX: number
+      spawnY: number
+    } | null>(null)
 
   const switchParentNode = (uuid: string) => {
     // find uuid in parentNodeHistory and remove it and all following elements
@@ -194,13 +191,18 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
         createdAt: string
         modifiedAt: string
         src: string
-        mimeType: MimeType
+        mimeType: string
         size: string
       }
     } = {}
 
     for (const [i, file] of acceptedFiles.entries()) {
-      const {name, type, size} = file
+      const {name, size} = file
+
+      // resolve mime type from file content
+      const fileType = await getFileType(file)
+
+      console.log(fileType)
 
       // convert size to kb or mb
       const kb = size / 1024
@@ -235,7 +237,7 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
         createdAt: todayDate,
         modifiedAt: todayDate,
         src,
-        mimeType: type as MimeType,
+        mimeType: fileType.mime,
         size: sizeString
       }
 
@@ -447,7 +449,8 @@ const Finder: React.FC<SnekFinderProps> = ({mode = 'browser', ...props}) => {
       details: {
         fileName: item.name,
         fileType:
-          (folderItem.isFolder && 'Folder') || MimeTypes[fileItem.mimeType],
+          (folderItem.isFolder && 'Folder') ||
+          MimeTypes[fileItem.mimeType as keyof typeof MimeTypes],
         fileSize: fileItem.size,
         createdAt: item.createdAt,
         modifiedAt: item.modifiedAt,
