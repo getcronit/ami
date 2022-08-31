@@ -100,3 +100,8 @@ export const deepmergeArrayIdMerge = (
 
   return destination
 }
+
+export const getPackageJsonVersion = () => {
+  const packageJson = require('../../package.json')
+  return packageJson.version
+}

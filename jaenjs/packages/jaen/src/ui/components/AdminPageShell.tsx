@@ -1,15 +1,16 @@
 import {
   Box,
-  Circle,
   Flex,
   Spacer,
   Stack,
+  Text,
   useColorModeValue as mode
 } from '@chakra-ui/react'
-import {BiBuoy} from '@react-icons/all-files/bi/BiBuoy'
-import {BiCog} from '@react-icons/all-files/bi/BiCog'
 import * as React from 'react'
 
+import {BiCog} from '@react-icons/all-files/bi/BiCog'
+
+import {getPackageJsonVersion} from '../../utils/helper'
 import {NavGroup} from './NavGroup'
 import {NavItem} from './NavItem'
 
@@ -62,6 +63,7 @@ export const AdminPageShell: React.FC<React.PropsWithChildren<UIProps>> = ({
                   />
                 ))}
               </Stack>
+
               {Object.entries(sidebarItems.grouped).map(([key, group]) => (
                 <NavGroup key={key} label={group.label}>
                   {group.items.map(item => (
@@ -73,25 +75,19 @@ export const AdminPageShell: React.FC<React.PropsWithChildren<UIProps>> = ({
                       onClick={() => onSidebarItemClick(item.path)}
                     />
                   ))}
+                  <NavItem
+                    icon={<BiCog />}
+                    label={`Settings`}
+                    onClick={onSettingsClick}
+                  />
                 </NavGroup>
               ))}
             </Stack>
+
             <Spacer />
-            <Stack>
-              <NavItem
-                subtle
-                icon={<BiCog />}
-                label="Settings"
-                onClick={onSettingsClick}
-              />
-              <NavItem
-                subtle
-                icon={<BiBuoy />}
-                label="Help & Support"
-                endElement={<Circle size="2" bg="blue.400" />}
-                onClick={onHelpClick}
-              />
-            </Stack>
+            <Text w={'full'} textAlign="center">
+              {getPackageJsonVersion()}
+            </Text>
           </Flex>
         </Box>
         <Box
