@@ -9,21 +9,19 @@ import {
   Text,
   useColorModeValue
 } from '@chakra-ui/react'
-import * as React from 'react'
+import {navigate} from 'gatsby'
+import {useInRouterContext} from 'react-router-dom'
 import {store as storePages} from '../internal-plugins/pages/internal/redux'
 import {internalActions} from '../internal-plugins/pages/internal/redux/slices'
 import {store, useAppDispatch, useAppSelector} from '../redux'
 import {demoLogout, logout} from '../redux/slices/auth'
 import {useIncomingBuildChecker} from '../services/IncomingBuildChecker'
-import {useNavigate} from '../utils/hooks/useNavigate'
 import {AccountSwitcherButton} from './components/AccountSwitcherButton'
 
 export const AccountSwitcher = () => {
   const dispatch = useAppDispatch()
 
   const incomingBuild = useIncomingBuildChecker()
-
-  const navigate = useNavigate()
 
   const handleSignOut = () => {
     const isDemo = store.getState().auth.user?.isDemo
@@ -38,12 +36,6 @@ export const AccountSwitcher = () => {
     storePages.dispatch(internalActions.discardAllChanges())
   }
 
-  const handleHelpClick = React.useCallback(() => {
-    if (typeof window !== 'undefined') {
-      window.open('https://snek.at/docs/jaen/jaen-admin', '_blank')
-    }
-  }, [])
-
   const user = useAppSelector(state => state.auth.user)
 
   const email = user?.email || 'No email'
@@ -52,6 +44,11 @@ export const AccountSwitcher = () => {
     user?.image_url || 'https://avatars.githubusercontent.com/u/52858351?v=4'
 
   const notificationIcon = <Circle size="2" bg="orange.300" />
+
+  let inRouter = false
+  if (typeof window !== 'undefined') {
+    inRouter = useInRouterContext()
+  }
 
   return (
     <Menu>
@@ -71,12 +68,15 @@ export const AccountSwitcher = () => {
           {email}
         </Text>
         <MenuDivider />
-        <MenuItem rounded="md" onClick={() => navigate('/admin')}>
-          Admin
-        </MenuItem>
-        <MenuItem rounded="md" onClick={() => navigate('/admin#/settings')}>
-          Settings
-        </MenuItem>
+        {!inRouter ? (
+          <MenuItem rounded="md" onClick={() => navigate('/admin')}>
+            Admin
+          </MenuItem>
+        ) : (
+          <MenuItem rounded="md" onClick={() => navigate('/')}>
+            Landing Page
+          </MenuItem>
+        )}
 
         {(incomingBuild.isIncomingBuild || incomingBuild.isDisabled) && (
           <MenuItem rounded="md" onClick={incomingBuild.onOpenAlert}>
@@ -87,9 +87,7 @@ export const AccountSwitcher = () => {
           </MenuItem>
         )}
         <MenuDivider />
-        <MenuItem rounded="md" onClick={handleHelpClick}>
-          Help
-        </MenuItem>
+
         <MenuItem rounded="md" onClick={handleSignOut}>
           Logout
         </MenuItem>
