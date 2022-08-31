@@ -6,7 +6,8 @@ import {
   Divider,
   HStack,
   IconButton,
-  Stack
+  Stack,
+  Tooltip
 } from '@chakra-ui/react'
 import {FaGlobeEurope} from '@react-icons/all-files/fa/FaGlobeEurope'
 import * as React from 'react'
@@ -59,27 +60,53 @@ const PagesTab = (props: PagesTabProps) => {
     [props.templates, selection?.template]
   )
 
+  const pageTitle = selection?.jaenPageMetadata.title || 'Page'
+
+  const disableAdd = !selectedTemplate || isSelectionLandingPage
+  const disableDelete = !selection?.template || isSelectionLandingPage
+  const disableNavigate = !selection
+
   return (
     <HStack h={'85vh'} align="start">
       <Stack w="20%">
         <ButtonGroup size="sm">
-          <IconButton
-            aria-label="Add a subpage to the selected page"
-            icon={<AddIcon />}
-            disabled
-          />
-          <IconButton
-            aria-label="Delete the selected page"
-            icon={<DeleteIcon />}
-            onClick={handleItemDelete}
-            disabled={!selection?.template}
-          />
-          <IconButton
-            aria-label="Navigate to the page"
-            icon={<ViewIcon />}
-            onClick={() => props.onItemDoubleClick(selection?.id!)}
-            disabled={!selection}
-          />
+          <Tooltip
+            label={
+              disableAdd
+                ? `Cannot add child page to ${pageTitle}`
+                : `Add child page to ${pageTitle}`
+            }
+            shouldWrapChildren>
+            <IconButton
+              aria-label="Add a subpage to the selected page"
+              icon={<AddIcon />}
+              disabled={disableAdd}
+            />
+          </Tooltip>
+
+          <Tooltip
+            label={
+              disableDelete
+                ? `Cannot delete ${pageTitle}`
+                : `Delete ${pageTitle}`
+            }
+            shouldWrapChildren>
+            <IconButton
+              aria-label="Delete the selected page"
+              icon={<DeleteIcon />}
+              onClick={handleItemDelete}
+              disabled={disableDelete}
+            />
+          </Tooltip>
+
+          <Tooltip label={`Navigate to ${pageTitle}`} shouldWrapChildren>
+            <IconButton
+              aria-label="Navigate to the page"
+              icon={<ViewIcon />}
+              onClick={() => props.onItemDoubleClick(selection?.id!)}
+              disabled={disableNavigate}
+            />
+          </Tooltip>
         </ButtonGroup>
 
         <Divider />
