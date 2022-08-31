@@ -71,6 +71,7 @@ export type CreateValues = {
 
 export interface PageCreatorProps extends IFormProps<CreateValues> {
   templates: TemplateSelectorProps['templates']
+  isTemplatesLoading: boolean
   finalFocusRef: React.RefObject<any>
   isOpen: boolean
   onClose: () => void
@@ -84,6 +85,7 @@ export const PageCreator = ({
   templates,
   finalFocusRef,
   isOpen,
+  isTemplatesLoading,
   onClose,
   ...form
 }: PageCreatorProps) => {
@@ -185,13 +187,19 @@ export const PageCreator = ({
                 name="template.name"
                 rules={{required: 'Please select a template'}}
                 render={({field: {value, onChange}}) => (
-                  <TemplateSelector
-                    selectedTemplate={value}
-                    templates={templates}
-                    onSelect={templateName => {
-                      onChange(templateName)
-                    }}
-                  />
+                  <>
+                    {isTemplatesLoading ? (
+                      <div>Loading...</div>
+                    ) : (
+                      <TemplateSelector
+                        selectedTemplate={value}
+                        templates={templates}
+                        onSelect={templateName => {
+                          onChange(templateName)
+                        }}
+                      />
+                    )}
+                  </>
                 )}
               />
               {!errors.template?.name && (

@@ -10,12 +10,16 @@ export const useJaenTemplates = () => {
   const site = useSiteContext()
   const jaenTemplates = useStaticJaenTemplates()
 
-  const [templates, setTemplates] = React.useState<{
-    [name: string]: IJaenTemplate
-  } | null>(null)
+  const [isLoading, setIsLoading] = React.useState(true)
+
+  const [templates, setTemplates] =
+    React.useState<{
+      [name: string]: IJaenTemplate
+    } | null>(null)
 
   React.useEffect(() => {
     const load = async () => {
+      setIsLoading(true)
       const tmpls: {[name: string]: IJaenTemplate} = {}
 
       for (const templateNode of jaenTemplates) {
@@ -43,14 +47,16 @@ export const useJaenTemplates = () => {
       }
 
       setTemplates(tmpls)
+      setIsLoading(false)
     }
 
     load()
   }, [])
 
-  const templatesArray = React.useMemo(() => Object.values(templates || {}), [
-    templates
-  ])
+  const templatesArray = React.useMemo(
+    () => Object.values(templates || {}),
+    [templates]
+  )
 
-  return templatesArray
+  return {templates: templatesArray, isLoading}
 }

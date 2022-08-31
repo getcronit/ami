@@ -1,6 +1,5 @@
 import Tree, {
   ItemId,
-  moveItemOnTree,
   mutateTree,
   RenderItemParams,
   TreeDestinationPosition,
@@ -29,7 +28,8 @@ import * as React from 'react'
 import {HiTemplate} from '@react-icons/all-files/hi/HiTemplate'
 import {IJaenTemplate} from '../../../../../types'
 import {ContextMenu} from '../../../ContextMenu'
-import {CreateValues, PageCreator} from '../PageCreator'
+import {usePageManager} from '../../../providers/PageManagerProvider'
+import {CreateValues} from '../PageCreator'
 import {TreeConverter} from './treeconverter'
 
 export type Items = {
@@ -92,9 +92,8 @@ const PageTree: React.FC<PageTreeProps> = ({
     return tree.rootId.toString()
   }, [tree.rootId, props.selection])
 
-  const [selectedItem, setSelectedItem] = React.useState<string>(
-    defaultSelection
-  )
+  const [selectedItem, setSelectedItem] =
+    React.useState<string>(defaultSelection)
 
   React.useEffect(() => {
     if (props.selection) {
@@ -118,13 +117,13 @@ const PageTree: React.FC<PageTreeProps> = ({
     return templates.filter(t => t.isRootTemplate)
   }, [templates])
 
+  const parentId = selectedItem !== tree.rootId ? selectedItem : null
+
   const pageCreatorDisclosure = useDisclosure()
 
   const handleItemCreate = (values: CreateValues) => {
     // Check if the slug is already taken of a sibling
     const {title, slug, template} = values
-
-    const parentId = selectedItem !== tree.rootId ? selectedItem : null
 
     props.onItemCreate(parentId, values)
 
@@ -344,9 +343,8 @@ const PageTree: React.FC<PageTreeProps> = ({
       return
     }
 
-    const movedItemId = tree.items[source.parentId].children[
-      source.index
-    ].toString()
+    const movedItemId =
+      tree.items[source.parentId].children[source.index].toString()
 
     const dstId = destination.parentId.toString()
 
@@ -370,11 +368,6 @@ const PageTree: React.FC<PageTreeProps> = ({
 
     if (childTemplates && childTemplates.some(e => e.name === movedTemplate)) {
       if (validSlug) {
-        const newTree = moveItemOnTree(tree, source, destination)
-
-        // @ts-ignore
-        //newTree.items[movedItemId].parent = destination.parentId
-
         setTree(mutateTree(tree, destination.parentId, {isExpanded: true}))
         handleSelectItem(movedItemId)
 
@@ -391,6 +384,8 @@ const PageTree: React.FC<PageTreeProps> = ({
     }
   }
 
+  const manager = usePageManager()
+
   return (
     <>
       <ContextMenu<HTMLDivElement>
@@ -399,7 +394,7 @@ const PageTree: React.FC<PageTreeProps> = ({
             <MenuGroup title="Page">
               <MenuItem
                 icon={<AddIcon />}
-                onClick={() => pageCreatorDisclosure.onOpen()}>
+                onClick={() => manager.onToggleCreator(parentId)}>
                 Add
               </MenuItem>
               {tree.items[selectedItem]?.data?.template && (
@@ -435,36 +430,6 @@ const PageTree: React.FC<PageTreeProps> = ({
           </Box>
         )}
       </ContextMenu>
-      <PageCreator
-        finalFocusRef={null as any}
-        values={{
-          title: '',
-          slug: '',
-          template: {
-            name: '',
-            displayName: ''
-          }
-        }}
-        templates={
-          selectedItem === 'SitePage' ? rootTemplates : creatorTemplates
-        }
-        isOpen={pageCreatorDisclosure.isOpen}
-        onClose={pageCreatorDisclosure.onClose}
-        onSubmit={handleItemCreate}
-        externalValidation={(name, value) => {
-          if (name === 'slug') {
-            const siblings = tree.items[selectedItem].children
-
-            const slugTaken = siblings.some(
-              siblingId => tree.items[siblingId]?.data?.slug === value
-            )
-
-            if (slugTaken) {
-              return 'Slug is already taken'
-            }
-          }
-        }}
-      />
     </>
   )
 }
