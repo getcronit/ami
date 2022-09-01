@@ -13,7 +13,10 @@ import {FaGlobeEurope} from '@react-icons/all-files/fa/FaGlobeEurope'
 import * as React from 'react'
 import {JaenPageProvider} from '../../../../internal/services/page'
 import {IJaenPage} from '../../../../types'
-import {usePageManager} from '../../providers/PageManagerProvider'
+import {
+  pageUpdateValidation,
+  usePageManager
+} from '../../providers/PageManagerProvider'
 import {ContentValues, PageContent} from './PageContent'
 import PageTree, {PageTreeProps} from './PageTree'
 
@@ -183,6 +186,14 @@ const PagesTab = () => {
                   excludedFromIndex: selection.excludedFromIndex
                 }}
                 onSubmit={handlePageUpdate}
+                externalValidation={(name, value) => {
+                  return pageUpdateValidation({
+                    name,
+                    value,
+                    parentId: selection.parentId,
+                    treeItems: manager.tree
+                  })
+                }}
               />
             </JaenPageProvider>
           )}

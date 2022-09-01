@@ -284,23 +284,12 @@ export const PageManagerProvider: React.FC<React.PropsWithChildren<{}>> = ({
         onClose={handleCreatorClose}
         onSubmit={handleCreatorSubmit}
         externalValidation={(name, value) => {
-          if (name === 'slug') {
-            let siblings
-
-            if (creatorState?.parentId) {
-              siblings = treeItems[creatorState.parentId].children
-            } else {
-              siblings = Object.keys(treeItems)
-            }
-
-            const slugTaken = siblings.some(
-              siblingId => treeItems[siblingId]?.data?.slug === value
-            )
-
-            if (slugTaken) {
-              return 'Slug is already taken'
-            }
-          }
+          return pageUpdateValidation({
+            name,
+            value,
+            treeItems,
+            parentId: creatorState?.parentId
+          })
         }}
       />
 
@@ -308,6 +297,37 @@ export const PageManagerProvider: React.FC<React.PropsWithChildren<{}>> = ({
     </PageManagerContext.Provider>
   )
 }
+
+export function pageUpdateValidation({
+  name,
+  value,
+  parentId,
+  treeItems
+}: {
+  name: string
+  value: string
+  parentId: string | null | undefined
+  treeItems: Items
+}) {
+  if (name === 'slug') {
+    let siblings
+
+    if (parentId) {
+      siblings = treeItems[parentId].children
+    } else {
+      siblings = Object.keys(treeItems)
+    }
+
+    const slugTaken = siblings.some(
+      siblingId => treeItems[siblingId]?.data?.slug === value
+    )
+
+    if (slugTaken) {
+      return 'Slug is already taken'
+    }
+  }
+}
+
 function pageToTreeNode(v: IJaenPage) {
   return {
     id: v.id,
