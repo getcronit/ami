@@ -10,7 +10,9 @@ import {
 } from 'react-router-dom'
 
 import {Circle, GlobalStyle, LightMode} from '@chakra-ui/react'
+import {navigate, PageProps} from 'gatsby'
 import React from 'react'
+
 import NotifyTab from '../internal-plugins/notify/ui/components/tabs/Notify'
 import {SEO} from '../internal-plugins/pages'
 import FilesTab from '../internal-plugins/pages/ui/tabs/Files'
@@ -22,11 +24,11 @@ import AdminPageShell, {UIProps} from './components/AdminPageShell'
 import DashboardTab from './DashboardTab'
 import SettingsTab from './SettingsTab'
 
+import {BiCog} from '@react-icons/all-files/bi/BiCog'
 import {BiNotification} from '@react-icons/all-files/bi/BiNotification'
 import {BsFiles} from '@react-icons/all-files/bs/BsFiles'
 import {BsHouse} from '@react-icons/all-files/bs/BsHouse'
 import {FaPager} from '@react-icons/all-files/fa/FaPager'
-import {navigate, PageProps} from 'gatsby'
 
 const buildViews = (
   views: Array<{
@@ -120,6 +122,14 @@ const AdminPage = withRedux(() => {
       group: 'Your Site'
     },
 
+    {
+      path: '/settings',
+      Component: SettingsTab,
+      label: 'Settings',
+      Icon: BiCog,
+      group: 'Your Site'
+    },
+
     ...useViews().map(View => ({
       path: '/views' + View.options.path,
       Component: withBaseView(View),
@@ -150,13 +160,10 @@ const AdminPage = withRedux(() => {
               activePath: window.location.hash.replace('#', ''),
               ...sidebarItems
             }}
-            onSidebarItemClick={onSidebarItemClick}
-            onSettingsClick={() => routerNavigate('/settings')}
-            onHelpClick={() => {}}>
+            onSidebarItemClick={onSidebarItemClick}>
             <Outlet />
           </AdminPageShell>
         }>
-        <Route path="/settings" element={<SettingsTab />} />
         {routes.map(route => {
           let {path, Component, hasRoutes} = route
 

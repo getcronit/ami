@@ -8,8 +8,6 @@ import {
 } from '@chakra-ui/react'
 import * as React from 'react'
 
-import {BiCog} from '@react-icons/all-files/bi/BiCog'
-
 import {getPackageJsonVersion} from '../../utils/helper'
 import {NavGroup} from './NavGroup'
 import {NavItem} from './NavItem'
@@ -33,17 +31,13 @@ export interface UIProps {
     }
   }
   onSidebarItemClick: (path: string) => void
-  onSettingsClick: () => void
-  onHelpClick: () => void
 }
 
 export const AdminPageShell: React.FC<React.PropsWithChildren<UIProps>> = ({
   toolbar,
   children,
   sidebarItems,
-  onSidebarItemClick,
-  onSettingsClick,
-  onHelpClick
+  onSidebarItemClick
 }) => {
   return (
     <Box height="100vh" overflow="hidden" position="relative">
@@ -75,11 +69,6 @@ export const AdminPageShell: React.FC<React.PropsWithChildren<UIProps>> = ({
                       onClick={() => onSidebarItemClick(item.path)}
                     />
                   ))}
-                  <NavItem
-                    icon={<BiCog />}
-                    label={`Settings`}
-                    onClick={onSettingsClick}
-                  />
                 </NavGroup>
               ))}
             </Stack>
