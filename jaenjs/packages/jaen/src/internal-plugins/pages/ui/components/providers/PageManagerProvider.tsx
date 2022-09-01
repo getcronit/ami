@@ -4,11 +4,9 @@ import {useDisclosure} from '@chakra-ui/react'
 import React from 'react'
 import {useAppDispatch, useAppSelector} from '../../../internal/redux'
 import {internalActions} from '../../../internal/redux/slices'
+import {useTemplatesForPage} from '../../../internal/services/page/hooks/useTemplatesForPage'
 import {generateOriginPath} from '../../../internal/services/path'
-import {
-  useJaenPageTree,
-  useJaenTemplates
-} from '../../../internal/services/site'
+import {useJaenPageTree} from '../../../internal/services/site'
 import {IJaenPage, IJaenTemplate} from '../../../types'
 import {ContentValues} from '../tabs/Pages/PageContent'
 import {CreateValues, PageCreator} from '../tabs/Pages/PageCreator'
@@ -60,7 +58,6 @@ export const PageManagerProvider: React.FC<React.PropsWithChildren<{}>> = ({
   const dispatch = useAppDispatch()
 
   const pageTree = useJaenPageTree()
-  const {templates, isLoading: isTemplatesLoading} = useJaenTemplates()
 
   const latestAddedPageId = useAppSelector(
     state => state.internal.pages.lastAddedNodeId
@@ -224,6 +221,16 @@ export const PageManagerProvider: React.FC<React.PropsWithChildren<{}>> = ({
       parentId: string | null
     } | null>(null)
 
+  const parentCreatorPage = React.useMemo(
+    () =>
+      creatorState?.parentId ? handlePageGet(creatorState.parentId) : null,
+    [creatorState]
+  )
+
+  const templates = useTemplatesForPage(parentCreatorPage)
+
+  console.log(`templates`, templates)
+
   const creator = useDisclosure()
 
   const handleCreatorToggle = (parentId: string | null) => {
@@ -256,14 +263,14 @@ export const PageManagerProvider: React.FC<React.PropsWithChildren<{}>> = ({
         onGet: handlePageGet,
         onNavigate: handlePageNavigate,
         tree: treeItems,
-        templates,
-        isTemplatesLoading,
+        templates: templates.allTemplates,
+        isTemplatesLoading: templates.isLoading,
         rootPageId,
         onToggleCreator: handleCreatorToggle
       }}>
       <PageCreator
         finalFocusRef={null as any}
-        isTemplatesLoading={isTemplatesLoading}
+        isTemplatesLoading={templates.isLoading}
         values={{
           title: '',
           slug: '',
@@ -272,14 +279,12 @@ export const PageManagerProvider: React.FC<React.PropsWithChildren<{}>> = ({
             displayName: ''
           }
         }}
-        templates={templates}
+        templates={templates.templates}
         isOpen={creator.isOpen}
         onClose={handleCreatorClose}
         onSubmit={handleCreatorSubmit}
         externalValidation={(name, value) => {
           if (name === 'slug') {
-            console.log(treeItems, creatorState, rootPageId)
-
             let siblings
 
             if (creatorState?.parentId) {

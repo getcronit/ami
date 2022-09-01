@@ -4,6 +4,7 @@ import path from 'path'
 
 const GatsbyConfig: GatsbyConfigType = {}
 
+export const sourcePages = path.resolve('./src/pages')
 export const sourceTemplates = path.resolve('./src/jaen-templates')
 
 if (!fs.existsSync(sourceTemplates)) {

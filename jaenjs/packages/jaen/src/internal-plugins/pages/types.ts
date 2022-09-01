@@ -56,6 +56,11 @@ export interface IJaenPage {
    * - Used to determine the component to render.
    */
   template: string | null
+  /**
+   * Name of the component
+   * Used for page loading
+   */
+  componentName?: string
   deleted?: boolean
   excludedFromIndex?: boolean
 }

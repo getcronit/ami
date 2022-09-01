@@ -1,29 +1,26 @@
 import React from 'react'
-import {ITemplateConnection} from '../../../connectors'
+import {IPageConnection, ITemplateConnection} from '../../../connectors'
 import {withRedux} from '../../redux'
+import {pageLoader, templateLoader} from '../componentLoader'
 import {useDynamicRedirect} from '../routing/hooks'
 
 export interface ISiteContext {
   templateLoader: (name: string) => Promise<ITemplateConnection>
+  pageLoader: (name: string) => Promise<IPageConnection>
 }
 
-export const SiteContext = React.createContext<ISiteContext | undefined>(
-  undefined
-)
+export const SiteContext =
+  React.createContext<ISiteContext | undefined>(undefined)
 
 export const SiteProvider: React.FC<React.PropsWithChildren<{}>> = withRedux(
   ({children}) => {
-    const templateLoader = async (relativePath: string) => {
-      //@ts-ignore
-      return (await import(`${___JAEN_TEMPLATES___}/${relativePath}`)).default
-    }
-
     useDynamicRedirect()
 
     return (
       <SiteContext.Provider
         value={{
-          templateLoader
+          templateLoader: templateLoader,
+          pageLoader: pageLoader
         }}>
         {children}
       </SiteContext.Provider>

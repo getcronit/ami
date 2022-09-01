@@ -22,6 +22,7 @@ export const connectPage = <P extends IJaenPageProps>(
   Component: React.ComponentType<P>,
   options: {
     displayName: string
+    children?: string[]
   }
 ) => {
   const MyComp: IJaenConnection<P, typeof options> = props => {

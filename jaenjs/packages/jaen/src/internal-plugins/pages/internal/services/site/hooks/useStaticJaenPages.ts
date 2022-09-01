@@ -23,6 +23,7 @@ export const useStaticJaenPages = () => {
               id
             }
             template
+            componentName
           }
         }
       }

@@ -1,13 +1,13 @@
 import fs from 'fs'
-import {GatsbyNode} from 'gatsby'
+import { GatsbyNode } from 'gatsby'
 import 'isomorphic-fetch'
 import path from 'path'
-import {getJaenDataForPlugin} from '../../services/migration/get-jaen-data-for-plugin'
-import {convertToSlug} from '../../utils/helper'
-import {sourceTemplates} from './gatsby-config'
-import {processPage} from './internal/services/imaProcess'
-import {generateOriginPath, PageNode} from './internal/services/path'
-import {IJaenFields, IJaenPage, IPagesMigrationBase} from './types'
+import { getJaenDataForPlugin } from '../../services/migration/get-jaen-data-for-plugin'
+import { convertToSlug } from '../../utils/helper'
+import { sourcePages, sourceTemplates } from './gatsby-config'
+import { processPage } from './internal/services/imaProcess'
+import { generateOriginPath, PageNode } from './internal/services/path'
+import { IJaenFields, IJaenPage, IPagesMigrationBase } from './types'
 
 export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
   plugins,
@@ -19,7 +19,8 @@ export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
   actions.setWebpackConfig({
     plugins: [
       plugins.define({
-        ___JAEN_TEMPLATES___: JSON.stringify(sourceTemplates)
+        ___JAEN_TEMPLATES___: JSON.stringify(sourceTemplates),
+        ___JAEN_PAGES___: JSON.stringify(sourcePages)
       })
     ],
     resolve: {
@@ -106,6 +107,7 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
       sections: [JaenSection!]!
 
       template: String
+      componentName: String
       excludedFromIndex: Boolean
     }
 
@@ -318,24 +320,23 @@ export const onCreatePage: GatsbyNode['onCreatePage'] = ({
   getNode
 }) => {
   const {createPage, deletePage, createNode} = actions
-  const {path, context} = page
 
   let stepPage = page
 
   const blacklist = ['/admin']
 
   // skip if the page is in the blacklist
-  if (blacklist.includes(path)) {
+  if (blacklist.includes(page.path)) {
     return
   }
 
   // Check if the page has a `jaenPageId` in its context.
   // If not it means it's not a JaenPage and we must create one.
-  if (!context?.jaenPageId) {
-    if (!context?.skipJaenPage) {
-      const jaenPageId = `JaenPage ${path}`
+  if (!page.context?.jaenPageId) {
+    if (!page.context?.skipJaenPage) {
+      const jaenPageId = `JaenPage ${page.path}`
 
-      const slugifiedPath = convertToSlug(path)
+      const slugifiedPath = convertToSlug(page.path)
 
       if (!getNode(jaenPageId)) {
         const jaenPage: IJaenPage = {
@@ -344,7 +345,7 @@ export const onCreatePage: GatsbyNode['onCreatePage'] = ({
           parent: null,
           children: [],
           jaenPageMetadata: {
-            title: path,
+            title: page.path,
             description: '',
             image: '',
             canonical: '',
@@ -354,7 +355,10 @@ export const onCreatePage: GatsbyNode['onCreatePage'] = ({
           jaenFields: null,
           jaenFiles: [],
           sections: [],
-          template: null
+          template: null,
+          componentName: page.component.includes(sourcePages)
+            ? page.component.replace(`${sourcePages}/`, '')
+            : undefined
         }
 
         createNode({
@@ -370,7 +374,7 @@ export const onCreatePage: GatsbyNode['onCreatePage'] = ({
         })
       }
 
-      stepPage = {...stepPage, context: {...context, jaenPageId}}
+      stepPage = {...stepPage, context: {...page.context, jaenPageId}}
     }
   }
 

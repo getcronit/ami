@@ -49,8 +49,10 @@ export type Items = {
 export type PageTreeProps = {
   items: Items
   selection?: string
-  templates: IJaenTemplate[]
-  creatorFallbackTemplates: IJaenTemplate['children']
+  templates: {
+    name: string
+    displayName: string
+  }[]
   onItemSelect: (id: string | null) => void
   onItemDoubleClick: (id: string) => void
   onItemCreate: (parentId: string | null, values: CreateValues) => void
@@ -70,12 +72,7 @@ const PreTextIcon = styled.span`
   margin-right: 5px;
 `
 
-const PageTree: React.FC<PageTreeProps> = ({
-  items,
-  templates,
-  creatorFallbackTemplates,
-  ...props
-}) => {
+const PageTree: React.FC<PageTreeProps> = ({items, templates, ...props}) => {
   const greyOverlay = useColorModeValue('gray.50', 'gray.700')
   const orange = useColorModeValue('orange', 'orange.500')
 
@@ -100,22 +97,6 @@ const PageTree: React.FC<PageTreeProps> = ({
       setSelectedItem(props.selection)
     }
   }, [props.selection])
-
-  const creatorTemplates = React.useMemo(() => {
-    return (
-      templates.find(
-        template => template.name === tree.items[selectedItem]?.data?.template
-      )?.children || creatorFallbackTemplates
-    )
-  }, [
-    templates,
-    creatorFallbackTemplates,
-    tree.items[selectedItem]?.data?.template
-  ])
-
-  const rootTemplates = React.useMemo(() => {
-    return templates.filter(t => t.isRootTemplate)
-  }, [templates])
 
   const parentId = selectedItem !== tree.rootId ? selectedItem : null
 
@@ -270,8 +251,6 @@ const PageTree: React.FC<PageTreeProps> = ({
       const isLocked = !item.data.template
       const hasChanges = item.data.hasChanges
 
-      console.log('tree', item.data)
-
       return (
         <HStack align="center" justify="space-between">
           {!isLocked && <HiTemplate />}
@@ -361,12 +340,7 @@ const PageTree: React.FC<PageTreeProps> = ({
     const dstTemplate = tree.items[dstId]?.data?.template
     const movedTemplate = tree.items[movedItemId]?.data?.template
 
-    // Check movedItemId template is in dstId template children
-    const childTemplates = templates.find(
-      template => template.name === dstTemplate
-    )?.children
-
-    if (childTemplates && childTemplates.some(e => e.name === movedTemplate)) {
+    if (templates && templates.some(e => e.name === movedTemplate)) {
       if (validSlug) {
         setTree(mutateTree(tree, destination.parentId, {isExpanded: true}))
         handleSelectItem(movedItemId)

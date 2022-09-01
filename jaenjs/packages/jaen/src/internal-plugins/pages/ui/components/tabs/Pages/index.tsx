@@ -74,9 +74,12 @@ const PagesTab = () => {
     [manager.templates, selection?.template]
   )
 
+  console.log(`templatesForPage`, templatesForPage)
+
   const disableAdd = templatesForPage
-    ? templatesForPage.children.length > 0
-    : true
+    ? templatesForPage.children.length === 0
+    : false
+
   const disableDelete = !selection?.template || isSelectionLandingPage
   const disableNavigate = !selection
 
@@ -154,7 +157,6 @@ const PagesTab = () => {
             selection={selection?.id}
             items={manager.tree}
             templates={manager.templates}
-            creatorFallbackTemplates={manager.templates}
             onItemSelect={onSelect}
             onItemDoubleClick={manager.onNavigate}
             onItemCreate={manager.onCreate}

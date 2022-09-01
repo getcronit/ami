@@ -107,19 +107,11 @@ Primary.args = {
   templates: [
     {
       name: 'page',
-      displayName: 'Page',
-      children: [{name: 'blog', displayName: 'Blog'}]
+      displayName: 'Page'
     },
     {
       name: 'blog',
-      displayName: 'Blog',
-      children: [{name: 'blog', displayName: 'Blog'}]
-    }
-  ],
-  creatorFallbackTemplates: [
-    {
-      name: 'page',
-      displayName: 'Page'
+      displayName: 'Blog'
     }
   ],
   onItemSelect: () => {},

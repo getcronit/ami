@@ -50,7 +50,7 @@ const Dynamic = (props: RouteComponentProps & Partial<PageProps>) => {
       }
     }, [dynamicPaths])
 
-    const templates = useJaenTemplates()
+    const {templates} = useJaenTemplates()
 
     // We need to wait for the template to be loaded before we can render the page,
     // so template null means the template is not loaded yet

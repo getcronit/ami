@@ -862,6 +862,7 @@ describe('routing', () => {
             },
             template: null,
             jaenFields: {},
+            componentName: 'IndexPage',
             jaenFiles: [],
             sections: []
           },
@@ -879,6 +880,7 @@ describe('routing', () => {
             },
             template: null,
             jaenFields: {},
+            componentName: 'IndexPage',
             jaenFiles: [],
             sections: []
           },
@@ -892,6 +894,7 @@ describe('routing', () => {
             },
             template: null,
             jaenFields: {},
+            componentName: 'IndexPage',
             jaenFiles: [],
             sections: []
           }
