@@ -100,7 +100,8 @@ const schemaBuilder = async (
         ping: {
           type: GraphQLString,
           resolve: () => 'pong'
-        }
+        },
+        ...fields
       }
     })
   })

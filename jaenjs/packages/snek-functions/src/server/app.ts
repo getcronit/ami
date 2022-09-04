@@ -61,6 +61,24 @@ export const getApp = async (options: AppOptions) => {
 
   configureApp(app)
 
+  app.use('/graphiql', async (req, res) => {
+    const {operationName, query, variables} = getGraphQLParameters(req)
+
+    const result = await processRequest({
+      operationName,
+      query,
+      variables,
+      request: req,
+      schema
+    })
+
+    if (shouldRenderGraphiQL(req)) {
+      res.send(renderGraphiQL())
+    } else {
+      sendResult(result, res)
+    }
+  })
+
   app.use('/graphql', async (req, res) => {
     // Create a generic Request object that can be consumed by Graphql Helix's API
     const request = {
@@ -70,34 +88,29 @@ export const getApp = async (options: AppOptions) => {
       query: req.query
     }
 
-    // Determine whether we should render GraphiQL instead of returning an API response
-    if (shouldRenderGraphiQL(request)) {
-      res.send(renderGraphiQL())
-    } else {
-      // Extract the Graphql parameters from the request
-      const {operationName, query, variables} = getGraphQLParameters(request)
+    // Extract the Graphql parameters from the request
+    const {operationName, query, variables} = getGraphQLParameters(request)
 
-      // Validate and execute the query
-      const result = await processRequest({
-        operationName,
-        query,
-        variables,
-        request,
-        schema,
-        contextFactory: () => ({
-          req,
-          res
-        })
+    // Validate and execute the query
+    const result = await processRequest({
+      operationName,
+      query,
+      variables,
+      request,
+      schema,
+      contextFactory: () => ({
+        req,
+        res
       })
+    })
 
-      // processRequest returns one of three types of results depending on how the server should respond
-      // 1) RESPONSE: a regular JSON payload
-      // 2) MULTIPART RESPONSE: a multipart response (when @stream or @defer directives are used)
-      // 3) PUSH: a stream of events to push back down the client for a subscription
-      // The "sendResult" is a NodeJS-only shortcut for handling all possible types of Graphql responses,
-      // See "Advanced Usage" below for more details and customizations available on that layer.
-      sendResult(result, res)
-    }
+    // processRequest returns one of three types of results depending on how the server should respond
+    // 1) RESPONSE: a regular JSON payload
+    // 2) MULTIPART RESPONSE: a multipart response (when @stream or @defer directives are used)
+    // 3) PUSH: a stream of events to push back down the client for a subscription
+    // The "sendResult" is a NodeJS-only shortcut for handling all possible types of Graphql responses,
+    // See "Advanced Usage" below for more details and customizations available on that layer.
+    sendResult(result, res)
   })
 
   return app
