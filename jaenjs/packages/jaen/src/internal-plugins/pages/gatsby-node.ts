@@ -320,7 +320,7 @@ export const onCreatePage: GatsbyNode['onCreatePage'] = ({
   createContentDigest,
   getNode
 }) => {
-  const {createPage, deletePage, createNode} = actions
+  const {createPage, deletePage, createNode, deleteNode} = actions
 
   let stepPage = page
 
@@ -331,56 +331,87 @@ export const onCreatePage: GatsbyNode['onCreatePage'] = ({
     return
   }
 
-  // Check if the page has a `jaenPageId` in its context.
-  // If not it means it's not a JaenPage and we must create one.
-  if (!page.context?.jaenPageId) {
-    if (!page.context?.skipJaenPage) {
-      const jaenPageId = `JaenPage ${page.path}`
+  const jaenPageId = `JaenPage ${page.path}`
 
+  const existingNode = getNode(jaenPageId)
+
+  const componentName = page.component.includes(sourcePages)
+    ? page.component.replace(`${sourcePages}/`, '')
+    : undefined
+
+  console.log('componentName', componentName, page.component)
+  console.log(`existingNode`, !!existingNode)
+  console.log(`existingNode.component`, existingNode?.componentName)
+
+  if (!existingNode) {
+    if (!page.context?.skipJaenPage) {
       const slugifiedPath = convertToSlug(page.path)
 
-      if (!getNode(jaenPageId)) {
-        const jaenPage: IJaenPage = {
-          id: jaenPageId,
-          slug: slugifiedPath,
-          parent: null,
-          children: [],
-          jaenPageMetadata: {
-            title: page.path,
-            description: '',
-            image: '',
-            canonical: '',
-            datePublished: '',
-            isBlogPost: false
-          },
-          jaenFields: null,
-          jaenFiles: [],
-          sections: [],
-          template: null,
-          componentName: page.component.includes(sourcePages)
-            ? page.component.replace(`${sourcePages}/`, '')
-            : undefined
-        }
-
-        createNode({
-          ...jaenPage,
-          parent: null,
-          children: [],
-          jaenFiles: [],
-          internal: {
-            type: 'JaenPage',
-            content: JSON.stringify(jaenPage),
-            contentDigest: createContentDigest(jaenPage)
-          }
-        })
+      const jaenPage: IJaenPage = {
+        id: jaenPageId,
+        slug: slugifiedPath,
+        parent: null,
+        children: [],
+        jaenPageMetadata: {
+          title: page.path,
+          description: '',
+          image: '',
+          canonical: '',
+          datePublished: '',
+          isBlogPost: false
+        },
+        jaenFields: null,
+        jaenFiles: [],
+        sections: [],
+        template: null,
+        componentName
       }
 
-      stepPage = {...stepPage, context: {...page.context, jaenPageId}}
+      createNode({
+        ...jaenPage,
+        parent: null,
+        children: [],
+        jaenFiles: [],
+        internal: {
+          type: 'JaenPage',
+          content: JSON.stringify(jaenPage),
+          contentDigest: createContentDigest(jaenPage)
+        }
+      })
+    }
+  } else {
+    let update = false
+
+    if (!existingNode.componentName) {
+      console.log('updating node', existingNode.id, componentName)
+      // update the node
+      existingNode.componentName = componentName
+
+      update = true
+    }
+
+    if (update) {
+      // delete the old node
+      deleteNode(existingNode)
+
+      // create the new node
+      createNode({
+        ...existingNode,
+        internal: {
+          type: 'JaenPage',
+          content: JSON.stringify(existingNode),
+          contentDigest: createContentDigest(existingNode)
+        }
+      })
     }
   }
 
-  deletePage(page)
-  createPage(stepPage)
+  if (!page.context?.jaenPageId) {
+    stepPage = {...stepPage, context: {...page.context, jaenPageId}}
+
+    deletePage(page)
+    createPage(stepPage)
+  }
 }
 
 // export const onCreatePage: GatsbyNode['onCreatePage'] = async ({
