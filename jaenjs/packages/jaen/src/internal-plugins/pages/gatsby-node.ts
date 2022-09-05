@@ -1,13 +1,13 @@
 import fs from 'fs'
-import { GatsbyNode } from 'gatsby'
+import {GatsbyNode} from 'gatsby'
 import 'isomorphic-fetch'
 import path from 'path'
-import { getJaenDataForPlugin } from '../../services/migration/get-jaen-data-for-plugin'
-import { convertToSlug } from '../../utils/helper'
-import { sourcePages, sourceTemplates } from './gatsby-config'
-import { processPage } from './internal/services/imaProcess'
-import { generateOriginPath, PageNode } from './internal/services/path'
-import { IJaenFields, IJaenPage, IPagesMigrationBase } from './types'
+import {getJaenDataForPlugin} from '../../services/migration/get-jaen-data-for-plugin'
+import {convertToSlug} from '../../utils/helper'
+import {sourcePages, sourceTemplates} from './gatsby-config'
+import {processPage} from './internal/services/imaProcess'
+import {generateOriginPath, PageNode} from './internal/services/path'
+import {IJaenFields, IJaenPage, IPagesMigrationBase} from './types'
 
 export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
   plugins,
@@ -185,6 +185,7 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
       slug: jaenPage.slug || convertToSlug(path),
       id,
       template: jaenPage.template || null,
+      componentName: jaenPage.componentName || null,
       sections: jaenPage.sections || [],
       parent: jaenPage.parent ? jaenPage.parent.id : null,
       children: jaenPage.children?.map(child => child.id) || [],
