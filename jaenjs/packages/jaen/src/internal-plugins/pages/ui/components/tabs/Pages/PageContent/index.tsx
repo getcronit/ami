@@ -23,15 +23,14 @@ import {
   Textarea,
   useToast
 } from '@chakra-ui/react'
-import { useSnekFinder } from '@jaenjs/snek-finder'
+import {useSnekFinder} from '@jaenjs/snek-finder'
 import * as React from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import { IFormProps, IJaenTemplate } from '../../../../../types'
+import {Controller, useForm} from 'react-hook-form'
+import {IFormProps, IJaenTemplate} from '../../../../../types'
 
-import { HiCloudUpload } from '@react-icons/all-files/hi/HiCloudUpload'
+import {HiCloudUpload} from '@react-icons/all-files/hi/HiCloudUpload'
 
-import { HiTemplate } from '@react-icons/all-files/hi/HiTemplate'
-import FieldsAdminPanel from '../../../../../fields/FieldsAdminPanel'
+import {HiTemplate} from '@react-icons/all-files/hi/HiTemplate'
 
 export type ContentValues = {
   title: string
@@ -132,7 +131,11 @@ export const PageContent = (props: PageContentProps) => {
                 <Box overflowY={'auto'} h={'70vh'}>
                   <HStack>
                     {props.template && (
-                      <Tag my={4} size="md" variant='outline' colorScheme='teal'>
+                      <Tag
+                        my={4}
+                        size="md"
+                        variant="outline"
+                        colorScheme="teal">
                         <Box ml={-1} mr={2}>
                           <HiTemplate />
                         </Box>
@@ -263,7 +266,7 @@ export const PageContent = (props: PageContentProps) => {
             </Box>
           </TabPanel>
           <TabPanel>
-            <FieldsAdminPanel jaenPageId={props.jaenPageId} />
+            {/* <FieldsAdminPanel jaenPageId={props.jaenPageId} /> */}
           </TabPanel>
         </TabPanels>
       </Tabs>
