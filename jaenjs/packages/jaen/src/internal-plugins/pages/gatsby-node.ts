@@ -304,10 +304,10 @@ export const createPages: GatsbyNode['createPages'] = async ({
   // stepPage.matchPath is a special key that's used for matching pages
   // only on the client.
   createPage({
-    path: '/_',
-    matchPath: '/_/*',
+    path: '/~',
+    matchPath: '/~/*',
     component: require.resolve(
-      '../../../src/internal-plugins/pages/internal/services/routing/pages/_.tsx'
+      '../../../src/internal-plugins/pages/internal/services/routing/pages/~.tsx'
     ),
     context: {}
   })

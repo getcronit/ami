@@ -5,7 +5,7 @@ const _ = () => {
   if (typeof window !== 'undefined') {
     return (
       <Router primary={false}>
-        <Dynamic path="/_" />
+        <Dynamic path="/~" />
       </Router>
     )
   }

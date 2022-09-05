@@ -177,7 +177,7 @@ export const PageManagerProvider: React.FC<React.PropsWithChildren<{}>> = ({
   const handlePageNavigate = React.useCallback(
     (id: string) => {
       // Check if the page is a dynamic or static page.
-      // Navigate to /_/:path if dynamic, else to /:path
+      // Navigate to /~/:path if dynamic, else to /:path
       let node = pageTree.find(p => p.id === id)
 
       if (!node) {
@@ -194,7 +194,7 @@ export const PageManagerProvider: React.FC<React.PropsWithChildren<{}>> = ({
 
       if (path) {
         if (dynamicPaths && path in dynamicPaths) {
-          path = `/_#${path}`
+          path = `/~#${path}`
         }
 
         navigate(path)

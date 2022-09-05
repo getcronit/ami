@@ -16,7 +16,7 @@ export const navigate = async (
   const pageId = dynamicPaths[pathWithoutTrailingSlash]
 
   if (pageId) {
-    to = `/_#${pathWithoutTrailingSlash}`
+    to = `/~#${pathWithoutTrailingSlash}`
   }
 
   gatsbyNavigate(to, options)
