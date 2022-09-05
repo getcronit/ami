@@ -111,10 +111,10 @@ export const processIMAtoNodes = async ({
 
               if (!node.jaenFiles) {
                 node.jaenFiles = []
-              } else {
-                // @ts-ignore
-                node.jaenFiles.push(fileNodeId)
               }
+
+              // @ts-ignore
+              node.jaenFiles.push(fileNodeId)
             }
           }
         } catch (error) {
