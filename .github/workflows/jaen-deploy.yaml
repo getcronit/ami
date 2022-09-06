@@ -49,6 +49,9 @@ on:
         # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecretssecret_idrequired
         required: false
 
+env:
+ NODE_OPTIONS: --max-old-space-size=8192
+
 # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobs
 jobs:
   # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_id
