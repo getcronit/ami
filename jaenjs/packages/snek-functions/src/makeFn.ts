@@ -22,7 +22,7 @@ export const makeFn = ({url, decorators}: MakeFnOptions) => <
   const fn: SnekFunction<FunctionArgs, FunctionReturn> = async args => {
     const {data, errors} = await fn.execute(args)
 
-    if (errors) {
+    if (errors.length > 0) {
       throw new Error(errors[0].message)
     }
 
