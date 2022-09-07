@@ -41,10 +41,14 @@ export function installDependencies(
     const packageJson = readPackageJson(options.cwd)
 
     const dependenciesNames = dependencies.map(dependency => {
-      // check if dependency contains a version number
-      const [name, ,] = dependency.split('@')
+      const parts = dependency.split('@')
 
-      return name
+      if (dependency.startsWith('@')) {
+        // Remove all after second @
+        return parts.slice(0, 2).join('@')
+      }
+
+      return parts[0]
     }) as string[]
 
     const newDependenciesNames = dependenciesNames
