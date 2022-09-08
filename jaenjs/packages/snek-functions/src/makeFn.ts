@@ -1,6 +1,6 @@
 import {KeyManager} from '@snek-at/snek-api-client'
 
-import {Decorator, SnekFunction} from './types.js'
+import {BaseFunctionArgs, Decorator, SnekFunction} from './types.js'
 import {buildGraphqlQueryString} from './utils.js'
 
 export interface MakeFnOptions {
@@ -13,7 +13,7 @@ export interface MakeFnOptions {
 }
 
 export const makeFn = ({url, decorators}: MakeFnOptions) => <
-  FunctionArgs,
+  FunctionArgs extends BaseFunctionArgs,
   FunctionReturn
 >(
   snekFunction: SnekFunction<FunctionArgs, FunctionReturn>['server'],
@@ -46,9 +46,7 @@ export const makeFn = ({url, decorators}: MakeFnOptions) => <
         },
         body: buildGraphqlQueryString({
           name: options.name,
-          args: {
-            ...args
-          }
+          args
         }),
         credentials: 'include'
       })

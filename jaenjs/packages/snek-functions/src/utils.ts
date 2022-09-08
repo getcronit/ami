@@ -3,15 +3,15 @@ export async function importFresh(modulePath: string) {
   return await import(cacheBustingModulePath)
 }
 
-export function stringify(obj_from_json: {[x: string]: any}): any {
-  if (typeof obj_from_json !== 'object' || Array.isArray(obj_from_json)) {
+export function stringify(data: {[x: string]: any} | any[]): any {
+  if (typeof data !== 'object' || Array.isArray(data)) {
     // not an object, stringify using native function
-    return JSON.stringify(obj_from_json)
+    return JSON.stringify(data)
   }
   // Implements recursive object serialization according to JSON spec
   // but without quotes around the keys.
-  let props = Object.keys(obj_from_json)
-    .map(key => `${key}:${stringify(obj_from_json[key])}`)
+  let props = Object.keys(data)
+    .map(key => `${key}:${stringify(data[key])}`)
     .join(',')
   return `{${props}}`
 }
@@ -21,12 +21,14 @@ export const buildGraphqlQueryString = ({
   args
 }: {
   name: string
-  args: {[x: string]: any}
+  args?: {[x: string]: any} | any[]
 }) => {
+  const argsQuery = args ? `(fnArgs: ${stringify(args)})` : ''
+
   return JSON.stringify({
     query: `
         mutation {
-          ${name}(fnArgs: ${stringify(args)})
+          ${name}${argsQuery} 
         }
       `
   })

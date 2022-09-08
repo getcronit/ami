@@ -1,6 +1,6 @@
 {
   "name": "@snek-at/functions",
-  "version": "0.0.59",
+  "version": "0.0.61",
   "main": "dist/client/index.js",
   "browser": "dist/client/index.browser.js",
   "types": "dist/client/index.d.ts",
