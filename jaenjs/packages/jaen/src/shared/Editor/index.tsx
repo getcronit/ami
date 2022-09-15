@@ -100,7 +100,10 @@ const Editor: React.FC<EditorProps> = props => {
     mediaEmbed: {
       previewsInData: true
     },
-    extraPlugins: [OSGUploadAdapterPlugin]
+    extraPlugins: [OSGUploadAdapterPlugin],
+    link: {
+      addTargetToExternalLinks: true
+    }
   }
 
   if (props.disableToolbar) {
