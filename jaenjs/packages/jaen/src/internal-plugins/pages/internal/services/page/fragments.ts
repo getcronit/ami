@@ -9,6 +9,7 @@ export const fragments = graphql`
 
   fragment JaenPageData on JaenPage {
     id
+    buildPath
     slug
     jaenFields
     jaenPageMetadata {

@@ -68,7 +68,7 @@ export const PageContent = (props: PageContentProps) => {
     handleSubmit,
     setValue,
     control,
-    formState: {errors, isSubmitting, isDirty, isValid}
+    formState: {errors, isSubmitting, isDirty, isValid, dirtyFields}
   } = useForm<ContentValues>({
     defaultValues
   })
@@ -88,7 +88,7 @@ export const PageContent = (props: PageContentProps) => {
       ...values
     }
 
-    props.onSubmit(vs)
+    props.onSubmit(values)
 
     setDefaultValues(vs)
     reset(vs)
@@ -169,6 +169,11 @@ export const PageContent = (props: PageContentProps) => {
                             'Only lowercase letters, numbers and hyphens are allowed'
                         },
                         validate: (value: string) => {
+                          // return if the form field is not dirty
+                          if (!dirtyFields.slug) {
+                            return true
+                          }
+
                           const {externalValidation} = props
 
                           if (externalValidation) {

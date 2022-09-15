@@ -71,8 +71,19 @@ export interface UsePageIndexProps {
   /**
    * Opts out the field from the page content on which it is applied.
    * Instead the page context of the provided jaenPageId will be used.
+   *
+   * Priority: jaenPageId > path > current page
    */
   jaenPageId?: string
+  /**
+   * Opts out the field from the page content on which it is applied.
+   * Instead it resolves the page by the provided path.
+   *
+   * This is useful when you want to use a dynamic page as a context.
+   *
+   * Priority: jaenPageId > path > current page
+   */
+  path?: string
   filter?: (page: Partial<IJaenPage>) => boolean
   sort?: (a: Partial<IJaenPage>, b: Partial<IJaenPage>) => number
 }
@@ -88,9 +99,39 @@ export const useJaenPageIndex = (
   let id = jaenPage.id
   let staticChildren = jaenPage.children
 
-  if (props?.jaenPageId && props?.jaenPageId !== id) {
+  if (props?.jaenPageId) {
     id = props?.jaenPageId
+  } else if (props?.path) {
+    if (!jaenPages) {
+      throw new Error('Unable to resolve page by path. No pages provided.')
+    }
 
+    const resolveJaenPageIdByPath = (
+      path: string,
+      staticPages: Array<Partial<IJaenPage>>
+    ) => {
+      const dynamicPageId = store.getState().internal.routing.dynamicPaths[path]
+        ?.pageId
+
+      if (dynamicPageId) {
+        return dynamicPageId
+      }
+
+      return staticPages.find(page => page.buildPath === path)?.id
+    }
+
+    const path = props?.path
+
+    const newId = resolveJaenPageIdByPath(path, jaenPages)
+
+    if (!newId) {
+      throw new Error(`Could not resolve page by path: ${path}`)
+    }
+
+    id = newId
+  }
+
+  if (id !== jaenPage.id) {
     if (jaenPages) {
       staticChildren = jaenPages.find(page => page.id === id)?.children
     } else {

@@ -1,5 +1,6 @@
 import deepmerge from 'deepmerge'
 import React from 'react'
+import {IJaenPage} from 'src/internal-plugins/pages/types'
 
 export const omitSingle = (key: string, {[key]: _, ...obj}) => obj
 
@@ -104,4 +105,33 @@ export const deepmergeArrayIdMerge = (
 export const getPackageJsonVersion = () => {
   const packageJson = require('../../package.json')
   return packageJson.version
+}
+
+export const updateJaenPageNode = (
+  node: Partial<IJaenPage>,
+  options: {
+    id: string
+    path: string
+    slug: string
+    createContentDigest: (obj: any) => string
+  }
+) => {
+  return {
+    ...node,
+    jaenPageMetadata: node.jaenPageMetadata || {
+      title: options.path
+    },
+    slug: node.slug || options.slug,
+    id: options.id,
+    template: node.template || null,
+    componentName: node.componentName || null,
+    sections: node.sections || [],
+    parent: node.parent ? node.parent.id : null,
+    children: node.children?.map(child => child.id) || [],
+    internal: {
+      type: 'JaenPage',
+      content: JSON.stringify(node),
+      contentDigest: options.createContentDigest(node)
+    }
+  }
 }

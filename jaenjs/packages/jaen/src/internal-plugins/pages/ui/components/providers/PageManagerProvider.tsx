@@ -39,8 +39,9 @@ export type PageManagerContextType = {
   onToggleCreator: (parentId: string | null) => void
 }
 
-export const PageManagerContext =
-  React.createContext<PageManagerContextType | undefined>(undefined)
+export const PageManagerContext = React.createContext<
+  PageManagerContextType | undefined
+>(undefined)
 
 export const usePageManager = () => {
   const context = React.useContext(PageManagerContext)
@@ -67,11 +68,10 @@ export const PageManagerProvider: React.FC<React.PropsWithChildren<{}>> = ({
     state => state.internal.routing.dynamicPaths
   )
 
-  let [shouldUpdateDpathsFor, setShouldUpdateDpathsFor] =
-    React.useState<{
-      pageId: string
-      create: boolean
-    } | null>(null)
+  let [shouldUpdateDpathsFor, setShouldUpdateDpathsFor] = React.useState<{
+    pageId: string
+    create: boolean
+  } | null>(null)
 
   React.useEffect(() => {
     if (shouldUpdateDpathsFor) {
@@ -177,7 +177,7 @@ export const PageManagerProvider: React.FC<React.PropsWithChildren<{}>> = ({
   const handlePageNavigate = React.useCallback(
     (id: string) => {
       // Check if the page is a dynamic or static page.
-      // Navigate to /~/:path if dynamic, else to /:path
+      // Navigate to /jaen/r/:path if dynamic, else to /:path
       let node = pageTree.find(p => p.id === id)
 
       if (!node) {
@@ -194,7 +194,7 @@ export const PageManagerProvider: React.FC<React.PropsWithChildren<{}>> = ({
 
       if (path) {
         if (dynamicPaths && path in dynamicPaths) {
-          path = `/~#${path}`
+          path = `/jaen/r#${path}`
         }
 
         navigate(path)
@@ -216,10 +216,9 @@ export const PageManagerProvider: React.FC<React.PropsWithChildren<{}>> = ({
     return items
   }, [pageTree])
 
-  const [creatorState, setCreatorState] =
-    React.useState<{
-      parentId: string | null
-    } | null>(null)
+  const [creatorState, setCreatorState] = React.useState<{
+    parentId: string | null
+  } | null>(null)
 
   const parentCreatorPage = React.useMemo(
     () =>

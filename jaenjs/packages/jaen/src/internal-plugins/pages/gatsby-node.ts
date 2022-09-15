@@ -1,5 +1,5 @@
 import fs from 'fs'
-import {GatsbyNode} from 'gatsby'
+import {GatsbyNode, Node} from 'gatsby'
 import 'isomorphic-fetch'
 import path from 'path'
 import {getJaenDataForPlugin} from '../../services/migration/get-jaen-data-for-plugin'
@@ -48,54 +48,126 @@ export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
   }
 }
 
-export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] =
-  ({actions, reporter}) => {
-    actions.createFieldExtension({
-      name: 'file',
-      args: {},
-      extend(options: any, prevFieldConfig: any) {
-        return {
-          args: {},
-          resolve(
-            source: {
-              name: string
-              jaenFiles: any[]
-              jaenFields: IJaenFields
-              headPtr: string
-              tailPtr: string
-            },
-            args: any,
-            context: any,
-            info: any
-          ) {
-            const fieldName = info.fieldName
-            const fieldPathKey = info.path.key
+export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] = ({
+  actions,
+  reporter
+}) => {
+  actions.createFieldExtension({
+    name: 'file',
+    args: {},
+    extend(options: any, prevFieldConfig: any) {
+      return {
+        args: {},
+        resolve(
+          source: {
+            name: string
+            jaenFiles: any[]
+            jaenFields: IJaenFields
+            headPtr: string
+            tailPtr: string
+          },
+          args: any,
+          context: any,
+          info: any
+        ) {
+          const fieldName = info.fieldName
+          const fieldPathKey = info.path.key
 
-            // Throw a error if the fieldKey is the same as the fieldName
-            // this is to ensure that the fieldKey is set to the correct fieldName
-            // of the IMA:ImageField.
-            if (fieldPathKey === info.fieldName) {
-              throw new Error(
-                `The fieldKey ${fieldPathKey} is the same as the fieldName ${fieldName}, please set the fieldKey to the correct fieldName of an ImageField.`
-              )
-            }
-
-            const imageId =
-              source.jaenFields?.['IMA:ImageField']?.[fieldPathKey]?.value
-                ?.imageId
-
-            const node = context.nodeModel.getNodeById({
-              id: imageId,
-              type: 'File'
-            })
-
-            return node
+          // Throw a error if the fieldKey is the same as the fieldName
+          // this is to ensure that the fieldKey is set to the correct fieldName
+          // of the IMA:ImageField.
+          if (fieldPathKey === info.fieldName) {
+            throw new Error(
+              `The fieldKey ${fieldPathKey} is the same as the fieldName ${fieldName}, please set the fieldKey to the correct fieldName of an ImageField.`
+            )
           }
+
+          const imageId =
+            source.jaenFields?.['IMA:ImageField']?.[fieldPathKey]?.value
+              ?.imageId
+
+          const node = context.nodeModel.getNodeById({
+            id: imageId,
+            type: 'File'
+          })
+
+          return node
         }
       }
-    })
+    }
+  })
 
-    actions.createTypes(`
+  actions.createFieldExtension({
+    name: 'buildPath',
+    args: {},
+    extend(options: any, prevFieldConfig: any) {
+      return {
+        args: {},
+        async resolve(
+          source: Node & {
+            slug: string
+            parent: string | null
+          },
+          args: any,
+          context: any,
+          info: any
+        ) {
+          const items = Array.from(
+            (await context.nodeModel.findAll({type: `JaenPage`})).entries
+          ) as any[]
+
+          const originPath = generateOriginPath(
+            items.map((item: {id: any; slug: any; parent: any}) => ({
+              id: item.id,
+              slug: item.slug,
+              parent: item.parent ? {id: item.parent} : null
+            })),
+            {
+              id: source.id,
+              slug: source.slug,
+              parent: source.parent
+                ? {
+                    id: source.parent
+                  }
+                : null
+            }
+          )
+
+          return originPath
+        }
+      }
+    }
+  })
+
+  actions.createFieldExtension({
+    name: 'componentName',
+    args: {},
+    extend(options: any, prevFieldConfig: any) {
+      return {
+        args: {},
+        async resolve(source: Node, args: any, context: any, info: any) {
+          const items = Array.from(
+            (await context.nodeModel.findAll({type: `SitePage`})).entries
+          ) as any[]
+
+          const page = items.find(
+            (item: {component: string; context: {jaenPageId: string}}) =>
+              item.context.jaenPageId === source.id
+          )
+
+          const componentName = page?.component?.includes(sourcePages)
+            ? page.component.replace(`${sourcePages}/`, '')
+            : undefined
+
+          return componentName
+        }
+      }
+    }
+  })
+
+  //
+
+  actions.createTypes(`
     type JaenPage implements Node {
       id: ID!
       slug: String!
@@ -107,7 +179,8 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
       sections: [JaenSection!]!
 
       template: String
-      componentName: String
+      buildPath: String @buildPath
+      componentName: String @componentName
       excludedFromIndex: Boolean
     }
 
@@ -145,7 +218,7 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
       isBlogPost: Boolean
     }
     `)
-  }
+}
 
 export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
   actions,
@@ -162,9 +235,9 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
   let pages = await getJaenDataForPlugin<IPagesMigrationBase>('JaenPages@0.0.1')
 
   for (const [id, page] of Object.entries(pages)) {
-    const jaenPage = (await (
+    const jaenPage = ((await (
       await fetch(page.context.fileUrl)
-    ).json()) as unknown as IJaenPage
+    ).json()) as unknown) as IJaenPage
 
     await processPage({
       page: jaenPage,
@@ -198,16 +271,15 @@ export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
 
     createNode(node)
   }
-
-  //> Fetch template files and proccess them
 }
 
 export const createPages: GatsbyNode['createPages'] = async ({
   actions,
   graphql,
-  reporter
+  reporter,
+  getNode
 }) => {
-  const {createPage} = actions
+  const {createPage, createNodeField} = actions
 
   interface QueryData {
     allTemplate: {
@@ -259,15 +331,24 @@ export const createPages: GatsbyNode['createPages'] = async ({
     const {template} = node
     const pagePath = generateOriginPath(allJaenPage.nodes, node)
 
+    const pureNode = getNode(node.id)
+
+    if (pureNode) {
+      createNodeField({
+        node: pureNode,
+        name: 'path',
+        value: pagePath
+      })
+    }
+
     if (template) {
       if (!pagePath) {
         reporter.panicOnBuild(`Error while generating path for page ${node.id}`)
         return
       }
 
-      const component = allTemplate.nodes.find(
-        e => e.name === template
-      )?.absolutePath
+      const component = allTemplate.nodes.find(e => e.name === template)
+        ?.absolutePath
 
       if (!component) {
         reporter.panicOnBuild(
@@ -304,23 +385,24 @@ export const createPages: GatsbyNode['createPages'] = async ({
   // stepPage.matchPath is a special key that's used for matching pages
   // only on the client.
   createPage({
-    path: '/~',
-    matchPath: '/~/*',
+    path: '/jaen/r',
+    matchPath: '/jaen/r/*',
     component: require.resolve(
-      '../../../src/internal-plugins/pages/internal/services/routing/pages/~.tsx'
+      '../../../src/internal-plugins/pages/internal/services/routing/pages/jaen/r.tsx'
     ),
     context: {}
   })
 }
 
-export const onCreatePage: GatsbyNode['onCreatePage'] = ({
+export const onCreatePage: GatsbyNode['onCreatePage'] = async ({
   actions,
   page,
   createNodeId,
   createContentDigest,
-  getNode
+  getNode,
+  cache
 }) => {
-  const {createPage, deletePage, createNode, deleteNode} = actions
+  const {createPage, deletePage, createNode, touchNode} = actions
 
   let stepPage = page
 
@@ -331,86 +413,54 @@ export const onCreatePage: GatsbyNode['onCreatePage'] = ({
     return
   }
 
-  const jaenPageId = `JaenPage ${page.path}`
-
-  const existingNode = getNode(jaenPageId)
-
-  const componentName = page.component.includes(sourcePages)
-    ? page.component.replace(`${sourcePages}/`, '')
-    : undefined
-
-  console.log('componentName', componentName, page.component)
-  console.log(`existingNode`, !!existingNode)
-  console.log(`existingNode.component`, existingNode?.componentName)
-
-  if (!existingNode) {
+  // Check if the page has a `jaenPageId` in its context.
+  // If not it means it's not a JaenPage and we must create one.
+  if (!page.context?.jaenPageId) {
     if (!page.context?.skipJaenPage) {
+      const jaenPageId = `JaenPage ${page.path}`
+
       const slugifiedPath = convertToSlug(page.path)
 
-      const jaenPage: IJaenPage = {
-        id: jaenPageId,
-        slug: slugifiedPath,
-        parent: null,
-        children: [],
-        jaenPageMetadata: {
-          title: page.path,
-          description: '',
-          image: '',
-          canonical: '',
-          datePublished: '',
-          isBlogPost: false
-        },
-        jaenFields: null,
-        jaenFiles: [],
-        sections: [],
-        template: null,
-        componentName
+      const existingNode = getNode(jaenPageId)
+
+      if (!existingNode) {
+        const jaenPage: IJaenPage = {
+          id: jaenPageId,
+          slug: slugifiedPath,
+          parent: null,
+          children: [],
+          jaenPageMetadata: {
+            title: page.path,
+            description: '',
+            image: '',
+            canonical: '',
+            datePublished: '',
+            isBlogPost: false
+          },
+          jaenFields: null,
+          jaenFiles: [],
+          sections: [],
+          template: null
+        }
+
+        createNode({
+          ...jaenPage,
+          parent: null,
+          children: [],
+          jaenFiles: [],
+          internal: {
+            type: 'JaenPage',
+            content: JSON.stringify(jaenPage),
+            contentDigest: createContentDigest(jaenPage)
+          }
+        })
       }
 
-      createNode({
-        ...jaenPage,
-        parent: null,
-        children: [],
-        jaenFiles: [],
-        internal: {
-          type: 'JaenPage',
-          content: JSON.stringify(jaenPage),
-          contentDigest: createContentDigest(jaenPage)
-        }
-      })
+      stepPage = {...stepPage, context: {...page.context, jaenPageId}}
+
+      deletePage(page)
+      createPage(stepPage)
     }
-  } else {
-    let update = false
-
-    if (!existingNode.componentName) {
-      console.log('updating node', existingNode.id, componentName)
-      // update the node
-      existingNode.componentName = componentName
-
-      update = true
-    }
-
-    if (update) {
-      // delete the old node
-      deleteNode(existingNode)
-
-      // create the new node
-      createNode({
-        ...existingNode,
-        internal: {
-          type: 'JaenPage',
-          content: JSON.stringify(existingNode),
-          contentDigest: createContentDigest(existingNode)
-        }
-      })
-    }
-  }
-
-  if (!page.context?.jaenPageId) {
-    stepPage = {...stepPage, context: {...page.context, jaenPageId}}
-
-    deletePage(page)
-    createPage(stepPage)
   }
 }
 

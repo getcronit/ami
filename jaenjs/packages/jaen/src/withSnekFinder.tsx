@@ -34,7 +34,7 @@ export const SnekFinder: React.FC<React.PropsWithChildren> = ({children}) => {
   }
 
   return (
-    <>
+    <React.Suspense fallback={null}>
       {!isSSR && (
         <SnekFinderProvider
           backend={Backend}
@@ -42,7 +42,7 @@ export const SnekFinder: React.FC<React.PropsWithChildren> = ({children}) => {
           {children}
         </SnekFinderProvider>
       )}
-    </>
+    </React.Suspense>
   )
 }
 

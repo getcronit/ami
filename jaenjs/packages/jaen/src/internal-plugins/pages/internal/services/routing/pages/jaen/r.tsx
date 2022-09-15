@@ -1,11 +1,11 @@
 import {Router} from '@reach/router'
-import Dynamic from './dynamic'
+import Dynamic from '../dynamic'
 
 const _ = () => {
   if (typeof window !== 'undefined') {
     return (
       <Router primary={false}>
-        <Dynamic path="/~" />
+        <Dynamic path="/jaen/r" />
       </Router>
     )
   }

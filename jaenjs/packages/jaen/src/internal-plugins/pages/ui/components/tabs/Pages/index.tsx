@@ -33,10 +33,9 @@ const PagesTab = () => {
   const manager = usePageManager()
   const rootPageId = manager.rootPageId
 
-  const landingPage = React.useMemo(
-    () => manager.onGet(rootPageId),
-    [rootPageId]
-  ) as IJaenPage
+  const landingPage = React.useMemo(() => manager.onGet(rootPageId), [
+    rootPageId
+  ]) as IJaenPage
 
   const [selection, setSelection] = React.useState<IJaenPage>(landingPage)
 
@@ -190,7 +189,7 @@ const PagesTab = () => {
                   return pageUpdateValidation({
                     name,
                     value,
-                    parentId: selection.parentId,
+                    parentId: selection.parent?.id,
                     treeItems: manager.tree
                   })
                 }}

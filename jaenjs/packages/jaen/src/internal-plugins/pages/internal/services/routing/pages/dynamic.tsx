@@ -42,7 +42,7 @@ const Dynamic = (props: RouteComponentProps & Partial<PageProps>) => {
 
         if (newPath) {
           // Page has been moved, update to the new path
-          navigate(`/~#${newPath}`)
+          navigate(`/jaen/r#${newPath}`)
         } else {
           // Page has been deleted, redirect to the parent page
           navigate('/')

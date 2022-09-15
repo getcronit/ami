@@ -159,7 +159,7 @@ const Editor: React.FC<EditorProps> = props => {
   }, [value])
 
   const editorElement = (
-    <>
+    <React.Suspense fallback={fallbackElement}>
       {props.editing && editor ? (
         <LoadableCKEditor
           fallback={fallbackElement}
@@ -183,7 +183,7 @@ const Editor: React.FC<EditorProps> = props => {
       ) : (
         fallbackElement
       )}
-    </>
+    </React.Suspense>
   )
 
   if (props.editing) {

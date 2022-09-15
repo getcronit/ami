@@ -28,6 +28,7 @@ export type IJaenFields = {
 export interface IJaenPage {
   id: string
   slug: string
+  buildPath?: string
   jaenPageMetadata: {
     title: string
     isBlogPost?: boolean
