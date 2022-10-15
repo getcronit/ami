@@ -1,7 +1,6 @@
 import {createClient, Provider} from 'urql'
 
-const GATSBY_MYSHOPIFY_URL = process.env.GATSBY_MYSHOPIFY_URL
-const GATSBY_STOREFRONT_API_KEY = process.env.GATSBY_STOREFRONT_API_KEY
+import {GATSBY_MYSHOPIFY_URL, GATSBY_STOREFRONT_API_KEY} from './env'
 
 const headers: {
   [key: string]: string

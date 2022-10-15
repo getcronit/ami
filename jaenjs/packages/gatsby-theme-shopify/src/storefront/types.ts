@@ -80,6 +80,7 @@ export interface NodeElement {
   id: string
   compareAtPrice: null | string
   __typename: string
+  availableForSale: boolean
 }
 
 export interface PageInfo {

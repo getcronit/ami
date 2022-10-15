@@ -180,22 +180,25 @@ export const transformProductSearchResultData = (
           variants: edge.node.variants.nodes.map(variant => {
             return {
               id: variant.id,
+              shopifyId: variant.id,
               taxable: true,
               sku: variant.sku,
               price: variant.price ? parseFloat(variant.price) : Infinity,
               compareAtPrice: variant.compareAtPrice
                 ? parseFloat(variant.compareAtPrice)
-                : null
+                : null,
+              availableForSale: variant.availableForSale
             }
           }),
           hasOnlyDefaultVariant: undefined,
           id: edge.node.id,
+          shopifyId: edge.node.id,
           description: edge.node.description,
           descriptionHtml: edge.node.descriptionHtml,
           handle: edge.node.handle,
           title: edge.node.title,
           tags: edge.node.tags,
-          status: undefined,
+          status: 'ACTIVE',
           totalInventory: edge.node.totalInventory,
           createdAt: edge.node.createdAt,
           vendor: edge.node.vendor,

@@ -1,6 +1,6 @@
 import type {GatsbyNode} from 'gatsby'
-import {createCollectionPages} from './steps/create-collection-pages'
 
+import {createCollectionPages} from './steps/create-collection-pages'
 import {createProductPages} from './steps/create-product-pages'
 import {createProductsPages} from './steps/create-products-pages'
 import {
@@ -21,9 +21,8 @@ export const createPages: GatsbyNode['createPages'] = async function (
   const collectionPageTemplate = pluginOptions.collectionPageTemplate as string
   const productsPageTemplate = pluginOptions.productsPageTemplate as string
 
-  const shouldProcessCollections = shopifyEnv.shopifyConnections?.includes(
-    'collections'
-  )
+  const shouldProcessCollections =
+    shopifyEnv.shopifyConnections?.includes('collections')
 
   if (
     !productPageTemplate ||
@@ -40,12 +39,10 @@ export const createPages: GatsbyNode['createPages'] = async function (
     return
   }
 
-  const {
-    data: productData,
-    errors
-  } = await graphql<ShopifyGeneratorProductQueryData>(`
+  const {data: productData, errors} =
+    await graphql<ShopifyGeneratorProductQueryData>(`
     query ShopifyPageGeneratorQuery {
-      allShopifyProduct {
+      allShopifyProduct(filter: {status: {eq: ACTIVE}}) {
         tags: distinct(field: tags)
         vendors: distinct(field: vendor)
         productTypes: distinct(field: productType)
@@ -54,6 +51,7 @@ export const createPages: GatsbyNode['createPages'] = async function (
         minPrice: min(field: variants___price)
         nodes {
           id
+          shopifyId
           handle
           updatedAt
           featuredMedia {
@@ -112,35 +110,36 @@ export const createPages: GatsbyNode['createPages'] = async function (
     | undefined = undefined
 
   if (shouldProcessCollections) {
-    const shopifyCollectionQuery = await graphql<ShopifyGeneratorCollectionQueryData>(`
-      query ShopifyPageGeneratorQuery {
-        allShopifyCollection {
-          totalCount
-          nodes {
-            id
-            title
-            handle
-            updatedAt
-            products {
+    const shopifyCollectionQuery =
+      await graphql<ShopifyGeneratorCollectionQueryData>(`
+        query ShopifyPageGeneratorQuery {
+          allShopifyCollection {
+            totalCount
+            nodes {
               id
-              featuredMedia {
-                preview {
-                  image {
-                    src
+              title
+              handle
+              updatedAt
+              products {
+                id
+                featuredMedia {
+                  preview {
+                    image {
+                      src
+                    }
                   }
                 }
+                variants {
+                  price
+                }
+                tags
+                vendor
+                productType
               }
-              variants {
-                price
-              }
-              tags
-              vendor
-              productType
             }
           }
         }
-      }
-    `)
+      `)
 
     if (shopifyCollectionQuery.errors) {
       reporter.panic(

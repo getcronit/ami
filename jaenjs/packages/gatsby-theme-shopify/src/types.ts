@@ -14,6 +14,7 @@ export interface ShopifyGeneratorProductQueryData {
     minPrice: number
     nodes: Array<{
       id: string
+      shopifyId: string
       handle: string
       updatedAt: string
       featuredMedia: {
@@ -110,20 +111,23 @@ export interface ColllectionPageContext extends ExcludeJaenPage {
 export interface ShopifyProduct {
   variants: Array<{
     id: string
+    shopifyId: string
     taxable: boolean
     sku: string
     compareAtPrice: number | null
     price: number
+    availableForSale: boolean
   }>
   hasOnlyDefaultVariant?: boolean
   id: string
+  shopifyId: string
   handle: string
   description: string
   descriptionHtml: string
   title: string
   tags: Array<string>
-  status?: string
-  totalInventory: number
+  status: 'ACTIVE' | 'ARCHIVED' | 'DRAFT'
+  totalInventory: number | null
   createdAt: string
   vendor: string
   productType: string

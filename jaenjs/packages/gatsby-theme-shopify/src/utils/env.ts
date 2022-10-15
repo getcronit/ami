@@ -6,6 +6,7 @@ export interface ShopifyEnv {
   password: string | undefined
   storeUrl: string | undefined
   shopifyConnections: string[]
+  storefrontAccessToken: string | undefined
 }
 
 export const getShopifyEnv = (): ShopifyEnv => {
@@ -14,6 +15,7 @@ export const getShopifyEnv = (): ShopifyEnv => {
     storeUrl: process.env.GATSBY_MYSHOPIFY_URL,
     shopifyConnections: process.env.SHOPIFY_CONNECTIONS
       ? JSON.parse(process.env.SHOPIFY_CONNECTIONS)
-      : undefined
+      : undefined,
+    storefrontAccessToken: process.env.GATSBY_STOREFRONT_API_KEY
   }
 }

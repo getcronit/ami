@@ -4,13 +4,16 @@ export const shopifyData = graphql`
   fragment shopifyProductData on ShopifyProduct {
     variants {
       id
+      shopifyId
       taxable
       sku
       compareAtPrice
       price
+      availableForSale
     }
     hasOnlyDefaultVariant
     id
+    shopifyId
     handle
     description
     descriptionHtml
