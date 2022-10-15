@@ -36,7 +36,7 @@ export const AdminLoginPage = withRedux((props: PageProps) => {
 
   const handleDocsClick = () => {
     if (typeof window !== 'undefined') {
-      window.open('https://snek.at/products/jaen', '_blank')?.focus()
+      window.open('https://github.com/snek-at/jaen', '_blank')?.focus()
     }
   }
 
