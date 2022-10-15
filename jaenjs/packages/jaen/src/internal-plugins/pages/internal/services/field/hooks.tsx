@@ -1,4 +1,5 @@
 import React from 'react'
+
 import {IJaenPage} from '../../../types'
 import {findSection} from '../../../utils'
 import {store, useAppDispatch} from '../../redux'
@@ -6,7 +7,7 @@ import {internalActions} from '../../redux/slices'
 import {useJaenPageContext} from '../page'
 import {useJaenSectionContext} from '../section'
 
-export const useField = <IValue extends {}>(name: string, type: string) => {
+export function useField<IValue>(name: string, type: string) {
   const {jaenPage} = useJaenPageContext()
 
   if (!jaenPage.id) {
