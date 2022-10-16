@@ -2,6 +2,7 @@ import {
   Box,
   CloseButton,
   Divider,
+  Flex,
   HStack,
   Link,
   Spacer,
@@ -24,7 +25,10 @@ export const JaenActivationButton = (props: JaenActivationButtonProps) => {
     return (
       <HStack
         spacing={6}
-        h="16"
+        h={{
+          md: 16,
+          base: 24
+        }}
         w="full"
         px={4}
         py={2}
@@ -33,12 +37,29 @@ export const JaenActivationButton = (props: JaenActivationButtonProps) => {
         bg="gray.900"
         color="white"
         alignItems="center">
-        <HStack h="full" w="auto" cursor="pointer" onClick={props.onClick}>
+        <Flex
+          h="full"
+          w="auto"
+          cursor="pointer"
+          justifyContent={'space-around'}
+          align="center"
+          gap={2}
+          py={{
+            md: 0,
+            base: 2
+          }}
+          onClick={props.onClick}>
           <JaenLogo h="full" w="auto" />
-          <Text fontSize="sm" fontWeight="bold">
+          <Text
+            fontSize="sm"
+            fontWeight="bold"
+            display={{
+              base: 'none',
+              md: 'block'
+            }}>
             Snek Jaen
           </Text>
-        </HStack>
+        </Flex>
 
         {divider}
 
