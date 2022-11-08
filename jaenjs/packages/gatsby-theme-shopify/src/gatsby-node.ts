@@ -17,30 +17,24 @@ export const createPages: GatsbyNode['createPages'] = async function (
 ) {
   const {createPage, createRedirect} = actions
 
-  const productPageTemplate = pluginOptions.productPageTemplate as string
-  const collectionPageTemplate = pluginOptions.collectionPageTemplate as string
-  const productsPageTemplate = pluginOptions.productsPageTemplate as string
+  const productPageTemplate = pluginOptions.productPageTemplate as
+    | string
+    | undefined
+  const collectionPageTemplate = pluginOptions.collectionPageTemplate as
+    | string
+    | undefined
+  const productsPageTemplate = pluginOptions.productsPageTemplate as
+    | string
+    | undefined
 
-  const shouldProcessCollections =
-    shopifyEnv.shopifyConnections?.includes('collections')
+  const shouldProcessCollections = shopifyEnv.shopifyConnections?.includes(
+    'collections'
+  )
 
-  if (
-    !productPageTemplate ||
-    !collectionPageTemplate ||
-    !productsPageTemplate
-  ) {
-    reporter.info(
-      `
-        The createPages function in gatsby-theme-shopify/gatsby-node.ts
-        is not being called because the productPageTemplate, collectionPageTemplate,
-        or productsPageTemplate options are not set in gatsby-config.
-        `
-    )
-    return
-  }
-
-  const {data: productData, errors} =
-    await graphql<ShopifyGeneratorProductQueryData>(`
+  const {
+    data: productData,
+    errors
+  } = await graphql<ShopifyGeneratorProductQueryData>(`
     query ShopifyPageGeneratorQuery {
       allShopifyProduct(filter: {status: {eq: ACTIVE}}) {
         tags: distinct(field: tags)
@@ -96,50 +90,51 @@ export const createPages: GatsbyNode['createPages'] = async function (
     return
   }
 
-  await createProductPages({
-    createPage,
-    reporter,
-    data: {
-      allShopifyProduct: productData.allShopifyProduct,
-      template: productPageTemplate
-    }
-  })
+  if (productPageTemplate) {
+    await createProductPages({
+      createPage,
+      reporter,
+      data: {
+        allShopifyProduct: productData.allShopifyProduct,
+        template: productPageTemplate
+      }
+    })
+  }
 
   let allShopifyCollection:
     | ShopifyGeneratorCollectionQueryData['allShopifyCollection']
     | undefined = undefined
 
   if (shouldProcessCollections) {
-    const shopifyCollectionQuery =
-      await graphql<ShopifyGeneratorCollectionQueryData>(`
-        query ShopifyPageGeneratorQuery {
-          allShopifyCollection {
-            totalCount
-            nodes {
+    const shopifyCollectionQuery = await graphql<ShopifyGeneratorCollectionQueryData>(`
+      query ShopifyPageGeneratorQuery {
+        allShopifyCollection {
+          totalCount
+          nodes {
+            id
+            title
+            handle
+            updatedAt
+            products {
               id
-              title
-              handle
-              updatedAt
-              products {
-                id
-                featuredMedia {
-                  preview {
-                    image {
-                      src
-                    }
+              featuredMedia {
+                preview {
+                  image {
+                    src
                   }
                 }
-                variants {
-                  price
-                }
-                tags
-                vendor
-                productType
               }
+              variants {
+                price
+              }
+              tags
+              vendor
+              productType
             }
           }
         }
-      `)
+      }
+    `)
 
     if (shopifyCollectionQuery.errors) {
       reporter.panic(
@@ -156,25 +151,29 @@ export const createPages: GatsbyNode['createPages'] = async function (
     if (data) {
       allShopifyCollection = data
 
-      await createCollectionPages({
-        createPage,
-        createRedirect,
-        reporter,
-        data: {
-          collections: allShopifyCollection.nodes,
-          template: collectionPageTemplate
-        }
-      })
+      if (collectionPageTemplate) {
+        await createCollectionPages({
+          createPage,
+          createRedirect,
+          reporter,
+          data: {
+            collections: allShopifyCollection.nodes,
+            template: collectionPageTemplate
+          }
+        })
+      }
 
-      await createProductsPages({
-        createPage,
-        reporter,
-        data: {
-          allShopifyProduct: productData.allShopifyProduct,
-          collections: allShopifyCollection.nodes,
-          template: productsPageTemplate
-        }
-      })
+      if (productsPageTemplate) {
+        await createProductsPages({
+          createPage,
+          reporter,
+          data: {
+            allShopifyProduct: productData.allShopifyProduct,
+            collections: allShopifyCollection.nodes,
+            template: productsPageTemplate
+          }
+        })
+      }
     }
   } else {
     reporter.info(
@@ -199,24 +198,28 @@ export const createPages: GatsbyNode['createPages'] = async function (
         }
       })
 
-    await createCollectionPages({
-      createPage,
-      createRedirect,
-      reporter,
-      data: {
-        collections: collectionTags,
-        template: collectionPageTemplate
-      }
-    })
+    if (collectionPageTemplate) {
+      await createCollectionPages({
+        createPage,
+        createRedirect,
+        reporter,
+        data: {
+          collections: collectionTags,
+          template: collectionPageTemplate
+        }
+      })
+    }
 
-    await createProductsPages({
-      createPage,
-      reporter,
-      data: {
-        allShopifyProduct: productData.allShopifyProduct,
-        collections: collectionTags,
-        template: productsPageTemplate
-      }
-    })
+    if (productsPageTemplate) {
+      await createProductsPages({
+        createPage,
+        reporter,
+        data: {
+          allShopifyProduct: productData.allShopifyProduct,
+          collections: collectionTags,
+          template: productsPageTemplate
+        }
+      })
+    }
   }
 }
