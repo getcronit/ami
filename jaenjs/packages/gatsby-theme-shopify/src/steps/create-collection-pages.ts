@@ -14,7 +14,7 @@ interface BasicCollection {
   title: string
   products: Array<{
     id: string
-    featuredMedia: {
+    featuredMedia?: {
       preview: {
         image: {
           src: string
@@ -41,7 +41,7 @@ const buildShopifyCollection = (
     productsCount: collection.products.length,
     description: '',
     collageImages: collection.products.map(
-      product => product.featuredMedia.preview.image.src
+      product => product.featuredMedia?.preview.image.src ?? ''
     ),
     image: null
   }
