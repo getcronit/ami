@@ -10,8 +10,6 @@ if (GATSBY_STOREFRONT_API_KEY) {
   headers['X-Shopify-Storefront-Access-Token'] = GATSBY_STOREFRONT_API_KEY
 }
 
-console.log(`headers: ${JSON.stringify(headers)}`)
-
 const urqlClient = createClient({
   url: `https://${GATSBY_MYSHOPIFY_URL}/api/2022-04/graphql.json`,
   fetchOptions: {

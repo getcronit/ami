@@ -79,8 +79,6 @@ export const useProductSearch = ({
     ...defaultQuery.filters
   })
 
-  console.log('Filters: ', props.filters)
-
   const [options, setOptions] = React.useState<ProductSearchOptions>({
     sortKey:
       props.options?.sortKey ||
@@ -176,15 +174,12 @@ export const useProductSearch = ({
       after: null
     })
     setProducts([])
-    console.log('reset')
   }, [filters, options.reverse, options.sortKey, options.count])
 
   React.useEffect(() => {
     if (result?.data?.products?.edges) {
       const transformedProducts = transformProductSearchResultData(result.data)
         .nodes
-
-      console.log('new products', transformedProducts)
 
       setProducts(prevProducts => {
         return [...prevProducts, ...transformedProducts]
