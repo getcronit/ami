@@ -16,6 +16,56 @@ const appendToQuery = (query: string, value: string, key?: 'AND' | 'OR') => {
   return query
 }
 
+const buildSignificanceTree = (tags: string[]) => {
+  const tree: {
+    [key: string]: any
+  } = {}
+  for (const tag of tags) {
+    const parts = tag.split(':')
+    let currentLevel = tree
+    for (const part of parts) {
+      if (!currentLevel[part]) {
+        currentLevel[part] = {}
+      }
+      currentLevel = currentLevel[part]
+    }
+  }
+  return tree
+}
+
+const buildQuery = (tree: any, mainPrefix = '') => {
+  const withPrefix = (prefix: string, query: string) => {
+    let tag = 'tag:'
+
+    if (prefix) {
+      tag += JSON.stringify(`${prefix}:${query}`)
+    } else {
+      tag += JSON.stringify(query)
+    }
+
+    return tag
+  }
+
+  const buildAndOrQuery = (tree: any, prefix = '') => {
+    let query = ''
+    for (const key in tree) {
+      const pKey = withPrefix(
+        mainPrefix ? (prefix ? `${mainPrefix}:${prefix}` : mainPrefix) : prefix,
+        key
+      )
+
+      if (Object.keys(tree[key]).length > 0) {
+        query += `(${pKey} AND (${buildAndOrQuery(tree[key], key)}) OR `
+      } else {
+        query += `${pKey} OR `
+      }
+    }
+    return query
+  }
+
+  return buildAndOrQuery(tree) + ')'
+}
+
 export interface ProductSearchFilters {
   mainTag?: string
   tags?: string[]
@@ -27,7 +77,6 @@ export interface ProductSearchFilters {
 }
 
 export const buildProductSearchQuery = (filters: ProductSearchFilters) => {
-  console.log('buildProductSearchQuery', filters)
   const processedTags: {
     grouped: {[key: string]: string[]}
     ungrouped: string[]
@@ -69,15 +118,18 @@ export const buildProductSearchQuery = (filters: ProductSearchFilters) => {
       query = appendToQuery(
         query,
         `(${groupedEntries
-          .map(
-            ([groupName, groupValues]) =>
-              `(${groupValues
-                .map(
-                  value =>
-                    `tag:${JSON.stringify(`${groupName}${delimiter}${value}`)}`
-                )
-                .join(' OR ')})`
-          )
+          .map(([groupName, groupValues]) => {
+            if (['Kategorie'].includes(groupName)) {
+              return buildQuery(buildSignificanceTree(groupValues), groupName)
+            }
+
+            return `(${groupValues
+              .map(
+                value =>
+                  `tag:${JSON.stringify(`${groupName}${delimiter}${value}`)}`
+              )
+              .join(' OR ')})`
+          })
           .join(' AND ')})`,
         'AND'
       )
