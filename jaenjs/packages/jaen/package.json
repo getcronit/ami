@@ -1,6 +1,6 @@
 {
   "name": "@jaenjs/jaen",
-  "version": "3.0.0-beta.100",
+  "version": "3.0.0-beta.101",
   "main": "index.js",
   "types": "src/index.ts",
   "license": "EUPL-1.2",
@@ -41,7 +41,7 @@
     "@atlaskit/tree": "^8.4.0",
     "@chakra-ui/icons": "^2.0.11",
     "@chakra-ui/react": "^2.2.8",
-    "@ckeditor/ckeditor5-build-balloon": "^31.1.0",
+    "@ckeditor/ckeditor5-build-balloon": "^35.0.0",
     "@ckeditor/ckeditor5-react": "^5.0.2",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
