@@ -123,7 +123,9 @@ export const PageManagerProvider: React.FC<React.PropsWithChildren<{}>> = ({
     (parentId: string | null, values: CreateValues) =>
       dispatch(
         internalActions.page_updateOrCreate({
-          parent: parentId ? {id: parentId} : null,
+          parent: {
+            id: parentId || rootPageId
+          },
           slug: values.slug,
           jaenPageMetadata: {
             title: values.title

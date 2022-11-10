@@ -237,6 +237,11 @@ const JaenImage = (props: JJaenImageProps) => {
     defaultImageUrl
   } = props
 
+  imageFieldProps.imgStyle = {
+    ...imageFieldProps.imgStyle,
+    position: 'unset'
+  }
+
   let imageElement
 
   if (internalImageUrl) {

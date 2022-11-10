@@ -27,20 +27,20 @@ export const TreeConverter = (items: Items): TreeData => {
     while (parent) {
       yield parent
 
-      parent = allItems[parent].parent
+      parent = parent === 'JaenPage /' ? null : allItems[parent].parent
     }
   }
 
   function* genTreeItems(tree: TreeData, items: Items): Generator<TreeItem> {
     for (const [id, item] of Object.entries(items)) {
-      if (item.parent === null) {
+      if (item.parent === null || item.parent === 'JaenPage /') {
         tree.items[rootName].children.push(id)
       }
 
       const parentIter = genItemParent(items, id)
       const isExpanded = !nth(parentIter, 3)
 
-      if (item.parent) {
+      if (item.parent && items[item.parent]) {
         if (items[item.parent].data.deleted) {
           item.data.deleted = true
         }

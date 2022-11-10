@@ -1,5 +1,6 @@
-import {useDisclosure} from '@chakra-ui/react'
+import {ChakraProvider, useDisclosure} from '@chakra-ui/react'
 import React from 'react'
+import {default as theme} from '../chakra/theme'
 import {persistKey as jaenPersistKey} from '../redux'
 
 import IncomingBuildAlert from '../ui/components/alerts/IncomingBuildAlert/IncomingBuildAlert'
@@ -119,12 +120,14 @@ export const IncomingBuildCheckerProvider: React.FC<
         isDisabled,
         onOpenAlert: onOpen
       }}>
-      <IncomingBuildAlert
-        isOpen={isOpen}
-        onClose={onClose}
-        onConfirm={handleUpdateConfirm}
-        totalChanges={totalChanges}
-      />
+      <ChakraProvider resetCSS theme={theme}>
+        <IncomingBuildAlert
+          isOpen={isOpen}
+          onClose={onClose}
+          onConfirm={handleUpdateConfirm}
+          totalChanges={totalChanges}
+        />
+      </ChakraProvider>
       {children}
     </IncomingBuildCheckerContext.Provider>
   )

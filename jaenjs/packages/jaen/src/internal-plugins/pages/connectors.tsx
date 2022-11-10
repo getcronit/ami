@@ -1,4 +1,6 @@
+import {ChakraProvider} from '@chakra-ui/react'
 import React from 'react'
+import {default as theme} from '../../chakra/theme'
 import {IJaenConnection} from '../../types'
 import {cleanObject} from '../../utils/helper'
 import {isAuthenticated} from '../../utils/hooks/isAuthenticated'
@@ -216,19 +218,21 @@ export const connectField = <IValue, IDefaultValue = IValue, P = {}>(
       }, [])
 
       return (
-        <Component
-          jaenField={{
-            name: props.name,
-            defaultValue: props.defaultValue,
-            staticValue: field.staticValue,
-            value: field.value,
-            isEditing: field.isEditing,
-            onUpdateValue: field.write,
-            style: props.style,
-            className: props.className
-          }}
-          {...props}
-        />
+        <ChakraProvider resetCSS theme={theme}>
+          <Component
+            jaenField={{
+              name: props.name,
+              defaultValue: props.defaultValue,
+              staticValue: field.staticValue,
+              value: field.value,
+              isEditing: field.isEditing,
+              onUpdateValue: field.write,
+              style: props.style,
+              className: props.className
+            }}
+            {...props}
+          />
+        </ChakraProvider>
       )
     })
 

@@ -27,13 +27,6 @@ GatsbyConfig.plugins = [
       ]
     }
   },
-  {
-    resolve: '@chakra-ui/gatsby-plugin',
-    options: {
-      resetCSS: true,
-      isUsingColorMode: true
-    }
-  },
   'gatsby-plugin-react-helmet-async',
   {
     resolve: `gatsby-plugin-sharp`,

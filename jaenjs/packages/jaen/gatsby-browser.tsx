@@ -1,6 +1,7 @@
-import {Box, Flex} from '@chakra-ui/react'
+import {Box, ChakraProvider, Flex} from '@chakra-ui/react'
 import {GatsbyBrowser} from 'gatsby'
 import React from 'react'
+import {theme} from './src'
 import {IncomingBuildCheckerProvider} from './src/services/IncomingBuildChecker'
 import {AnalyticsProvider} from './src/services/tracking/AnalyticsProvider'
 import {IJaenConfig} from './src/types'
@@ -19,19 +20,26 @@ export const wrapPageElement: GatsbyBrowser['wrapPageElement'] = (
 ) => {
   const pathname = window.location.pathname
 
-  const options = pluginOptions as unknown as IJaenConfig
+  const options = (pluginOptions as unknown) as IJaenConfig
 
   let inner = (
     <Flex direction={'column'}>
-      <Box pos="sticky" top="0" zIndex={'banner'}>
-        <AdminToolbarContainer />
-      </Box>
+      <ChakraProvider resetCSS theme={theme}>
+        <Box pos="sticky" top="0" zIndex={'banner'}>
+          <AdminToolbarContainer />
+        </Box>
+      </ChakraProvider>
+
       <Box>{element}</Box>
     </Flex>
   )
 
   if (pathname.startsWith('/admin')) {
-    inner = <SnekFinder>{element}</SnekFinder>
+    inner = (
+      <ChakraProvider resetCSS theme={theme}>
+        <SnekFinder>{element}</SnekFinder>
+      </ChakraProvider>
+    )
   }
 
   return (
