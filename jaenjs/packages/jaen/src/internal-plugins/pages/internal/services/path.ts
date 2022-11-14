@@ -17,7 +17,11 @@ export const generateOriginPath = (
   const parent = allNodes.find(n => n.id === parentId)
 
   if (parent) {
-    return generateOriginPath(allNodes, parent, `/${parent.slug}${path}`)
+    return generateOriginPath(
+      allNodes,
+      parent,
+      parent.slug ? `/${parent.slug}${path}` : path
+    )
   }
 
   return path
