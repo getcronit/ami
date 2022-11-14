@@ -240,7 +240,16 @@ const SectionField = ({
         </SectionAddPopover>
       ) : (
         section.items.map((item, index) => {
-          const {Component: Section, options} = sectionsDict[item.type]
+          const s = sectionsDict[item.type]
+
+          if (!s) {
+            console.error(
+              `Section type ${item.type} is not found in sections dictionary!`
+            )
+            return null
+          }
+
+          const {Component: Section, options} = s
 
           const SectionWrapper = rest.sectionAs || Box
 
