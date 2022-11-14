@@ -11,8 +11,6 @@ export const navigate = async (
 
   const dynamicPaths = store.getState().internal.routing.dynamicPaths
 
-  console.log('dynamicPaths', dynamicPaths)
-
   const pathWithoutTrailingSlash = to.replace(/\/$/, '')
 
   const pageId = dynamicPaths[pathWithoutTrailingSlash]
