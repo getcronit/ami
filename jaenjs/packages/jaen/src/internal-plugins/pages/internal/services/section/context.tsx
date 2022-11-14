@@ -6,6 +6,10 @@ import {useJaenPageContext} from '../page'
 
 export type JaenSectionType = {
   id: string
+  /**
+   * Position of the section inside its SectionField
+   */
+  position: number
   path: Array<{
     fieldName: string
     sectionId?: string
@@ -25,7 +29,7 @@ export const JaenSectionContext = React.createContext<
 >(undefined)
 
 export const JaenSectionProvider = React.memo<JaenSectionType>(
-  ({path, id, Component}) => {
+  ({path, id, position, Component}) => {
     const {jaenPage} = useJaenPageContext()
     const dispatch = useAppDispatch()
 
@@ -47,6 +51,7 @@ export const JaenSectionProvider = React.memo<JaenSectionType>(
         value={{
           path,
           id,
+          position,
           Component,
           register
         }}>

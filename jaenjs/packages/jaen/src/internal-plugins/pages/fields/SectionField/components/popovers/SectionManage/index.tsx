@@ -12,8 +12,8 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
-  Select,
-  useDisclosure
+  Portal,
+  Select
 } from '@chakra-ui/react'
 import * as React from 'react'
 import {ISectionConnection} from '../../../../../connectors'
@@ -48,77 +48,84 @@ const SectionManagePopover = React.memo<Props>(
     onAppend,
     onPrepend
   }) => {
-    const {isOpen, onOpen, onClose} = useDisclosure()
-
     const [sectionName, setSectionName] = React.useState(sections[0].name)
 
     return (
       <Popover
+        isLazy
         trigger="hover"
         closeOnBlur={false}
         isOpen={disabled ? false : undefined}>
-        <PopoverTrigger>
-          <Box
-            transition={'box-shadow 0.3s ease-in-out'}
-            boxShadow={isOpen ? '0 0 0 2.5px #4fd1c5' : 'none'}
-            h="100%"
-            w="100%">
-            {trigger}
-          </Box>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverArrow />
-          <PopoverCloseButton onClick={onClose} />
-          <PopoverHeader>Manage Section</PopoverHeader>
-          <PopoverBody>
-            <Box>
-              <HStack>
-                <Select
-                  defaultValue={sectionName}
-                  onChange={e => setSectionName(e.target.value)}>
-                  {sections.map(({name, displayName}) => (
-                    <option key={name} value={name}>
-                      {displayName}
-                    </option>
-                  ))}
-                </Select>
+        {({isOpen, onClose, forceUpdate}) => (
+          <>
+            <PopoverTrigger>
+              <Box
+                transition={'box-shadow 0.3s ease-in-out'}
+                boxShadow={isOpen ? '0 0 0 2.5px #4fd1c5' : 'none'}
+                h="100%"
+                w="100%">
+                {trigger}
+              </Box>
+            </PopoverTrigger>
+            <Portal>
+              <PopoverContent>
+                <PopoverArrow />
+                <PopoverCloseButton />
+                <PopoverHeader>Manage Section</PopoverHeader>
+                <PopoverBody>
+                  <HStack>
+                    <Select
+                      onFocus={() => {
+                        // re-render popover to update its size to fit the new content
+                        forceUpdate?.()
+                      }}
+                      defaultValue={sectionName}
+                      onChange={e => setSectionName(e.target.value)}>
+                      {sections.map(({name, displayName}) => (
+                        <option key={name} value={name}>
+                          {displayName}
+                        </option>
+                      ))}
+                    </Select>
 
-                <ButtonGroup isAttached variant="outline">
-                  <IconButton
-                    aria-label="Add section before"
-                    mr="-px"
-                    disabled={disablePrepandSection}
-                    icon={<ChevronLeftIcon />}
-                    onClick={() => {
-                      onPrepend(sectionName, id, ptrPrev)
-                      onClose()
-                    }}
-                  />
-                  <IconButton
-                    aria-label="Add section after"
-                    disabled={disableAppendSection}
-                    icon={<ChevronRightIcon />}
-                    onClick={() => {
-                      onAppend(sectionName, id, ptrNext)
-                      onClose()
-                    }}
-                  />
-                </ButtonGroup>
-                <Divider orientation="vertical" />
-                <IconButton
-                  variant="outline"
-                  aria-label="Delete section"
-                  icon={<DeleteIcon />}
-                  onClick={() => {
-                    onDelete(id, ptrPrev, ptrNext)
-                    onClose()
-                  }}
-                  size="sm"
-                />
-              </HStack>
-            </Box>
-          </PopoverBody>
-        </PopoverContent>
+                    <ButtonGroup isAttached variant="outline">
+                      <IconButton
+                        aria-label="Add section before"
+                        mr="-px"
+                        disabled={disablePrepandSection}
+                        icon={<ChevronLeftIcon />}
+                        onClick={() => {
+                          onPrepend(sectionName, id, ptrPrev)
+                          onClose()
+                        }}
+                      />
+                      <IconButton
+                        aria-label="Add section after"
+                        disabled={disableAppendSection}
+                        icon={<ChevronRightIcon />}
+                        onClick={() => {
+                          onAppend(sectionName, id, ptrNext)
+                          onClose()
+                        }}
+                      />
+                    </ButtonGroup>
+                    <Divider orientation="vertical" />
+                    <IconButton
+                      variant="outline"
+                      aria-label="Delete section"
+                      icon={<DeleteIcon />}
+                      onClick={() => {
+                        onDelete(id, ptrPrev, ptrNext)
+                        onClose()
+                      }}
+                      size="sm"
+                    />
+                  </HStack>
+                </PopoverBody>
+              </PopoverContent>
+            </Portal>
+          </>
+        )}
       </Popover>
     )
   }

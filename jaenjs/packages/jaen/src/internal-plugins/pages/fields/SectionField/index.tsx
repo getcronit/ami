@@ -239,45 +239,44 @@ const SectionField = ({
           </Box>
         </SectionAddPopover>
       ) : (
-        <>
-          {section.items.map((item, index) => {
-            const {Component: Section, options} = sectionsDict[item.type]
+        section.items.map((item, index) => {
+          const {Component: Section, options} = sectionsDict[item.type]
 
-            const SectionWrapper = rest.sectionAs || Box
+          const SectionWrapper = rest.sectionAs || Box
 
-            const sectionProps =
-              typeof rest.sectionProps === 'function'
-                ? rest.sectionProps({
-                    count: index + 1,
-                    totalSections: section.items.length,
-                    section: item
-                  })
-                : rest.sectionProps
+          const sectionProps =
+            typeof rest.sectionProps === 'function'
+              ? rest.sectionProps({
+                  count: index + 1,
+                  totalSections: section.items.length,
+                  section: item
+                })
+              : rest.sectionProps
 
-            return (
-              <SectionWrapper
+          return (
+            <SectionWrapper
+              key={item.id}
+              {...sectionProps}
+              className={rest.sectionClassName}
+              style={rest.sectionStyle}>
+              <LazySectionManagement
                 key={item.id}
-                {...sectionProps}
-                className={rest.sectionClassName}
-                style={rest.sectionStyle}>
-                <LazySectionManagement
-                  key={item.id}
-                  isEditing={isEditing}
-                  sectionPath={sectionPath}
-                  Component={Section}
-                  options={options}
-                  allOptions={sectionsOptions}
-                  itemId={item.id}
-                  itemPtrPrev={item.ptrPrev}
-                  itemPtrNext={item.ptrNext}
-                  onAppend={handleSectionAppend}
-                  onPrepend={handleSectionPrepend}
-                  onDelete={handleSectionDelete}
-                />
-              </SectionWrapper>
-            )
-          })}
-        </>
+                isEditing={isEditing}
+                sectionPath={sectionPath}
+                Component={Section}
+                options={options}
+                allOptions={sectionsOptions}
+                itemId={item.id}
+                itemPositon={index}
+                itemPtrPrev={item.ptrPrev}
+                itemPtrNext={item.ptrNext}
+                onAppend={handleSectionAppend}
+                onPrepend={handleSectionPrepend}
+                onDelete={handleSectionDelete}
+              />
+            </SectionWrapper>
+          )
+        })
       )}
     </Wrapper>
   )
@@ -292,6 +291,7 @@ const LazySectionManagement = React.memo(
     allOptions: ISectionOptions[]
 
     itemId: string
+    itemPositon: number
     itemPtrPrev: string | null
     itemPtrNext: string | null
 
@@ -307,6 +307,7 @@ const LazySectionManagement = React.memo(
       <JaenSectionProvider
         path={props.sectionPath}
         id={props.itemId}
+        position={props.itemPositon}
         Component={props.Component}
       />
     )

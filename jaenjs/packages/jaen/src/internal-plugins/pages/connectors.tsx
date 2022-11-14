@@ -1,4 +1,4 @@
-import {ChakraProvider} from '@chakra-ui/react'
+import {ThemeProvider} from '@chakra-ui/react'
 import React from 'react'
 import {default as theme} from '../../chakra/theme'
 import {IJaenConnection} from '../../types'
@@ -218,7 +218,7 @@ export const connectField = <IValue, IDefaultValue = IValue, P = {}>(
       }, [])
 
       return (
-        <ChakraProvider resetCSS theme={theme}>
+        <ThemeProvider theme={theme}>
           <Component
             jaenField={{
               name: props.name,
@@ -232,7 +232,7 @@ export const connectField = <IValue, IDefaultValue = IValue, P = {}>(
             }}
             {...props}
           />
-        </ChakraProvider>
+        </ThemeProvider>
       )
     })
 

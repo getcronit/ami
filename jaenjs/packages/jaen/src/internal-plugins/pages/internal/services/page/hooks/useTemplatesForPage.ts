@@ -10,7 +10,6 @@ const loadTemplatesForPage = async ({
   page: IJaenPage | null
   templates: IJaenTemplate[]
 }): Promise<{name: string; displayName: string}[]> => {
-  console.log('loadTemplatesForPage', page, templates)
   if (!page) {
     return templates
   } else if (page.template) {
@@ -61,10 +60,7 @@ export const useTemplatesForPage = (page: IJaenPage | null) => {
 
   const jaenTemplates = useJaenTemplates()
 
-  console.log('useTemplatesForPage', page)
-
   React.useEffect(() => {
-    console.log('LOAD')
     const load = async () => {
       setIsLoading(true)
       const templates = await loadTemplatesForPage({

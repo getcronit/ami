@@ -86,6 +86,12 @@ const cleanValue = (defaultValue: string, value?: string) => {
 const Editor: React.FC<EditorProps> = props => {
   const [isFocused, setIsFocused] = React.useState(false)
 
+  React.useEffect(() => {
+    if (!props.editing && isFocused) {
+      setIsFocused(false)
+    }
+  }, [props.editing])
+
   const [value, setValue] = React.useState(() =>
     cleanValue(props.defaultValue, props.value)
   )
@@ -114,9 +120,12 @@ const Editor: React.FC<EditorProps> = props => {
 
   React.useEffect(() => {
     async function load() {
-      if (!BalloonEditor && props.editing) {
+      if (!BalloonEditor && !editor && props.editing) {
+        console.log('Loading editor...', BalloonEditor, props.editing, editor)
         //@ts-ignore
         BalloonEditor = await import('@ckeditor/ckeditor5-build-balloon')
+
+        console.log('Editor loaded', BalloonEditor)
 
         setEditor(BalloonEditor)
       }
@@ -128,6 +137,10 @@ const Editor: React.FC<EditorProps> = props => {
   let hoverTimeout: NodeJS.Timeout
 
   const handleMouseOver = () => {
+    if (!props.editing) {
+      return
+    }
+
     if (isFocused) {
       return
     }
@@ -138,12 +151,14 @@ const Editor: React.FC<EditorProps> = props => {
   }
 
   const handleMouseLeave = () => {
+    if (!props.editing) {
+      return
+    }
+
     if (hoverTimeout) {
       clearTimeout(hoverTimeout)
     }
   }
-
-  const handleBlur = () => setIsFocused(false)
 
   const fallbackRef = React.useRef<HTMLDivElement>(null)
 
@@ -163,44 +178,41 @@ const Editor: React.FC<EditorProps> = props => {
 
   const editorElement = (
     <React.Suspense fallback={fallbackElement}>
-      {props.editing && editor ? (
-        <LoadableCKEditor
-          fallback={fallbackElement}
-          //@ts-ignore
-          editor={editor?.default}
-          config={editorConfig}
-          data={value}
-          //@ts-ignore
-          onBlur={(_, editor) => {
-            const data = editor.getData()
+      {props.editing && isFocused && editor ? (
+        <>
+          <LoadableCKEditor
+            fallback={fallbackElement}
+            //@ts-ignore
+            editor={editor?.default}
+            config={editorConfig}
+            data={value}
+            //@ts-ignore
+            onBlur={(_, editor) => {
+              const data = editor.getData()
 
-            if (data !== value) {
-              setValue(data)
-              props.onBlurValue(data)
-            }
-          }}
-          onLoad={(editor: any) => {
-            editor.writer.addClass('revert-css')
-          }}
-        />
+              if (data !== value) {
+                setValue(data || props.defaultValue)
+
+                props.onBlurValue(data)
+              }
+            }}
+            onLoad={(editor: any) => {
+              editor.writer.addClass('revert-css')
+            }}
+          />
+        </>
       ) : (
         fallbackElement
       )}
     </React.Suspense>
   )
-
-  if (props.editing) {
-    return (
-      <EditorWrapper
-        onMouseOver={handleMouseOver}
-        onMouseLeave={handleMouseLeave}
-        onBlur={handleBlur}>
-        {editorElement}
-      </EditorWrapper>
-    )
-  }
-
-  return <EditorWrapper>{editorElement}</EditorWrapper>
+  return (
+    <EditorWrapper
+      onMouseOver={handleMouseOver}
+      onMouseLeave={handleMouseLeave}>
+      {editorElement}
+    </EditorWrapper>
+  )
 }
 
 export default Editor

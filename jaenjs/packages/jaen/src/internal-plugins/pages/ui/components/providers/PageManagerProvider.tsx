@@ -230,8 +230,6 @@ export const PageManagerProvider: React.FC<React.PropsWithChildren<{}>> = ({
 
   const templates = useTemplatesForPage(parentCreatorPage)
 
-  console.log(`templates`, templates)
-
   const creator = useDisclosure()
 
   const handleCreatorToggle = (parentId: string | null) => {

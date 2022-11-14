@@ -6,6 +6,7 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  Portal,
   Select
 } from '@chakra-ui/react'
 import {connectField} from '../..'
@@ -44,7 +45,7 @@ const ChoiceField = connectField<
     }
 
     return (
-      <Popover trigger="hover">
+      <Popover trigger="hover" isLazy>
         <PopoverTrigger>
           {render(
             selection,
@@ -53,19 +54,21 @@ const ChoiceField = connectField<
             jaenField.isEditing
           )}
         </PopoverTrigger>
-        <PopoverContent>
-          <PopoverArrow />
-          <PopoverCloseButton />
-          {displayName && <PopoverHeader>{displayName}</PopoverHeader>}
-          <PopoverBody>
-            {renderPopover(
-              selection,
-              options,
-              jaenField.onUpdateValue,
-              jaenField.isEditing
-            )}
-          </PopoverBody>
-        </PopoverContent>
+        <Portal>
+          <PopoverContent>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            {displayName && <PopoverHeader>{displayName}</PopoverHeader>}
+            <PopoverBody>
+              {renderPopover(
+                selection,
+                options,
+                jaenField.onUpdateValue,
+                jaenField.isEditing
+              )}
+            </PopoverBody>
+          </PopoverContent>
+        </Portal>
       </Popover>
     )
   },

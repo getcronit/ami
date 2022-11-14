@@ -36,7 +36,5 @@ export const useStaticJaenPages = () => {
     }
   }
 
-  console.log(`static data useJaenPageTree`, staticData)
-
   return staticData.allJaenPage.nodes
 }

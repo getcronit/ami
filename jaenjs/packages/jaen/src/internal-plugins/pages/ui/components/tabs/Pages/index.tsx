@@ -76,8 +76,6 @@ const PagesTab = () => {
     [manager.templates, selection?.template]
   )
 
-  console.log(`templatesForPage`, templatesForPage)
-
   const disableAdd = templatesForPage
     ? templatesForPage.children.length === 0
     : false
