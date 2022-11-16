@@ -70,16 +70,6 @@ export const deepmergeArrayIdMerge = (
 
       const merged = mergeArrays(target || [], source || [], group)
 
-      console.log(
-        JSON.parse(JSON.stringify(target || [])),
-        JSON.parse(JSON.stringify(source || [])),
-        group
-      )
-
-      console.log(merged)
-
-      console.log(JSON.parse(JSON.stringify(merged)))
-
       return merged
     }
   }

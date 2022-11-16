@@ -53,3 +53,7 @@ export interface ISite {
 export interface IStatus {
   isPublishing: boolean
 }
+
+export interface IWidgets {
+  [widgetName: string]: object
+}

@@ -23,14 +23,16 @@ export const wrapPageElement: GatsbyBrowser['wrapPageElement'] = (
   const options = (pluginOptions as unknown) as IJaenConfig
 
   let inner = (
-    <Flex direction={'column'}>
+    <Flex direction={'column'} h="100vh" overflow="none">
       <ChakraProvider resetCSS theme={theme}>
         <Box pos="sticky" top="0" zIndex={'banner'}>
           <AdminToolbarContainer />
         </Box>
       </ChakraProvider>
 
-      <Box>{element}</Box>
+      <Box flex="1" overflow="auto">
+        {element}
+      </Box>
     </Flex>
   )
 

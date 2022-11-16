@@ -2,17 +2,19 @@ import {GatsbyNode} from 'gatsby'
 import {IJaenDataInternal} from '../services/jaen-data/internal'
 import {getJaenDataForPlugin} from '../services/migration/get-jaen-data-for-plugin'
 import {IJaenConfig} from '../types'
+import {sourceWidgets} from './gatsby-config'
 
 export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = (
   {plugins, actions, loaders, stage, getNodesByType},
   pluginOptions
 ) => {
-  const options = pluginOptions as unknown as IJaenConfig
+  const options = (pluginOptions as unknown) as IJaenConfig
 
   actions.setWebpackConfig({
     plugins: [
       plugins.define({
-        ___JAEN_PROJECT_ID___: JSON.stringify(options.jaenProjectId)
+        ___JAEN_PROJECT_ID___: JSON.stringify(options.jaenProjectId),
+        ___JAEN_WIDGETS___: JSON.stringify(sourceWidgets)
       })
     ],
     resolve: {
@@ -48,9 +50,15 @@ export const createSchemaCustomization: GatsbyNode['onCreateWebpackConfig'] = ({
       fileUrl: String!
     }
 
+    type JaenWidget {
+      name: String!
+      data: JSON
+    }
+
     type JaenInternal implements Node {
       finderUrl: String
       migrationHistory: [RemoteFileMigration]!
+      widgets: [JaenWidget!]
     }
   `)
 }

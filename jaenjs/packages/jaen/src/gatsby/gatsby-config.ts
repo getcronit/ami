@@ -1,4 +1,7 @@
+import fs from 'fs'
 import {GatsbyConfig as GatsbyConfigType} from 'gatsby'
+import path from 'path'
+
 import {readFile} from '../services/jaen-data/internal'
 
 const internalJaenData = readFile()
@@ -14,6 +17,8 @@ const internalPlugins = [
   require.resolve('../internal-plugins/notify'),
   require.resolve('../internal-plugins/views')
 ]
+
+export const sourceWidgets = path.resolve('./src/jaen-widgets')
 
 GatsbyConfig.plugins = [
   ...internalPlugins,
@@ -57,5 +62,17 @@ GatsbyConfig.plugins = [
     }
   }
 ]
+
+// check if sourceWidgets path exists
+if (fs.existsSync(sourceWidgets)) {
+  GatsbyConfig.plugins.push({
+    resolve: `gatsby-source-filesystem`,
+    options: {
+      name: `jaen-widgets`,
+      path: sourceWidgets,
+      ignore: [`**/.gitkeep`] // ignore .gitkeep files
+    }
+  })
+}
 
 export default GatsbyConfig

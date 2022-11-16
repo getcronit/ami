@@ -12,8 +12,6 @@ const TextField = connectField<
       return null
     }
 
-    console.log(`TextField`, jaenField)
-
     return (
       <Box
         style={jaenField.style}

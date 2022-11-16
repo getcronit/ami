@@ -1,21 +1,21 @@
 // pages
 // snekfinder root url
-import {store} from '../../redux'
-import {Backend} from '../../withSnekFinder'
-import {useSnekFinderContext} from '@jaenjs/snek-finder'
 import {DeepPartial} from 'redux'
+import {store} from '../../redux'
 import {ISite} from '../../types'
+import {Backend} from '../../withSnekFinder'
 
 type DataType = {
   site?: DeepPartial<ISite>
   finderUrl?: string
 }
 
-const getSiteData = (): DataType['site'] | undefined => {
+const getStoreData = () => {
   const state = store.getState()
 
-  if (state.site) {
-    return state.site
+  return {
+    site: state.site,
+    widgets: state.widgets
   }
 }
 
@@ -25,7 +25,7 @@ const getFinderUrl = async (): Promise<string> => {
 
 export const runPublish = async () => {
   const data: DataType = {
-    site: getSiteData(),
+    ...getStoreData(),
     finderUrl: await getFinderUrl()
   }
 

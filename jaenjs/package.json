@@ -36,11 +36,11 @@
     "build:all": "tsc -b",
     "build:all:ci": "tsc -b --verbose",
     "build:all:cleanly": "yarn clean && yarn && yarn build:all",
-    "build": "cross-env NODE_ENV=production npm run build:packages && npm run build:packages:types && npm run build:custom",
+    "build": "cross-env NODE_ENV=production npm run build:packages && npm run build:packages:types",
     "build:clean": "npm run build:packages:types -- --clean",
     "build:packages": "lerna exec --parallel --scope '{@jaenjs/*,@snek-at/*}' --ignore @snek-at/functions -- babel --root-mode upward src --out-dir dist --extensions .ts,.tsx --copy-files --ignore '**/*.stories.tsx'",
     "build:packages:types": "lerna exec --scope '{@jaenjs/*,@snek-at/*}' --ignore @snek-at/functions -- tsc --declaration --emitDeclarationOnly",
-    "build:custom": "lerna run build",
+    "build:custom": "",
     "build:packages:ci": "npm run build:packages -- --verbose",
     "build:packages:watch": "npm run build:packages -- --watch",
     "pack": "lerna run pack --stream",
@@ -49,8 +49,7 @@
     "clean": "lerna clean --yes && npm run build:clean && rimraf node_modules",
     "prettify": "prettier --write '**/*.{ts,tsx,js,json}' '!**/{dist,lib.git,package.json,build}/**'",
     "storybook": "yarn workspace @jaenjs/jaen storybook",
-    "develop": "yarn workspace demo develop",
-    "postinstall": "patch-package"
+    "develop": "yarn workspace demo develop"
   },
   "lint-staged": {
     "*.tsx,*.ts,*.js,!*js.snap": [
@@ -70,8 +69,8 @@
       "gatsby"
     ],
     "packages": [
-      "examples/*",
-      "packages/*"
+      "packages/jaen",
+      "examples/demo"
     ]
   },
   "dependencies": {

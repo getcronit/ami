@@ -1,4 +1,4 @@
-import {ChevronLeftIcon, ChevronRightIcon, DeleteIcon} from '@chakra-ui/icons'
+import { ChevronLeftIcon, ChevronRightIcon, DeleteIcon } from '@chakra-ui/icons'
 import {
   Box,
   ButtonGroup,
@@ -16,7 +16,7 @@ import {
   Select
 } from '@chakra-ui/react'
 import * as React from 'react'
-import {ISectionConnection} from '../../../../../connectors'
+import { ISectionConnection } from '../../../../../connectors'
 
 export type Props = {
   trigger: React.ReactNode
@@ -56,7 +56,7 @@ const SectionManagePopover = React.memo<Props>(
         trigger="hover"
         closeOnBlur={false}
         isOpen={disabled ? false : undefined}>
-        {({isOpen, onClose, forceUpdate}) => (
+        {({isOpen, onClose, forceUpdate}: any) => (
           <>
             <PopoverTrigger>
               <Box

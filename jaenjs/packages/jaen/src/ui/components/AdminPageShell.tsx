@@ -1,11 +1,4 @@
-import {
-  Box,
-  Flex,
-  Spacer,
-  Stack,
-  Text,
-  useColorModeValue as mode
-} from '@chakra-ui/react'
+import {Box, Flex, Spacer, Stack, Text} from '@chakra-ui/react'
 import * as React from 'react'
 
 import {getPackageJsonVersion} from '../../utils/helper'
@@ -43,7 +36,7 @@ export const AdminPageShell: React.FC<React.PropsWithChildren<UIProps>> = ({
     <Box height="100vh" overflow="hidden" position="relative">
       {toolbar}
       <Flex h="calc(100vh - 54px)" id="app-container">
-        <Box w="64" bg="gray.900" color="white" fontSize="sm">
+        <Box w="64" minW="56" bg="gray.900" color="white" fontSize="sm">
           <Flex h="100%" direction="column" px="4" py="4">
             <Stack spacing="8" flex="1">
               <Stack spacing="1">
@@ -79,12 +72,8 @@ export const AdminPageShell: React.FC<React.PropsWithChildren<UIProps>> = ({
             </Text>
           </Flex>
         </Box>
-        <Box
-          bg={mode('gray.50', 'gray.700')}
-          w="100%"
-          h="100%"
-          overflowY="hidden">
-          <Box rounded="lg" bg="white" m="4" p="6">
+        <Box bg={'gray.900'} boxSize="full" overflowY="hidden" p="2" pr="4">
+          <Box boxSize="full" rounded="lg" bg="white" p="6">
             {children}
           </Box>
         </Box>

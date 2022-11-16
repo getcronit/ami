@@ -1,7 +1,7 @@
+import {EditIcon} from '@chakra-ui/icons'
 import {Badge, Button} from '@chakra-ui/react'
 import {useAppDispatch, useAppSelector, withRedux} from '../../internal/redux'
 import {internalActions} from '../../internal/redux/slices'
-import {EditIcon} from '@chakra-ui/icons'
 
 export const EditButton = withRedux(() => {
   const dispatch = useAppDispatch()
@@ -18,7 +18,6 @@ export const EditButton = withRedux(() => {
       variant={'outline'}
       size="sm"
       fontWeight="normal"
-      minW="36"
       leftIcon={<EditIcon color={'teal'} />}
       rightIcon={
         isEdting ? (

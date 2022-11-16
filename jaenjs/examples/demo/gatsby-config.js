@@ -11,7 +11,7 @@ module.exports = {
         jaenProjectId: 2,
         snekAnalyticsId: 'SA-1234-5'
       }
-    },
-    '@chakra-ui/gatsby-plugin'
+    }
+    // '@chakra-ui/gatsby-plugin'
   ]
 }

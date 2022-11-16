@@ -43,17 +43,20 @@ export const AccountSwitcherButton: React.FC<AccountSwitcherButtonProps> = ({
       }}
       _active={{bg: 'gray.200'}}
       _focus={{shadow: 'outline'}}>
-      <HStack flex="1" spacing="3">
-        <Avatar boxSize={5} rounded="md" objectFit="cover" src={imageSrc} />
+      <HStack>
+        <HStack flex="1" spacing="3">
+          <Avatar boxSize={5} rounded="md" objectFit="cover" src={imageSrc} />
 
-        <Box textAlign="start">
-          <Box noOfLines={1}>{props.name}</Box>
+          <Box textAlign="start">
+            <Box noOfLines={1}>{props.name}</Box>
+          </Box>
+        </HStack>
+
+        <Box fontSize="lg" color="gray.400">
+          <HiSelector />
         </Box>
       </HStack>
 
-      <Box fontSize="lg" color="gray.400">
-        <HiSelector />
-      </Box>
       {iconRight && <Box mx="2">{iconRight}</Box>}
     </Flex>
   )

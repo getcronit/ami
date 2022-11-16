@@ -35,7 +35,7 @@ const SectionAddPopover: React.FC<React.PropsWithChildren<Props>> = ({
 
   return (
     <Popover trigger="hover" placement="top" isLazy closeOnBlur={false}>
-      {({onClose}) => (
+      {({onClose}: any) => (
         <>
           <PopoverTrigger>
             <Box

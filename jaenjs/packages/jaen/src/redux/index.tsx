@@ -7,7 +7,6 @@
  * Use of this source code is governed by an EUPL-1.2 license that can be found
  * in the LICENSE file at https://snek.at/license
  */
-import {useDeepEqualSelector} from '../utils/hooks/useDeepEqualSelector'
 import {combineReducers, configureStore} from '@reduxjs/toolkit'
 import {
   Provider,
@@ -16,11 +15,13 @@ import {
   useSelector,
   useStore
 } from 'react-redux'
+import {useDeepEqualSelector} from '../utils/hooks/useDeepEqualSelector'
 import PersistState from './persist-state'
 
 import auth, {authInitialState} from './slices/auth'
 import site, {siteInitialState} from './slices/site'
 import status, {statusInitialState} from './slices/status'
+import widgets, {widgetsInitialState} from './slices/widgets'
 
 export const persistKey = 'jaenjs-state'
 
@@ -31,7 +32,8 @@ const {loadState, persistState, persistMiddleware} = PersistState<RootState>(
 const combinedReducer = combineReducers({
   auth,
   site,
-  status
+  status,
+  widgets
 })
 
 // Reset state if action called
@@ -40,7 +42,8 @@ const rootReducer = (state: any, action: any) => {
     return {
       auth: authInitialState,
       site: siteInitialState,
-      status: statusInitialState
+      status: statusInitialState,
+      widgets: widgetsInitialState
     }
   }
 

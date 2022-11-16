@@ -1,4 +1,5 @@
 import React from 'react'
+import {store as pagesStore} from '../internal-plugins/pages/internal/redux'
 import {usePagesChanges} from '../internal-plugins/pages/internal/services/hooks'
 import {store} from '../redux'
 
@@ -34,4 +35,20 @@ export const useChanges = () => {
   const totalChanges = coreChanges + pagesChanges
 
   return {coreChanges, pagesChanges, totalChanges}
+}
+
+export const useIsEditing = () => {
+  const [isEditing, setIsEditing] = React.useState(false)
+
+  React.useEffect(() => {
+    const unsubscribe = pagesStore.subscribe(() => {
+      setIsEditing(pagesStore.getState().internal.status.isEditing)
+    })
+
+    return () => {
+      unsubscribe()
+    }
+  }, [])
+
+  return isEditing
 }

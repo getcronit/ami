@@ -1,5 +1,5 @@
-import {Box} from '@chakra-ui/react'
-import {connectPage, connectSection, Field} from '@jaenjs/jaen'
+import {Box, Button} from '@chakra-ui/react'
+import {connectPage, connectSection, Field, navigate} from '@jaenjs/jaen'
 import {graphql} from 'gatsby'
 
 console.log('HAS_REACT_18', HAS_REACT_18)
@@ -42,14 +42,18 @@ const BiddeCardSection = connectSection(
 
 const IndexPage = () => {
   return (
-    <>
-      <Field.Text name="email" defaultValue={'test@test.com'} />
+    <Box pt={2000}>
+      <Button onClick={() => navigate('test')}>CLICK ME</Button>
+      <Field.Text rtf name="email" defaultValue={'test@test.com'} />
       <Field.Section
         name="cardSection"
         displayName="Card section"
         sections={[CardSection]}
       />
-    </>
+      <Box w="20%" h="80%" minW="200px" minH="200px" backgroundColor="aqua">
+        <Field.Image name="image" defaultValue={undefined} />
+      </Box>
+    </Box>
   )
 }
 
@@ -58,7 +62,7 @@ export default connectPage(IndexPage, {
 })
 
 export const query = graphql`
-  query ($jaenPageId: String!) {
+  query($jaenPageId: String!) {
     jaenPage(id: {eq: $jaenPageId}) {
       id
       slug

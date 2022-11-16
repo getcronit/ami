@@ -1,37 +1,23 @@
-import {
-  Box,
-  ChakraProvider,
-  useBreakpoint,
-  Portal,
-  Circle
-} from '@chakra-ui/react'
-import {HomeButton, PublishButton} from '../ui/toolbar'
-import {store, useAppSelector, withRedux} from '../redux'
-import {navigate} from 'gatsby'
+import {DiscardButton, EditButton} from '../internal-plugins/pages/ui/toolbar'
+import {useAppSelector, withRedux} from '../redux'
+import {useIncomingBuildChecker} from '../services/IncomingBuildChecker'
+import {PublishButton} from '../ui/toolbar'
+import {useNavigate} from '../utils/hooks/useNavigate'
 import {AccountSwitcher} from './AccountSwitcher'
 import {AdminToolbar} from './components/AdminToolbar'
-import JaenActivationButton from './components/JaenActivationButton'
-import {DiscardButton, EditButton} from '../internal-plugins/pages/ui/toolbar'
-import React from 'react'
-import {useIncomingBuildChecker} from '../services/IncomingBuildChecker'
 import {IncomingBuildBanner} from './components/IncomingBuildBanner'
+import JaenActivationButton from './components/JaenActivationButton'
 import {ToolbarChangesElement} from './ToolbarChangesElement'
-import {useNavigate} from '../utils/hooks/useNavigate'
 
 const logoText = 'Jaen Admin'
 const toolbarItems = {
   left: [
-    <HomeButton />,
     <EditButton />,
-    <ToolbarChangesElement />,
     <DiscardButton />,
-    <PublishButton />
+    <PublishButton />,
+    <ToolbarChangesElement />
   ],
-  right: [
-    <Box w="48">
-      <AccountSwitcher />
-    </Box>
-  ]
+  right: [<AccountSwitcher />]
 }
 
 const AdminToolbarContainer = withRedux(() => {

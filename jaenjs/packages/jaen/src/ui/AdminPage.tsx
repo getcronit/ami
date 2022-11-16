@@ -29,6 +29,8 @@ import {BiNotification} from '@react-icons/all-files/bi/BiNotification'
 import {BsFiles} from '@react-icons/all-files/bs/BsFiles'
 import {BsHouse} from '@react-icons/all-files/bs/BsHouse'
 import {FaPager} from '@react-icons/all-files/fa/FaPager'
+import {MdWidgets} from '@react-icons/all-files/md/MdWidgets'
+import {WidgetView} from './components/WidgetView'
 
 const buildViews = (
   views: Array<{
@@ -121,7 +123,13 @@ const AdminPage = withRedux(() => {
       Icon: BiNotification,
       group: 'Your Site'
     },
-
+    {
+      path: '/widgets',
+      Component: WidgetView,
+      label: 'Widgets',
+      Icon: MdWidgets,
+      group: 'Your Site'
+    },
     {
       path: '/settings',
       Component: SettingsTab,
