@@ -103,13 +103,13 @@ jobs:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-      # https://github.com/marketplace/actions/cache
-      - name: Gatsby Cache Folder
-        uses: actions/cache@v3
-        # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepswith
-        with:
-          key: gatsby-cache-folder
-          path: .cache
+#       # https://github.com/marketplace/actions/cache
+#       - name: Gatsby Cache Folder
+#         uses: actions/cache@v3
+#         # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepswith
+#         with:
+#           key: gatsby-cache-folder
+#           path: .cache
 
       # https://github.com/marketplace/actions/cache
       - name: Gatsby Public Folder
