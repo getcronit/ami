@@ -69,7 +69,7 @@
       "gatsby"
     ],
     "packages": [
-      "packages/jaen",
+      "packages/gatsby-theme-shopify",
       "examples/demo"
     ]
   },

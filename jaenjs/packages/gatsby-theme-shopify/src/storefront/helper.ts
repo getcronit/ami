@@ -260,6 +260,7 @@ export const transformProductSearchResultData = (
               return {
                 id: imageEdge.node.id,
                 image: {
+                  src: imageEdge.node.url,
                   gatsbyImageData: getShopifyImage({
                     image: {
                       ...imageEdge.node,
@@ -275,6 +276,7 @@ export const transformProductSearchResultData = (
             ? {
                 id: edge.node.featuredImage.id,
                 image: {
+                  src: edge.node.featuredImage.url,
                   gatsbyImageData: getShopifyImage({
                     image: {
                       ...edge.node.featuredImage,

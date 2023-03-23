@@ -1,4 +1,4 @@
-import {graphql} from 'gatsby'
+import { graphql } from "gatsby";
 
 export const shopifyData = graphql`
   fragment shopifyProductData on ShopifyProduct {
@@ -28,6 +28,7 @@ export const shopifyData = graphql`
       ... on ShopifyMediaImage {
         id
         image {
+          src
           gatsbyImageData
           altText
         }
@@ -37,6 +38,7 @@ export const shopifyData = graphql`
       ... on ShopifyMediaImage {
         id
         image {
+          src
           gatsbyImageData
           altText
         }
@@ -60,4 +62,4 @@ export const shopifyData = graphql`
       altText
     }
   }
-`
+`;
