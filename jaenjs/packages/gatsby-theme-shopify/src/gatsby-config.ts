@@ -11,7 +11,8 @@ const config: GatsbyConfig = {
         password: shopifyEnv.password,
         storeUrl: shopifyEnv.storeUrl,
         shopifyConnections: shopifyEnv.shopifyConnections,
-        salesChannel: 'gatsby'
+        salesChannel: 'gatsby',
+        downloadImages: shopifyEnv.downloadImages
       }
     },
     'gatsby-plugin-image'
