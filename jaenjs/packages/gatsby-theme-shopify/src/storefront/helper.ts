@@ -287,7 +287,13 @@ export const transformProductSearchResultData = (
                 }
               }
             : null,
-          metafields: []
+          metafields: edge.node.metafields.nodes.map(node => {
+            return {
+              key: node.key,
+              namespace: node.namespace,
+              value: node.value
+            }
+          })
         }
       }) || []
   }

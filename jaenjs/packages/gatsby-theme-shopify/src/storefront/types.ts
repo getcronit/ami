@@ -29,6 +29,7 @@ export interface PurpleNode {
   featuredImage: FeaturedImage | null
   images: Images
   __typename: string
+  metafields: Metafields
 }
 
 export interface FeaturedImage {
@@ -81,6 +82,16 @@ export interface NodeElement {
   compareAtPrice: null | string
   __typename: string
   availableForSale: boolean
+}
+
+export interface Metafields {
+  nodes: Metafield[]
+}
+
+export interface Metafield {
+  key: string
+  value: string
+  namespace: string
 }
 
 export interface PageInfo {

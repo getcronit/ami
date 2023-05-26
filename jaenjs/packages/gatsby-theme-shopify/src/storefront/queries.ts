@@ -39,6 +39,13 @@ export const StorefrontProductsQuery = `
           }
           id
           tags
+          metafields(first: 100) {
+            nodes{
+              key
+              value
+              namespace
+            }
+          }
           featuredImage {
             id
             url
