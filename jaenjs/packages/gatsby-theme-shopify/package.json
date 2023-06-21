@@ -1,6 +1,6 @@
 {
   "name": "@snek-at/gatsby-theme-shopify",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
@@ -8,7 +8,7 @@
     "@types/shopify-buy": "^2.10.10",
     "gatsby": "^4.12.1",
     "gatsby-plugin-image": "^2.12.1",
-    "gatsby-source-shopify": "^7.1.1",
+    "gatsby-source-shopify": "^8.11.0",
     "query-string": "^7.1.1",
     "shopify-buy": "^2.17.0",
     "urql": "^2.2.0"
