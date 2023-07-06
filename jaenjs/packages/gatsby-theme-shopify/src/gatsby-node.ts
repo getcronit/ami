@@ -96,7 +96,8 @@ export const createPages: GatsbyNode['createPages'] = async function (
       reporter,
       data: {
         allShopifyProduct: productData.allShopifyProduct,
-        template: productPageTemplate
+        template: productPageTemplate,
+        shouldCreateCollectionPages: !!collectionPageTemplate
       }
     })
   }
@@ -216,7 +217,7 @@ export const createPages: GatsbyNode['createPages'] = async function (
         reporter,
         data: {
           allShopifyProduct: productData.allShopifyProduct,
-          collections: collectionTags,
+          collections: collectionPageTemplate ? collectionTags : undefined,
           template: productsPageTemplate
         }
       })

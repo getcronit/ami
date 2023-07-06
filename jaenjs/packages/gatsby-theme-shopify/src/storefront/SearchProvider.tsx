@@ -11,7 +11,7 @@ if (GATSBY_STOREFRONT_API_KEY) {
 }
 
 const urqlClient = createClient({
-  url: `https://${GATSBY_MYSHOPIFY_URL}/api/2022-04/graphql.json`,
+  url: `https://${GATSBY_MYSHOPIFY_URL}/api/2023-07/graphql.json`,
   fetchOptions: {
     headers
   }

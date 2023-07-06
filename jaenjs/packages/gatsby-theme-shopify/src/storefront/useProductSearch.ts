@@ -31,9 +31,14 @@ export interface ProductSearchOptions {
 }
 
 export const useProductSearch = ({
+  metafieldIdentifiers = [],
   persistData = true,
   ...props
 }: {
+  metafieldIdentifiers?: Array<{
+    key: string
+    namespace: string
+  }>
   filters?: ProductSearchFilters
   options?: Partial<ProductSearchOptions>
   persistData?: boolean
@@ -156,6 +161,7 @@ export const useProductSearch = ({
     query: StorefrontProductsQuery,
     variables: {
       query,
+      metafieldIdentifiers,
       sortKey: options.sortKey,
       first: !cursors.before ? options.count : null,
       last: cursors.before ? options.count : null,

@@ -1,5 +1,5 @@
 export const StorefrontProductsQuery = `
-  query ($query: String!, $sortKey: ProductSortKeys, $first: Int, $last: Int, $after: String, $before: String, $reverse: Boolean) {
+  query ($query: String!, $sortKey: ProductSortKeys, $first: Int, $last: Int, $after: String, $before: String, $reverse: Boolean, $metafieldIdentifiers: [HasMetafieldsIdentifier!]!) {
     products(
       query: $query
       sortKey: $sortKey
@@ -26,10 +26,16 @@ export const StorefrontProductsQuery = `
           productType
           variants(first: 100) {
             nodes {
-              price
+              price {
+                amount
+                currencyCode
+              }
               sku
               id
-              compareAtPrice
+              compareAtPrice {
+                amount
+                currencyCode
+              }
             }
             edges {
               node {
@@ -39,12 +45,10 @@ export const StorefrontProductsQuery = `
           }
           id
           tags
-          metafields(first: 100) {
-            nodes{
-              key
-              value
-              namespace
-            }
+          metafields(identifiers: $metafieldIdentifiers) {
+            key
+            value
+            namespace
           }
           featuredImage {
             id

@@ -29,7 +29,7 @@ export interface PurpleNode {
   featuredImage: FeaturedImage | null
   images: Images
   __typename: string
-  metafields: Metafields
+  metafields: Metafield[]
 }
 
 export interface FeaturedImage {
@@ -76,16 +76,18 @@ export interface FluffyNode {
 }
 
 export interface NodeElement {
-  price: string
+  price: {
+    amount: string
+    currencyCode: string
+  }
   sku: string
   id: string
-  compareAtPrice: null | string
+  compareAtPrice: {
+    amount: string
+    currencyCode: string
+  } | null
   __typename: string
   availableForSale: boolean
-}
-
-export interface Metafields {
-  nodes: Metafield[]
 }
 
 export interface Metafield {

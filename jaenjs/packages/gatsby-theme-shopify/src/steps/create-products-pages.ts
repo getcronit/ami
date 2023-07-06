@@ -27,7 +27,7 @@ interface CreateProductsPages {
   reporter: Reporter
   data: {
     allShopifyProduct: ShopifyGeneratorProductQueryData['allShopifyProduct']
-    collections: Collections
+    collections?: Collections
     template: string
   }
 }
@@ -136,12 +136,14 @@ export const createProductsPages = async ({
     }
   })
 
-  await processCollections(createPage, reporter, {
-    collections,
-    template
-  })
+  if (collections) {
+    await processCollections(createPage, reporter, {
+      collections,
+      template
+    })
 
-  reporter.success(
-    `Created products pages for ${collections.length} collections`
-  )
+    reporter.success(
+      `Created products pages for ${collections.length} collections`
+    )
+  }
 }

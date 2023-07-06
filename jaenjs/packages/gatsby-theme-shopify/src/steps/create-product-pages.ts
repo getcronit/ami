@@ -12,6 +12,7 @@ interface CreateProductPages {
   reporter: Reporter
   data: {
     allShopifyProduct: ShopifyGeneratorProductQueryData['allShopifyProduct']
+    shouldCreateCollectionPages: boolean
     template: string
   }
 }
@@ -21,7 +22,7 @@ export const createProductPages = async ({
   reporter,
   data
 }: CreateProductPages) => {
-  const {allShopifyProduct, template} = data
+  const {shouldCreateCollectionPages, allShopifyProduct, template} = data
 
   for (const {
     id,
@@ -54,22 +55,24 @@ export const createProductPages = async ({
         collectionRelatedProducts.push(product.id)
       }
 
-      const collectionLimitedRelatedProducts = getLimitedRelatedProducts(
-        collectionRelatedProducts,
-        updatedAt
-      )
+      if (shouldCreateCollectionPages) {
+        const collectionLimitedRelatedProducts = getLimitedRelatedProducts(
+          collectionRelatedProducts,
+          updatedAt
+        )
 
-      const {path} = getCollectionStructure(title)
+        const {path} = getCollectionStructure(title)
 
-      createPage<ProductPageContext>({
-        path: `${path}/products/${handle}`,
-        component: template,
-        context: {
-          skipJaenPage: true,
-          productId: id,
-          relatedProductIds: collectionLimitedRelatedProducts
-        }
-      })
+        createPage<ProductPageContext>({
+          path: `${path}/products/${handle}`,
+          component: template,
+          context: {
+            skipJaenPage: true,
+            productId: id,
+            relatedProductIds: collectionLimitedRelatedProducts
+          }
+        })
+      }
 
       relatedProducts.push(...collectionRelatedProducts)
     }

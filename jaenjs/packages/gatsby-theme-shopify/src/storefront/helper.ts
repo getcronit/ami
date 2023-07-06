@@ -235,9 +235,9 @@ export const transformProductSearchResultData = (
               shopifyId: variant.id,
               taxable: true,
               sku: variant.sku,
-              price: variant.price ? parseFloat(variant.price) : Infinity,
+              price: variant.price ? parseFloat(variant.price.amount) : 0,
               compareAtPrice: variant.compareAtPrice
-                ? parseFloat(variant.compareAtPrice)
+                ? parseFloat(variant.compareAtPrice.amount)
                 : null,
               availableForSale: variant.availableForSale
             }
@@ -287,13 +287,7 @@ export const transformProductSearchResultData = (
                 }
               }
             : null,
-          metafields: edge.node.metafields.nodes.map(node => {
-            return {
-              key: node.key,
-              namespace: node.namespace,
-              value: node.value
-            }
-          })
+          metafields: edge.node.metafields.filter(Boolean)
         }
       }) || []
   }
