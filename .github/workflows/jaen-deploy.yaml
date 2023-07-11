@@ -120,30 +120,33 @@ jobs:
           node-version: "18"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
 
-      # https://dev.to/mpocock1/how-to-cache-nodemodules-in-github-actions-with-yarn-24eh
-      - name: Yarn Cache Directory Path
-        id: yarn-cache-dir-path
-        # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsrun
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Install dependencies
+        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
 
-      # https://github.com/marketplace/actions/cache
-      - name: Yarn Cache Folder
-        uses: actions/cache@v3
-        # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepswith
-        with:
-          # https://help.github.com/en/articles/virtual-environments-for-github-actions#default-environment-variables
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+#       # https://dev.to/mpocock1/how-to-cache-nodemodules-in-github-actions-with-yarn-24eh
+#       - name: Yarn Cache Directory Path
+#         id: yarn-cache-dir-path
+#         # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsrun
+#         run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      # https://github.com/marketplace/actions/cache
-      - name: Yarn Cache Node
-        uses: actions/cache@v3
-        # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepswith
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+#       # https://github.com/marketplace/actions/cache
+#       - name: Yarn Cache Folder
+#         uses: actions/cache@v3
+#         # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepswith
+#         with:
+#           # https://help.github.com/en/articles/virtual-environments-for-github-actions#default-environment-variables
+#           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+#           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+#           restore-keys: |
+#             ${{ runner.os }}-yarn-
+
+#       # https://github.com/marketplace/actions/cache
+#       - name: Yarn Cache Node
+#         uses: actions/cache@v3
+#         # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepswith
+#         with:
+#           path: "**/node_modules"
+#           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
 #       # https://github.com/marketplace/actions/cache
 #       - name: Gatsby Cache Folder
@@ -153,18 +156,18 @@ jobs:
 #           key: gatsby-cache-folder
 #           path: .cache
 
-      # https://github.com/marketplace/actions/cache
-      - name: Gatsby Public Folder
-        uses: actions/cache@v3
-        # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepswith
-        with:
-          key: gatsby-public-folder
-          path: public
+#       # https://github.com/marketplace/actions/cache
+#       - name: Gatsby Public Folder
+#         uses: actions/cache@v3
+#         # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepswith
+#         with:
+#           key: gatsby-public-folder
+#           path: public
 
-      # https://classic.yarnpkg.com/lang/en/docs/cli/install/#toc-yarn-install-pure-lockfile
-      - name: Yarn Install
-        # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsrun
-        run: yarn install --pure-lockfile
+#       # https://classic.yarnpkg.com/lang/en/docs/cli/install/#toc-yarn-install-pure-lockfile
+#       - name: Yarn Install
+#         # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsrun
+#         run: yarn install --pure-lockfile
 
       # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsid
       - name: Setup Pages 🔧
