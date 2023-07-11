@@ -4,7 +4,8 @@
 # Use of this source code is governed by an EUPL-1.2 license that can be found
 # in the LICENSE file at https://snek.at/license
 
-# https://help.github.com/en/articles/workflow-syntax-for-github-actions#name
+# Workflow name
+# See: https://help.github.com/en/articles/workflow-syntax-for-github-actions#name
 name: Deploy Jaen
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
@@ -23,73 +24,81 @@ defaults:
   run:
     shell: bash
 
-# https://help.github.com/en/articles/workflow-syntax-for-github-actions#on
+# Workflow trigger
+# See: https://help.github.com/en/articles/workflow-syntax-for-github-actions#on
 on:
-  # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_call
+  # Workflow call trigger
+  # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_call
   workflow_call:
-    # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecrets
+    # Workflow call inputs
+    # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callinputs
+    inputs:
+      CLOUDFLARE_PROJECT_NAME:
+        description: 'The name of the project in Cloudflare'
+        required: false
+        type: 'string'
+    # Workflow call secrets
+    # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecrets
     secrets:
       CLOUDFLARE_ACCOUNT_ID:
         description: Cloudflare account id.
-        # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecretssecret_idrequired
         required: false
       CLOUDFLARE_API_TOKEN:
         description: Cloudflare api key.
-        # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecretssecret_idrequired
         required: false
       SCALE_SERP_APIKEY:
         description: Scale Serp api key.
-        # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecretssecret_idrequired
         required: false
       SCALE_SERP_GOOGLE_PLACE_ID:
         description: Place IDs uniquely identify a place in the Google Places database and on Google Maps.
-        # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecretssecret_idrequired
         required: false
       GATSBY_MYSHOPIFY_URL:
         description: Domain for a Shopify shop (foo.myshopify.com).
-        # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecretssecret_idrequired
         required: false
       GATSBY_STOREFRONT_API_KEY:
         description: Key for Shopify Storefront API.
-        # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecretssecret_idrequired
         required: false
       SHOPIFY_APP_PASSWORD:
         description: Personal access token for a Shopify account.
         required: false
       SENDGRID_API_KEY:
         description: SendGrid api key.
-        # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecretssecret_idrequired
         required: false
       GATSBY_MAPBOX_ACCESS_TOKEN:
         description: Mapbox access token.
-        # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecretssecret_idrequired
         required: false
       GATSBY_SNEK_FUNCTION_URL:
         description: URL of the Snek function.
-        # https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_callsecretssecret_idrequired
         required: false
 
+# Environment variables
+# See: https://help.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#env
 env:
  NODE_OPTIONS: --max-old-space-size=8192
 
-# https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobs
+# Jobs
+# See: https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobs
 jobs:
-  # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_id
+  # Job id
+  # See: https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_id
   jaen-deploy:
-    # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    # Runs on macOS latest
+    # See: https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idruns-on
     runs-on: macos-latest
 
     defaults:
       run:
-        # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#
+        # Working directory
+        # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
         working-directory: ${{ github.event.client_payload.cwd || '.' }}
 
-    # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idsteps
+    # Steps
+    # See: https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idsteps
     steps:
-      # https://github.com/actions/checkout
+      # Checkout step
+      # See: https://github.com/actions/checkout
       - name: Checkout 🛎️
         uses: actions/checkout@v3
-        # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepswith
         with:
           # Relative path under $GITHUB_WORKSPACE to place the repository
           path: "."
@@ -98,7 +107,7 @@ jobs:
           # Otherwise, uses the default branch.
           ref: "main"
 
-      - name: Detect package manager
+      - name: Detect package manager 🔍
         id: detect-package-manager
         run: |
           if [ -f "${{ github.workspace }}/yarn.lock" ]; then
@@ -114,62 +123,15 @@ jobs:
             exit 1
           fi
 
-      - name: Setup Node
+      - name: Setup Node 🔧
         uses: actions/setup-node@v3
         with:
           node-version: "18"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
 
-      - name: Install dependencies
+      - name: Install dependencies 📦
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
 
-#       # https://dev.to/mpocock1/how-to-cache-nodemodules-in-github-actions-with-yarn-24eh
-#       - name: Yarn Cache Directory Path
-#         id: yarn-cache-dir-path
-#         # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsrun
-#         run: echo "::set-output name=dir::$(yarn cache dir)"
-
-#       # https://github.com/marketplace/actions/cache
-#       - name: Yarn Cache Folder
-#         uses: actions/cache@v3
-#         # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepswith
-#         with:
-#           # https://help.github.com/en/articles/virtual-environments-for-github-actions#default-environment-variables
-#           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-#           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-#           restore-keys: |
-#             ${{ runner.os }}-yarn-
-
-#       # https://github.com/marketplace/actions/cache
-#       - name: Yarn Cache Node
-#         uses: actions/cache@v3
-#         # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepswith
-#         with:
-#           path: "**/node_modules"
-#           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
-#       # https://github.com/marketplace/actions/cache
-#       - name: Gatsby Cache Folder
-#         uses: actions/cache@v3
-#         # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepswith
-#         with:
-#           key: gatsby-cache-folder
-#           path: .cache
-
-#       # https://github.com/marketplace/actions/cache
-#       - name: Gatsby Public Folder
-#         uses: actions/cache@v3
-#         # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepswith
-#         with:
-#           key: gatsby-public-folder
-#           path: public
-
-#       # https://classic.yarnpkg.com/lang/en/docs/cli/install/#toc-yarn-install-pure-lockfile
-#       - name: Yarn Install
-#         # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsrun
-#         run: yarn install --pure-lockfile
-
-      # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsid
       - name: Setup Pages 🔧
         id: pages
         uses: actions/configure-pages@v2
@@ -179,12 +141,19 @@ jobs:
           # You may remove this line if you want to manage the configuration yourself.
           static_site_generator: gatsby
 
-      # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsid
+      - name: Restore cache 🗄️
+        uses: actions/cache@v3
+        with:
+          path: |
+            public
+            .cache
+          key: ${{ runner.os }}-gatsby-build-${{ hashFiles('public') }}
+          restore-keys: |
+            ${{ runner.os }}-gatsby-build-
+
       - name: Build with Gatsby 🛠️
-        # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsrun
         run:
           ${{ steps.detect-package-manager.outputs.manager }} run build
-        # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsenv
         env:
           PREFIX_PATHS: 'true'
           GATSBY_MYSHOPIFY_URL:  ${{ secrets.GATSBY_MYSHOPIFY_URL }}
@@ -195,18 +164,13 @@ jobs:
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
           GATSBY_MAPBOX_ACCESS_TOKEN: ${{ secrets.GATSBY_MAPBOX_ACCESS_TOKEN }}
     
-      # https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepsid
       - name: Deploy Cloudflare Pages 🚀
         # See: https://github.com/cloudflare/pages-action
         uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: snek
+          projectName: ${{ inputs.CLOUDFLARE_PROJECT_NAME }}
           directory: ./public
           # Optional: Specify the Wrangler version
           wranglerVersion: '3'
-        # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsenv
-        env:
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
